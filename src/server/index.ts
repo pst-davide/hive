@@ -1,9 +1,10 @@
-import express, {Express} from 'express';
 import dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
+
+import express, {Express} from 'express';
 import 'reflect-metadata';
 import {AppDataSource} from './database/dataSource';
 
-dotenv.config();
 const {PORT = 3000} = process.env;
 
 const app: Express = express();

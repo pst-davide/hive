@@ -2,7 +2,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 
 module.exports = {
   content: [
-    "./src/**/*.{ts,tsx,js,jsx}"
+    "./src/**/*.{html,ts,tsx,js,jsx,scss}"
   ],
   theme: {
     extend: {

@@ -4,6 +4,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./app",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "types": ["node"]
   },
   "files": [

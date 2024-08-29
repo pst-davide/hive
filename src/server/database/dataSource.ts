@@ -1,16 +1,17 @@
-import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const {DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD,
-  DATABASE_HOST, DATABASE_PORT} = process.env;
+import { DataSource } from 'typeorm';
+
+const { DB_NAME, DB_USER, DB_PASS, DB_HOST, DB_PORT } = process.env;
+
 export const AppDataSource: DataSource = new DataSource({
   type: 'mariadb',
-  host: DATABASE_HOST || 'localhost',
-  port: parseInt(DATABASE_PORT as string) || 3306,
-  database: DATABASE_NAME,
-  username: DATABASE_USER,
-  password: DATABASE_PASSWORD,
+  host: DB_HOST || 'localhost',
+  port: parseInt(DB_PORT as string) || 3306,
+  database: DB_NAME,
+  username: DB_USER,
+  password: DB_PASS,
   synchronize: false,
   logging: true,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
