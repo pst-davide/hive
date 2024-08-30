@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "watch": "tsc -w -p tsconfig.server.json",
+    "watch:css": "postcss --watch src/styles.scss -o dist/styles.css",
     "build": "tsc -p tsconfig.server.json",
+    "build:css": "postcss src/styles.scss -o dist/styles.css",
     "ng": "ng",
     "build:client": "ng build",  
-    "dev": "concurrently \"ng serve\" \"nodemon dist/server/index.js\"",
+    "dev": "concurrently \"ng serve\" \"postcss --watch src/styles.scss -o dist/styles.css\" \"nodemon dist/server/index.js\"",
     "start:dev": "concurrently \"tsc -w\" \"nodemon dist/server/index.js\"",
     "start": "concurrently \"ng serve\" \"ts-node src/server/index.ts\"",
     "typeorm": "typeorm-ts-node-commonjs",
