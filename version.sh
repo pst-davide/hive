@@ -36,8 +36,4 @@ GIT_COMMIT=$(git rev-parse --short HEAD)
 GIT_DATE=$(git log -1 --format=%cd --date=short)
 
 # Crea il file version.json
-echo "{ \"version\": \"$SEMANTIC_VERSION\", \"commit\": \"$GIT_COMMIT\", \"date\": \"$GIT_DATE\" }" > src/assets/version.json
-
-
-# Crea il file version.json
-echo "{ \"version\": \"$GIT_VERSION\", \"commit\": \"$GIT_COMMIT\", \"date\": \"$GIT_DATE\" }" > public/assets/version.json
+echo "{ \"version\": \"$SEMANTIC_VERSION\", \"commit\": \"$GIT_COMMIT\", \"date\": \"$GIT_DATE\" }" > public/assets/version.json
