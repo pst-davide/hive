@@ -24,6 +24,6 @@ jobs:
           commit_message: Bump version to ${{ steps.version_up.outputs.newTag }}
           branch: main
       - name: Push tags
-        uses: ad-m/github-push-action@main
+        uses: ad-m/github-push-action
         with:
           tags: ${{ steps.version_up.outputs.newTag }}
