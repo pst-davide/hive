@@ -15,19 +15,19 @@ export class RoomService {
     return this.http.get<RoomModel[]>(this.apiUrl);
   }
 
-  getRoomById(id: string): Observable<RoomModel> {
+  public getRoomById(id: string): Observable<RoomModel> {
     return this.http.get<RoomModel>(`${this.apiUrl}/${id}`);
   }
 
-  createRoom(room: RoomModel): Observable<RoomModel> {
+  public createRoom(room: RoomModel): Observable<RoomModel> {
     return this.http.post<RoomModel>(this.apiUrl, room);
   }
 
-  updateRoom(id: string, room: RoomModel): Observable<RoomModel> {
+  public updateRoom(id: string, room: RoomModel): Observable<RoomModel> {
     return this.http.put<RoomModel>(`${this.apiUrl}/${id}`, room);
   }
 
-  deleteRoom(id: string): Observable<RoomModel> {
+  public deleteRoom(id: string): Observable<RoomModel> {
     return this.http.delete<RoomModel>(`${this.apiUrl}/${id}`);
   }
 }

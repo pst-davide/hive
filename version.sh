@@ -6,6 +6,9 @@ LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
 # Ottieni il numero di commit dall'ultimo tag (per la parte patch)
 COMMITS_SINCE_TAG=$(git rev-list --count ${LAST_TAG}..HEAD)
 
+# Ottieni il numero totale di commit
+TOTAL_COMMITS=$(git rev-list --count HEAD)
+
 # Se non ci sono tag, usa una versione di default
 if [ -z "$LAST_TAG" ]; then
   VERSION="0.0.0"
@@ -36,4 +39,4 @@ GIT_COMMIT=$(git rev-parse --short HEAD)
 GIT_DATE=$(git log -1 --format=%cd --date=short)
 
 # Crea il file version.json
-echo "{ \"version\": \"$SEMANTIC_VERSION\", \"commit\": \"$GIT_COMMIT\", \"date\": \"$GIT_DATE\" }" > public/assets/version.json
+echo "{ \"version\": \"$SEMANTIC_VERSION\", \"commit\": \"$GIT_COMMIT\", \"date\": \"$GIT_DATE\", \"totalCommits\": \"$TOTAL_COMMITS\" }" > public/assets/version.json

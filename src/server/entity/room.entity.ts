@@ -11,31 +11,31 @@ export class Room {
   @Column()
   name!: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description!: string;
 
-  @Column()
+  @Column({ nullable: true })
   capacity!: number;
 
   @Column('simple-array')
   owners!: string[];
 
-  @Column()
+  @Column({ nullable: true })
   floor!: number;
 
   @Column()
   enabled!: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   street!: string;
 
-  @Column()
+  @Column({ nullable: true })
   city!: string;
 
-  @Column()
+  @Column({ nullable: true })
   province!: string;
 
-  @Column({ length: 5 })
+  @Column({ length: 5, nullable: true })
   zip!: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 8 })
@@ -47,12 +47,12 @@ export class Room {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 
-  @Column()
+  @Column({ nullable: true })
   createdBy!: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modifiedAt!: Date;
 
-  @Column()
+  @Column({ nullable: true })
   modifiedBy!: string;
 }

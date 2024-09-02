@@ -30,10 +30,11 @@ export class RoomController {
   }
 
   static async createRoom(req: Request, res: Response): Promise<void> {
+    console.log(req.body)
     try {
       const room = RoomController.roomRepository.create(req.body);
       const savedRoom = await RoomController.roomRepository.save(room);
-      res.status(201).json(savedRoom);
+      res.status(200).json(savedRoom);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante la creazione della stanza' });
     }
