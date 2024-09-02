@@ -4,11 +4,16 @@ dotenv.config({ path: '../../.env' });
 import express, {Express} from 'express';
 import 'reflect-metadata';
 import {AppDataSource} from './database/dataSource';
+import roomRouter from './routes/room.router';
 
+const cors = require('cors');
 const {PORT = 3000} = process.env;
 
 const app: Express = express();
+app.use(cors());
 app.use(express.json());
+
+app.use('/api', roomRouter);
 
 AppDataSource.initialize()
 .then(async () => {
