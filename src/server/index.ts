@@ -5,13 +5,14 @@ import express, {Express} from 'express';
 import 'reflect-metadata';
 import {AppDataSource} from './database/dataSource';
 import roomRouter from './routes/room.router';
+import cors from 'cors';
 
-const cors = require('cors');
 const {PORT = 3000} = process.env;
 
 const app: Express = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', roomRouter);
 

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from './service/room.service';
-import { RoomModel } from './model/room.model';
+import {EMPTY_ROOM, RoomModel} from './model/room.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RoomComponent } from './edit/room/room.component';
+import _ from 'lodash';
+import {BreadcrumbComponent} from '../../layouts/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-rooms',
   standalone: true,
   imports: [
-    MatDialogModule
+    MatDialogModule,
+    BreadcrumbComponent
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss'
@@ -21,6 +24,11 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
       this.getRooms();
+      const r = _.cloneDeep(EMPTY_ROOM);
+      r.id = 'TST2';
+      r.code = 'TST2';
+      r.name = 'Test 2';
+      // this.roomService.createRoom(r).subscribe(ref => {console.log(ref)});
   }
 
   getRooms(): void {

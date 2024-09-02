@@ -33,6 +33,12 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
       this.createForm();
+
+      const r = _.cloneDeep(EMPTY_ROOM);
+      r.id = 'TST3';
+      r.code = 'TST3';
+      r.name = 'Test 3';
+      // this.roomService.createRoom(r).subscribe(ref => {console.log(ref)});
   }
 
   /*************************************************
@@ -54,7 +60,7 @@ export class RoomComponent implements OnInit {
 
   public async onSubmit(): Promise<void> {
 
-    const room = _.cloneDeep(EMPTY_ROOM);
+    const room: RoomModel = _.cloneDeep(EMPTY_ROOM);
     room.id = this.code.value;
     room.code = this.code.value;
     room.name = this.name.value;

@@ -1,18 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, PrimaryColumn, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class Room {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ type: 'varchar', length: 6 })
   id!: string;
 
-  @Column()
+  @Column({type: 'varchar', length: 6, unique: true})
   code!: string;
 
-  @Column()
+  @Column({type: 'varchar', length: 80})
   name!: string;
 
   @Column({ type: 'text', nullable: true })
-  description!: string;
+  description!: string | null;
 
   @Column({ nullable: true })
   capacity!: number;
@@ -26,17 +26,17 @@ export class Room {
   @Column()
   enabled!: boolean;
 
-  @Column({ nullable: true })
-  street!: string;
+  @Column({ type: 'varchar', length: 80, nullable: true })
+  street!: string | null;
 
-  @Column({ nullable: true })
-  city!: string;
+  @Column({ type: 'varchar', length: 80, nullable: true })
+  city!: string | null;
 
-  @Column({ nullable: true })
-  province!: string;
+  @Column({ type: 'varchar', length: 80, nullable: true })
+  province!: string | null;
 
-  @Column({ length: 5, nullable: true })
-  zip!: string;
+  @Column({ type: 'varchar', length: 5, nullable: true })
+  zip!: string | null;
 
   @Column({ type: 'decimal', precision: 10, scale: 8 })
   latitude!: number;
@@ -48,11 +48,11 @@ export class Room {
   createdAt!: Date;
 
   @Column({ nullable: true })
-  createdBy!: string;
+  createdBy!: string | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modifiedAt!: Date;
 
   @Column({ nullable: true })
-  modifiedBy!: string;
+  modifiedBy!: string | null;
 }

@@ -1,14 +1,15 @@
 import { AppDataSource } from '../database/dataSource';
 import { Room } from '../entity/room.entity';
 import { Request, Response } from 'express';
+import {DeleteResult, Repository} from 'typeorm';
 
 export class RoomController {
 
-  static roomRepository = AppDataSource.getRepository(Room);
-  
+  static roomRepository: Repository<Room> = AppDataSource.getRepository(Room);
+
   static async findAllRooms(req: Request, res: Response): Promise<void> {
     try {
-      const rooms = await RoomController.roomRepository.find();
+      const rooms: Room[] = await RoomController.roomRepository.find();
       res.status(200).json(rooms);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante il recupero delle stanze' });
@@ -18,22 +19,22 @@ export class RoomController {
   static async findRoomById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      const room = await RoomController.roomRepository.findOneBy({ id });
+      const room: Room | null = await RoomController.roomRepository.findOneBy({ id });
       if (room) {
         res.status(200).json(room);
       } else {
         res.status(404).json({ error: 'Stanza non trovata' });
       }
     } catch (error) {
-      res.status(500).json({ error: 'Errore durante il recupero della stanza' });
+      res.status(500).json({ error: `Errore durante la creazione della stanza: ${error}` });
     }
   }
 
   static async createRoom(req: Request, res: Response): Promise<void> {
     console.log(req.body)
     try {
-      const room = RoomController.roomRepository.create(req.body);
-      const savedRoom = await RoomController.roomRepository.save(room);
+      const room: Room[] = RoomController.roomRepository.create(req.body);
+      const savedRoom: Room[] = await RoomController.roomRepository.save(room);
       res.status(200).json(savedRoom);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante la creazione della stanza' });
@@ -43,7 +44,7 @@ export class RoomController {
   static async updateRoom(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      let room = await RoomController.roomRepository.findOneBy({ id });
+      let room: Room | null = await RoomController.roomRepository.findOneBy({ id });
       if (room) {
         RoomController.roomRepository.merge(room, req.body);
         const updatedRoom = await RoomController.roomRepository.save(room);
@@ -59,7 +60,7 @@ export class RoomController {
   static async deleteRoom(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      const result = await RoomController.roomRepository.delete(id);
+      const result: DeleteResult = await RoomController.roomRepository.delete(id);
       if (result.affected) {
         res.status(200).json({ message: 'Stanza eliminata con successo' });
       } else {
