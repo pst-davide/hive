@@ -47,12 +47,12 @@ export class Room {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   createdBy!: string | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modifiedAt!: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   modifiedBy!: string | null;
 }

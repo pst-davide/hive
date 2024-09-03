@@ -1,60 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {filter, map} from 'rxjs';
+import {RouterModule, RouterOutlet} from '@angular/router';
+import { Breadcrumb, BreadcrumbService } from 'app/core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-breadcrumb',
   standalone: true,
-  imports: [],
+  imports: [RouterOutlet, RouterModule],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss'
 })
 export class BreadcrumbComponent implements OnInit {
   public breadcrumbs: Array<{label: string, url: string}> = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit(): void {
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => {
-          console.log('aaa')
-          return this.buildBreadcrumb(this.route.root);
-        })
-      )
-      .subscribe(breadcrumbs => {
-        console.log(breadcrumbs);
-        this.breadcrumbs = breadcrumbs;
-      });
+    this.breadcrumbService.getBreadcrumbs().subscribe((breadcrumbs: Breadcrumb[]) => {
+      this.breadcrumbs = breadcrumbs;
+    });
   }
-
-  private buildBreadcrumb(route: ActivatedRoute, url: string = '',
-                          breadcrumbs: Array<{ label: string,
-                            url: string }> = []): Array<{ label: string, url: string }> {
-
-    console.log(route)
-  const children: ActivatedRoute[] = route.children;
-
-  if (children.length === 0) {
-    return breadcrumbs;
-  }
-
-  for (const child of children) {
-    const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-    if (routeURL !== '') {
-      url += `/${routeURL}`;
-    }
-
-    const label = child.snapshot.data['breadcrumb'];
-    if (label) {
-      breadcrumbs.push({ label, url });
-    }
-
-    // Chiamata ricorsiva senza return immediato
-    this.buildBreadcrumb(child, url, breadcrumbs);
-  }
-
-  return breadcrumbs;
-}
 }
