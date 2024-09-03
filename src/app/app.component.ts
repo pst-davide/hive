@@ -4,11 +4,12 @@ import {HeaderComponent} from './layouts/header/header.component';
 import { FooterComponent } from "./layouts/footer/footer.component";
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faLocationDot, faFont, faCalendarDays, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule],
+  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

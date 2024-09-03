@@ -4,11 +4,10 @@ import { ScanOcrComponent } from './admin/scan-ocr/scan-ocr.component';
 import { CalendarsComponent } from './calendars/calendars.component';
 
 export const routes: Routes = [
-    { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enalbed: false }},
-    { path: 'admin', component: RoomsComponent, data: { breadcrumb: 'Amministrazione', enalbed: false },
+    { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: false }},
+    { path: 'admin', component: undefined, data: { breadcrumb: 'Amministrazione', enabled: false },
     children: [
-        { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enalbed: true } },
-        { path: 'ocr', component: ScanOcrComponent, data: { breadcrumb: 'OCR', enalbed: true } }
+        { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } },
+        { path: 'ocr', component: ScanOcrComponent, data: { breadcrumb: 'OCR', enabled: true } }
       ] },
-    
 ];

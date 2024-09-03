@@ -10,7 +10,7 @@ import { Breadcrumb, BreadcrumbService } from 'app/core/services/breadcrumb.serv
   styleUrl: './breadcrumb.component.scss'
 })
 export class BreadcrumbComponent implements OnInit {
-  public breadcrumbs: Array<{label: string, url: string}> = [];
+  public breadcrumbs: Array<{label: string, url: string, enabled: boolean}> = [];
 
   constructor(private breadcrumbService: BreadcrumbService) { }
 
