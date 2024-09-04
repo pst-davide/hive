@@ -18,6 +18,7 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
 import ocrRouter from './routes/ocr.router';
+import uploadRouter from './routes/upload.router';
 
 /* initialize */
 const app: Express = express();
@@ -31,6 +32,15 @@ app.use('/api', roomRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);
+
+/* upload routes */
+app.use('/api', uploadRouter);
+
+/* upload directory */
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 AppDataSource.initialize()
 .then(async () => {

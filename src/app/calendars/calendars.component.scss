@@ -1,3 +1,11 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+    --fc-today-bg-color: theme('colors.fuchsia.50');
+}
+
 .dark .fc-theme-standard td,.dark .fc-theme-standard th {
     border-color: rgba(131,146,171,.3)
 }
@@ -88,7 +96,6 @@
     -ms-user-select: none;
     user-select: none;
     font-family: fcicons!important;
-    speak: none;
     font-style: normal;
     font-weight: 400;
     font-variant: normal;
@@ -126,9 +133,6 @@
     content: "\e906"
 }
 
-.fc {
-}
-
 .fc .fc-button {
     border-radius: 0;
     overflow: visible;
@@ -144,10 +148,6 @@
     outline: 5px auto -webkit-focus-ring-color
 }
 
-.fc .fc-button {
-    -webkit-appearance: button
-}
-
 .fc .fc-button:not(:disabled) {
     cursor: pointer
 }
@@ -155,9 +155,6 @@
 .fc .fc-button::-moz-focus-inner {
     padding: 0;
     border-style: none
-}
-
-.fc {
 }
 
 .fc .fc-button {
@@ -509,9 +506,6 @@ a.fc-event,a.fc-event:hover {
     z-index: 4
 }
 
-.fc-event:hover,.fc-event-selected {
-}
-
 .fc-event:hover .fc-event-resizer,.fc-event-selected .fc-event-resizer {
     display: block
 }
@@ -552,9 +546,6 @@ a.fc-event,a.fc-event:hover {
     left: 0;
     right: 0;
     bottom: 0
-}
-
-.fc-event-selected {
 }
 
 .fc-event-selected:after {
@@ -698,9 +689,6 @@ a.fc-event,a.fc-event:hover {
     background: var(--fc-neutral-bg-color,rgba(208,208,208,0.3))
 }
 
-.fc-daygrid-day-frame,.fc-daygrid-day-events,.fc-daygrid-event-harness {
-}
-
 .fc-daygrid-day-frame:before,.fc-daygrid-day-events:before,.fc-daygrid-event-harness:before {
     content: "";
     clear: both;
@@ -728,9 +716,6 @@ a.fc-event,a.fc-event:hover {
     min-height: 100%
 }
 
-.fc {
-}
-
 .fc .fc-daygrid-day-top {
     display: flex;
     flex-direction: row-reverse
@@ -740,23 +725,14 @@ a.fc-event,a.fc-event:hover {
     opacity: .3
 }
 
-.fc {
-}
-
 .fc .fc-daygrid-day-number {
     position: relative;
     z-index: 4;
     padding: 4px
 }
 
-.fc {
-}
-
 .fc .fc-daygrid-day-events {
     margin-top: 1px
-}
-
-.fc {
 }
 
 .fc .fc-daygrid-body-balanced .fc-daygrid-day-events {
@@ -770,14 +746,8 @@ a.fc-event,a.fc-event:hover {
     min-height: 2em
 }
 
-.fc .fc-daygrid-body-natural {
-}
-
 .fc .fc-daygrid-body-natural .fc-daygrid-day-events {
     margin-bottom: 1em
-}
-
-.fc {
 }
 
 .fc .fc-daygrid-event-harness {
@@ -797,9 +767,6 @@ a.fc-event,a.fc-event:hover {
     bottom: 0
 }
 
-.fc {
-}
-
 .fc .fc-daygrid-day-bg .fc-non-business {
     z-index: 1
 }
@@ -812,9 +779,6 @@ a.fc-event,a.fc-event:hover {
     z-index: 3
 }
 
-.fc {
-}
-
 .fc .fc-daygrid-event {
     z-index: 6;
     margin-top: 1px
@@ -822,9 +786,6 @@ a.fc-event,a.fc-event:hover {
 
 .fc .fc-daygrid-event.fc-event-mirror {
     z-index: 7
-}
-
-.fc {
 }
 
 .fc .fc-daygrid-day-bottom {
@@ -836,9 +797,6 @@ a.fc-event,a.fc-event:hover {
     position: relative;
     z-index: 4;
     cursor: pointer
-}
-
-.fc {
 }
 
 .fc .fc-daygrid-week-number {
@@ -854,8 +812,6 @@ a.fc-event,a.fc-event:hover {
     color: var(--fc-neutral-text-color,#808080)
 }
 
-.fc {
-}
 
 .fc .fc-more-popover {
     z-index: 8
@@ -876,7 +832,8 @@ a.fc-event,a.fc-event:hover {
 
 .fc-direction-ltr .fc-daygrid-week-number {
     left: 0;
-    border-radius: 0 0 3px 0
+    border-radius: 0 0 3px 0;
+    font-size: .75rem;
 }
 
 .fc-direction-rtl .fc-daygrid-week-number {
@@ -1003,18 +960,12 @@ a.fc-event,a.fc-event:hover {
     right: -10px
 }
 
-.fc-v-event {
-}
-
 .fc-v-event .fc-event-resizer-start {
     cursor: n-resize
 }
 
 .fc-v-event .fc-event-resizer-end {
     cursor: s-resize
-}
-
-.fc-v-event {
 }
 
 .fc-v-event:not(.fc-event-selected) .fc-event-resizer {
@@ -1032,9 +983,6 @@ a.fc-event,a.fc-event:hover {
 .fc-v-event:not(.fc-event-selected) .fc-event-resizer-end {
     bottom: -4px;
     bottom: calc(var(--fc-event-resizer-thickness,8px)/-2)
-}
-
-.fc-v-event {
 }
 
 .fc-v-event.fc-event-selected .fc-event-resizer {
@@ -1103,14 +1051,8 @@ a.fc-event,a.fc-event:hover {
     vertical-align: middle
 }
 
-.fc {
-}
-
 .fc .fc-timegrid-axis-cushion,.fc .fc-timegrid-slot-label-cushion {
     padding: 0 4px
-}
-
-.fc {
 }
 
 .fc .fc-timegrid-axis-frame-liquid {
@@ -1188,9 +1130,6 @@ a.fc-event,a.fc-event:hover {
     position: absolute
 }
 
-.fc {
-}
-
 .fc .fc-timegrid-col-bg {
     z-index: 2
 }
@@ -1213,14 +1152,8 @@ a.fc-event,a.fc-event:hover {
     right: 0
 }
 
-.fc {
-}
-
 .fc .fc-timegrid-col-events {
     z-index: 3
-}
-
-.fc {
 }
 
 .fc .fc-timegrid-now-indicator-container {
@@ -1280,9 +1213,6 @@ a.fc-event,a.fc-event:hover {
     right: 0
 }
 
-.fc {
-}
-
 .fc .fc-timegrid-now-indicator-line {
     position: absolute;
     z-index: 4;
@@ -1292,9 +1222,6 @@ a.fc-event,a.fc-event:hover {
     border-color: red;
     border-color: var(--fc-now-indicator-color,red);
     border-width: 1px 0 0
-}
-
-.fc {
 }
 
 .fc .fc-timegrid-now-indicator-arrow {
@@ -1330,9 +1257,6 @@ a.fc-event,a.fc-event:hover {
     border: 1px solid var(--fc-border-color,#ddd)
 }
 
-.fc {
-}
-
 .fc .fc-list-empty {
     background-color: rgba(208,208,208,.3);
     background-color: var(--fc-neutral-bg-color,rgba(208,208,208,0.3));
@@ -1344,9 +1268,6 @@ a.fc-event,a.fc-event:hover {
 
 .fc .fc-list-empty-cushion {
     margin: 5em 0
-}
-
-.fc {
 }
 
 .fc .fc-list-table {
@@ -1373,9 +1294,6 @@ a.fc-event,a.fc-event:hover {
 
 .fc .fc-list-table td,.fc .fc-list-day-cushion {
     padding: 8px 14px
-}
-
-.fc {
 }
 
 .fc .fc-list-day-cushion:after {
@@ -1414,9 +1332,6 @@ a.fc-event,a.fc-event:hover {
     background-color: var(--fc-list-event-hover-bg-color,#f5f5f5)
 }
 
-.fc {
-}
-
 .fc .fc-list-event-graphic,.fc .fc-list-event-time {
     white-space: nowrap;
     width: 1px
@@ -1433,15 +1348,9 @@ a.fc-event,a.fc-event:hover {
     border-radius: calc(var(--fc-list-event-dot-width,10px)/2)
 }
 
-.fc {
-}
-
 .fc .fc-list-event-title a {
     color: inherit;
     text-decoration: none
-}
-
-.fc {
 }
 
 .fc .fc-list-event.fc-event-forced-url:hover a {

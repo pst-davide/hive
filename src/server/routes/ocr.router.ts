@@ -1,5 +1,5 @@
 import express from 'express';
-import { OcrImageController } from '../ocr/ocr-image.controller';
+import { OcrImageController } from '../controllers/ocr-image.controller';
 
 const ocrRouter = express.Router();
 
