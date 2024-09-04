@@ -13,19 +13,20 @@ import { faBell, faGear, faUser } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
-  public title: string = 'Index';
+  public title: string = 'HIVE';
+
   public faUser: IconDefinition = faUser;
   public faGear: IconDefinition = faGear;
   public faBell: IconDefinition = faBell;
-  
+
   constructor(private breadcrumbService: BreadcrumbService) {}
 
   ngOnInit(): void {
     this.breadcrumbService.getBreadcrumbs().subscribe((breadcrumbs: Breadcrumb[]) => {
       console.log(breadcrumbs);
       const lastBreadcrumbs: Breadcrumb | null = _.last(breadcrumbs) || null;
-      this.title = lastBreadcrumbs ? lastBreadcrumbs.label : 'Index';
+      this.title = lastBreadcrumbs ? lastBreadcrumbs.label : 'HIVE';
     });
-      
+
   }
 }

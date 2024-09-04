@@ -1,4 +1,32 @@
 :host {
     @apply bg-gradient-to-r from-slate-300 to-slate-100 h-screen flex-col flex;
 }
-  
+
+.animate-icon {
+  animation: rotate 0.4s ease-in-out;
+}
+
+@keyframes rotate {
+  0% {
+    d: "M4 6h16M4 12h16M4 18h16"; /* Stato iniziale: 3 linee */
+  }
+  50% {
+    d: "M4 6h16M18 6l-12 12"; /* Stato intermedio: transizione */
+  }
+  100% {
+    d: "M6 18L18 6M6 6l12 12"; /* Stato finale: X */
+  }
+}
+
+.closed .transition {
+  animation: scaleDown 0.3s ease-in-out forwards;
+}
+
+@keyframes scaleDown {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.75); /* Adatta il valore in base alla scala desiderata */
+  }
+}
