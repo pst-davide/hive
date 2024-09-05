@@ -54,6 +54,7 @@ export class AppComponent {
   /* menu */
   public menuItems: MenuItem[] = [
     {label: 'Agende', link: 'calendars', icon: faCalendarDays},
+    {label: 'Sedi', link: 'admin/locations', icon: faLocationDot},
     {label: 'Stanze', link: 'admin/rooms', icon: faLocationDot},
     {label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
   ];

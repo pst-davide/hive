@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryColumn} from 'typeorm';
 
 @Entity()
-export class Room {
+export class Location {
   @PrimaryColumn({ type: 'varchar', length: 6 })
   id!: string;
 
@@ -13,15 +13,6 @@ export class Room {
 
   @Column({ type: 'text', nullable: true })
   description!: string | null;
-
-  @Column({ nullable: true })
-  capacity!: number;
-
-  @Column('simple-array')
-  owners!: string[];
-
-  @Column({ nullable: true })
-  floor!: number;
 
   @Column()
   enabled!: boolean;

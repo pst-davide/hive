@@ -19,6 +19,7 @@ import fs from 'fs';
 import path from 'path';
 import ocrRouter from './routes/ocr.router';
 import uploadRouter from './routes/upload.router';
+import locationRouter from './routes/location.router';
 
 /* initialize */
 const app: Express = express();
@@ -29,6 +30,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 /* orm routes */
 app.use('/api', roomRouter);
+app.use('/api', locationRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);

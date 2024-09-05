@@ -3,10 +3,10 @@ import { RoomController } from '../controllers/room.controller';
 
 const roomRouter = express.Router();
 
-roomRouter.get('/rooms', RoomController.findAllRooms);
-roomRouter.get('/rooms/:id', RoomController.findRoomById);
-roomRouter.post('/rooms', RoomController.createRoom);
-roomRouter.put('/rooms/:id', RoomController.updateRoom);
-roomRouter.delete('/rooms/:id', RoomController.deleteRoom);
+roomRouter.get('/rooms', RoomController.findAll);
+roomRouter.get('/rooms/:id', RoomController.findById);
+roomRouter.post('/rooms', RoomController.create);
+roomRouter.put('/rooms/:id', RoomController.update);
+roomRouter.delete('/rooms/:id', RoomController.delete);
 
 export default roomRouter;

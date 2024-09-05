@@ -1,25 +1,25 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import _ from 'lodash';
+import { EMPTY_LOCATION, LocationModel } from '../../model/location.model';
+import { Observable } from 'rxjs';
+import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
+import { LocationService } from '../../service/location.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EMPTY_ROOM, RoomModel } from '../../model/room.model';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, Validators, FormBuilder, FormControl } from '@angular/forms';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgxColorsModule, validColorValidator } from 'ngx-colors';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { Observable } from 'rxjs';
-import _ from 'lodash';
-import { RoomService } from '../../service/room.service';
-import { NgxColorsModule, validColorValidator } from 'ngx-colors';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-room',
+  selector: 'app-location',
   standalone: true,
   imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, NgxColorsModule],
-  templateUrl: './room.component.html',
-  styleUrl: './room.component.scss'
+  templateUrl: './location.component.html',
+  styleUrl: './location.component.scss'
 })
-export class RoomComponent implements OnInit {
+export class LocationComponent implements OnInit {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -31,12 +31,13 @@ export class RoomComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
   public roomColor: FormControl = new FormControl(null);
 
-  constructor(public dialogRef: MatDialogRef<RoomComponent>, @Inject(MAT_DIALOG_DATA) public data: RoomModel, private fb: FormBuilder, private roomService: RoomService) {}
+  constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
+  private fb: FormBuilder, private crudService: LocationService) {}
 
   ngOnInit(): void {
       this.createForm();
 
-      const r = _.cloneDeep(EMPTY_ROOM);
+      const r = _.cloneDeep(EMPTY_LOCATION);
       r.id = 'TST3';
       r.code = 'TST3';
       r.name = 'Test 3';
@@ -69,7 +70,7 @@ export class RoomComponent implements OnInit {
       }
     });
 
-    this.form.controls['picker'].valueChanges.subscribe((color) =>
+    this.form.controls['picker'].valueChanges.subscribe((color: any) =>
       this.color.setValue(color, {
         emitEvent: false,
       })
@@ -78,12 +79,12 @@ export class RoomComponent implements OnInit {
 
   public async onSubmit(): Promise<void> {
 
-    const room: RoomModel = _.cloneDeep(EMPTY_ROOM);
+    const room: LocationModel = _.cloneDeep(EMPTY_LOCATION);
     room.id = this.code.value;
     room.code = this.code.value;
     room.name = this.name.value;
 
-    this.roomService.createDoc(room);
+    this.crudService.createDoc(room);
   }
 
   public closeDialog(): void {
@@ -111,4 +112,5 @@ export class RoomComponent implements OnInit {
   get color(): AbstractControl {
     return this.form.get('color') as AbstractControl;
   }
+
 }

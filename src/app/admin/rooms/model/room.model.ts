@@ -15,14 +15,14 @@ export interface RoomModel {
 }
 
 export const EMPTY_ROOM: RoomModel = {
-id: null,
-code: null,
-name: null,
-description: null,
-capacity: 0,
-owners: [],
-floor: 0,
-enabled: true,
-address: EMPTY_ADDRESS,
-crud: EMPTY_CRUD
+  id: null,
+  code: null,
+  name: null,
+  description: null,
+  capacity: 0,
+  owners: [],
+  floor: 0,
+  enabled: true,
+  address: EMPTY_ADDRESS,
+  crud: EMPTY_CRUD
 };

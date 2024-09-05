@@ -1,9 +1,31 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+.fc-daygrid-day-events {
+    position: relative;
+    min-height: 2em;
+    max-height: 10em !important;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.fc-daygrid-day-events::-webkit-scrollbar {
+    display: none;
+}
+
+.fc-v-event {
+    display: block;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+
+// **************************************************************
 
 :root {
     --fc-today-bg-color: theme('colors.fuchsia.50');
+    --fc-bg-event-color: theme('colors.slate.200');
 }
 
 .dark .fc-theme-standard td,.dark .fc-theme-standard th {

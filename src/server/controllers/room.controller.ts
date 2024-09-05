@@ -7,7 +7,7 @@ export class RoomController {
 
   static roomRepository: Repository<Room> = AppDataSource.getRepository(Room);
 
-  static async findAllRooms(req: Request, res: Response): Promise<void> {
+  static async findAll(req: Request, res: Response): Promise<void> {
     try {
       const rooms: Room[] = await RoomController.roomRepository.find();
       res.status(200).json(rooms);
@@ -16,7 +16,7 @@ export class RoomController {
     }
   }
 
-  static async findRoomById(req: Request, res: Response): Promise<void> {
+  static async findById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
       const room: Room | null = await RoomController.roomRepository.findOneBy({ id });
@@ -30,7 +30,7 @@ export class RoomController {
     }
   }
 
-  static async createRoom(req: Request, res: Response): Promise<void> {
+  static async create(req: Request, res: Response): Promise<void> {
     console.log(req.body)
     try {
       const room: Room[] = RoomController.roomRepository.create(req.body);
@@ -41,7 +41,7 @@ export class RoomController {
     }
   }
 
-  static async updateRoom(req: Request, res: Response): Promise<void> {
+  static async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
       let room: Room | null = await RoomController.roomRepository.findOneBy({ id });
@@ -57,7 +57,7 @@ export class RoomController {
     }
   }
 
-  static async deleteRoom(req: Request, res: Response): Promise<void> {
+  static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
       const result: DeleteResult = await RoomController.roomRepository.delete(id);
