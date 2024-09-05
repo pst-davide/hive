@@ -1,5 +1,5 @@
 <!-- sidenav  -->
-<aside class="max-w-60 z-990 fixed inset-y-0 my-0 ml-2 mr-4 transition-width duration-400"
+<aside class="max-w-60 z-990 fixed inset-y-0 m-0 transition-width duration-400"
        [class.w-20]="isSidebarMinimized"
        [class.closed]="isSidebarMinimized"
        [class.w-60]="!isSidebarMinimized"
@@ -12,8 +12,9 @@
     </div>
     <div class="m-0 p-0 mt-[8px]">
       <button (click)="toggleSidebar()">
-        <svg #sidebarIcon xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-slate-400">
-          <path id="iconPath" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+        class="w-6 h-6 text-slate-400">
+          <path #iconPath stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
     </button>
     </div>
@@ -23,65 +24,20 @@
 
   <div class="items-center block w-auto overflow-autogrow basis-full">
     <ul class="flex flex-col pl-0 mb-0">
-      <li class="mt-5 w-full">
-        <a class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
-           href="../pages/tables.html">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white mr-2 rounded-md
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-
-          </div>
-          <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft
-          hover:scale-110 hover:shadow-lg hover:duration-300">Chat</span>
-        </a>
-      </li>
-      <li class="mt-5 w-full">
-        <a class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
-           [routerLink]="'/calendars'">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white  text-slate-500 rounded-md mr-2 flex items-center justify-center
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-            <fa-icon [icon]="faCalendarDays"></fa-icon>
-          </div>
-          <span class="ml-1">Agende</span>
-        </a>
-      </li>
-      <li class="mt-5 w-full">
-        <a class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
-           href="../pages/tables.html">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white mr-2 rounded-md
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-
-          </div>
-          <span class="ml-1">Rassegna Stampa</span>
-        </a>
-      </li>
-      <li class="mt-5 w-full">
-        <a class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
-           href="../pages/tables.html">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white mr-2 rounded-md
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-
-          </div>
-          <span class="ml-1">Newsletter</span>
-        </a>
-      </li>
-      <li class="mt-5 w-full">
-        <a class="text-sm my-0 mx-4 flex items-center whitespace-nowrap px-4" [routerLink]="'/admin/rooms'">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white  text-slate-500 rounded-md mr-2 flex items-center justify-center
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-            <fa-icon [icon]="faLocationDot"></fa-icon>
-          </div>
-          <span class="ml-1">Stanze</span>
-        </a>
-      </li>
-      <li class="mt-5 w-full">
-        <a class="text-sm my-0 mx-4 flex items-center whitespace-nowrap px-4" [routerLink]="'/admin/ocr'">
-          <div class="shadow-md shadow-slate-400 w-8 h-8 bg-white  text-slate-500 rounded-md mr-2 flex items-center justify-center
-          hover:scale-110 hover:shadow-lg hover:duration-300">
-            <fa-icon [icon]="faFont"></fa-icon>
-          </div>
-          <span class="ml-1">Scansione OCR</span>
-        </a>
-      </li>
+      
+      @for (item of menuItems; track item) {
+        <li class="mt-5 w-full">
+          <a #menuLink class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
+             [routerLink]="item.link">
+            <div class="icon-container shadow-md shadow-slate-400 w-8 min-w-8 h-8 mr-2 bg-white text-slate-500 rounded-md flex items-center justify-center
+                 hover:scale-110 hover:shadow-lg hover:duration-300">
+              <fa-icon [icon]="item.icon"></fa-icon>
+            </div>
+            <span #menuText class="ml-1 menu-text">{{ item.label }}</span>
+          </a>
+        </li>
+      }
+      
     </ul>
   </div>
 </aside>
@@ -90,17 +46,8 @@
       [class.ml-20]="isSidebarMinimized"
       [class.ml-60]="!isSidebarMinimized">
   <app-header></app-header>
-  <div class="w-full px-6 mx-auto mt-10 mb-5 h-screen-minus-160">
+  <div class="w-full px-6 mx-auto mt-0 mb-5 h-screen-minus-160">
     <router-outlet/>
   </div>
   <app-footer></app-footer>
 </main>
-
-<!--
-    <a class="block m-0 text-sm whitespace-nowrap text-slate-500" href="/" target="_blank"
-       [class]="!isSidebarMinimized ? 'px-8 py-6' : 'py-4'">
-      <img src="/images/logo.svg" class="inline h-full max-w-full max-h-10" alt="Hive App Logo"
-           [class.max-h-6]="isSidebarMinimized"/>
-      <div class="mt-3 font-semibold" [class.hidden]="isSidebarMinimized">Hive App</div>
-    </a>
-    -->
