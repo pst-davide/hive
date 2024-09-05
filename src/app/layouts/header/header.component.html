@@ -1,5 +1,60 @@
 <header>
-  <div class="w-full inset-y-0 my-0 h-28 flex items-center">
+  <div class="h-28flex flex-col justify-start items-stretch">
+    
+    <div class="h-8 min-h-8 w-full  flex pl-4 items-center">
+      <app-breadcrumb></app-breadcrumb>
+    </div>
+  
+    <div class="flex-1 h-20 min-h-20 w-full flex items-start">
+      <div class="w-full flex justify-between">
+        <!-- title -->
+        <div class="text-white ml-4 mt-1">
+          <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left">
+            {{ title }}
+          </h2>
+        </div>
+        
+        <!-- menu -->
+        <div class="text-white mr-4 mt-1">
+          <ul class="flex flex-wrap justify-center list-none lg:justify-end ">
+            <li class="nav-item flex items-center">
+              <a href="#">
+                <img
+                  alt="user 1"
+                  src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+                  class="relative inline-block h-8 w-8 rounded-full border-2 border-white object-cover object-center hover:ring-2 hover:ring-fuchsia-400 transition-all duration-300"
+                />
+              </a>
+            </li>
+            <li class="nav-item flex items-center">
+              <a href="#"
+                 class="block ml-4 py-0 font-bold transition-colors ease-soft-in-out text-sm text-slate-500 hover:text-slate-800">
+                <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
+                Log Out
+              </a>
+            </li>
+            <li class="nav-item flex items-center">
+              <a href="#"
+                 class="block px-4 py-0 font-normal transition-colors ease-soft-in-out text-sm text-slate-500 hover:text-slate-800">
+                <fa-icon [icon]="faGear" class="mr-2"></fa-icon>
+              </a>
+            </li>
+            <li class="nav-item flex items-center">
+              <a href="#"
+                 class="block py-0 font-normal transition-colors ease-soft-in-out text-sm text-slate-500 hover:text-slate-800">
+                <fa-icon [icon]="faBell" class="mr-2"></fa-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
+
+  
+  
+  <!--
+<div class="w-full inset-y-0 my-0 h-28 flex items-center">
     <div class="w-full max-w-full shrink-0 lg:w-1/2 lg:flex-none">
       <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left -mt-[2px] ml-4">
         {{ title }}
@@ -39,4 +94,6 @@
       </ul>
     </div>
   </div>
+  -->
+  
 </header>
