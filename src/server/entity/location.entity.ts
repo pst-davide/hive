@@ -11,6 +11,9 @@ export class Location {
   @Column({type: 'varchar', length: 80})
   name!: string;
 
+  @Column({type: 'varchar', length: 7})
+  color!: string;
+
   @Column({ type: 'text', nullable: true })
   description!: string | null;
 

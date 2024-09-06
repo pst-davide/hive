@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EMPTY_LOCATION, LocationModel } from './model/location.model';
 import _ from 'lodash';
-import { RoomComponent } from '../rooms/edit/room/room.component';
 import { LocationService } from './service/location.service';
 import { LocationComponent } from './edit/location/location.component';
 

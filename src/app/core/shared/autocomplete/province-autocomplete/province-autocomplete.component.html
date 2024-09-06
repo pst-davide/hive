@@ -1,0 +1,38 @@
+<mat-form-field appearance="outline">
+    <mat-label>{{label}}</mat-label>
+    <input type="text"
+         aria-label="docId"
+         matInput
+         [placeholder]="label"
+         [formControl]="docCtrl"
+         [matAutocomplete]="docAutocomplete"
+         (keyup)="_onKeyUp($event)">
+
+         @if (docCtrl.value && isEnabled) {
+            <button matSuffix mat-icon-button type="button"
+                    aria-label="Clear" matTooltip="'Cancella la Selezione'"
+                    (click)="_remove()" tabindex="-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+
+    <mat-autocomplete #docAutocomplete="matAutocomplete"
+                    (optionSelected)="_onSelectionChange($event)"
+                    [displayWith]="docCtrl.value ? displayFn.bind(this) : null">
+
+      @for (doc of filteredDocs | async; track doc.sigla) {
+        <mat-option [value]="doc.sigla">
+          <span>{{doc.provincia}}</span>
+          <small class="greyText"> | {{doc.sigla}}</small>
+        </mat-option>
+      }
+    </mat-autocomplete>
+
+    @if (docCtrl.hasError('required')) {
+        <mat-error [innerHTML]="requiredError"></mat-error>
+    }
+
+    @if (docCtrl.hasError('requireMatch')) {
+        <mat-error [innerHTML]="matchError"></mat-error>
+    }
+</mat-form-field>

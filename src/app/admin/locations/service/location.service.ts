@@ -18,6 +18,7 @@ export class LocationService {
   doc.id = model.id ?? '';
   doc.code = model.code ?? '';
   doc.name = model.name ?? '';
+  doc.color = model.color ?? '';
   doc.description = model.description ?? null;
   doc.enabled = model.enabled;
   doc.street = model.address?.street ?? null;

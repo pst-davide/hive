@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --mdc-switch-track-height: 2rem;
+  --mdc-switch-track-width: 80px;
+  --mdc-switch-track-shape: 12px;
+  --mdc-switch-selected-icon-size: 28px;
+  --mdc-switch-unselected-icon-size: 28px;
+  --mat-switch-with-icon-handle-size: 32px !important;
+  --mdc-switch-handle-shape: 16px;
+  --mdc-switch-selected-icon-color: #ffffff;
+}
+
 *, ::before, ::after {
     border-style: none;
 }
@@ -14,4 +25,15 @@
 
 .app-color-picker {
   margin-right: .5rem !important;
+}
+
+.mdc-switch--selected .mdc-switch__icon {
+  width: var(--mdc-switch-selected-icon-size);
+  height: var(--mdc-switch-selected-icon-size);
+  fill: rgba($color: #ffffff, $alpha: 0.8) !important;
+}
+
+.mat-mdc-slide-toggle .mdc-switch__handle:has(.mdc-switch__icons) {
+  width: 32px !important;
+  height: 32px !important;
 }

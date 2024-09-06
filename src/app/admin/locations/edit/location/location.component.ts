@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { EMPTY_LOCATION, LocationModel } from '../../model/location.model';
@@ -11,11 +11,16 @@ import { NgxColorsModule, validColorValidator } from 'ngx-colors';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ProvinceAutocompleteComponent } from "../../../../core/shared/autocomplete/province-autocomplete/province-autocomplete.component";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CityAutocompleteComponent } from "../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component";
 
 @Component({
   selector: 'app-location',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, NgxColorsModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
+    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule, CityAutocompleteComponent],
   templateUrl: './location.component.html',
   styleUrl: './location.component.scss'
 })
@@ -31,11 +36,16 @@ export class LocationComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
   public roomColor: FormControl = new FormControl(null);
 
+  /* province */
+  public province$: WritableSignal<string| null> = signal<string| null>(null);
+  public city$: WritableSignal<string| null> = signal<string| null>(null);
+
   constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
   private fb: FormBuilder, private crudService: LocationService) {}
 
   ngOnInit(): void {
       this.createForm();
+      this.province$.set('VE');
 
       const r = _.cloneDeep(EMPTY_LOCATION);
       r.id = 'TST3';
@@ -54,12 +64,14 @@ export class LocationComponent implements OnInit {
     this.form = this.fb.group({
       code: ['', Validators['required']],
       name: ['', Validators['required']],
-      capacity: [null],
-      floor: [null],
-      enabled: [false],
+      enabled: [true],
       description: [null],
       color: [null, [Validators['required'], validColorValidator()]],
       picker: [null],
+      province: ['', Validators['required']],
+      city: ['', Validators['required']],
+      street: ['', Validators['required']],
+      zip: [null],
     });
 
     this.color.valueChanges.subscribe((color) => {
@@ -111,6 +123,10 @@ export class LocationComponent implements OnInit {
 
   get color(): AbstractControl {
     return this.form.get('color') as AbstractControl;
+  }
+
+  get street(): AbstractControl {
+    return this.form.get('street') as AbstractControl;
   }
 
 }

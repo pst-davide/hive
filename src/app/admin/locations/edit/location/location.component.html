@@ -32,7 +32,7 @@
             <fieldset [disabled]="isLoading$ | async">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <div class="w-full mx-auto">
-                        <!-- code, name -->
+                        <!-- code, name, enabled -->
                         <div class="grid grid-cols-12 gap-4 mb-4">
                             <div class="col-span-12 md:col-span-3">
                                 <mat-form-field appearance="outline">
@@ -44,29 +44,50 @@
                                     }
                                 </mat-form-field>
                             </div>
-                            <div class="col-span-12 md:col-span-9">
+                            <div class="col-span-12 lg:col-span-7 md:col-span-6 text-right">
                                 <mat-form-field appearance="outline">
-                                    <mat-label>Nome della Sala</mat-label>
-                                    <input matInput placeholder="Nome della sala" formControlName="name">
+                                    <mat-label>Nome della Sede</mat-label>
+                                    <input matInput placeholder="Nome della sede" formControlName="name">
                                     @if (name.hasError('required')) {
-                                      <mat-error>Il campo <strong>nome della sala</strong> è obbligatorio</mat-error>
+                                      <mat-error>Il campo <strong>nome della sede</strong> è obbligatorio</mat-error>
                                     }
                                 </mat-form-field>
                             </div>
+                            <div class="col-span-12 lg:col-span-2 md:col-span-3 flex items-center justify-end -mt-5">
+                                <mat-slide-toggle formControlName="enabled"><span class="mx-3">Sede Attiva</span></mat-slide-toggle>
+                            </div>
                         </div>
 
-                        <!-- capacity, floor, enabled, color -->
+                        <!-- province, city -->
                         <div class="grid grid-cols-12 gap-4 mb-4">
-                            <div class="col-span-12 md:col-span-3">
+                            <div class="col-span-12 md:col-span-6">
+                                <app-province-autocomplete
+                                [currentDoc$]="province$"
+                                [isRequired]="true"></app-province-autocomplete>
+                            </div>
+                            <div class="col-span-12 md:col-span-6">
+                                <app-city-autocomplete
+                                [province$]="province$"
+                                [currentDoc$]="city$"
+                                [isRequired]="true"></app-city-autocomplete>
+                            </div>
+                        </div>
+
+                        <!-- street, zip, color -->
+                        <div class="grid grid-cols-12 gap-4 mb-4">
+                            <div class="col-span-12 md:col-span-6">
                                 <mat-form-field appearance="outline">
-                                    <mat-label>Capienza</mat-label>
-                                    <input matInput type="number" placeholder="Capienza" formControlName="capacity">
+                                    <mat-label>Indirizzo</mat-label>
+                                    <input matInput placeholder="Indirizzo" formControlName="street">
+                                    @if (street.hasError('required')) {
+                                      <mat-error>Il campo <strong>indirizzo</strong> è obbligatorio</mat-error>
+                                    }
                                 </mat-form-field>
                             </div>
                             <div class="col-span-12 md:col-span-3">
                                 <mat-form-field appearance="outline">
-                                    <mat-label>Piano</mat-label>
-                                    <input matInput type="number" placeholder="Piano" formControlName="floor">
+                                    <mat-label>Cap</mat-label>
+                                    <input matInput placeholder="Cap" formControlName="zip">
                                 </mat-form-field>
                             </div>
                             <div class="col-span-12 md:col-span-3 flex items-center">
@@ -88,9 +109,6 @@
                                         <mat-error>Il campo <strong>colore</strong> è obbligatorio</mat-error>
                                       }
                                 </mat-form-field>
-                            </div>
-                            <div class="col-span-12 md:col-span-3 flex items-center mb-5">
-                                
                             </div>
                         </div>
 

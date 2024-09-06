@@ -6,6 +6,7 @@ export interface LocationModel {
     code: string | null;
     name: string | null;
     description: string | null;
+    color: string | null;
     enabled: boolean;
     address: AddressModel;
     crud: CrudModel;
@@ -16,6 +17,7 @@ export const EMPTY_LOCATION: LocationModel = {
     code: null,
     name: null,
     description: null,
+    color: null,
     enabled: true,
     address: EMPTY_ADDRESS,
     crud: EMPTY_CRUD
