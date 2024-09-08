@@ -37,3 +37,8 @@ a {
 .translate-1 {
   transform: translateX(-12px); /* compensazione per ridurre l'effetto di margine mx-4 a mx-1 */
 }
+
+body.notification-open .main-content {
+  transform: translateX(-20rem); /* Adatta a seconda della larghezza del centro notifiche */
+  transition: transform 0.3s ease-in-out;
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #f8af18;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-miterlimit: 10;
+        stroke-width: 12px;
+      }
+
+      .cls-3 {
+        stroke: #fbbf24;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-linecap: round;
+      }
+
+      .cls-4 {
+        stroke: #d6dfe9;
+        stroke-linejoin: round;
+        stroke-width: 16px;
+      }
+
+      .cls-5 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <symbol id="cloud" viewBox="0 0 360 232">
+      <use width="360" height="232" xlink:href="#cloud_2"/>
+    </symbol>
+    <symbol id="cloud_2" viewBox="0 0 360 232">
+      <path class="cls-4" d="M296,224c30.9,0,56-25.1,56-56s-25.1-56-56-56-1.7,0-2.5.1c1.6-6.5,2.5-13.2,2.5-20.1,0-46.4-37.6-84-84-84s-56.6,16-71.4,39.9c-8.4-5-18.1-7.9-28.6-7.9-30.9,0-56,25.1-56,56s.3,6.1.8,9.1c-27.8,5.3-48.8,29.6-48.8,58.9s26.9,60,60,60"/>
+    </symbol>
+    <clipPath id="clippath">
+      <path class="cls-1" d="M288,148c-30.2,0-56.6,16-71.4,39.9-8.4-5-18.1-7.9-28.6-7.9-30.9,0-56,25.1-56,56s.3,6.1.8,9.1c-27.8,5.3-48.8,29.6-48.8,58.9H0V0h288v148Z"/>
+    </clipPath>
+    <symbol id="partly-cloudy-day" viewBox="0 0 436 372">
+      <g>
+        <g class="cls-5">
+          <use width="196" height="196" transform="translate(68 109)" xlink:href="#sun-small"/>
+        </g>
+        <use width="360" height="232" transform="translate(76 140)" xlink:href="#cloud"/>
+      </g>
+    </symbol>
+    <symbol id="sun-small" viewBox="0 0 196 196">
+      <g>
+        <circle class="cls-2" cx="98" cy="98" r="40"/>
+        <path class="cls-3" d="M98,31.4V6M98,190v-25.4M145.1,50.9l17.9-17.9M32.9,163.1l17.9-17.9M50.9,50.9l-17.9-17.9M163.1,163.1l-17.9-17.9M6,98h25.4M190,98h-25.4"/>
+      </g>
+    </symbol>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.1, SVG Export Plug-In . SVG Version: 1.2.0 Build 142)  -->
+  <g>
+    <g id="Livello_1">
+      <use width="436" height="372" transform="translate(-49.5 -38)" xlink:href="#partly-cloudy-day"/>
+    </g>
+  </g>
+</svg>

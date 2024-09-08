@@ -7,6 +7,7 @@ import {faLocationDot, faFont, faCalendarDays, faTimes} from '@fortawesome/free-
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
+import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 
 interface MenuItem {
   label: string;
@@ -17,7 +18,7 @@ interface MenuItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage, CommonModule],
+  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage, CommonModule, NotificationCenterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -41,15 +42,11 @@ export class AppComponent {
   @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
   @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
 
-  /* icons */
-  public faLocationDot: IconDefinition = faLocationDot;
-  public faFont: IconDefinition = faFont;
-  public faCalendarDays: IconDefinition = faCalendarDays;
-  public faTimes: IconDefinition = faTimes;
-
   /* sidebar state */
   public isSidebarOpen: boolean = true;
   public isSidebarMinimized: boolean = false;
+
+  public showNotificationPanel: boolean = false;
 
   /* menu */
   public menuItems: MenuItem[] = [
@@ -70,7 +67,12 @@ export class AppComponent {
 
     this.animateSidebarText();
     this.animateSidebarIcon();
-    
+
+  }
+
+  public _toggleNotificationPanel(): void {
+    this.showNotificationPanel = !this.showNotificationPanel;
+    document.body.classList.toggle('notification-open', this.showNotificationPanel);
   }
 
   private animateSidebarText(): void {
@@ -137,12 +139,12 @@ export class AppComponent {
 
   private animateSidebarIcon(): void {
     const path = this.iconPath.nativeElement;
-    
-    const startD = this.isSidebarOpen 
-      ? "M6 18L18 6M6 6l12 12" 
+
+    const startD = this.isSidebarOpen
+      ? "M6 18L18 6M6 6l12 12"
       : "M4 6h16M4 12h16M4 18h16";
-    const endD = this.isSidebarOpen 
-      ? "M4 6h16M4 12h16M4 18h16" 
+    const endD = this.isSidebarOpen
+      ? "M4 6h16M4 12h16M4 18h16"
       : "M6 18L18 6M6 6l12 12";
 
     anime({

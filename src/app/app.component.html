@@ -24,7 +24,7 @@
 
   <div class="items-center block w-auto overflow-autogrow basis-full">
     <ul class="flex flex-col pl-0 mb-0">
-      
+
       @for (item of menuItems; track item) {
         <li class="mt-5 w-full">
           <a #menuLink class="text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
@@ -37,7 +37,7 @@
           </a>
         </li>
       }
-      
+
     </ul>
   </div>
 </aside>
@@ -47,7 +47,10 @@
       [class.ml-60]="!isSidebarMinimized">
   <app-header></app-header>
   <div class="w-full px-5 mx-auto mt-0 mb-5 h-screen-minus-160">
+    <a (click)="_toggleNotificationPanel()">Apri</a>
     <router-outlet/>
   </div>
   <app-footer></app-footer>
 </main>
+
+<app-notification-center [isVisible]="showNotificationPanel"></app-notification-center>

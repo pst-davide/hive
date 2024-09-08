@@ -2,12 +2,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --mdc-switch-track-height: 2rem;
+  --mdc-switch-track-width: 80px;
+  --mdc-switch-track-shape: 12px;
+  --mdc-switch-selected-icon-size: 28px;
+  --mdc-switch-unselected-icon-size: 28px;
+  --mat-switch-with-icon-handle-size: 32px !important;
+  --mdc-switch-handle-shape: 16px;
+  --mdc-switch-selected-icon-color: #ffffff;
+  --tw-ring-color: none !important;
+}
+
+[type=text]:focus, input:where(:not([type])):focus, [type=email]:focus, [type=url]:focus, [type=password]:focus,
+[type=number]:focus, [type=date]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=search]:focus,
+[type=tel]:focus, [type=time]:focus, [type=week]:focus, [multiple]:focus, textarea:focus, select:focus {
+  --tw-ring-color: none !important;
+}
+
 *, ::before, ::after {
   border-style: none;
 }
 
 .mat-mdc-form-field {
   width: 100% !important;
+  --tw-ring-color: none !important;
+}
+
+.app-color-picker {
+  margin-right: 0.5rem !important;
+}
+
+.mdc-switch--selected .mdc-switch__icon {
+  width: var(--mdc-switch-selected-icon-size);
+  height: var(--mdc-switch-selected-icon-size);
+  fill: rgba(255, 255, 255, 0.8) !important;
+}
+
+.mat-mdc-slide-toggle .mdc-switch__handle:has(.mdc-switch__icons) {
+  width: 32px !important;
+  height: 32px !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

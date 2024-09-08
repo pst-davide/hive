@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, signal, WritableSignal } from '@angular/core';
+import {Component, Inject, OnInit, signal, WritableSignal} from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { EMPTY_LOCATION, LocationModel } from '../../model/location.model';
@@ -39,13 +39,14 @@ export class LocationComponent implements OnInit {
   /* province */
   public province$: WritableSignal<string| null> = signal<string| null>(null);
   public city$: WritableSignal<string| null> = signal<string| null>(null);
+  public required$: WritableSignal<boolean> = signal<boolean>(true);
+  public label$: WritableSignal<string> = signal<string>('Provincia');
 
   constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
   private fb: FormBuilder, private crudService: LocationService) {}
 
   ngOnInit(): void {
       this.createForm();
-      this.province$.set('VE');
 
       const r = _.cloneDeep(EMPTY_LOCATION);
       r.id = 'TST3';
@@ -105,6 +106,18 @@ export class LocationComponent implements OnInit {
 
   public _onColorChange(event: any): void {
     console.log(event);
+  }
+
+  /************************************************
+   *
+   * Province
+   *
+   ***********************************************/
+
+  public _onSelectedValidProvince(event: boolean): void {}
+
+  public _onSelectedProvince(event: string | null): void {
+
   }
 
   /************************************************

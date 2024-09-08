@@ -13,6 +13,12 @@
   --mat-switch-with-icon-handle-size: 32px !important;
   --mdc-switch-handle-shape: 16px;
   --mdc-switch-selected-icon-color: #ffffff;
+  --tw-ring-color: none !important;
+}
+[type=text]:focus,input:where(:not([type])):focus,[type=email]:focus,[type=url]:focus,[type=password]:focus,
+[type=number]:focus,[type=date]:focus,[type=datetime-local]:focus,[type=month]:focus,[type=search]:focus,
+[type=tel]:focus,[type=time]:focus,[type=week]:focus,[multiple]:focus,textarea:focus,select:focus{
+  --tw-ring-color: none !important;
 }
 
 *, ::before, ::after {
@@ -21,6 +27,7 @@
 
 .mat-mdc-form-field {
   width: 100% !important;
+  --tw-ring-color: none !important;
 }
 
 .app-color-picker {

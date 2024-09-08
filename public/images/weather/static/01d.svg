@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #f8af18;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 16px;
+      }
+
+      .cls-2 {
+        stroke: #fbbf24;
+        stroke-linecap: round;
+      }
+    </style>
+    <symbol id="sun" viewBox="0 0 376 376">
+      <g>
+        <circle class="cls-1" cx="188" cy="188" r="84"/>
+        <path class="cls-2" d="M188,57.7V8M188,368v-49.7M280.2,95.8l35.1-35.1M60.7,315.3l35.1-35.1M95.8,95.8l-35.1-35.1M315.3,315.3l-35.1-35.1M57.7,188H8M368,188h-49.7"/>
+      </g>
+    </symbol>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.1, SVG Export Plug-In . SVG Version: 1.2.0 Build 142)  -->
+  <g>
+    <g id="Livello_1">
+      <use width="376" height="376" transform="translate(12 12)" xlink:href="#sun"/>
+    </g>
+  </g>
+</svg>

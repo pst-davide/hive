@@ -12,9 +12,9 @@ export const AppDataSource: DataSource = new DataSource({
   database: DB_NAME,
   username: DB_USER,
   password: DB_PASS,
-  synchronize: false,
+  synchronize: true,
   logging: true,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   subscribers: [],
-  migrations: [],
+  migrations: [__dirname + '/../migration/**/*{.ts,.js}'],
 });

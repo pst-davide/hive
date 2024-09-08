@@ -1,16 +1,25 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, signal, SimpleChanges, WritableSignal } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import {
+  Component,
+  EventEmitter, Input, input, InputSignal,
+  OnChanges,
+  OnInit,
+  Output,
+  signal,
+  SimpleChanges,
+  WritableSignal
+} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { map, Observable, startWith } from 'rxjs';
-import moment, { Moment } from 'moment';
-import { AddressService, ProvinceModel } from 'app/core/services/address.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {map, Observable, startWith} from 'rxjs';
+import moment, {Moment} from 'moment';
+import {AddressService, ProvinceModel} from 'app/core/services/address.service';
 
 @Component({
   selector: 'app-province-autocomplete',
@@ -21,46 +30,55 @@ import { AddressService, ProvinceModel } from 'app/core/services/address.service
   styleUrl: './province-autocomplete.component.scss'
 })
 export class ProvinceAutocompleteComponent implements OnInit, OnChanges {
-  @Input() currentDoc$: WritableSignal<string| null> = signal<string| null>(null);
-  @Input() label: string = 'Provincia';
-  @Input() placeholder: string = 'Seleziona una provincia...';
-  @Input() requiredError: string = `Il campo <strong>provincia</strong> è obbligatorio`;
-  @Input() matchError: string = `Seleziona un <strong>provincia</strong> valida`;
-  @Input() isRequired: boolean = true;
+  @Input() currentDoc$: WritableSignal<string | null> = signal<string | null>(null);
+  public label: InputSignal<string> = input<string>('Provincia');
+  public placeholder: InputSignal<string> = input<string>('Seleziona una provincia...');
+  public requiredError: InputSignal<string> = input<string>(`Il campo <strong>provincia</strong> è obbligatorio`);
+  public matchError: InputSignal<string> = input<string>(`Seleziona un <strong>provincia</strong> valida`);
+  public isRequired: InputSignal<boolean> = input<boolean>(false);
   @Input() isEnabled: boolean = true;
   @Input() forceChanges: Moment = moment();
 
   @Output() selectedDoc: EventEmitter<string | null> = new EventEmitter<string | null>();
   @Output() selectedValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public docCtrl = new FormControl();
+  public docCtrl: FormControl<string | null> = new FormControl();
   public docs: ProvinceModel[] = [];
   public filteredDocs!: Observable<ProvinceModel[]>;
 
-  constructor(private provinceService: AddressService) {}
+  constructor(private provinceService: AddressService) {
+  }
 
   ngOnInit(): void {
-      this.provinceService.getProvincies().subscribe(
-        province => {
-          this.docs = province ? province.province as ProvinceModel[] : [];
-          this.filteredDocs = this.docCtrl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filter(value))
-          );
 
-          const selectedDoc: string | null = this.currentDoc$();
-          this.docCtrl.setValue(selectedDoc);
-        }
-      );
+    this.provinceService.getProvincies().subscribe(
+      province => {
+        this.docs = province ? province.province as ProvinceModel[] : [];
+        this.filteredDocs = this.docCtrl.valueChanges.pipe(
+          startWith(''),
+          map((value: string | null) => this._filter(value ?? ''))
+        );
+
+        const selectedDoc: string | null = this.currentDoc$();
+        this.docCtrl.setValue(selectedDoc);
+      }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const selectedDoc: string | null = this.currentDoc$();
     this.docCtrl.setValue(selectedDoc);
+
+    if (this.isRequired()) {
+      this.docCtrl.setValidators([Validators.required]);
+    } else {
+      this.docCtrl.setValidators([]);
+    }
+    this.docCtrl.updateValueAndValidity();
   }
 
   private _filter(value: string): ProvinceModel[] {
-    const filterValue = value.toLowerCase();
+    const filterValue: string = value.toLowerCase();
 
     return this.docs.filter((doc: ProvinceModel) =>
       doc.sigla.toLowerCase().includes(filterValue) ||
