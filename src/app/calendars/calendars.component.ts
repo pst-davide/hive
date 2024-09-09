@@ -7,8 +7,12 @@ import momentPlugin from '@fullcalendar/moment';
 import interactionPlugin, { DateClickArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import itLocale from '@fullcalendar/core/locales/it';
 import { getEaster, HOLIDAYS } from 'app/core/functions/holidays.functions';
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import { CommonModule } from '@angular/common';
+import {MatDialog} from '@angular/material/dialog';
+import {CALENDAR, EMPTY_CALENDAR} from './model/calendar.model';
+import _ from 'lodash';
+import {EventDialogComponent} from './components/event-dialog/event-dialog.component';
 
 @Component({
   selector: 'app-calendars',
@@ -57,7 +61,7 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
 
   public currentEvents: Signal<EventApi[]> = signal<EventApi[]>([]);
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private changeDetector: ChangeDetectorRef, public dialog: MatDialog) {
   }
 
   ngAfterViewInit() {
@@ -108,7 +112,7 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
       });
     }
   }
-  
+
   private loadCalendar(): void {
     // --------------------------------
     // show loader, remove old events, calc holidays and load new events
@@ -143,9 +147,9 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   }
 
   /********************************************************************************************
-   * 
+   *
    * Window Resize
-   * 
+   *
    *******************************************************************************************/
 
   private handleResize(): void {
@@ -159,43 +163,66 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   }
 
   /********************************************************************************************
-   * 
+   *
    * Date Click
-   * 
+   *
    *******************************************************************************************/
 
   public handleDateClick(arg: DateClickArg): void {
-    console.log('date click! ' + arg.dateStr)
+
+    const viewType: string = arg.view.type;
+
+    let date: Moment = moment(arg.date);
+    if (viewType === 'dayGridMonth') {
+      if (moment().isSame(date, 'day')) {
+      const currentTime: Moment = moment();
+      const minutes: number = currentTime.minutes();
+
+      if (minutes >= 30) {
+        date = currentTime.startOf('hour').add(1, 'hour');
+      } else {
+        date = currentTime.startOf('hour').add(30, 'minutes');
+      }
+    } else {
+      date.set({ hour: 9, minute: 0, second: 0, millisecond: 0 });
+    }
+    }
+
+    const event: CALENDAR = _.cloneDeep(EMPTY_CALENDAR);
+    event.start = date.toDate();
+    event.end = date.clone().add(1, 'hours').toDate();
+
+    this.openDialog(event);
   }
 
   /********************************************************************************************
-   * 
+   *
    * Event Click
-   * 
+   *
    *******************************************************************************************/
 
   public handleEventClick(clickInfo: EventClickArg): void {}
 
   /********************************************************************************************
-   * 
+   *
    * Event Resize
-   * 
+   *
    *******************************************************************************************/
 
   public async handleEventResize(resizeInfo: EventResizeDoneArg): Promise<void> {}
 
   /********************************************************************************************
-   * 
+   *
    * Event Drop
-   * 
+   *
    *******************************************************************************************/
 
   public async handleEventDrop(dropInfo: EventDropArg): Promise<void> {}
 
   /********************************************************************************************
-   * 
+   *
    * Create Events
-   * 
+   *
    *******************************************************************************************/
 
   private createEvent(): EventInput {
@@ -214,9 +241,23 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   }
 
   /********************************************************************************************
-   * 
+   *
+   * Event Dialog
+   *
+   *******************************************************************************************/
+
+  private openDialog(event: CALENDAR): void {
+    this.dialog.open(EventDialogComponent, {
+      width: '100%',
+      height: '100%',
+      data: {event: event}
+    })
+  }
+
+  /********************************************************************************************
+   *
    * Render Events
-   * 
+   *
    *******************************************************************************************/
 
   private createEvents(): void {
@@ -232,12 +273,12 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
     calendarApi.addEventSource(events);
     calendarApi.render();
 
-    this.changeDetector.detectChanges(); 
+    this.changeDetector.detectChanges();
   }
 
   handleEvents(events: EventApi[]) {
     // this.currentEvents.set(events);
     this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
   }
-  
+
 }
