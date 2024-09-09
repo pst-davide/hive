@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
 import {BreadcrumbComponent} from '../breadcrumb/breadcrumb.component';
 import {Breadcrumb, BreadcrumbService} from 'app/core/services/breadcrumb.service';
 import _ from 'lodash';
@@ -20,6 +20,7 @@ export interface WeatherCondition {
 }
 
 export interface ForecastCondition {
+  id: number;
   icon: string | null;
   description: string | null;
   temperature: number | null;
@@ -55,6 +56,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public weather: WeatherCondition = _.cloneDeep(EMPTY_WEATHER);
   public forecast: ForecastCondition[] = [];
   public showWeatherOverlay: boolean = true;
+  public forecastHours: {id: number, label: string}[] = [
+    {id: 1, label: ''},
+    {id: 2, label: '00'},
+    {id: 3, label: '06'},
+    {id: 4, label: '12'},
+    {id: 5, label: '18'}
+  ];
+
+  public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -78,6 +88,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const lastBreadcrumbs: Breadcrumb | null = _.last(breadcrumbs) || null;
         this.title = lastBreadcrumbs ? lastBreadcrumbs.label : 'HIVE';
       });
+  }
+
+  public _toggleNotificationPanel(): void {
+    this.showNotificationPanel.set(!this.showNotificationPanel());
   }
 
   /******************************************************************************************
@@ -121,16 +135,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
             return hoursToFilter.includes(time);
           });
 
+          let forecastCounter: number = 0;
+          const today: Moment = moment().endOf('day');
+          const endDay: Moment = today.clone().add(3, 'days');
           for (const item of filteredList) {
             if (item.weather[0]) {
-              const forecastItem: ForecastCondition = {
-                icon: item.weather[0].icon,
-                description: item.weather[0].description,
-                temperature: parseInt(item.main.temp ?? 0, 10) ?? null,
-                date: moment(item.dt_txt)
-              }
+              const date: Moment = moment(item.dt_txt);
 
-              this.forecast.push(forecastItem);
+              if (date.isAfter(today) && date.isSameOrBefore(endDay)) {
+                forecastCounter ++;
+
+                const forecastItem: ForecastCondition = {
+                  id: forecastCounter,
+                  icon: item.weather[0].icon,
+                  description: item.weather[0].description,
+                  temperature: parseInt(item.main.temp ?? 0, 10) ?? null,
+                  date: date
+                }
+
+                if (date.hours() === 0) {
+                  forecastCounter ++;
+                  this.forecast.push({id: forecastCounter, icon: null, description: date.format('DD.MM'), temperature: null, date: date});
+                }
+
+                this.forecast.push(forecastItem);
+              }
+              
             }
           }
         }

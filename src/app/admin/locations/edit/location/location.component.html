@@ -63,17 +63,15 @@
                         <div class="grid grid-cols-12 gap-4 mb-4">
                             <div class="col-span-12 md:col-span-6">
                                 <app-province-autocomplete
-                                [currentDoc$]="province$"
-                                [label]="label$()"
-                                [isRequired]="required$()"
-                                (selectedValid)="_onSelectedValidProvince($event)"
-                                (selectedDoc)="_onSelectedProvince($event)"></app-province-autocomplete>
+                                [(doc$)]="province$"
+                                [(isValid$)]="isProvinceValid$"
+                                [isRequired]="required$()"></app-province-autocomplete>
                             </div>
                             <div class="col-span-12 md:col-span-6">
                                 <app-city-autocomplete
-                                [province$]="province$"
-                                [currentDoc$]="city$"
-                                [isRequired]="true"></app-city-autocomplete>
+                                [(province$)]="province$"
+                                [(doc$)]="city$"
+                                [isRequired]="required$()"></app-city-autocomplete>
                             </div>
                         </div>
 

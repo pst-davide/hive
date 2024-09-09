@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Signal, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, Signal, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DatesSetArg, EventApi, EventClickArg, EventDropArg, EventInput, ViewApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -18,18 +18,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './calendars.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class CalendarsComponent {
+export class CalendarsComponent implements AfterViewInit, OnDestroy {
 
   /* holidays */
   private holidays: string[] = HOLIDAYS;
   protected holidayEvents: EventInput[] = [];
   private easter: Date | null = null;
 
-  /* calendar */
-  @ViewChild('calendar')
-  calendarComponent!: FullCalendarComponent;
+  /* resize */
+  @ViewChild('calendarContainer', { static: true }) calendarContainer!: ElementRef;
+  private resizeObserver!: ResizeObserver;
 
-  
+  /* calendar */
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
   public calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     aspectRatio: 2.5,
@@ -56,6 +58,22 @@ export class CalendarsComponent {
   public currentEvents: Signal<EventApi[]> = signal<EventApi[]>([]);
 
   constructor(private changeDetector: ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit() {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.handleResize();
+    });
+
+    if (this.calendarContainer && this.calendarContainer.nativeElement) {
+      this.resizeObserver.observe(this.calendarContainer.nativeElement);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   /********************************************************************************************
@@ -124,8 +142,21 @@ export class CalendarsComponent {
     this.createEvents();
   }
 
+  /********************************************************************************************
+   * 
+   * Window Resize
+   * 
+   *******************************************************************************************/
+
+  private handleResize(): void {
+    let calendarApi = this.calendarComponent.getApi();
+    calendarApi.render();
+    console.log('Il calendario è stato ridimensionato.');
+  }
+
   public handleWindowResize(arg: ViewApi): void {
     let calendarApi = this.calendarComponent.getApi();
+    calendarApi.render();
     console.log('The calendar has adjusted to a window resize. Current view: ' + arg.type);
   }
 

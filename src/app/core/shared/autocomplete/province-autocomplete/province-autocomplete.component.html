@@ -1,5 +1,5 @@
 <mat-form-field appearance="outline">
-    <mat-label>{{label()}}</mat-label>
+    <mat-label>{{label()}} @if (isRequired()) {*}</mat-label>
     <input type="text"
          aria-label="docId"
          matInput
@@ -8,7 +8,7 @@
          [matAutocomplete]="docAutocomplete"
          (keyup)="_onKeyUp($event)">
 
-         @if (docCtrl.value && isEnabled) {
+         @if (docCtrl.value && isEnabled()) {
             <button matSuffix mat-icon-button type="button"
                     aria-label="Clear" matTooltip="'Cancella la Selezione'"
                     (click)="_remove()" tabindex="-1">
@@ -18,7 +18,7 @@
 
     <mat-autocomplete #docAutocomplete="matAutocomplete"
                     (optionSelected)="_onSelectionChange($event)"
-                    [displayWith]="docCtrl.value ? displayFn.bind(this) : null">
+                    [displayWith]="displayFn.bind(this)">
 
       @for (doc of filteredDocs | async; track doc.sigla) {
         <mat-option [value]="doc.sigla">

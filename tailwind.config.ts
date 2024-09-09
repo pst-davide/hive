@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      fontSize: {
+        'xxs': '0.6rem',
+      },
       height: {
         'screen-minus-160': 'calc(100vh - 160px)',
       },

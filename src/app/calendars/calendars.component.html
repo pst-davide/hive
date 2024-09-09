@@ -1,4 +1,4 @@
-<div class="flex-auto rounded-lg bg-white shadow-sm text-center p-6">
+<div class="flex-auto rounded-lg bg-white shadow-sm text-center p-6" #calendarContainer>
     <full-calendar #calendar [options]="calendarOptions">
         <ng-template #eventContent let-arg>
             <div class="w-full rounded-lg mx-2 mb-1 p-1 text-white" [ngClass]="arg.event.display !== 'background' ? 'bg-pink-400 hover:bg-pink-700' : ''">

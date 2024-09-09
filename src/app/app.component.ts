@@ -1,4 +1,4 @@
-import {Component, ElementRef, QueryList, ViewChild, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, model, ModelSignal, QueryList, ViewChild, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
@@ -46,7 +46,8 @@ export class AppComponent {
   public isSidebarOpen: boolean = true;
   public isSidebarMinimized: boolean = false;
 
-  public showNotificationPanel: boolean = false;
+  /* notification panel */
+  public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
 
   /* menu */
   public menuItems: MenuItem[] = [
@@ -71,8 +72,7 @@ export class AppComponent {
   }
 
   public _toggleNotificationPanel(): void {
-    this.showNotificationPanel = !this.showNotificationPanel;
-    document.body.classList.toggle('notification-open', this.showNotificationPanel);
+    this.showNotificationPanel.set(!this.showNotificationPanel());
   }
 
   private animateSidebarText(): void {

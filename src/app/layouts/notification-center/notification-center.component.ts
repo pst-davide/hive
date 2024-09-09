@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-notification-center',
@@ -8,5 +8,5 @@ import {Component, Input} from '@angular/core';
   styleUrl: './notification-center.component.scss'
 })
 export class NotificationCenterComponent {
-  @Input() isVisible: boolean = false;
+
 }

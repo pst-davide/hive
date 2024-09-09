@@ -1,14 +1,12 @@
 import {
   Component,
-  EventEmitter, Input, input, InputSignal,
-  OnChanges,
-  OnInit,
-  Output,
-  signal,
-  SimpleChanges,
-  WritableSignal
+  input, InputSignal,
+  model,
+  ModelSignal,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -17,9 +15,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {map, Observable, startWith} from 'rxjs';
-import moment, {Moment} from 'moment';
+import {map, Observable, startWith, Subscription} from 'rxjs';
 import {AddressService, ProvinceModel} from 'app/core/services/address.service';
+import { RequireMatch } from 'app/core/functions/require-match.validator';
 
 @Component({
   selector: 'app-province-autocomplete',
@@ -29,52 +27,51 @@ import {AddressService, ProvinceModel} from 'app/core/services/address.service';
   templateUrl: './province-autocomplete.component.html',
   styleUrl: './province-autocomplete.component.scss'
 })
-export class ProvinceAutocompleteComponent implements OnInit, OnChanges {
-  @Input() currentDoc$: WritableSignal<string | null> = signal<string | null>(null);
+export class ProvinceAutocompleteComponent implements OnInit, OnDestroy {
+  public doc$: ModelSignal<string | null> = model<string | null>(null);
   public label: InputSignal<string> = input<string>('Provincia');
   public placeholder: InputSignal<string> = input<string>('Seleziona una provincia...');
   public requiredError: InputSignal<string> = input<string>(`Il campo <strong>provincia</strong> è obbligatorio`);
   public matchError: InputSignal<string> = input<string>(`Seleziona un <strong>provincia</strong> valida`);
   public isRequired: InputSignal<boolean> = input<boolean>(false);
-  @Input() isEnabled: boolean = true;
-  @Input() forceChanges: Moment = moment();
-
-  @Output() selectedDoc: EventEmitter<string | null> = new EventEmitter<string | null>();
-  @Output() selectedValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public isEnabled: InputSignal<boolean> = input<boolean>(true);
+  public isValid$: ModelSignal<boolean> = model<boolean>(true);
 
   public docCtrl: FormControl<string | null> = new FormControl();
   public docs: ProvinceModel[] = [];
+  public docIds: string[] = [];
   public filteredDocs!: Observable<ProvinceModel[]>;
+
+  private _subscription!: Subscription;
 
   constructor(private provinceService: AddressService) {
   }
 
   ngOnInit(): void {
 
-    this.provinceService.getProvincies().subscribe(
+    this._subscription = this.provinceService.getProvincies().subscribe(
       province => {
         this.docs = province ? province.province as ProvinceModel[] : [];
+        this.docIds = this.docs.map(doc => doc.sigla );
+     
         this.filteredDocs = this.docCtrl.valueChanges.pipe(
           startWith(''),
           map((value: string | null) => this._filter(value ?? ''))
         );
 
-        const selectedDoc: string | null = this.currentDoc$();
+        const selectedDoc: string | null = this.doc$();
         this.docCtrl.setValue(selectedDoc);
+
+        this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+        this.docCtrl.updateValueAndValidity();
       }
     );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const selectedDoc: string | null = this.currentDoc$();
-    this.docCtrl.setValue(selectedDoc);
-
-    if (this.isRequired()) {
-      this.docCtrl.setValidators([Validators.required]);
-    } else {
-      this.docCtrl.setValidators([]);
+  ngOnDestroy() {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
     }
-    this.docCtrl.updateValueAndValidity();
   }
 
   private _filter(value: string): ProvinceModel[] {
@@ -87,30 +84,31 @@ export class ProvinceAutocompleteComponent implements OnInit, OnChanges {
   }
 
   public displayFn(event: string): string {
-    console.log(event);
     const doc = this.docs.find((x: ProvinceModel) => x.sigla === event);
     return doc ? `${doc.provincia} | ${doc.sigla}` : '';
   }
 
   public _onKeyUp(event: KeyboardEvent): void {
     if (event.code !== 'Tab') {
-      this.selectedValid.next(this.docCtrl.valid);
+      this.isValid$.set(this.docCtrl.valid);
+      if (this.docCtrl.valid) {
+        this.doc$.set(this.docCtrl.value);
+      }
     }
   }
 
   public _onSelectionChange(event?: MatAutocompleteSelectedEvent): void {
+    this.doc$.set(event ? event.option.value : null);
     if (!event) {
-      this.selectedDoc.next(null);
-      this.selectedValid.next(!this.isRequired);
+      this.isValid$.set(!this.isRequired);
     } else {
-      this.selectedDoc.next(event.option.value);
-      this.selectedValid.next(this.docCtrl.valid);
+      this.isValid$.set(this.docCtrl.valid);
     }
   }
 
   public _remove(): void {
     this.docCtrl.setValue(null);
-    this.selectedDoc.next(null);
-    this.selectedValid.next(!this.isRequired);
+    this.doc$.set(null);
+    this.isValid$.set(!this.isRequired);
   }
 }

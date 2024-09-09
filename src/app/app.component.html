@@ -44,13 +44,21 @@
 
 <main class="h-screen flex flex-col transition-all duration-400 ease-in-out"
       [class.ml-20]="isSidebarMinimized"
-      [class.ml-60]="!isSidebarMinimized">
-  <app-header></app-header>
+      [class.ml-60]="!isSidebarMinimized"
+      [class.mr-0]="!showNotificationPanel()"
+      [class.mr-80]="showNotificationPanel()">
+  <app-header [(showNotificationPanel)]="showNotificationPanel"></app-header>
   <div class="w-full px-5 mx-auto mt-0 mb-5 h-screen-minus-160">
-    <a (click)="_toggleNotificationPanel()">Apri</a>
     <router-outlet/>
   </div>
   <app-footer></app-footer>
 </main>
 
-<app-notification-center [isVisible]="showNotificationPanel"></app-notification-center>
+<div class="fixed top-0 right-0 h-full bg-white text-slate-500 shadow-lg z-50
+    transform translate-x-0 duration-500 ease-in-out transition-width"
+    [class.w-0]="!showNotificationPanel()"
+    [class.closed]="!showNotificationPanel()"
+    [class.w-80]="showNotificationPanel()"
+    [@toggleSidebar]="showNotificationPanel() ? 'open' : 'closed'">
+  <app-notification-center></app-notification-center>
+</div>

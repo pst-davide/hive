@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, signal, SimpleChanges, WritableSignal } from '@angular/core';
+import { ChangeDetectorRef, Component, input, InputSignal, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,9 +8,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { map, Observable, startWith } from 'rxjs';
-import moment, { Moment } from 'moment';
+import { map, Observable, startWith, Subscription } from 'rxjs';
 import { AddressService, CityModel } from 'app/core/services/address.service';
+import { RequireMatch } from 'app/core/functions/require-match.validator';
+
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -20,52 +21,60 @@ import { AddressService, CityModel } from 'app/core/services/address.service';
   templateUrl: './city-autocomplete.component.html',
   styleUrl: './city-autocomplete.component.scss'
 })
-export class CityAutocompleteComponent implements OnInit, OnChanges {
-  @Input() currentDoc$: WritableSignal<string| null> = signal<string| null>(null);
-  @Input() province$: WritableSignal<string| null> = signal<string| null>(null);
-  @Input() label: string = 'Comune';
-  @Input() placeholder: string = 'Seleziona un comune...';
-  @Input() requiredError: string = `Il campo <strong>comune</strong> è obbligatorio`;
-  @Input() matchError: string = `Seleziona un <strong>comune</strong> valido`;
-  @Input() isRequired: boolean = true;
-  @Input() isEnabled: boolean = true;
-  @Input() forceChanges: Moment = moment();
-
-  @Output() selectedDoc: EventEmitter<string | null> = new EventEmitter<string | null>();
-  @Output() selectedValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class CityAutocompleteComponent implements OnInit, OnDestroy {
+  public doc$: ModelSignal<string | null> = model<string | null>(null);
+  public province$: ModelSignal<string | null> = model<string | null>(null);
+  public label: InputSignal<string> = input<string>('Comune');
+  public placeholder: InputSignal<string> = input<string>('Seleziona un comune...');
+  public requiredError: InputSignal<string> = input<string>(`Il campo <strong>comune</strong> è obbligatorio`);
+  public matchError: InputSignal<string> = input<string>(`Seleziona un <strong>comune</strong> valido`);
+  public isRequired: InputSignal<boolean> = input<boolean>(false);
+  public isEnabled: InputSignal<boolean> = input<boolean>(true);
+  public isValid$: ModelSignal<boolean> = model<boolean>(true);
 
   public docCtrl = new FormControl();
   public docs: CityModel[] = [];
+  public provinceDocs: CityModel[] = [];
+  public docIds: string[] = [];
   public filteredDocs!: Observable<CityModel[]>;
 
-  constructor(private addressService: AddressService) {}
+  private _subscription!: Subscription;
+
+  constructor(private addressService: AddressService, private changeDetectorRef: ChangeDetectorRef) {
+    this.province$.subscribe(ref => {
+      console.log(ref);
+      this.changeDetectorRef.detectChanges();
+    });
+  }
 
   ngOnInit(): void {
-      this.addressService.getCities().subscribe(
+      this._subscription = this.addressService.getCities()
+      .subscribe(
         city => {
           this.docs = city ? city.city as CityModel[] : [];
-          this.filteredDocs = this.getFilteredDocs();
+          this.docIds = this.docs.map(doc => doc.istat );
 
-          const selectedDoc: string | null = this.currentDoc$();
+          const selectedDoc: string | null = this.doc$();
           this.docCtrl.setValue(selectedDoc);
+
+          this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+          this.docCtrl.updateValueAndValidity();
+
+          this.filteredDocs = this.getFilteredDocs();
+          
         }
       );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const selectedDoc: string | null = this.currentDoc$();
-    this.docCtrl.setValue(selectedDoc);
+  ngOnDestroy() {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
+    }
   }
 
-  private _filter(value: string): CityModel[] {
-    const filterValue = value.toLowerCase();
-
-    return this.docs.filter((doc: CityModel) =>
-      doc.comune.toLowerCase().includes(filterValue) ||
-      doc.provincia.toLowerCase().includes(filterValue) ||
-      doc.regione.toLowerCase().includes(filterValue) ||
-      doc.istat.toLowerCase().includes(filterValue)
-    );
+  private setProvinceCities(filteredProvince: string | null): void {
+    this.provinceDocs = filteredProvince ? this.docs.filter(doc => {doc.provincia === filteredProvince}) : [];
+    console.log(this.provinceDocs)
   }
 
   private getFilteredDocs(): Observable<CityModel[]> {
@@ -94,23 +103,25 @@ export class CityAutocompleteComponent implements OnInit, OnChanges {
 
   public _onKeyUp(event: KeyboardEvent): void {
     if (event.code !== 'Tab') {
-      this.selectedValid.next(this.docCtrl.valid);
+      this.isValid$.set(this.docCtrl.valid);
+      if (this.docCtrl.valid) {
+        this.doc$.set(this.docCtrl.value);
+      }
     }
   }
 
   public _onSelectionChange(event?: MatAutocompleteSelectedEvent): void {
+    this.doc$.set(event ? event.option.value : null);
     if (!event) {
-      this.selectedDoc.next(null);
-      this.selectedValid.next(!this.isRequired);
+      this.isValid$.set(!this.isRequired);
     } else {
-      this.selectedDoc.next(event.option.value);
-      this.selectedValid.next(this.docCtrl.valid);
+      this.isValid$.set(this.docCtrl.valid);
     }
   }
 
   public _remove(): void {
     this.docCtrl.setValue(null);
-    this.selectedDoc.next(null);
-    this.selectedValid.next(!this.isRequired);
+    this.doc$.set(null);
+    this.isValid$.set(!this.isRequired);
   }
 }
