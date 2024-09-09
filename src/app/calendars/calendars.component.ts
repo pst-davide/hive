@@ -151,13 +151,11 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   private handleResize(): void {
     let calendarApi = this.calendarComponent.getApi();
     calendarApi.render();
-    console.log('Il calendario è stato ridimensionato.');
   }
 
   public handleWindowResize(arg: ViewApi): void {
     let calendarApi = this.calendarComponent.getApi();
     calendarApi.render();
-    console.log('The calendar has adjusted to a window resize. Current view: ' + arg.type);
   }
 
   /********************************************************************************************
