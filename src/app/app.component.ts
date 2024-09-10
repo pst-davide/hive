@@ -3,11 +3,12 @@ import {RouterModule, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
-import {faLocationDot, faFont, faCalendarDays, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faLocationDot, faFont, faCalendarDays, faTimes, faUser} from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
+import moment from 'moment';
 
 interface MenuItem {
   label: string;
@@ -55,7 +56,12 @@ export class AppComponent {
     {label: 'Sedi', link: 'admin/locations', icon: faLocationDot},
     {label: 'Stanze', link: 'admin/rooms', icon: faLocationDot},
     {label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
+    {label: 'Utenti', link: 'admin/users', icon: faUser},
   ];
+
+  constructor() {
+    moment.locale('it');
+  }
 
   public toggleSidebar(): void {
     if (this.isSidebarOpen) {

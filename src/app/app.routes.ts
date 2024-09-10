@@ -3,6 +3,7 @@ import { RoomsComponent } from './admin/rooms/rooms.component';
 import { ScanOcrComponent } from './admin/scan-ocr/scan-ocr.component';
 import { CalendarsComponent } from './calendars/calendars.component';
 import { LocationsComponent } from './admin/locations/locations.component';
+import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
     { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: false }},
@@ -10,6 +11,7 @@ export const routes: Routes = [
     children: [
         { path: 'ocr', component: ScanOcrComponent, data: { breadcrumb: 'OCR', enabled: true } },
         { path: 'locations', component: LocationsComponent, data: { breadcrumb: 'Sedi', enabled: true } },
-        { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } }
+        { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } },
+        { path: 'users', component: UsersComponent, data: { breadcrumb: 'Utenti', enabled: true } }
       ] },
 ];

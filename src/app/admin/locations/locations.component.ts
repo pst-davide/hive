@@ -14,6 +14,7 @@ import { LocationComponent } from './edit/location/location.component';
 })
 export class LocationsComponent implements OnInit {
 
+  public doc: LocationModel = _.cloneDeep(EMPTY_LOCATION);
   public docs: LocationModel[] = [];
 
   constructor(private crudService: LocationService, public dialog: MatDialog) {}
@@ -46,7 +47,7 @@ export class LocationsComponent implements OnInit {
     this.dialog.open(LocationComponent, {
       width: '100%',
       height: '100%',
-      data: {doc: {}}
+      data: this.doc
     });
   }
 

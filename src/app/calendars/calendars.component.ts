@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {CALENDAR, EMPTY_CALENDAR} from './model/calendar.model';
 import _ from 'lodash';
-import {EventDialogComponent} from './components/event-dialog/event-dialog.component';
+import { EventComponent } from './edit/event/event.component';
 
 @Component({
   selector: 'app-calendars',
@@ -247,7 +247,7 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
    *******************************************************************************************/
 
   private openDialog(event: CALENDAR): void {
-    this.dialog.open(EventDialogComponent, {
+    this.dialog.open(EventComponent, {
       width: '100%',
       height: '100%',
       data: {event: event}

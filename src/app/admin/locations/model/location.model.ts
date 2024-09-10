@@ -1,3 +1,4 @@
+import { DEFAULT_LOCATION_COLOR } from "app/core/functions/environments";
 import { AddressModel, EMPTY_ADDRESS } from "app/core/model/address.model";
 import { CrudModel, EMPTY_CRUD } from "app/core/model/crud.model";
 
@@ -17,7 +18,7 @@ export const EMPTY_LOCATION: LocationModel = {
     code: null,
     name: null,
     description: null,
-    color: null,
+    color: DEFAULT_LOCATION_COLOR,
     enabled: true,
     address: EMPTY_ADDRESS,
     crud: EMPTY_CRUD

@@ -1,0 +1,14 @@
+[type=text]:focus,input:where(:not([type])):focus,[type=email]:focus,[type=url]:focus,[type=password]:focus,
+[type=number]:focus,[type=date]:focus,[type=datetime-local]:focus,[type=month]:focus,[type=search]:focus,
+[type=tel]:focus,[type=time]:focus,[type=week]:focus,[multiple]:focus,textarea:focus,select:focus{
+  --tw-ring-color: none !important;
+}
+
+*, ::before, ::after {
+    border-style: none;
+}
+
+.mat-mdc-form-field {
+  width: 100% !important;
+  --tw-ring-color: none !important;
+}

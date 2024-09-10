@@ -39,6 +39,7 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/moment": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@rxweb/reactive-form-validators": "^13.0.1",
     "@tailwindcss/typography": "^0.5.15",
     "@types/lodash": "^4.17.7",
     "animejs": "^3.2.2",

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, input, InputSignal, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
+import { Component, input, InputSignal, model, ModelSignal, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,10 +8,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { map, Observable, startWith, Subscription } from 'rxjs';
+import { map, Observable, startWith, Subscription, tap } from 'rxjs';
 import { AddressService, CityModel } from 'app/core/services/address.service';
 import { RequireMatch } from 'app/core/functions/require-match.validator';
-
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -21,7 +20,7 @@ import { RequireMatch } from 'app/core/functions/require-match.validator';
   templateUrl: './city-autocomplete.component.html',
   styleUrl: './city-autocomplete.component.scss'
 })
-export class CityAutocompleteComponent implements OnInit, OnDestroy {
+export class CityAutocompleteComponent implements OnInit, OnDestroy, OnChanges {
   public doc$: ModelSignal<string | null> = model<string | null>(null);
   public province$: ModelSignal<string | null> = model<string | null>(null);
   public label: InputSignal<string> = input<string>('Comune');
@@ -40,14 +39,10 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
 
   private _subscription!: Subscription;
 
-  constructor(private addressService: AddressService, private changeDetectorRef: ChangeDetectorRef) {
-    this.province$.subscribe(ref => {
-      console.log(ref);
-      this.changeDetectorRef.detectChanges();
-    });
-  }
+  constructor(private addressService: AddressService) {}
 
   ngOnInit(): void {
+
       this._subscription = this.addressService.getCities()
       .subscribe(
         city => {
@@ -66,6 +61,13 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
       );
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['province$']) {
+      this.docCtrl.setValue(null);
+      this.setProvinceCities(this.province$());
+    }
+  }
+
   ngOnDestroy() {
     if (this._subscription) {
       this._subscription.unsubscribe();
@@ -73,8 +75,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   private setProvinceCities(filteredProvince: string | null): void {
-    this.provinceDocs = filteredProvince ? this.docs.filter(doc => {doc.provincia === filteredProvince}) : [];
-    console.log(this.provinceDocs)
+    this.provinceDocs = filteredProvince ? this.docs.filter(doc => doc.provincia === filteredProvince) : [];
+    this.filteredDocs = this.getFilteredDocs();
   }
 
   private getFilteredDocs(): Observable<CityModel[]> {
@@ -82,8 +84,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
       startWith(''),
       map(value => {
         const filteredProvince = this.province$();
-        const filterValue = value.toLowerCase();
-        return this.docs.filter(doc => {
+        const filterValue = value ? value.toLowerCase() : '';
+        return this.provinceDocs.filter(doc => {
           const includeDoc =
             doc.comune.toLowerCase().includes(filterValue) ||
             doc.provincia.toLowerCase().includes(filterValue) ||

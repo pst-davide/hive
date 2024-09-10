@@ -1,11 +1,14 @@
 import { EventInput } from "@fullcalendar/core";
+import { DEFAULT_CALENDAR_BACKGROUND } from "app/core/functions/environments";
 
 export interface CalendarModel {
     id: string | null;
-    name: string | null;
+    code: string | null;
     typeId: string | null;
-    locationId: string | null;
     resourceIds: string[];
+    status: number;
+    duration: number;
+    customerId: string | null;
 }
 
 export type CALENDAR = EventInput & CalendarModel & {
@@ -14,14 +17,17 @@ export type CALENDAR = EventInput & CalendarModel & {
 
 export const EMPTY_CALENDAR: CALENDAR = {
   id: '',
-  name: null,
+  code: null,
   title: 'Nuovo Evento',
-  description: null,
+  description: 'Descrizione evento',
   typeId: null,
-  locationId: null,
   resourceIds: [],
+  customerId: null,
   allDay: false,
   editable: true,
   startEditable: true,
   durationEditable: true,
+  status: 1,
+  duration: 60,
+  backgroundColor: DEFAULT_CALENDAR_BACKGROUND
 }

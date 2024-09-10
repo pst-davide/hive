@@ -18,7 +18,7 @@
 
     <mat-autocomplete #docAutocomplete="matAutocomplete"
                     (optionSelected)="_onSelectionChange($event)"
-                    [displayWith]="docCtrl.value ? displayFn.bind(this) : null">
+                    [displayWith]="displayFn.bind(this)">
 
       @for (doc of filteredDocs | async; track doc.istat) {
         <mat-option [value]="doc.istat">
