@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { preprocessImage } from '../core/process-image';
+import { preprocessImage } from '../utils/process-image';
 import {createWorker, PSM} from 'tesseract.js';
 
 export class OcrImageController {
@@ -17,10 +17,10 @@ export class OcrImageController {
                 lang: 'ita',
                 tessedit_pageseg_mode: PSM.SINGLE_COLUMN,
               });
-              
+
             const { data: { text } } = await worker.recognize(imageBuffer);
             return text;
-    
+
         } catch (error) {
             console.error('Error during OCR processing:', error);
             throw error;
@@ -43,7 +43,7 @@ export class OcrImageController {
 
         try {
             const preprocessedBuffer = await preprocessImage(imageBuffer);
-    
+
             const text = await OcrImageController.recognizeTextFromBuffer(preprocessedBuffer);
             res.json({ text });
         } catch (error) {

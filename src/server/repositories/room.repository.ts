@@ -1,6 +1,6 @@
 import {Repository, SelectQueryBuilder} from 'typeorm';
 import {Room} from '../entity/room.entity';
-import {buildQuery, QueryCondition} from '../core/query-builder';
+import {buildQuery, QueryCondition} from '../utils/query-builder';
 
 export class RoomRepository extends Repository<Room> {
 

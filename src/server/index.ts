@@ -48,4 +48,8 @@ AppDataSource.initialize()
 .then(async () => {
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   console.log('Data Source has been initialized!');
+
+})
+.catch(error => {
+  console.error('Error initializing Data Source:', error);
 });

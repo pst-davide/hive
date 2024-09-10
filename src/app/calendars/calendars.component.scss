@@ -434,7 +434,6 @@
 .fc .fc-scrollgrid-section-sticky>* {
     background: #fff;
     background: var(--fc-page-bg-color,#fff);
-    position: -webkit-sticky;
     position: sticky;
     z-index: 2
 }
@@ -1314,7 +1313,6 @@ a.fc-event,a.fc-event:hover {
 }
 
 .fc .fc-list-sticky .fc-list-day>* {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     background: #fff;

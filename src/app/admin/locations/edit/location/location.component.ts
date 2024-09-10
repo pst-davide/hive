@@ -1,20 +1,33 @@
 import {Component, Inject, model, ModelSignal, OnInit, signal, WritableSignal} from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import _ from 'lodash';
-import { EMPTY_LOCATION, LocationModel } from '../../model/location.model';
-import { Observable } from 'rxjs';
-import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
-import { LocationService } from '../../service/location.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NgxColorsModule, validColorValidator } from 'ngx-colors';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ProvinceAutocompleteComponent } from "../../../../core/shared/autocomplete/province-autocomplete/province-autocomplete.component";
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CityAutocompleteComponent } from "../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component";
+import {EMPTY_LOCATION, LocationModel} from '../../model/location.model';
+import {Observable} from 'rxjs';
+import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
+import {LocationService} from '../../service/location.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {NgxColorsModule, validColorValidator} from 'ngx-colors';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {
+  ProvinceAutocompleteComponent
+} from '../../../../core/shared/autocomplete/province-autocomplete/province-autocomplete.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {
+  CityAutocompleteComponent
+} from '../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component';
+import {GeoService} from '../../../../core/services/geo.service';
 
 @Component({
   selector: 'app-location',
@@ -40,23 +53,27 @@ export class LocationComponent implements OnInit {
   public roomColor: FormControl = new FormControl(null);
 
   /* province and city */
-  public city$: ModelSignal<string| null> = model<string| null>(null);
+  public city$: ModelSignal<string | null> = model<string | null>(null);
   public province$: ModelSignal<string | null> = model<string | null>(null);
   public isProvinceValid$: ModelSignal<boolean> = model<boolean>(false);
   public required$: WritableSignal<boolean> = signal<boolean>(true);
 
   constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
-  private fb: FormBuilder, private crudService: LocationService) {}; 
+              private fb: FormBuilder, private crudService: LocationService, private geoService: GeoService) {
+  };
 
   ngOnInit(): void {
-      this.doc = this.data;
-      this.createForm();
+    this.geoService.geocodeAddress('piazza moro 13 torrebelvicino').then(res => {
+      console.log(res)
+    })
+    this.doc = this.data;
+    this.createForm();
 
-      const r = _.cloneDeep(EMPTY_LOCATION);
-      r.id = 'TST3';
-      r.code = 'TST3';
-      r.name = 'Test 3';
-      // this.roomService.createRoom(r).subscribe(ref => {console.log(ref)});
+    const r = _.cloneDeep(EMPTY_LOCATION);
+    r.id = 'TST3';
+    r.code = 'TST3';
+    r.name = 'Test 3';
+    // this.roomService.createRoom(r).subscribe(ref => {console.log(ref)});
   }
 
   /*************************************************
