@@ -17,9 +17,12 @@ import bodyParser from 'body-parser';
 
 import fs from 'fs';
 import path from 'path';
+
+/* routes */
 import ocrRouter from './routes/ocr.router';
 import uploadRouter from './routes/upload.router';
 import locationRouter from './routes/location.router';
+import pushNotificationRouter from './routes/push-notification.router';
 
 /* initialize */
 const app: Express = express();
@@ -27,6 +30,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
+
+/* push notification */
+app.use('/push', pushNotificationRouter);
 
 /* orm routes */
 app.use('/api', roomRouter);
@@ -39,7 +45,7 @@ app.use('/api', ocrRouter);
 app.use('/api', uploadRouter);
 
 /* upload directory */
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir: string = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }

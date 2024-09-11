@@ -1,5 +1,5 @@
 import { Component, input, InputSignal, model, ModelSignal, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +8,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { map, Observable, startWith, Subscription, tap } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
 import { AddressService, CityModel } from 'app/core/services/address.service';
 import { RequireMatch } from 'app/core/functions/require-match.validator';
 
@@ -31,7 +31,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy, OnChanges {
   public isEnabled: InputSignal<boolean> = input<boolean>(true);
   public isValid$: ModelSignal<boolean> = model<boolean>(true);
 
-  public docCtrl = new FormControl();
+  public docCtrl: FormControl<any> = new FormControl();
   public docs: CityModel[] = [];
   public provinceDocs: CityModel[] = [];
   public docIds: string[] = [];
@@ -56,7 +56,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy, OnChanges {
           this.docCtrl.updateValueAndValidity();
 
           this.filteredDocs = this.getFilteredDocs();
-          
+
         }
       );
   }

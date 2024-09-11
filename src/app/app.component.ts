@@ -3,12 +3,14 @@ import {RouterModule, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
-import {faLocationDot, faFont, faCalendarDays, faTimes, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faLocationDot, faFont, faCalendarDays, faUser} from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
+import { SwPush } from '@angular/service-worker';
+import {HttpClient} from "@angular/common/http";
 
 interface MenuItem {
   label: string;
@@ -50,6 +52,8 @@ export class AppComponent {
   /* notification panel */
   public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
 
+  readonly VAPID_PUBLIC_KEY: string = 'BFGQimvmI8cHZDwbhBp1NxDfXAkzX00juGwr1v4TL72CKsBTNacANfkvhZeKrDCuZzQSSZDjvm1ItWI-wbDVyT0';
+
   /* menu */
   public menuItems: MenuItem[] = [
     {label: 'Agende', link: 'calendars', icon: faCalendarDays},
@@ -59,8 +63,9 @@ export class AppComponent {
     {label: 'Utenti', link: 'admin/users', icon: faUser},
   ];
 
-  constructor() {
+  constructor(private swPush: SwPush, private http: HttpClient) {
     moment.locale('it');
+    this.subscribeToNotifications();
   }
 
   public toggleSidebar(): void {
@@ -75,10 +80,6 @@ export class AppComponent {
     this.animateSidebarText();
     this.animateSidebarIcon();
 
-  }
-
-  public _toggleNotificationPanel(): void {
-    this.showNotificationPanel.set(!this.showNotificationPanel());
   }
 
   private animateSidebarText(): void {
@@ -162,5 +163,13 @@ export class AppComponent {
       easing: 'easeInOutQuad',
       duration: 300,
     });
+  }
+
+  private subscribeToNotifications(): void {
+    this.swPush.requestSubscription({
+      serverPublicKey: this.VAPID_PUBLIC_KEY
+    })
+      .then(sub => this.http.post('/push/subscribe', sub).subscribe())
+      .catch(err => console.error('Could not subscribe to notifications', err));
   }
 }

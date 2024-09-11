@@ -1,7 +1,7 @@
-import express from 'express';
+import express, {Router} from 'express';
 import { RoomController } from '../controllers/room.controller';
 
-const roomRouter = express.Router();
+const roomRouter: Router = express.Router();
 
 roomRouter.get('/rooms', RoomController.findAll);
 roomRouter.get('/rooms/:id', RoomController.findById);

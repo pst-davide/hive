@@ -1,7 +1,7 @@
-import express from 'express';
+import express, {Router} from 'express';
 import { LocationController } from '../controllers/location.controller';
 
-const locationRouter = express.Router();
+const locationRouter: Router = express.Router();
 
 locationRouter.get('/locations', LocationController.findAll);
 locationRouter.get('/locations/:id', LocationController.findById);

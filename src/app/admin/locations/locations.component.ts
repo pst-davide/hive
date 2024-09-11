@@ -21,11 +21,6 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit(): void {
       this.getDocs();
-      const r = _.cloneDeep(EMPTY_LOCATION);
-      r.id = 'TST2';
-      r.code = 'TST2';
-      r.name = 'Test 2';
-      // this.roomService.createRoom(r).subscribe(ref => {console.log(ref)});
   }
 
   getDocs(): void {
@@ -43,11 +38,13 @@ export class LocationsComponent implements OnInit {
     });
   }
 
-  public openDialog(): void {
+  public openDialog(doc: LocationModel): void {
+    console.log(doc);
+
     this.dialog.open(LocationComponent, {
       width: '100%',
       height: '100%',
-      data: this.doc
+      data: doc
     });
   }
 

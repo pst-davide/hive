@@ -6,7 +6,7 @@ import { LocationsComponent } from './admin/locations/locations.component';
 import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
-    { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: false }},
+    { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true }},
     { path: 'admin', component: undefined, data: { breadcrumb: 'Amministrazione', enabled: false },
     children: [
         { path: 'ocr', component: ScanOcrComponent, data: { breadcrumb: 'OCR', enabled: true } },

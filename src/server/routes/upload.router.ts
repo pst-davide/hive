@@ -1,7 +1,7 @@
-import express from 'express';
+import express, {Router} from 'express';
 import { UploadController } from '../controllers/upload.controller';
 
-const uploadRouter = express.Router();
+const uploadRouter: Router = express.Router();
 
 uploadRouter.post('/upload', UploadController.uploadImage);
 

@@ -54,7 +54,8 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -94,6 +95,8 @@
                 "input": "public"
               }
             ],
+            "serviceWorker": true,
+            "ngswConfigPath": "src/ngsw-config.json",
             "styles": [
               "@angular/material/prebuilt-themes/rose-red.css",
               "node_modules/tailwindcss/base.css",

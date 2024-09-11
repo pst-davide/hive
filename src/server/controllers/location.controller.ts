@@ -31,7 +31,7 @@ export class LocationController {
   }
 
   static async create(req: Request, res: Response): Promise<void> {
-    console.log(req.body)
+    console.log(req.body);
     try {
       const doc: Location[] = LocationController.docRepository.create(req.body);
       const savedDoc: Location[] = await LocationController.docRepository.save(doc);

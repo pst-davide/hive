@@ -1,5 +1,5 @@
 <mat-form-field appearance="outline">
-    <mat-label>{{label()}} {{province$()}}</mat-label>
+    <mat-label>{{label()}} @if (isRequired()) {*}</mat-label>
     <input type="text"
          aria-label="docId"
          matInput

@@ -24,6 +24,11 @@ export interface CityModel {
   cf: string;
 }
 
+export interface ZipModel {
+  istat: string;
+  cap: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
