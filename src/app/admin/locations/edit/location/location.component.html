@@ -13,7 +13,7 @@
         <!-- title -->
         <div class="flex-auto max-w-[1340px] mx-auto">
           <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left">
-            {{formTitle}}
+            {{ formTitle }}
           </h2>
         </div>
 
@@ -39,7 +39,8 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Codice</mat-label>
                   <input matInput placeholder="Codice" formControlName="code"
-                         [value]="code && code.value ? code.value.toUpperCase() : null">
+                         [value]="code && code.value ? code.value.toUpperCase() : null"
+                         [readonly]="isReadOnly">
                   @if (code.hasError('required')) {
                     <mat-error>Il campo <strong>codice</strong> è obbligatorio</mat-error>
                   }
@@ -134,7 +135,8 @@
               shadow-soft-md hover:shadow-soft-2xl
               bg-gradient-fuchsia hover:bg-gradient-fuchsia-reverse hover:bg-blue-800
               focus:outline-none focus:ring-4 focus:ring-blue-300
-              ">Default</button>
+              " (click)="_openMap()">Default
+                </button>
 
                 <button class="py-2 px-4 rounded-full
                 border border-transparent

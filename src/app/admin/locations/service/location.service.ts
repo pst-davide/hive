@@ -84,8 +84,14 @@ export class LocationService {
     }
   }
 
-  public updateDoc(id: string, doc: LocationModel): Observable<LocationModel> {
-    return this.http.put<LocationModel>(`${this.apiUrl}/${id}`, doc);
+  public async updateDoc(id: string, doc: LocationModel): Promise<LocationModel> {
+    const entity: Location = this.toEntity(doc);
+    try {
+      const savedEntity: Location = await firstValueFrom(this.http.put<Location>(`${this.apiUrl}/${id}`, entity));
+      return this.toModel(savedEntity);
+    } catch (error) {
+      throw error;
+    }
   }
 
   public deleteDoc(id: string): Observable<LocationModel> {

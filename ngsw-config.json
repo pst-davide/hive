@@ -16,7 +16,7 @@
       }
     },
     {
-      "name": "assets",
+      "name": "public",
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {

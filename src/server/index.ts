@@ -26,7 +26,12 @@ import pushNotificationRouter from './routes/push-notification.router';
 
 /* initialize */
 const app: Express = express();
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200', // Permetti solo l'origine Angular
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Metodi permessi
+  allowedHeaders: ['Content-Type', 'Authorization'] // Intestazioni permesse
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));

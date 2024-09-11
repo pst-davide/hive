@@ -12,7 +12,7 @@ import {EMPTY_LOCATION, LocationModel} from '../../model/location.model';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {LocationService} from '../../service/location.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {NgxColorsModule, validColorValidator} from 'ngx-colors';
 import {CommonModule} from '@angular/common';
@@ -28,6 +28,7 @@ import {
 } from '../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component';
 import {GeoResponse, GeoService} from '../../../../core/services/geo.service';
 import {AddressService, CityModel, ZipModel} from "../../../../core/services/address.service";
+import {MapComponent} from '../../../../core/dialog/map/map.component';
 
 @Component({
   selector: 'app-location',
@@ -68,10 +69,11 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   /* form */
   private destroy$: Subject<void> = new Subject<void>();
+  public isReadOnly: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
               private fb: FormBuilder, private crudService: LocationService, private geoService: GeoService,
-              private addressService: AddressService) {
+              private addressService: AddressService, public dialog: MatDialog) {
   };
 
   ngOnInit(): void {
@@ -80,8 +82,6 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.createForm();
     this.getCities();
     this.getZips();
-
-
   }
 
   ngOnDestroy(): void {
@@ -133,6 +133,8 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   private initializeSubscriptions(): void {
 
+    this.isReadOnly = !!this.doc.code;
+
     this.color.valueChanges.subscribe((color) => {
       if (this.form.controls['picker'].valid) {
         this.form.controls['picker'].setValue(color, {
@@ -143,17 +145,19 @@ export class LocationComponent implements OnInit, OnDestroy {
 
     this.form.controls['picker'].valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((color: any) =>
+      .subscribe((color: string) =>
         this.color.setValue(color, {
           emitEvent: false,
         })
       );
 
-    this.province$.subscribe(() => {
+    this.province$.subscribe((province: string | null) => {
+      this.province.setValue(province);
       this.zip.setValue(null);
     });
 
     this.city$.subscribe((city: string | null) => {
+      this.city.setValue(city);
       this.zip.setValue(this.findZip(city));
     });
 
@@ -181,37 +185,43 @@ export class LocationComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const room: LocationModel = _.cloneDeep(EMPTY_LOCATION);
-    room.id = this.code.value.toUpperCase();
-    room.code = this.code.value.toUpperCase();
-    room.name = this.name.value;
-    room.description = this.form.get('description')?.value ?? null;
-    room.color = this.color.value;
-    room.enabled = this.form.get('enabled')?.value ?? true;
+    this.doc.code = this.code.value.toUpperCase();
+    this.doc.name = this.name.value;
+    this.doc.description = this.form.get('description')?.value ?? null;
+    this.doc.color = this.color.value;
+    this.doc.enabled = this.form.get('enabled')?.value ?? true;
 
-    room.address = {
+    this.doc.address = {
       street: this.form.get('street')?.value ?? null,
       zip: this.form.get('zip')?.value ?? null,
       province: this.province$() ?? null,
       city: this.city$() ?? null,
-      latitude: room.address.latitude,
-      longitude: room.address.longitude,
+      latitude: this.doc.address.latitude,
+      longitude: this.doc.address.longitude,
     };
 
-    const {street = null, province = '', city = null} = room.address;
+    const {street = null, province = '', city = null} = this.doc.address;
 
     if (street && city) {
       const address: string = `${street} ${this.findCity(city)} ${province}`;
       const geocode: GeoResponse | null = await this.getGeocode(address);
-      room.address.latitude = geocode?.lat ?? 0;
-      room.address.longitude = geocode?.lng ?? 0;
+      this.doc.address.latitude = geocode?.lat ?? 0;
+      this.doc.address.longitude = geocode?.lng ?? 0;
     }
 
-    // await this.crudService.createDoc(room);
+    if (!this.doc.id) {
+      this.doc.id = this.code.value.toUpperCase();
+      await this.crudService.createDoc(this.doc);
+    } else {
+      await this.crudService.updateDoc(this.doc.id, this.doc);
+    }
+
+
+    this.dialogRef.close(this.doc);
   }
 
   public closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   /*************************************************
@@ -274,6 +284,14 @@ export class LocationComponent implements OnInit, OnDestroy {
     return await this.geoService.geocodeAddress(address);
   }
 
+  public _openMap(): void {
+    this.dialog.open(MapComponent, {
+      width: '100%',
+      height: '100%',
+      data: this.doc.address
+    });
+  }
+
   /************************************************
    *
    * Controls
@@ -290,6 +308,14 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   get color(): AbstractControl {
     return this.form.get('color') as AbstractControl;
+  }
+
+  get province(): AbstractControl {
+    return this.form.get('province') as AbstractControl;
+  }
+
+  get city(): AbstractControl {
+    return this.form.get('city') as AbstractControl;
   }
 
   get street(): AbstractControl {

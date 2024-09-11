@@ -10,7 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
-import { provideServiceWorker } from '@angular/service-worker';
+import {provideServiceWorker} from '@angular/service-worker';
 
 registerLocaleData(localeIt);
 
@@ -36,6 +36,9 @@ export const appConfig: ApplicationConfig = {
     { provide: LOCALE_ID, useValue: 'it' },
     { provide: MAT_DATE_LOCALE, useValue: 'it' },
     importProvidersFrom(MatNativeDateModule), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }), provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
           }),

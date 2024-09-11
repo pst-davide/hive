@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /* weather */
   public weather: WeatherCondition = _.cloneDeep(EMPTY_WEATHER);
   public forecast: ForecastCondition[] = [];
-  public showWeatherOverlay: boolean = true;
+  public showWeatherOverlay: boolean = false;
   public forecastHours: {id: number, label: string}[] = [
     {id: 1, label: ''},
     {id: 2, label: '00'},
@@ -160,7 +160,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
                 this.forecast.push(forecastItem);
               }
-              
+
             }
           }
         }
