@@ -46,6 +46,8 @@
     "@types/lodash": "^4.17.7",
     "@types/web-push": "^3.6.3",
     "amqplib": "^0.10.4",
+    "angular-email-editor": "^15.2.0",
+    "animate.css": "^4.1.1",
     "animejs": "^3.2.2",
     "axios": "^1.7.7",
     "cors": "^2.8.5",

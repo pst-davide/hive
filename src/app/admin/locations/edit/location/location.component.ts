@@ -285,11 +285,18 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   public _openMap(): void {
-    this.dialog.open(MapComponent, {
-      width: '100%',
-      height: '100%',
-      data: this.doc.address
-    });
+    const {street = null, province = '', city = null} = this.doc.address;
+
+    if (street && city) {
+      const address: string = `${street} ${this.findCity(city)} ${province}`;
+
+      this.dialog.open(MapComponent, {
+        width: '100%',
+        height: '100%',
+        data: {address: this.doc.address, title: address}
+      });
+    }
+
   }
 
   /************************************************

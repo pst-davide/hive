@@ -12,8 +12,15 @@ export interface LocationModel {
     address: AddressModel;
     crud: CrudModel;
 }
-  
-export const EMPTY_LOCATION: LocationModel = {
+
+export type LOCATION_TYPE = LocationModel & {
+  VIEW_STREET?: string | null;
+  VIEW_ZIP?: string | null;
+  VIEW_CITY?: string | null;
+  VIEW_PROVINCE?: string | null;
+};
+
+export const EMPTY_LOCATION: LOCATION_TYPE = {
     id: null,
     code: null,
     name: null,

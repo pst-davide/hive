@@ -1,7 +1,7 @@
 <div class="fixed inset-0 flex items-center justify-center z-50 w-full">
   <div class="bg-white p-6 w-full h-full min-h-full">
     <!-- header -->
-    <div class="w-full px-6 mb-20">
+    <div class="w-full px-6 mb-10">
 
       <div class="flex items-center">
         <!-- logo -->
@@ -11,7 +11,9 @@
 
         <!-- title -->
         <div class="flex-auto max-w-[1340px] mx-auto">
-
+          <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left">
+            {{ title }}
+          </h2>
         </div>
 
         <!-- close -->
@@ -26,7 +28,7 @@
 
     <!-- map -->
     <div class="w-full px-6">
-      <div id="map" class="map" style="width:100%; height: 450px"></div>
+      <div id="map" class="map w-full h-full" style="height: 600px"></div>
     </div>
   </div>
 </div>
