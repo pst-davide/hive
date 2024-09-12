@@ -12,7 +12,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {Subject, takeUntil} from "rxjs";
 import {AddressService, CityModel, ProvinceModel} from "../../core/services/address.service";
 import {FaIconComponent, IconDefinition} from "@fortawesome/angular-fontawesome";
-import {faEdit, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faMagnifyingGlass, faPlus, faFilter, faFilterCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import 'animate.css';
 
@@ -29,6 +29,9 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   /* icons */
   public faEdit: IconDefinition = faEdit;
   public faPlus: IconDefinition = faPlus;
+  public faGlass: IconDefinition = faMagnifyingGlass;
+  public faFilter: IconDefinition = faFilter;
+  public faFilterClear: IconDefinition = faFilterCircleXmark;
 
   /* table */
   public docs: LOCATION_TYPE[] = [];

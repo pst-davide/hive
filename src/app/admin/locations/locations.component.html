@@ -5,21 +5,24 @@
     <div class="grid grid-cols-3">
       <div class="col-span-3 lg:col-span-1">
         <mat-form-field appearance="outline">
-          <mat-label>Filter</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+
+          <input matInput (keyup)="applyFilter($event)" placeholder="cerca...">
+          <fa-icon matSuffix [icon]="faGlass" class="mr-3"></fa-icon>
         </mat-form-field>
       </div>
       <div class="col-span-3 lg:col-span-1">
 
       </div>
-      <div class="col-span-3 lg:col-span-1">
-        <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                rounded-2xl p-2 text-center transition-all hover:bg-slate-200"
+      <div class="col-span-3 lg:col-span-1 flex justify-end items-center">
+        <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+            w-10 h-10 flex items-center justify-center mr-2"
                 type="button" (click)="_toggleFilter()">
-          <fa-icon [icon]="faPlus"></fa-icon>
+          <fa-icon [icon]="faFilter"></fa-icon>
         </button>
-        <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                rounded-2xl p-2 text-center transition-all hover:bg-slate-200"
+        <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+            w-10 h-10 flex items-center justify-center"
                 type="button">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
