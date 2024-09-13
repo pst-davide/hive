@@ -80,5 +80,9 @@
 }
 
 .mat-mdc-table, .mat-mdc-paginator {
-    background-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.mat-mdc-paginator-page-size {
+  max-width: 120px;
 }

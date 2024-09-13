@@ -12,9 +12,19 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {Subject, takeUntil} from "rxjs";
 import {AddressService, CityModel, ProvinceModel} from "../../core/services/address.service";
 import {FaIconComponent, IconDefinition} from "@fortawesome/angular-fontawesome";
-import {faEdit, faMagnifyingGlass, faPlus, faFilter, faFilterCircleXmark} from '@fortawesome/free-solid-svg-icons';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {
+  faEdit,
+  faMagnifyingGlass,
+  faPlus,
+  faFilter,
+  faFilterCircleXmark,
+  faTrash,
+  faLocationDot
+} from '@fortawesome/free-solid-svg-icons';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import 'animate.css';
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from "../../core/functions/environments";
+import {MapComponent} from "../../core/dialog/map/map.component";
 
 @Component({
   selector: 'app-locations',
@@ -29,15 +39,19 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   /* icons */
   public faEdit: IconDefinition = faEdit;
   public faPlus: IconDefinition = faPlus;
+  public faTrash: IconDefinition = faTrash;
   public faGlass: IconDefinition = faMagnifyingGlass;
   public faFilter: IconDefinition = faFilter;
   public faFilterClear: IconDefinition = faFilterCircleXmark;
+  public faLocationDot: IconDefinition = faLocationDot;
 
   /* table */
   public docs: LOCATION_TYPE[] = [];
-  public displayedColumns: string[] = ['id', 'code', 'name', 'description', 'modify', 'delete'];
-  public filterColumns: string[] = ['f_id', 'f_code', 'f_name', 'f_descriptions', 'f_modify', 'f_delete'];
+  public displayedColumns: string[] = ['id', 'code', 'name', 'description', 'map', 'modify', 'delete'];
+  public filterColumns: string[] = ['f_id', 'f_code', 'f_name', 'f_descriptions', 'f_map', 'f_modify', 'f_delete'];
   public dataSource!: MatTableDataSource<LOCATION_TYPE>;
+  public pageSize: number = DEFAULT_PAGE_SIZE;
+  public pageSizeOptions: number[] = DEFAULT_PAGE_SIZE_OPTIONS;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -54,14 +68,19 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  filters: Record<string, string> = {
+  /* Filters */
+  public filters: Record<string, string> = {
     code: '',
     name: '',
     description: '',
-    // Add more fields if needed
   };
-
+  public filterForm: FormGroup = new FormGroup({
+    code: new FormControl(''),
+    name: new FormControl(''),
+    description: new FormControl('')
+  });
   public isFiltersOpen: boolean = false;
+  public activeFilter: boolean = false;
 
   constructor(private crudService: LocationService, public dialog: MatDialog, private addressService: AddressService) {
   }
@@ -115,6 +134,12 @@ export class LocationsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /*************************************************
+   *
+   * Filter
+   *
+   ************************************************/
+
   public applyFilter(event: Event): void {
     const filterValue: string = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -127,6 +152,28 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   public singleFilter(event: any, column: string) {
     const value = event.target.value;
     this.filters[column] = value.trim().toLowerCase();
+    this.dataSource.filter = JSON.stringify(this.filters);
+
+    this.activeFilter = this.hasActiveFilters();
+  }
+
+  private hasActiveFilters(): boolean {
+    for (const key in this.filters) {
+      if (this.filters[key].trim() !== '') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public _clearFilter(): void {
+    _.forEach(this.filters, (value, key) => {
+      this.filters[key] = '';
+    });
+
+    this.filterForm.reset();
+    this.activeFilter = false;
+
     this.dataSource.filter = JSON.stringify(this.filters);
   }
 
@@ -178,6 +225,7 @@ export class LocationsComponent implements OnInit, AfterViewInit {
    * Provinces
    *
    ************************************************/
+
   private getProvinces(): void {
     this.addressService.getProvincies().pipe(takeUntil(this.destroy$)).subscribe(province => {
       this.provinces = province.province ?? [];
@@ -192,99 +240,25 @@ export class LocationsComponent implements OnInit, AfterViewInit {
     return province ? province.provincia : null;
   }
 
-  /**************
-   <table mat-table [dataSource]="dataSource" matSort>
+  /*************************************************
+   *
+   * Map
+   *
+   ************************************************/
 
-   <!-- ID Column -->
-   <ng-container matColumnDef="id">
-   <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
-   <td mat-cell *matCellDef="let row"> {{ row.id }}</td>
-   </ng-container>
+  public _openMap(doc: LOCATION_TYPE): void {
+    const {street = null, province = '', city = null} = doc.address;
 
-   <!-- Progress Column -->
-   <ng-container matColumnDef="code">
-   <th mat-header-cell *matHeaderCellDef mat-sort-header> Codice</th>
-   <td mat-cell *matCellDef="let row"> {{ row.code }}</td>
-   </ng-container>
+    if (street && city) {
+      const address: string = `${street} ${this.findCity(city)} ${province}`;
 
-   <!-- Name Column -->
-   <ng-container matColumnDef="name">
-   <th mat-header-cell *matHeaderCellDef mat-sort-header> Sede</th>
-   <td mat-cell *matCellDef="let row"> {{ row.name }}</td>
-   </ng-container>
+      this.dialog.open(MapComponent, {
+        width: '100%',
+        height: '100%',
+        data: {address: this.doc.address, title: address}
+      });
+    }
 
-   <!-- description Column -->
-   <ng-container matColumnDef="description">
-   <th mat-header-cell *matHeaderCellDef mat-sort-header> Descrizione</th>
-   <td mat-cell *matCellDef="let row"> {{ row.description }}</td>
-   </ng-container>
+  }
 
-   <!-- edit Column -->
-   <ng-container matColumnDef="modify">
-   <th mat-header-cell *matHeaderCellDef> Modifica</th>
-   <td mat-cell *matCellDef="let row">
-   <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-   rounded-2xl p-2 text-center transition-all
-   hover:bg-slate-200"
-   (click)="openDialog(row)" type="button">
-   <fa-icon [icon]="faEdit"></fa-icon>
-   </button>
-   </td>
-   </ng-container>
-
-   <!-- delete Column -->
-   <ng-container matColumnDef="delete">
-   <th mat-header-cell *matHeaderCellDef> Elimina</th>
-   <td mat-cell *matCellDef="let row">
-   <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-   rounded-2xl p-2 text-center transition-all
-   hover:bg-slate-200"
-   (click)="openDialog(row)" type="button">
-   <fa-icon [icon]="faEdit"></fa-icon>
-   </button>
-   </td>
-   </ng-container>
-
-   <ng-container matColumnDef="f_id">
-   <th mat-header-cell></th>
-   </ng-container>
-
-   <ng-container matColumnDef="f_code">
-   <th mat-header-cell *matHeaderCellDef>
-   <input (click)="$event.stopPropagation()"
-   (keyup)="singleFilter($event, 'code')"
-   class="rounded-md py-1 px-3 text-sm
-   bg-slate-100
-   focus:bg-slate-200
-   transition-all duration-200 ease-in-out"
-   placeholder="">
-   </th>
-   </ng-container>
-
-   <ng-container matColumnDef="f_name">
-   <th mat-header-cell></th>
-   </ng-container>
-
-   <ng-container matColumnDef="f_description">
-   <th mat-header-cell></th>
-   </ng-container>
-
-   <ng-container matColumnDef="f_modify">
-   <th mat-header-cell></th>
-   </ng-container>
-
-   <ng-container matColumnDef="f_delete">
-   <th mat-header-cell></th>
-   </ng-container>
-
-   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-   <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
-   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-   <!-- Row shown when there is no matching data. -->
-   <tr class="mat-row" *matNoDataRow>
-   <td class="mat-cell" colspan="4">No data matching the filter "</td>
-   </tr>
-   </table>
-   *************/
 }

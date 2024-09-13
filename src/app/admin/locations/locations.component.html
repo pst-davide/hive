@@ -14,15 +14,23 @@
 
       </div>
       <div class="col-span-3 lg:col-span-1 flex justify-end items-center">
+        @if(activeFilter) {
+          <button class="font-normal ease-soft-in-out text-sm text-red-500 hover:text-red-700
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center mr-1"
+                  type="button" (click)="_clearFilter()">
+            <fa-icon [icon]="faFilterClear"></fa-icon>
+          </button>
+        }
         <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
-            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
-            w-10 h-10 flex items-center justify-center mr-2"
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center mr-1"
                 type="button" (click)="_toggleFilter()">
           <fa-icon [icon]="faFilter"></fa-icon>
         </button>
         <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
-            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
-            w-10 h-10 flex items-center justify-center"
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center"
                 type="button">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
@@ -34,14 +42,25 @@
 
         <!-- ID Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
-          <td mat-cell *matCellDef="let row"> {{ row.id }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> #</th>
+          <td mat-cell
+              *matCellDef="let row; let i = index">
+            @if (row) {
+              {{ i + ((paginator?.pageIndex ?? 0) * (paginator?.pageSize ?? 0)) + 1 }}
+            }
+          </td>
         </ng-container>
 
         <!-- Progress Column -->
         <ng-container matColumnDef="code">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Codice</th>
-          <td mat-cell *matCellDef="let row"> {{ row.code }}</td>
+          <td mat-cell *matCellDef="let row">
+            <div class="flex items-center">
+              <div class="w-4 h-4 rounded-full mr-2" [style.background-color]="row.color"></div>
+              <span>{{ row.code }}</span>
+            </div>
+
+          </td>
         </ng-container>
 
         <!-- Name Column -->
@@ -56,13 +75,27 @@
           <td mat-cell *matCellDef="let row"> {{ row.description }}</td>
         </ng-container>
 
+        <!-- map Column -->
+        <ng-container matColumnDef="map">
+          <th mat-header-cell *matHeaderCellDef> Mappa</th>
+          <td mat-cell *matCellDef="let row">
+            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+            w-10 h-10 flex items-center justify-center
+            disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="!row.address.latitude || !row.address.longitude"
+                    (click)="_openMap(row)" type="button">
+              <fa-icon [icon]="faLocationDot"></fa-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <!-- edit Column -->
         <ng-container matColumnDef="modify">
           <th mat-header-cell *matHeaderCellDef> Modifica</th>
           <td mat-cell *matCellDef="let row">
-            <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-   rounded-2xl p-2 text-center transition-all
-   hover:bg-slate-200"
+            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+            w-10 h-10 flex items-center justify-center"
                     (click)="openDialog(row)" type="button">
               <fa-icon [icon]="faEdit"></fa-icon>
             </button>
@@ -73,69 +106,78 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef> Elimina</th>
           <td mat-cell *matCellDef="let row">
-            <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-   rounded-2xl p-2 text-center transition-all
-   hover:bg-slate-200"
+            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+            rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+            w-10 h-10 flex items-center justify-center"
                     (click)="openDialog(row)" type="button">
-              <fa-icon [icon]="faEdit"></fa-icon>
+              <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </td>
         </ng-container>
 
         <!-- Filters -->
-        <ng-container matColumnDef="f_id">
-          <th mat-header-cell *matHeaderCellDef></th>
-        </ng-container>
+        <form [formGroup]="filterForm">
+          <ng-container matColumnDef="f_id">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
 
-        <ng-container matColumnDef="f_code">
-          <th mat-header-cell *matHeaderCellDef>
-            <input (click)="$event.stopPropagation()"
-                   (keyup)="singleFilter($event, 'code')"
-                   class="rounded-md py-1 px-3 text-sm border
+          <ng-container matColumnDef="f_code">
+            <th mat-header-cell *matHeaderCellDef>
+              <input (click)="$event.stopPropagation()"
+                     (keyup)="singleFilter($event, 'code')"
+                     class="rounded-md py-1 px-3 text-sm border
                    text-slate-500 placeholder:text-slate-400
                    bg-slate-100  hover:bg-slate-300
                    border-slate-200 hover:border-slate-300
                    focus:outline-none focus:border-slate-400 shadow-sm focus:shadow
                    transition duration-300 ease"
-                   placeholder="">
-          </th>
-        </ng-container>
+                     formControlName="code"
+                     placeholder="">
+            </th>
+          </ng-container>
 
-        <ng-container matColumnDef="f_name">
-          <th mat-header-cell *matHeaderCellDef>
-            <input (click)="$event.stopPropagation()"
-                   (keyup)="singleFilter($event, 'name')"
-                   class="rounded-md py-1 px-3 text-sm border
+          <ng-container matColumnDef="f_name">
+            <th mat-header-cell *matHeaderCellDef>
+              <input (click)="$event.stopPropagation()"
+                     (keyup)="singleFilter($event, 'name')"
+                     class="rounded-md py-1 px-3 text-sm border
                    text-slate-500 placeholder:text-slate-400
                    bg-slate-100  hover:bg-slate-300
                    border-slate-200 hover:border-slate-300
                    focus:outline-none focus:border-slate-400 shadow-sm focus:shadow
                    transition duration-300 ease"
-                   placeholder="">
-          </th>
-        </ng-container>
+                     formControlName="name"
+                     placeholder="">
+            </th>
+          </ng-container>
 
-        <ng-container matColumnDef="f_descriptions">
-          <th mat-header-cell *matHeaderCellDef>
-            <input (click)="$event.stopPropagation()"
-                   (keyup)="singleFilter($event, 'description')"
-                   class="rounded-md py-1 px-3 text-sm border
+          <ng-container matColumnDef="f_descriptions">
+            <th mat-header-cell *matHeaderCellDef>
+              <input (click)="$event.stopPropagation()"
+                     (keyup)="singleFilter($event, 'description')"
+                     class="rounded-md py-1 px-3 text-sm border
                    text-slate-500 placeholder:text-slate-400
                    bg-slate-100  hover:bg-slate-300
                    border-slate-200 hover:border-slate-300
                    focus:outline-none focus:border-slate-400 shadow-sm focus:shadow
                    transition duration-300 ease"
-                   placeholder="">
-          </th>
-        </ng-container>
+                     formControlName="description"
+                     placeholder="">
+            </th>
+          </ng-container>
 
-        <ng-container matColumnDef="f_modify">
-          <th mat-header-cell *matHeaderCellDef></th>
-        </ng-container>
+          <ng-container matColumnDef="f_map">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
 
-        <ng-container matColumnDef="f_delete">
-          <th mat-header-cell *matHeaderCellDef></th>
-        </ng-container>
+          <ng-container matColumnDef="f_modify">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <ng-container matColumnDef="f_delete">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+        </form>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns">
         </tr>
@@ -149,18 +191,8 @@
 
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" aria-label="Select page"
+                     showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>
-
-
-<button class="px-6 py-2
-          bg-gradient-fuchsia
-          shadow-soft-md hover:shadow-soft-2xl
-          hover:scale-102
-          font-bold text-center text-white uppercase align-middle text-size-xs
-          border-0 rounded-3xl
-          transition-all ease-in" (click)="openDialog(doc)">
-  Button
-</button>

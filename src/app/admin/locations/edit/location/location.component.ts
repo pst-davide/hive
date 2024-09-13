@@ -29,12 +29,13 @@ import {
 import {GeoResponse, GeoService} from '../../../../core/services/geo.service';
 import {AddressService, CityModel, ZipModel} from "../../../../core/services/address.service";
 import {MapComponent} from '../../../../core/dialog/map/map.component';
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-location',
   standalone: true,
   imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
-    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule, CityAutocompleteComponent],
+    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule, CityAutocompleteComponent, NgxMaskDirective],
   templateUrl: './location.component.html',
   styleUrl: './location.component.scss'
 })
@@ -104,6 +105,8 @@ export class LocationComponent implements OnInit, OnDestroy {
       name: doc.name,
       enabled: doc.enabled ?? true,
       description: doc.description,
+      phone: doc.phone,
+      email: doc.email,
       color: doc.color,
       province: doc.address.province,
       city: doc.address.city,
@@ -118,6 +121,8 @@ export class LocationComponent implements OnInit, OnDestroy {
       name: ['', Validators['required']],
       enabled: [true],
       description: [null],
+      phone: [null],
+      email: [null, Validators['email']],
       color: [null, [Validators['required'], validColorValidator()]],
       picker: [null],
       province: ['', Validators['required']],
@@ -188,6 +193,8 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.doc.code = this.code.value.toUpperCase();
     this.doc.name = this.name.value;
     this.doc.description = this.form.get('description')?.value ?? null;
+    this.doc.phone = this.phone.value ?? null;
+    this.doc.email = this.email.value ?? null;
     this.doc.color = this.color.value;
     this.doc.enabled = this.form.get('enabled')?.value ?? true;
 
@@ -331,6 +338,14 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   get zip(): AbstractControl {
     return this.form.get('zip') as AbstractControl;
+  }
+
+  get phone(): AbstractControl {
+    return this.form.get('phone') as AbstractControl;
+  }
+
+  get email(): AbstractControl {
+    return this.form.get('email') as AbstractControl;
   }
 
 }
