@@ -18,7 +18,7 @@ import {animate, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
-import { SwPush, SwUpdate } from '@angular/service-worker';
+import {SwPush} from '@angular/service-worker';
 
 interface MenuItem {
   label: string;
