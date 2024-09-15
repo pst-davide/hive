@@ -5,8 +5,7 @@
     <div class="grid grid-cols-3">
       <div class="col-span-3 lg:col-span-1">
         <mat-form-field appearance="outline">
-
-          <input matInput (keyup)="applyFilter($event)" placeholder="cerca...">
+          <input matInput (keyup)="applyFilter($event)" placeholder="cerca..." [formControl]="globalFilterCtrl">
           <fa-icon matSuffix [icon]="faGlass" class="mr-3"></fa-icon>
         </mat-form-field>
       </div>
@@ -14,6 +13,24 @@
 
       </div>
       <div class="col-span-3 lg:col-span-1 flex justify-end items-center">
+        <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center mr-1"
+                type="button" (click)="_toggleFilter()">
+          <fa-icon [icon]="faPdf"></fa-icon>
+        </button>
+        <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center mr-1"
+                type="button" (click)="_toggleFilter()">
+          <fa-icon [icon]="faExcel"></fa-icon>
+        </button>
+        <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+w-10 h-10 flex items-center justify-center mr-1"
+                type="button" (click)="_toggleFilter()">
+          <fa-icon [icon]="faFilter"></fa-icon>
+        </button>
         @if(activeFilter) {
           <button class="font-normal ease-soft-in-out text-sm text-red-500 hover:text-red-700
 rounded-2xl p-2 text-center transition-all hover:bg-slate-200
@@ -31,7 +48,7 @@ w-10 h-10 flex items-center justify-center mr-1"
         <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
 rounded-2xl p-2 text-center transition-all hover:bg-slate-200
 w-10 h-10 flex items-center justify-center"
-                type="button">
+                type="button" (click)="openDialog(emptyDoc)">
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
       </div>
@@ -46,7 +63,7 @@ w-10 h-10 flex items-center justify-center"
           <td mat-cell
               *matCellDef="let row; let i = index">
             @if (row) {
-              {{ i + ((paginator?.pageIndex ?? 0) * (paginator?.pageSize ?? 0)) + 1 }}
+              {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
             }
           </td>
         </ng-container>
@@ -76,42 +93,49 @@ w-10 h-10 flex items-center justify-center"
         </ng-container>
 
         <!-- map Column -->
-        <ng-container matColumnDef="map">
-          <th mat-header-cell *matHeaderCellDef> Mappa</th>
-          <td mat-cell *matCellDef="let row">
-            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+        <ng-container matColumnDef="map" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Mappa</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <div class="w-full flex justify-center">
+              <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
             rounded-2xl p-2 text-center transition-all hover:bg-slate-200
             w-10 h-10 flex items-center justify-center
             disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="!row.address.latitude || !row.address.longitude"
                     (click)="_openMap(row)" type="button">
               <fa-icon [icon]="faLocationDot"></fa-icon>
             </button>
+            </div>
           </td>
         </ng-container>
 
         <!-- edit Column -->
-        <ng-container matColumnDef="modify">
-          <th mat-header-cell *matHeaderCellDef> Modifica</th>
-          <td mat-cell *matCellDef="let row">
-            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+        <ng-container matColumnDef="modify" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Modifica</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <div class="w-full flex justify-center">
+              <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
             rounded-2xl p-2 text-center transition-all hover:bg-slate-200
             w-10 h-10 flex items-center justify-center"
                     (click)="openDialog(row)" type="button">
               <fa-icon [icon]="faEdit"></fa-icon>
             </button>
+            </div>
+
           </td>
         </ng-container>
 
         <!-- delete Column -->
-        <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef> Elimina</th>
-          <td mat-cell *matCellDef="let row">
-            <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+        <ng-container matColumnDef="delete" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Elimina</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <div class="w-full flex justify-center">
+              <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
             rounded-2xl p-2 text-center transition-all hover:bg-slate-200
             w-10 h-10 flex items-center justify-center"
                     (click)="openDialog(row)" type="button">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
+            </div>
           </td>
         </ng-container>
 
@@ -166,16 +190,16 @@ w-10 h-10 flex items-center justify-center"
             </th>
           </ng-container>
 
-          <ng-container matColumnDef="f_map">
-            <th mat-header-cell *matHeaderCellDef></th>
+          <ng-container matColumnDef="f_map" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="text-center"></th>
           </ng-container>
 
-          <ng-container matColumnDef="f_modify">
-            <th mat-header-cell *matHeaderCellDef></th>
+          <ng-container matColumnDef="f_modify" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="text-center"></th>
           </ng-container>
 
-          <ng-container matColumnDef="f_delete">
-            <th mat-header-cell *matHeaderCellDef></th>
+          <ng-container matColumnDef="f_delete" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef class="text-center"></th>
           </ng-container>
         </form>
 

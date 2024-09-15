@@ -21,6 +21,8 @@ export class LocationService {
     doc.name = model.name ?? '';
     doc.color = model.color ?? '';
     doc.description = model.description ?? null;
+    doc.phone = model.phone ?? '';
+    doc.email = model.email ?? '';
     doc.enabled = model.enabled;
     doc.street = model.address?.street ?? null;
     doc.city = model.address?.city ?? null;
@@ -45,6 +47,8 @@ export class LocationService {
     model.color = entity.color;
     model.description = entity.description;
     model.enabled = entity.enabled;
+    model.phone = entity.phone;
+    model.email = entity.email;
 
     model.address = {
       latitude: entity.latitude,

@@ -9,9 +9,9 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {Subject, takeUntil} from "rxjs";
-import {AddressService, CityModel, ProvinceModel} from "../../core/services/address.service";
-import {FaIconComponent, IconDefinition} from "@fortawesome/angular-fontawesome";
+import {catchError, of, Subject, takeUntil, tap} from 'rxjs';
+import {AddressService, CityModel, ProvinceModel} from '../../core/services/address.service';
+import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {
   faEdit,
   faMagnifyingGlass,
@@ -19,12 +19,13 @@ import {
   faFilter,
   faFilterCircleXmark,
   faTrash,
-  faLocationDot
+  faLocationDot, faFilePdf, faFileExcel
 } from '@fortawesome/free-solid-svg-icons';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import 'animate.css';
-import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from "../../core/functions/environments";
-import {MapComponent} from "../../core/dialog/map/map.component";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from '../../core/functions/environments';
+import {MapComponent} from '../../core/dialog/map/map.component';
+import {OpenaiService} from '../../core/services/openai.service';
 
 @Component({
   selector: 'app-locations',
@@ -44,6 +45,8 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   public faFilter: IconDefinition = faFilter;
   public faFilterClear: IconDefinition = faFilterCircleXmark;
   public faLocationDot: IconDefinition = faLocationDot;
+  public faPdf: IconDefinition = faFilePdf;
+  public faExcel: IconDefinition = faFileExcel;
 
   /* table */
   public docs: LOCATION_TYPE[] = [];
@@ -52,12 +55,25 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   public dataSource!: MatTableDataSource<LOCATION_TYPE>;
   public pageSize: number = DEFAULT_PAGE_SIZE;
   public pageSizeOptions: number[] = DEFAULT_PAGE_SIZE_OPTIONS;
+  /*
+  public displayedColumns: ColumnModel[] = [
+    { field: 'id', header: '#', hide: false },
+    { field: 'code', header: 'Codice', hide: false },
+    { field: 'name', header: 'Sede', hide: false },
+    { field: 'description', header: 'Descrizione', hide: false },
+    { field: 'map', header: 'Mappa', hide: false },
+    { field: 'modify', header: 'Modifica', hide: false },
+    { field: 'delete', header: 'Elimina', hide: false },
+  ];
+
+   */
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   /* doc */
   public doc: LOCATION_TYPE = _.cloneDeep(EMPTY_LOCATION);
+  public emptyDoc: LOCATION_TYPE = _.cloneDeep(EMPTY_LOCATION);
 
   /* cities */
   public cities: CityModel[] = [];
@@ -69,6 +85,7 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   private destroy$: Subject<void> = new Subject<void>();
 
   /* Filters */
+  public globalFilterCtrl: FormControl = new FormControl();
   public filters: Record<string, string> = {
     code: '',
     name: '',
@@ -79,16 +96,55 @@ export class LocationsComponent implements OnInit, AfterViewInit {
     name: new FormControl(''),
     description: new FormControl('')
   });
+  public globalFilter: string = '';
   public isFiltersOpen: boolean = false;
   public activeFilter: boolean = false;
 
-  constructor(private crudService: LocationService, public dialog: MatDialog, private addressService: AddressService) {
+  private text = "Charles Leclerc partirà ancora una volta davanti a tutti nel GP di Baku: l\'1\'41\"365 registrato in Q3 vale " +
+  "infatti la quarta pole consecutiva al monegasco in Azerbaigian. Di fianco a lui ci sarà la McLaren di Oscar Piastri, " +
+  "terza piazza per l\'altra Ferrari di Sainz. Il monegasco, reduce dalla vittoria di Monza, ha commentato così la pole " +
+  "numero 26 della carriera: \"È un risultato fantastico: questa è una delle mie piste preferite, con cui sento di avere " +
+  "un feeling speciale. E pensare che il weekend non era iniziato nel migliore dei modi: nelle prime prove libere " +
+  "l\'incidente, nelle seconde abbiamo avuto problemi con un pezzo nuovo che abbiamo portato\"."
+  userMessage: string = 'Puoi rispondere a domande riguardanti problemi di rete?';
+  chatMessages: { sender: string, message: string }[] = [];
+
+  constructor(private crudService: LocationService, public dialog: MatDialog, private addressService: AddressService,
+              private openAiService: OpenaiService) {
   }
 
   ngOnInit(): void {
     this.getCities();
     this.getProvinces();
     this.getCollection();
+
+    /*
+    this.openAiService.analyzeText(this.text, ['Ferrari','GP','Leclerc']).subscribe(
+      (response) => {
+        console.log(response.analysis);
+      },
+      (error) => {
+        console.error('Errore durante l\'analisi:', error);
+      }
+    );
+
+
+
+    this.openAiService.sendMessage(this.userMessage)
+    .pipe(
+      tap((response) => {
+        console.log('Risposta dal server:', response);
+        this.chatMessages.push({ sender: 'Bot', message: response.message });
+      }),
+      catchError((error) => {
+        this.chatMessages.push({ sender: 'Bot', message: 'Errore: Impossibile ottenere una risposta.' });
+        return of();  // Evita l'errore e ritorna un observable vuoto
+      })
+    )
+    .subscribe();
+
+    this.userMessage = '';
+    */
   }
 
   ngAfterViewInit() {
@@ -115,14 +171,26 @@ export class LocationsComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
-        this.dataSource.filterPredicate = (data: any, filter: string) => {
-          const filters = JSON.parse(filter);
+        this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
+          const searchTerms = JSON.parse(filter);
+          const globalFilter = searchTerms.global || ''; // Ottieni il filtro globale
+          delete searchTerms.global; // Rimuovi il filtro globale dall'oggetto
 
-          return (
-            (!filters.code || data.code.toLowerCase().includes(filters.code)) &&
-            (!filters.name || data.name.toLowerCase().includes(filters.name)) &&
-            (!filters.description || (data.description && data.description.toLowerCase().includes(filters.description)))
-          );
+          // Filtro per campi specifici (per le colonne selezionate)
+          const matchFilter: boolean = Object.keys(searchTerms).every(column => {
+            const columnValue = data[column] ? data[column].toString().toLowerCase() : ''; // Gestisce null e undefined
+            return columnValue.includes(searchTerms[column]);
+          });
+
+          // Filtro globale (su tutti i campi)
+          const globalMatch: boolean = globalFilter
+            ? Object.keys(data).some((key: string) => {
+              const fieldValue = data[key] ? data[key].toString().toLowerCase() : ''; // Gestisce null e undefined
+              return fieldValue.includes(globalFilter);
+            })
+            : true;
+
+          return matchFilter && globalMatch; // Entrambi i filtri devono corrispondere
         };
       },
       error: (error) => {
@@ -142,18 +210,28 @@ export class LocationsComponent implements OnInit, AfterViewInit {
 
   public applyFilter(event: Event): void {
     const filterValue: string = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.globalFilter = filterValue.trim().toLowerCase();
+    this.updateFilters();
   }
 
   public singleFilter(event: any, column: string) {
     const value = event.target.value;
     this.filters[column] = value.trim().toLowerCase();
-    this.dataSource.filter = JSON.stringify(this.filters);
+    this.updateFilters();
+  }
 
+  private updateFilters(): void {
+    const combinedFilter = {
+      ...this.filters,  // Filtro per colonne specifiche
+      global: this.globalFilter  // Filtro globale
+    };
+    console.log(combinedFilter);
+    // Converte l'oggetto in una stringa e lo assegna alla dataSource.filter
+    this.dataSource.filter = JSON.stringify(combinedFilter);
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
     this.activeFilter = this.hasActiveFilters();
   }
 
@@ -171,10 +249,12 @@ export class LocationsComponent implements OnInit, AfterViewInit {
       this.filters[key] = '';
     });
 
+    this.globalFilter = '';
+    this.globalFilterCtrl.setValue(null);
     this.filterForm.reset();
     this.activeFilter = false;
 
-    this.dataSource.filter = JSON.stringify(this.filters);
+    this.updateFilters();
   }
 
   public _toggleFilter(): void {
@@ -255,7 +335,7 @@ export class LocationsComponent implements OnInit, AfterViewInit {
       this.dialog.open(MapComponent, {
         width: '100%',
         height: '100%',
-        data: {address: this.doc.address, title: address}
+        data: {address: doc.address, title: address}
       });
     }
 

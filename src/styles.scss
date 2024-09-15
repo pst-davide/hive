@@ -15,14 +15,15 @@
   --mdc-switch-selected-icon-color: #ffffff;
   --tw-ring-color: none !important;
 }
-[type=text]:focus,input:where(:not([type])):focus,[type=email]:focus,[type=url]:focus,[type=password]:focus,
-[type=number]:focus,[type=date]:focus,[type=datetime-local]:focus,[type=month]:focus,[type=search]:focus,
-[type=tel]:focus,[type=time]:focus,[type=week]:focus,[multiple]:focus,textarea:focus,select:focus{
+
+[type=text]:focus, input:where(:not([type])):focus, [type=email]:focus, [type=url]:focus, [type=password]:focus,
+[type=number]:focus, [type=date]:focus, [type=datetime-local]:focus, [type=month]:focus, [type=search]:focus,
+[type=tel]:focus, [type=time]:focus, [type=week]:focus, [multiple]:focus, textarea:focus, select:focus {
   --tw-ring-color: none !important;
 }
 
 *, ::before, ::after {
-    border-style: none;
+  border-style: none;
 }
 
 .mat-mdc-form-field {
@@ -85,4 +86,23 @@
 
 .mat-mdc-paginator-page-size {
   max-width: 120px;
+}
+
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell,
+.mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
+  // background: transparent;
+}
+
+.mat-mdc-header-cell {
+  text-align: unset;
+}
+
+.mat-mdc-table .mat-mdc-header-cell.text-center {
+  text-align: center !important;
+  max-width: 50px !important;
+}
+
+.mat-mdc-table .mat-mdc-cell.text-center {
+  text-align: center !important;
+  max-width: 50px !important;
 }

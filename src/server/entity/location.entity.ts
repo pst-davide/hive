@@ -11,6 +11,12 @@ export class Location {
   @Column({type: 'varchar', length: 80})
   name!: string;
 
+  @Column({type: 'varchar', length: 10})
+  phone!: string;
+
+  @Column({type: 'varchar', length: 40})
+  email!: string;
+
   @Column({type: 'varchar', length: 7})
   color!: string;
 

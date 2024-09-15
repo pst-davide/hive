@@ -82,4 +82,22 @@
   background-color: transparent !important;
 }
 
+.mat-mdc-paginator-page-size {
+  max-width: 120px;
+}
+
+.mat-mdc-header-cell {
+  text-align: unset;
+}
+
+.mat-mdc-table .mat-mdc-header-cell.text-center {
+  text-align: center !important;
+  max-width: 50px !important;
+}
+
+.mat-mdc-table .mat-mdc-cell.text-center {
+  text-align: center !important;
+  max-width: 50px !important;
+}
+
 /*# sourceMappingURL=styles.css.map */

@@ -40,28 +40,6 @@ export class MapComponent implements OnInit {
   }
 
   private initMap(): void {
-    /*
-    const marker: Feature<Point> = new Feature({
-      geometry: new ol.geom.Point(fromLonLat([this.doc?.latitude, this.doc?.longitude]))
-    });
-
-    const markerStyle: Style = new Style({
-      image: new Icon({
-        src: 'path/to/marker-icon.png',
-        scale: 0.1
-      })
-    });
-
-    marker.setStyle(markerStyle);
-
-    const vectorSource = new VectorSource({
-      features: [marker]
-    });
-
-    const vectorLayer = new VectorLayer({
-      source: vectorSource
-    });
-    */
 
     this.map = new Map({
       target: 'map',

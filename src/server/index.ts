@@ -23,14 +23,15 @@ import ocrRouter from './routes/ocr.router';
 import uploadRouter from './routes/upload.router';
 import locationRouter from './routes/location.router';
 import pushNotificationRouter from './routes/push-notification.router';
+import openAiRouter from './routes/openai.router';
 
 /* initialize */
 const app: Express = express();
 // app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:4200', // Permetti solo l'origine Angular
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Metodi permessi
-  allowedHeaders: ['Content-Type', 'Authorization'] // Intestazioni permesse
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,6 +49,9 @@ app.use('/api', ocrRouter);
 
 /* upload routes */
 app.use('/api', uploadRouter);
+
+/* openAi notification */
+app.use('/api', openAiRouter);
 
 /* upload directory */
 const uploadsDir: string = path.join(__dirname, 'uploads');
