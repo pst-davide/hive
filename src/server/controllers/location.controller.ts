@@ -62,9 +62,9 @@ export class LocationController {
     try {
       const result: DeleteResult = await LocationController.docRepository.delete(id);
       if (result.affected) {
-        res.status(200).json({ message: 'Ducumento eliminato con successo' });
+        res.status(200).json({ message: 'Documento eliminato con successo' });
       } else {
-        res.status(404).json({ error: 'Ducumento non trovato' });
+        res.status(404).json({ error: 'Documento non trovato' });
       }
     } catch (error) {
       res.status(500).json({ error: 'Errore durante l\'eliminazione della documento' });

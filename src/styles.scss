@@ -26,6 +26,11 @@
   border-style: none;
 }
 
+.border-element {
+  border-style: solid;
+  border-bottom-width: 1px;
+}
+
 .mat-mdc-form-field {
   width: 100% !important;
   --tw-ring-color: none !important;

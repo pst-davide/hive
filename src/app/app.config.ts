@@ -2,7 +2,7 @@ import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDet
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -15,6 +15,10 @@ import {provideServiceWorker} from '@angular/service-worker';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import {ItPaginator} from "./core/functions/it-paginator";
 import {provideEnvironmentNgxMask} from "ngx-mask";
+import {provideHotToastConfig} from "@ngxpert/hot-toast";
+import {LoaderService} from "./core/services/loader.service";
+import {NavigationService} from "./core/services/navigation.service";
+import {LoaderInterceptor} from "./core/functions/loader.interceptor";
 
 registerLocaleData(localeIt);
 
@@ -38,6 +42,11 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideAnimations(),
     provideEnvironmentNgxMask(),
+    provideHotToastConfig({
+      dismissible: true,
+      autoClose: true,
+      position: 'top-right',
+    }),
     { provide: LOCALE_ID, useValue: 'it' },
     { provide: MAT_DATE_LOCALE, useValue: 'it' },
     { provide: MatPaginatorIntl, useClass: ItPaginator },
@@ -48,6 +57,10 @@ export const appConfig: ApplicationConfig = {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
           }),
+    LoaderService,
+    NavigationService,
+    LoaderInterceptor,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ]
 };
 

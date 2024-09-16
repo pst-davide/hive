@@ -19,6 +19,10 @@ import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
 import {SwPush} from '@angular/service-worker';
+import {LoaderService} from "./core/services/loader.service";
+import {combineLatest, delay, map, Observable, of, startWith, switchMap} from "rxjs";
+import {NavigationService} from "./core/services/navigation.service";
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 interface MenuItem {
   label: string;
@@ -29,7 +33,7 @@ interface MenuItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage, CommonModule, NotificationCenterComponent],
+  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage, CommonModule, NotificationCenterComponent, MatProgressBar],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -53,6 +57,9 @@ export class AppComponent {
   @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
   @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
 
+  /* loading */
+  public isLoading$!: Observable<boolean>;
+
   /* sidebar state */
   public isSidebarOpen: boolean = true;
   public isSidebarMinimized: boolean = false;
@@ -70,7 +77,7 @@ export class AppComponent {
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
   ];
 
-  constructor(private swPush: SwPush) {
+  constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {
     moment.locale('it');
 
     if (this.swPush.isEnabled) {
@@ -79,7 +86,17 @@ export class AppComponent {
       console.error('Notifiche push non abilitate o non supportate in questo browser.');
     }
 
-    console.log(this.swPush.isEnabled);
+    this.isLoading$ = combineLatest([
+      this.loaderService.isLoading$,
+      this.navigationService.isNavigating$
+    ]).pipe(
+      map(([isLoading, isNavigating]) => isLoading || isNavigating),
+      startWith(true),
+      switchMap((isLoading: boolean) => {
+        return isLoading ? of(isLoading) : of(isLoading).pipe(delay(500));
+      })
+    );
+
   }
 
   public toggleSidebar(): void {

@@ -37,6 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 /* push notification */
 app.use('/push', pushNotificationRouter);
 

@@ -1,6 +1,7 @@
-import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpEventType, HttpRequest} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import {UploadModel} from "../model/upload.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +12,42 @@ export class UploadService {
 
   constructor(private http: HttpClient) { }
 
-  public uploadFile(formData: FormData): Observable<number> {
-    const req = new HttpRequest('POST', `${this.apiUrl}upload`, formData, {
+  public uploadFile(formData: FormData, file: File): Observable<UploadModel> {
+    const req: HttpRequest<FormData> = new HttpRequest('POST', `${this.apiUrl}upload`, formData, {
       reportProgress: true
     });
-  
-    return this.http.request(req).pipe(
-      map(event => {
+
+    const res: Observable<UploadModel> = this.http.request(req).pipe(
+      map((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:
-            return Math.round((100 * event.loaded) / (event.total || 1));
+            return {
+              progress: Math.round((100 * event.loaded) / (event.total || 1)),
+              fileName: '',
+              filePath: '',
+              fileSize: (file.size / 1024).toFixed(2),
+              fileType: file.type,
+            };
           case HttpEventType.Response:
-            return 100;
+            return {
+              progress: 100,
+              fileName: event.body?.fileName || '',
+              filePath: event.body?.filePath || '',
+              fileSize: (file.size / 1024).toFixed(2),
+              fileType: file.type,
+            };
           default:
-            return 0;
+            return {
+              progress: 0,
+              fileName: '',
+              filePath: '',
+              fileSize: (file.size / 1024).toFixed(2),
+              fileType: file.type,
+            };
         }
       })
     );
+
+    return res;
   }
 }

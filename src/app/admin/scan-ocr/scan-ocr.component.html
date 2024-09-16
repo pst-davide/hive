@@ -1,58 +1,73 @@
 <div class="flex flex-wrap -mx-3">
   <div class="w-full max-w-full px-3 sm:flex-0 shrink-0 sm:w-4/12 lg:w-3/12">
-    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-sm rounded-lg bg-clip-border p-6">
-      <!-- Drop Zone -->
-      <div class="flex items-center content-center min-h-[250px] gap-x-6">
-          <div class="relative flex flex-col outline-slate-500 outline-2 -outline-offset-4 outline-dashed w-[350px] h-[250px] 
-          rounded-2xl items-center justify-center hover:bg-slate-100 ease-in-out">
-            <!-- Input -->
-            <input
-              #fileInput
-              type="file"
-              class="absolute w-full h-full cursor-pointer opacity-0 top-0 left-0"
-              (change)="onFileChange($event)"
-              multiple
-            />
 
-            <!-- Icon -->
-            <span class="mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
+    <!-- Drop Zone -->
+    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-lg rounded-2xl bg-clip-border p-6">
+      <div class="flex items-center content-center gap-x-6">
+        <div class="flex justify-center items-center w-full">
+          <label class="flex justify-center items-center w-full h-32 text-gray-500 rounded-lg border-2 border-gray-300
+          border-dashed cursor-pointer hover:bg-gray-100 hover:border-gray-300 hover:text-gray-900"
+                 (drop)="onDrop($event)"
+                 (dragover)="onDragOver($event)">
+            <div class="flex justify-center items-center space-x-2">
+
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-            </span>
 
-            <!-- Text -->
-            <p class="text-center text-base max-w-[90%]">
-              Trascina qui <br />
-              i file che vuoi caricare <br />
-              (PNG, JPG, PDF)
-            </p>
+              <p class="text-base mb-3">
+                Trascina i file da caricare <br />
+                <span class="text-xs text-slate-400">(PNG, JPG, PDF)</span>
+                <input type="file" class="hidden" multiple (change)="onFileChange($event)">
+              </p>
 
-            <!-- Button -->
-            <button
-              type="button"
-              class="z-10 mt-5 text-green-50 px-5 py-2 bg-green-500 rounded-lg font-medium text-base hover:bg-green-600 ease-in-out"
-              (click)="fileInput.click()"
-            >
-              Scegli il file
-            </button>
-
-            <!-- Progress Bar -->
-             @for (fileProgress of progress; track fileProgress) {
-              @if (fileProgress > 0) {
-                <div class="w-[150px] bg-slate-200 rounded-full h-2.5 mt-4">
-                  <div class="bg-green-500 h-2 rounded-full" [style.width.%]="fileProgress"></div>
-                </div>
-               }
-             }
-             
-            
-          </div>
+            </div>
+          </label>
         </div>
+      </div>
+
+      <!-- progress bar -->
+      @for (p of progress; track p.fileName) {
+        @if (p.progress > 0 && p.progress < 100) {
+          <div class="w-full mt-2">
+            <div class="relative pt-1">
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                <div [style.width]="p.progress + '%'" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+              </div>
+            </div>
+          </div>
+        }
+      }
     </div>
 
-    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-sm rounded-lg bg-clip-border">
-      bbb
-    </div>
+    <!-- file list -->
+    @if (progress.length > 0) {
+      <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
+        <ul class="">
+          <li class="p-3 flex justify-center items-center mb-2">
+            <div class="flex items-center">
+              <span class="ml-3 font-medium">File Caricati</span>
+            </div>
+          </li>
+
+          @for (p of progress; track p.fileName) {
+            @if (p.progress === 100) {
+              <li class="p-3 flex justify-between items-center border-element">
+                <div class="flex items-center">
+                  <span class="ml-3 font-medium">{{p.fileName | truncate:30:'...':'letters'}}</span>
+                </div>
+                <div>
+                  <button class="text-gray-500 hover:text-gray-700" (click)="_openFile(p.filePath)">
+                    <fa-icon [icon]="p.fileType === 'application/pdf' ? faPdf : faImage"></fa-icon>
+                  </button>
+                </div>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+    }
   </div>
 </div>
