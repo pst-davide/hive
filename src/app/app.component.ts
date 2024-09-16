@@ -1,6 +1,6 @@
 import {
   Component,
-  ElementRef,
+  ElementRef, HostListener,
   model,
   ModelSignal,
   QueryList,
@@ -33,7 +33,8 @@ interface MenuItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage, CommonModule, NotificationCenterComponent, MatProgressBar],
+  imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage,
+    CommonModule, NotificationCenterComponent, MatProgressBar],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -67,6 +68,16 @@ export class AppComponent {
   /* notification panel */
   public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
 
+  /* header */
+  public isScrolled: boolean = false;
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || 0;
+
+    this.isScrolled = scrollPosition > 50;
+  }
+
+
   /* menu */
   public menuItems: MenuItem[] = [
     {label: 'Agende', link: 'calendars', icon: faCalendarDays},
@@ -75,6 +86,7 @@ export class AppComponent {
     {label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
     {label: 'Utenti', link: 'admin/users', icon: faUser},
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
+    {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
   ];
 
   constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {

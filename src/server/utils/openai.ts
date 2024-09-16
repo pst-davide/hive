@@ -1,12 +1,26 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import OpenAI from 'openai';
-import axios, {Axios, AxiosResponse} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 interface Keyword {
   word: string;
   category: string;
   importance: 'high' | 'medium' | 'low';
+}
+
+interface ParsedAnalysis {
+  keywords: Array<{
+    keyword: string;
+    category: string;
+    importance: string;
+    sentiment: string;
+    emotions: string;
+  }>;
+  summary: string;
+  tagsBasedOnKeywords: string[];
+  suggestedTags: string[];
+  rating: number;
 }
 
 const {OPENAI_API_KEY = ''} = process.env;
@@ -18,22 +32,87 @@ const openai: OpenAI = new OpenAI({
 
 const OPENAI_API_URL: string = 'https://api.openai.com/v1/chat/completions';
 
+export function parseAnalysisResponse(response: string): ParsedAnalysis {
+  const keywordRegex: RegExp = /\*\*(.*?)\*\*\n\s+- Categorizzazione: (.*?)\n\s+- Importanza: (.*?)\n\s+- Sentiment: (.*?)\n\s+- Emozioni: (.*?)\n/g;
+  const summaryRegex: RegExp = /\*\*Riassunto del Testo:\*\*\n(.*)/;
+  const tagsKeywordsRegex: RegExp = /\*\*Tag basati sulle keywords:\*\*\s(.*)/;
+  const suggestedTagsRegex: RegExp = /\*\*Tag suggeriti:\*\*\s(.*)/;
+  const ratingRegex: RegExp = /\*\*Valutazione dell'Articolo:\*\*\s(\d+)/;
+
+  // Estrarre le keywords
+  const keywords: Array<{
+    keyword: string;
+    category: string;
+    importance: string;
+    sentiment: string;
+    emotions: string;
+  }> = [];
+  let match;
+  while ((match = keywordRegex.exec(response)) !== null) {
+    keywords.push({
+      keyword: match[1],
+      category: match[2],
+      importance: match[3],
+      sentiment: match[4],
+      emotions: match[5],
+    });
+  }
+
+  // Estrarre il riassunto
+  const summaryMatch: RegExpMatchArray | null = response.match(summaryRegex);
+  const summary: string = summaryMatch ? summaryMatch[1] : '';
+
+  // Estrarre i tag basati sulle keywords
+  const tagsKeywordsMatch: RegExpMatchArray | null  = response.match(tagsKeywordsRegex);
+  const tagsBasedOnKeywords: string[] = tagsKeywordsMatch ? tagsKeywordsMatch[1].split(',').map(tag => tag.trim()) : [];
+
+  // Estrarre i tag suggeriti
+  const suggestedTagsMatch: RegExpMatchArray | null = response.match(suggestedTagsRegex);
+  const suggestedTags: string[] = suggestedTagsMatch ? suggestedTagsMatch[1].split(',').map(tag => tag.trim()) : [];
+
+  // Estrarre la valutazione
+  const ratingMatch: RegExpMatchArray | null = response.match(ratingRegex);
+  const rating: number = ratingMatch ? parseInt(ratingMatch[1], 10) : 0;
+
+  return {
+    keywords,
+    summary,
+    tagsBasedOnKeywords,
+    suggestedTags,
+    rating,
+  };
+}
+
 export async function analyzeText(text: string, keywords: Keyword[]): Promise<string> {
   const keywordList: string = keywords.map((k: Keyword) => `${k.word} (Categoria: ${k.category}, Importanza: ${k.importance})`).join(', ');
   const prompt: string = `
     Analizza il seguente testo:
     "${text}"
 
-    Cerca i seguenti argomenti chiave, la loro categoria tematica e la loro importanza: ${keywordList}.
-    Riconosci anche i sinonimi di questi argomenti, indica se il testo è "molto positivo", "positivo", "neutro",
-    "negativo" o "molto negativo" rispetto a ciascuno di essi e indica se il testo esprime emozioni specifiche
-    (come felicità, tristezza, rabbia)
+    Cerca i seguenti argomenti chiave, inclusi sinonimi, la loro categoria tematica e la loro importanza: ${keywordList}.
+    Rispondi solo per le keywords (o loro sinonimi) che trovi nel testo, anche se presenti come riferimenti impliciti.
+    Non commentare e non inserire nella risposta quelle che non sono presenti.
 
-    Dopo l'analisi, fornisci un breve riassunto (massimo 3 frasi) del testo.
+    Indica i risultati nel seguente formato:
 
-    Fornisci anche una serie di tag per catalogare l'articolo, differenziando i tag che hai trovato attinenti alle keywords
-    da quelli che suggerisci tu per catalogare l'articolo in base al contenuto generale. Indica chiaramente quali sono
-    i tag basati sulle keywords e quali sono quelli suggeriti.
+    **Keywords e Analisi:**
+
+    1. **<keyword trovata>**
+       - Categorizzazione: <categoria>
+       - Importanza: <importanza>
+       - Sentiment: <sentiment>
+       - Emozioni: <emozioni o "nessuna emozione specifica">
+
+    **Riassunto del Testo:**
+    <riassunto breve>
+
+    **Tag:**
+    - **Tag basati sulle keywords:** <elenco tag>
+    - **Tag suggeriti:** <elenco tag>
+
+    **Valutazione dell'Articolo:** <punteggio da 1 a 10>
+
+    Segui questa struttura **esatta**, evitando qualsiasi commento o menzione di keywords non trovate.
   `;
 
   try {
@@ -50,6 +129,9 @@ export async function analyzeText(text: string, keywords: Keyword[]): Promise<st
         'Content-Type': 'application/json'
       }
     });
+
+    const parsed = parseAnalysisResponse(response.data.choices[0].message.content.trim());
+    console.log(parsed);
 
     return response.data.choices[0].message.content.trim();
   } catch (error) {

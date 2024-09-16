@@ -1,0 +1,94 @@
+<div class="w-full max-w-full flex-0">
+  <div
+    class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
+    <div class="grid grid-cols-3">
+
+      <!-- global filter -->
+      <div class="col-span-3 lg:col-span-1">
+        <mat-form-field appearance="outline">
+          <input matInput (keyup)="applyFilter($event)" placeholder="cerca..." [formControl]="globalFilterCtrl">
+          <fa-icon matSuffix [icon]="faGlass" class="mr-3"></fa-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- column select -->
+      <div class="col-span-3 lg:col-span-1"></div>
+
+      <!-- icons -->
+      <div class="col-span-3 lg:col-span-1 flex justify-end items-center">
+
+        @if (canExportToPdf()) {
+          <button class="font-normal ease-soft-in-out text-lg text-slate-500 hover:text-slate-800
+          rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+          w-10 h-10 flex items-center justify-center mr-1"
+                  type="button" (click)="_toggleFilter()"
+                  matTooltip="Esporta in PDF">
+            <fa-icon [icon]="faPdf"></fa-icon>
+          </button>
+        }
+
+        @if (canExportToXls()) {
+          <button class="font-normal ease-soft-in-out text-lg text-slate-500 hover:text-slate-800
+          rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+          w-10 h-10 flex items-center justify-center mr-1"
+                  matTooltip="Esporta in XLS"
+                  type="button" (click)="_toggleFilter()">
+            <fa-icon [icon]="faExcel"></fa-icon>
+          </button>
+        }
+
+        @if (activeFilter) {
+          <button class="font-normal ease-soft-in-out text-lg text-red-500 hover:text-red-700
+          rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+          w-10 h-10 flex items-center justify-center mr-1"
+                  matTooltip="Cancella i filtri"
+                  type="button" (click)="_clearFilter()">
+            <fa-icon [icon]="faFilterClear"></fa-icon>
+          </button>
+        }
+
+        <button class="font-normal ease-soft-in-out text-lg text-slate-500 hover:text-slate-800
+        rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+        w-10 h-10 flex items-center justify-center mr-1"
+                [matTooltip]="isFiltersOpen ? 'Chiudi i filtri' : 'Apri i filtri'"
+                type="button" (click)="_toggleFilter()">
+          <fa-icon [icon]="faFilter"></fa-icon>
+        </button>
+
+        @if (canInsert()) {
+          <button class="font-normal ease-soft-in-out text-lg text-slate-500 hover:text-slate-800
+          rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+          w-10 h-10 flex items-center justify-center"
+                  matTooltip="Nuovo Documento"
+                  type="button">
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
+        }
+
+      </div>
+    </div>
+
+    <!-- table -->
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        @for (column of displayedColumns(); track column) {
+          <ng-container [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descrizione</th>
+            <td mat-cell *matCellDef="let row"> {{ row[column] }}</td>
+          </ng-container>
+        }
+
+        <!-- table headers -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+
+        <!-- table rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
+      </table>
+
+      <!-- paginator -->
+      <mat-paginator [pageSize]="pageSize()" [pageSizeOptions]="pageSizeOptions()" aria-label="Select page"
+                     showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

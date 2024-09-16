@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
+interface Keyword {
+  word: string;
+  category: string;
+  importance: 'high' | 'medium' | 'low';
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +17,7 @@ export class OpenaiService {
 
   constructor(private http: HttpClient) { }
 
-  public analyzeText(text: string, keywords: string[]): Observable<any> {
+  public analyzeText(text: string, keywords: Keyword[]): Observable<any> {
     const body = { text, keywords };
     return this.http.post<any>(`${this.apiUrl}/analyze`, body);
   }

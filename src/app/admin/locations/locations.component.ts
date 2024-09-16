@@ -100,13 +100,18 @@ export class LocationsComponent implements OnInit, AfterViewInit {
   public isFiltersOpen: boolean = false;
   public activeFilter: boolean = false;
 
-  private text = "Charles Leclerc partirà ancora una volta davanti a tutti nel GP di Baku: l\'1\'41\"365 registrato in Q3 vale " +
-  "infatti la quarta pole consecutiva al monegasco in Azerbaigian. Di fianco a lui ci sarà la McLaren di Oscar Piastri, " +
-  "terza piazza per l\'altra Ferrari di Sainz. Il monegasco, reduce dalla vittoria di Monza, ha commentato così la pole " +
-  "numero 26 della carriera: \"È un risultato fantastico: questa è una delle mie piste preferite, con cui sento di avere " +
-  "un feeling speciale. E pensare che il weekend non era iniziato nel migliore dei modi: nelle prime prove libere " +
-  "l\'incidente, nelle seconde abbiamo avuto problemi con un pezzo nuovo che abbiamo portato\"."
-  userMessage: string = 'Puoi rispondere a domande riguardanti problemi di rete?';
+  private userMessage: string = '';
+
+  private text: string = "Luna Rossa ko: American Magic accorcia ed è 4-1. Poco vento, il match point slitta a mercoledì\n" +
+    "\n" +
+    "La quinta regata sorride ai newyorkesi che riaprono la semifinale: decisivo l'ingresso al quarto gate con la barca italiana che perde il volo e si ferma\n" +
+    "\n" +
+    "Nulla da fare. Luna Rossa fallisce il primo match point di giornata e rimanda al secondo la possibilità di raggiungere la finale di Louis Vuitton Cup. I fantastici 8 del team Prada Pirelli – Bruni e Spithill timonieri, Molineris e Tesei trimmer, Voltolini, Gabbia, Liuzzi e Rosetti cyclor – non sono riusciti a capitalizzare i primi due lati di regata condotti con un discreto vantaggio (17”). Dal 3° lato American Magic ha ingaggiato un testa a testa che ha pagato. La seconda bolina è stata condotta praticamente alle pari con i due challenger che si sono alternati al comando prima della manovra che ha compromesso il quinto round della semifinale tra Luna Rossa e American Magic.\n" +
+    "\n" +
+    "Al termine della seconda poppa, con mure a dritta e quindi il diritto di precedenza, la barca italiana ha cercato di virare sulla boa “sopra” al team statunitense. Ma l’azzardo non ha pagato perché il team del New York Yacht Club non ha commesso infrazioni (ovvero non è andata nel diamante di manovra italiano) mentre Prada Pirelli è caduta dai foil regalando il successo ad American Magic. Errori in manovra che si erano già palesati nel terzo lato – il secondo di bolina – con Luna Rossa per due volte penalizzata per violazione del diamante a un incrocio.\n" +
+    "\n" +
+    "IL COMMENTO—  “Abbiamo fatto qualche errore ma non c’è nulla di compromesso” l’analisi dopo il ko di Checco Bruni, timoniere di Luna Rossa.\n" +
+    "rinvio a mercoledì—  C'è pochissimo vento a Barcellona e la giornata si chiude qui (il campo di regata è considerato praticabile sono fino alle 17.30). Si torna in acqua mercoledì. ";
   chatMessages: { sender: string, message: string }[] = [];
 
   constructor(private crudService: LocationService, public dialog: MatDialog, private addressService: AddressService,
@@ -118,8 +123,24 @@ export class LocationsComponent implements OnInit, AfterViewInit {
     this.getProvinces();
     this.getCollection();
 
-    /*
-    this.openAiService.analyzeText(this.text, ['Ferrari','GP','Leclerc']).subscribe(
+    // this.analyzeText();
+
+  }
+
+  ngAfterViewInit() {
+  }
+
+  private analyzeText(): void {
+    this.openAiService.analyzeText(this.text, [
+      {word: 'Serie A', category: 'calcio', importance:'low'},
+      {word: 'Champions League', category: 'calcio', importance:'low'},
+      {word: 'Inter', category: 'calcio', importance:'high'},
+      {word: 'Luna rossa', category: 'vela', importance:'high'},
+      {word: 'America\'s Cup', category: 'vela', importance:'high'},
+      {word: 'Bruni', category: 'vela', importance:'medium'},
+      {word: 'Ferrari', category: 'motori', importance:'high'},
+      {word: 'F1', category: 'motori', importance:'medium'},
+    ]).subscribe(
       (response) => {
         console.log(response.analysis);
       },
@@ -127,9 +148,9 @@ export class LocationsComponent implements OnInit, AfterViewInit {
         console.error('Errore durante l\'analisi:', error);
       }
     );
+  }
 
-
-
+  private sendMessage(): void {
     this.openAiService.sendMessage(this.userMessage)
     .pipe(
       tap((response) => {
@@ -144,10 +165,6 @@ export class LocationsComponent implements OnInit, AfterViewInit {
     .subscribe();
 
     this.userMessage = '';
-    */
-  }
-
-  ngAfterViewInit() {
   }
 
   private mapDoc(doc: LocationModel): LOCATION_TYPE {
