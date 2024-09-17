@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, model, ModelSignal, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component, input, InputSignal,
+  model,
+  ModelSignal,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
@@ -11,7 +21,7 @@ import {
   faTrash,
   faLocationDot, faFilePdf, faFileExcel
 } from '@fortawesome/free-solid-svg-icons';
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatFormField, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -20,6 +30,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from '../../functions/environments';
 import {MatTooltip} from '@angular/material/tooltip';
 import {T} from '@fullcalendar/core/internal-common';
+import {ALIGN_OPTIONS, ColumnModel, TYPE_OPTIONS} from "../../model/column.model";
 
 @Component({
   selector: 'app-table-template',
@@ -38,16 +49,17 @@ import {T} from '@fullcalendar/core/internal-common';
   templateUrl: './table-template.component.html',
   styleUrl: './table-template.component.scss'
 })
-export class TableTemplateComponent implements OnInit, AfterViewInit {
+export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   /* table */
   public docs: any[] = [];
-  public displayedColumns: ModelSignal<string[]> = model(['id', 'modify', 'delete']);
-  public filterColumns: ModelSignal<string[]> = model(['id', 'modify', 'delete']);
-  public dataSource!: MatTableDataSource<T>;
+  public dataSourceInput: ModelSignal<any> = model([]);
+  public dataSource: MatTableDataSource<T> = new MatTableDataSource(this.dataSourceInput());
+  public displayedColumns: ModelSignal<ColumnModel[]> = model([] as ColumnModel[]);
+  public filterColumns: ModelSignal<ColumnModel[]> = model([] as ColumnModel[]);
   public pageSize: ModelSignal<number> = model(DEFAULT_PAGE_SIZE);
   public pageSizeOptions: ModelSignal<number[]> = model(DEFAULT_PAGE_SIZE_OPTIONS);
 
@@ -59,11 +71,7 @@ export class TableTemplateComponent implements OnInit, AfterViewInit {
   /* Filters */
   public globalFilterCtrl: FormControl = new FormControl();
   public filters: ModelSignal<Record<string, string>> = model<Record<string, string>>({});
-  public filterForm: FormGroup = new FormGroup({
-    code: new FormControl(''),
-    name: new FormControl(''),
-    description: new FormControl('')
-  });
+  public filterForm: ModelSignal<FormGroup<any>> = model<FormGroup<any>>(new FormGroup({}));
   public globalFilter: string = '';
   public isFiltersOpen: boolean = false;
   public activeFilter: boolean = false;
@@ -79,14 +87,34 @@ export class TableTemplateComponent implements OnInit, AfterViewInit {
   public faPdf: IconDefinition = faFilePdf;
   public faExcel: IconDefinition = faFileExcel;
 
+  /* data column options */
+  public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string; ICON: string } = TYPE_OPTIONS;
+  public readonly ALIGN_OPTIONS: { CENTER: string; LEFT: string; RIGHT: string } = ALIGN_OPTIONS;
+
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
+  private _subscription!: Subscription;
 
   ngOnInit(): void {
-    console.log(this.filters())
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['dataSourceInput'] && !changes['dataSourceInput'].firstChange) {
+
+    }
+
+
+    if (changes['dataSourceInput'] && !changes['dataSourceInput'].firstChange) {
+      console.log('New dataSourceInput value:');
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /*************************************************
@@ -131,6 +159,10 @@ export class TableTemplateComponent implements OnInit, AfterViewInit {
     return false;
   }
 
+  public hasFilters(): boolean {
+    return Object.keys(this.filters()).length > 0;
+  }
+
   public _clearFilter(): void {
     _.forEach(this.filters, (value, key) => {
       this.filters()[key] = '';
@@ -138,7 +170,7 @@ export class TableTemplateComponent implements OnInit, AfterViewInit {
 
     this.globalFilter = '';
     this.globalFilterCtrl.setValue(null);
-    this.filterForm.reset();
+    this.filterForm().reset();
     this.activeFilter = false;
 
     this.updateFilters();
@@ -147,4 +179,25 @@ export class TableTemplateComponent implements OnInit, AfterViewInit {
   public _toggleFilter(): void {
     this.isFiltersOpen = !this.isFiltersOpen;
   }
+
+  /*************************************************
+   *
+   * Columns
+   *
+   ************************************************/
+
+  public _getColumnKeys(filter: boolean = false): string[] {
+    return this.displayedColumns()
+      .filter((column: ColumnModel) => !column.hide)
+      .map((column: ColumnModel) => filter ? `_${column.key}` : column.key);
+  }
+
+  public hasData = (row: any): boolean => {
+    return this.dataSource.filteredData.length > 0;
+  };
+
+  public noData = (row: any): boolean => {
+    return this.dataSource.filteredData.length === 0;
+  };
+
 }
