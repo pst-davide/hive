@@ -27,6 +27,7 @@ import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from '../../core/functions
 import {MapComponent} from '../../core/dialog/map/map.component';
 import {OpenaiService} from '../../core/services/openai.service';
 
+
 @Component({
   selector: 'app-locations',
   standalone: true,
@@ -185,8 +186,6 @@ export class LocationsComponent implements OnInit, AfterViewInit {
       next: (data: LocationModel[]) => {
         this.docs = data.map((doc: LocationModel) => this.mapDoc(doc));
         this.dataSource = new MatTableDataSource(this.docs);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
 
         this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
           const searchTerms = JSON.parse(filter);

@@ -14,4 +14,16 @@ export class PressKeyword {
 
   @Column({ type: 'enum', enum: ['high', 'medium', 'low'] })
   importance!: 'high' | 'medium' | 'low';
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt!: Date;
+
+  @Column({ type: 'varchar', nullable: true })
+  createdBy!: string | null;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  modifiedAt!: Date;
+
+  @Column({ type: 'varchar', nullable: true })
+  modifiedBy!: string | null;
 }

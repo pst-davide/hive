@@ -1,3 +1,5 @@
+import {IconDefinition} from '@fortawesome/angular-fontawesome';
+
 export const ALIGN_OPTIONS = {
   LEFT: 'left',
   CENTER: 'center',
@@ -17,11 +19,14 @@ export interface ColumnModel {
   name: string;
   type: typeof TYPE_OPTIONS[keyof typeof TYPE_OPTIONS];
   hide: boolean;
-  search?: boolean;
   format?: string;
-  align?: typeof ALIGN_OPTIONS[keyof typeof ALIGN_OPTIONS];
-  isSortable?: boolean;
-  selectable?: boolean; // is in selectable combo
-  selectableName?: string; // name in the combo
   stickyEnd?: boolean;
+  align?: typeof ALIGN_OPTIONS[keyof typeof ALIGN_OPTIONS];
+  selectableName?: string;
+  className?: string;
+  icon?: IconDefinition;
+  isSelectable?: boolean;
+  isFilterable?: boolean;
+  isSortable?: boolean;
+  isExportable?: boolean;
 }

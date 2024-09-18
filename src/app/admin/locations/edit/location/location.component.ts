@@ -35,7 +35,8 @@ import {NgxMaskDirective} from "ngx-mask";
   selector: 'app-location',
   standalone: true,
   imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
-    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule, CityAutocompleteComponent, NgxMaskDirective],
+    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule,
+    CityAutocompleteComponent, NgxMaskDirective],
   templateUrl: './location.component.html',
   styleUrl: './location.component.scss'
 })

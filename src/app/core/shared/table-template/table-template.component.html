@@ -23,7 +23,7 @@
           <button class="font-normal ease-soft-in-out text-lg text-slate-500 hover:text-slate-800
           rounded-2xl p-2 text-center transition-all hover:bg-slate-200
           w-10 h-10 flex items-center justify-center mr-1"
-                  type="button" (click)="_toggleFilter()"
+                  type="button" (click)="_exportAsPDF()"
                   matTooltip="Esporta in PDF">
             <fa-icon [icon]="faPdf"></fa-icon>
           </button>
@@ -34,7 +34,7 @@
           rounded-2xl p-2 text-center transition-all hover:bg-slate-200
           w-10 h-10 flex items-center justify-center mr-1"
                   matTooltip="Esporta in XLS"
-                  type="button" (click)="_toggleFilter()">
+                  type="button" (click)="_emitRowAction(null, 'xls')">
             <fa-icon [icon]="faExcel"></fa-icon>
           </button>
         }
@@ -64,7 +64,7 @@
           rounded-2xl p-2 text-center transition-all hover:bg-slate-200
           w-10 h-10 flex items-center justify-center"
                   matTooltip="Nuovo Documento"
-                  type="button">
+                  type="button" (click)="_emitRowAction(null, 'new')">
             <fa-icon [icon]="faPlus"></fa-icon>
           </button>
         }
@@ -73,7 +73,7 @@
     </div>
 
     <!-- table -->
-    @if (dataSource && paginator) {
+    @if (dataSource) {
       <div class="overflow-x-auto">
         <table mat-table [dataSource]="dataSource" matSort class="w-full">
 
@@ -86,28 +86,44 @@
                       class="text-slate-400 min-w-0 flex-grow" [mat-sort-header]="column.key"
                       [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd"
                       [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
-                    <span class="text-xs font-bold tracking-wide uppercase mt-0.5">{{ column.name }}</span>
+                    <div class="text-xs tracking-wider uppercase mt-0.5"
+                         [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">{{ column.name }}
+                    </div>
                   </th>
                 } @else {
                   <th mat-header-cell *matHeaderCellDef class="text-slate-400 min-w-0 flex-grow"
                       [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd"
                       [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
-                    <span class="text-xs font-bold tracking-wide uppercase mt-0.5">{{ column.name }}</span>
+                    <div class="text-xs tracking-wider uppercase mt-0.5"
+                         [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">{{ column.name }}
+                    </div>
                   </th>
                 }
 
                 <td mat-cell *matCellDef="let row; let i = index"
                     class="min-w-0 flex-grow"
-                    [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd"
-                    [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
-                  @switch (column.type) {
-                    @case (TYPE_OPTIONS.ID) {
-                      {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
+                    [ngClass]="column?.className"
+                    [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
+                  <div class="w-full" [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
+                    @switch (column.type) {
+                      @case (TYPE_OPTIONS.ID) {
+                        {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
+                      }
+                      @case (TYPE_OPTIONS.ICON) {
+                        @if (column.icon) {
+                          <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800
+                          rounded-2xl p-2 text-center transition-all hover:bg-slate-200
+                          w-10 h-10 flex items-center justify-center"
+                                  (click)="_emitRowAction(row, column.key)" type="button">
+                            <fa-icon [icon]="column.icon"></fa-icon>
+                          </button>
+                        }
+                      }
+                      @default {
+                        {{ row[column.key] }}
+                      }
                     }
-                    @default {
-                      {{ row[column.key] }}
-                    }
-                  }
+                  </div>
                 </td>
               </ng-container>
             }
@@ -121,7 +137,7 @@
                     class="text-slate-400 min-w-0 flex-grow"
                     [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
                   <div class="text-xs font-bold tracking-wide uppercase mt-1">
-                    @if (column.search) {
+                    @if (column.isFilterable) {
                       <input (click)="$event.stopPropagation()"
                              (keyup)="singleFilter($event, column.key)"
                              class="rounded-md py-1 px-3 text-sm border
@@ -140,8 +156,8 @@
           }
 
           <ng-container matColumnDef="emptyRow">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="4" class="text-center">
-              No Data Available
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns().length" class="text-center">
+              Non ci sono dati da visualizzare
             </td>
           </ng-container>
 
@@ -156,12 +172,15 @@
           </tr>
 
           <!-- table rows -->
-          <tr mat-row *matRowDef="let row; columns: _getColumnKeys(); when: hasData"></tr>
-
-          <tr mat-row *matRowDef="let row; columns: ['emptyRow']; when: noData"></tr>
-
+          <tr mat-row *matRowDef="let row; columns: _getColumnKeys()"></tr>
 
         </table>
+
+        @if (dataSource.filteredData.length === 0) {
+          <div class="w-full text-slate-400 text-sm py-5">
+            Non ci sono dati da visualizzare
+          </div>
+        }
 
         <!-- paginator -->
         <mat-paginator [pageSize]="pageSize()" [pageSizeOptions]="pageSizeOptions()" aria-label="Select page"

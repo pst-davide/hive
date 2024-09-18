@@ -8,6 +8,8 @@ const {PORT = 3000} = process.env;
 import 'reflect-metadata';
 import {AppDataSource} from './database/dataSource';
 import roomRouter from './routes/room.router';
+import locationRouter from './routes/location.router';
+import pressRouter from './routes/press.router';
 
 /* cors */
 import cors from 'cors';
@@ -21,7 +23,6 @@ import path from 'path';
 /* routes */
 import ocrRouter from './routes/ocr.router';
 import uploadRouter from './routes/upload.router';
-import locationRouter from './routes/location.router';
 import pushNotificationRouter from './routes/push-notification.router';
 import openAiRouter from './routes/openai.router';
 
@@ -45,6 +46,7 @@ app.use('/push', pushNotificationRouter);
 /* orm routes */
 app.use('/api', roomRouter);
 app.use('/api', locationRouter);
+app.use('/api', pressRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);
