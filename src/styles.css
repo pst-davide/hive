@@ -20,6 +20,10 @@
   --tw-ring-color: none !important;
 }
 
+body {
+  margin: 0;
+}
+
 *, ::before, ::after {
   border-style: none;
 }
@@ -95,14 +99,13 @@
   text-align: unset;
 }
 
-.mat-mdc-table .mat-mdc-header-cell.text-center {
-  text-align: center !important;
-  max-width: 50px !important;
+.cdk-overlay-dark-backdrop {
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(3px);
 }
 
-.mat-mdc-table .mat-mdc-cell.text-center {
-  text-align: center !important;
-  max-width: 50px !important;
+.transition-transform {
+  transition: transform 0.3s ease-in-out;
 }
 
 /*# sourceMappingURL=styles.css.map */

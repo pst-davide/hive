@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {BehaviorSubject} from "rxjs";
 import {PressService} from "../service/press.service";
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
-import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE, PressCategoryModel} from '../model/press-category.model';
+import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
 import {ColumnModel} from '../../../core/model/column.model';
 import _ from 'lodash';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -25,7 +25,6 @@ export class PressCategoriesComponent implements OnInit {
 
   public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
   public emptyDoc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
-  public selectedDoc: string | null = null;
 
   /****************************
    * table
@@ -57,7 +56,6 @@ export class PressCategoriesComponent implements OnInit {
     this.crudService.getDocs().subscribe({
       next: (data: PRESS_CATEGORY_TYPE[]) => {
         this.docs = data;
-        console.log(this.docs);
         this.dataSource.next(this.docs);
       },
       error: (error) => {
@@ -100,13 +98,7 @@ export class PressCategoriesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (doc: PRESS_CATEGORY_TYPE | null) => {
 
       if (doc) {
-        const docToSave: PressCategoryModel = _.omit(doc, ['VIEW_KEYWORDS', 'VIEW_KEYWORDS_COUNT']);
-
-        if (this.selectedDoc) {
-          await this.crudService.updateDoc(docToSave.id, docToSave);
-        } else {
-          await this.crudService.createDoc(docToSave);
-        }
+        this.getCollection();
       }
     })
   }

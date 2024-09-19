@@ -49,9 +49,9 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
   /* form */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(public dialogRef: MatDialogRef<PressCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: PRESS_CATEGORY_TYPE,
-              private fb: FormBuilder, private crudService: PressService,
-              public dialog: MatDialog) {
+  constructor(public dialogRef: MatDialogRef<PressCategoryComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: PRESS_CATEGORY_TYPE,
+              private fb: FormBuilder, private crudService: PressService, public dialog: MatDialog) {
   };
 
   ngOnInit(): void {
@@ -141,7 +141,6 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
     } else {
       await this.crudService.updateDoc(this.doc.id, this.doc);
     }
-
 
     this.dialogRef.close(this.doc);
   }

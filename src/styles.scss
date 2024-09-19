@@ -21,6 +21,10 @@
 [type=tel]:focus, [type=time]:focus, [type=week]:focus, [multiple]:focus, textarea:focus, select:focus {
   --tw-ring-color: none !important;
 }
+body {
+  margin: 0;
+  // @apply bg-gradient-to-r from-slate-300 to-slate-100 h-screen flex-col flex;
+}
 
 *, ::before, ::after {
   border-style: none;
@@ -105,4 +109,7 @@
 .cdk-overlay-dark-backdrop {
   background: rgba(255, 255, 255, .32);
   backdrop-filter: blur(3px);
+}
+.transition-transform {
+  transition: transform 0.3s ease-in-out;
 }

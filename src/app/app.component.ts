@@ -72,11 +72,10 @@ export class AppComponent {
   public isScrolled: boolean = false;
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop || 0;
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
     this.isScrolled = scrollPosition > 50;
   }
-
 
   /* menu */
   public menuItems: MenuItem[] = [
@@ -88,6 +87,9 @@ export class AppComponent {
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
   ];
+
+  public isSidebarMinified: boolean = false;
+  public isNotificationPanelOpen: boolean = false;
 
   constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {
     moment.locale('it');
@@ -190,10 +192,10 @@ export class AppComponent {
   private animateSidebarIcon(): void {
     const path = this.iconPath.nativeElement;
 
-    const startD = this.isSidebarOpen
+    const startD: string = this.isSidebarOpen
       ? 'M6 18L18 6M6 6l12 12'
       : 'M4 6h16M4 12h16M4 18h16';
-    const endD = this.isSidebarOpen
+    const endD: string = this.isSidebarOpen
       ? 'M4 6h16M4 12h16M4 18h16'
       : 'M6 18L18 6M6 6l12 12';
 
@@ -206,6 +208,15 @@ export class AppComponent {
       easing: 'easeInOutQuad',
       duration: 300,
     });
+  }
+
+  toggleNotificationPanel() {
+    this.isNotificationPanelOpen = !this.isNotificationPanelOpen;
+  }
+
+  _toggleSidebar() {
+    this.isSidebarMinified = !this.isSidebarMinified;
+    this.animateSidebarIcon();
   }
 
 }
