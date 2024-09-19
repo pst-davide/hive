@@ -1,25 +1,32 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
-  Component, EventEmitter, Input,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component, ElementRef,
+  EventEmitter,
+  Input,
   model,
   ModelSignal,
   OnChanges,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
+  Output, Renderer2,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {
   faEdit,
-  faMagnifyingGlass,
-  faPlus,
+  faFileExcel,
+  faFilePdf,
   faFilter,
   faFilterCircleXmark,
-  faTrash,
-  faLocationDot, faFilePdf, faFileExcel
+  faLocationDot,
+  faMagnifyingGlass,
+  faPlus,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -50,7 +57,8 @@ import {exporter} from '../../functions/file-exporter';
     NgClass,
   ],
   templateUrl: './table-template.component.html',
-  styleUrl: './table-template.component.scss'
+  styleUrl: './table-template.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
@@ -93,17 +101,16 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   public faLocationDot: IconDefinition = faLocationDot;
 
   /* data column options */
-  public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string; ICON: string } = TYPE_OPTIONS;
+  public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string; ICON: string; COLOR: string } = TYPE_OPTIONS;
   public readonly ALIGN_OPTIONS: { CENTER: string; LEFT: string; RIGHT: string } = ALIGN_OPTIONS;
 
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private cdr: ChangeDetectorRef, private pdfService: PdfService) {}
+  constructor(private cdr: ChangeDetectorRef, private pdfService: PdfService, private elRef: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.data.pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-      console.log(data)
       this.dataSource.data = data;
       this.dataSource.filteredData = data;
       this.dataSource.sort = this.sort;
@@ -135,7 +142,9 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.tableAlign();
+  }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {}
 
@@ -218,6 +227,37 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
     return this.displayedColumns()
       .filter((column: ColumnModel) => !column.hide)
       .map((column: ColumnModel) => filter ? `_${column.key}` : column.key);
+  }
+
+  private tableAlign(): void {
+    const headers: any = this.elRef.nativeElement.querySelectorAll('.mat-sort-header');
+
+    headers.forEach((header: any) => {
+
+      const headerId = header.getAttribute('ng-reflect-id');
+
+      const containerDiv = header.querySelector('.mat-sort-header-container');
+
+      if (containerDiv) {
+        const correspondingColumn: ColumnModel | null = this.displayedColumns()
+          .find((column: ColumnModel) => column.key === headerId) ?? null;
+
+        if (correspondingColumn) {
+
+          this.renderer.removeClass(containerDiv, 'justify-start');
+          this.renderer.removeClass(containerDiv, 'justify-center');
+          this.renderer.removeClass(containerDiv, 'justify-end');
+
+          if (correspondingColumn.align === ALIGN_OPTIONS.LEFT) {
+            this.renderer.addClass(containerDiv, 'justify-start');
+          } else if (correspondingColumn.align === ALIGN_OPTIONS.CENTER) {
+            this.renderer.addClass(containerDiv, 'justify-center');
+          } else if (correspondingColumn.align === ALIGN_OPTIONS.RIGHT) {
+            this.renderer.addClass(containerDiv, 'justify-end');
+          }
+        }
+      }
+    });
   }
 
   /************************************************

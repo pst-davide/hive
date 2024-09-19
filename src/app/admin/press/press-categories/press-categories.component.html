@@ -6,3 +6,15 @@
   [exportFileName]="'Elenco Argomenti'"
   (rowAction)="_rowAction($event)"></app-table-template>
 
+<!-- detail -->
+<div class="grid grid-cols-2 gap-4 my-5">
+  <div class="col-span-1 md:col-span-1 sm:col-span-2">
+    <app-table-template
+      [filters]="filters"
+      [filterForm]="filterForm"
+      [displayedColumns]="displayedColumns"
+      [data]="dataSource"
+      [exportFileName]="'Elenco Argomenti'"
+      (rowAction)="_rowAction($event)"></app-table-template>
+  </div>
+</div>

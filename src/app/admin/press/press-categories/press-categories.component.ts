@@ -4,11 +4,13 @@ import {BehaviorSubject} from "rxjs";
 import {PressService} from "../service/press.service";
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE, PressCategoryModel} from '../model/press-category.model';
-import {ALIGN_OPTIONS, ColumnModel, TYPE_OPTIONS} from '../../../core/model/column.model';
-import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {ColumnModel} from '../../../core/model/column.model';
 import _ from 'lodash';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {PressCategoryComponent} from './edit/press-category/press-category.component';
+import {displayedColumns} from './press-categories.table';
+import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
+import {SM_DIALOG_HEIGHT, SM_DIALOG_WIDTH} from '../../../core/functions/environments';
 
 @Component({
   selector: 'app-press-categories',
@@ -23,6 +25,7 @@ export class PressCategoriesComponent implements OnInit {
 
   public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
   public emptyDoc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
+  public selectedDoc: string | null = null;
 
   /****************************
    * table
@@ -35,52 +38,7 @@ export class PressCategoriesComponent implements OnInit {
   public filterForm: FormGroup = new FormGroup({name: new FormControl('')});
 
   // columns
-  public displayedColumns: ColumnModel[] = [
-    {
-      key: 'id',
-      name: '#',
-      hide: false,
-      type: TYPE_OPTIONS.ID,
-      align: ALIGN_OPTIONS.CENTER,
-      isFilterable: false,
-      isSortable: false,
-      className: 'text-slate-400 max-w-28 w-28',
-      isExportable: true,
-    },
-    {
-      key: 'name',
-      name: 'Argomento',
-      hide: false,
-      type: TYPE_OPTIONS.STRING,
-      isFilterable: false,
-      isSortable: true,
-      isExportable: true,
-    },
-    {
-      key: 'edit',
-      name: 'Modifica',
-      hide: false,
-      type: TYPE_OPTIONS.ICON,
-      isFilterable: false,
-      isSortable: false,
-      align: ALIGN_OPTIONS.CENTER,
-      stickyEnd: true,
-      icon: faEdit,
-      isExportable: false,
-    },
-    {
-      key: 'delete',
-      name: 'Elimina',
-      hide: false,
-      type: TYPE_OPTIONS.ICON,
-      isFilterable: false,
-      isSortable: false,
-      align: ALIGN_OPTIONS.CENTER,
-      stickyEnd: true,
-      icon: faTrash,
-      isExportable: false,
-    }
-  ];
+  public displayedColumns: ColumnModel[] = displayedColumns;
 
   constructor(private crudService: PressService, public dialog: MatDialog) {
   }
@@ -95,17 +53,11 @@ export class PressCategoriesComponent implements OnInit {
    *
    ************************************************/
 
-  private mapData(doc: PressCategoryModel): PRESS_CATEGORY_TYPE {
-    return {
-      ...doc
-    } as PRESS_CATEGORY_TYPE;
-  }
-
   private getCollection(): void {
     this.crudService.getDocs().subscribe({
-      next: (data: PressCategoryModel[]) => {
-        console.log(data);
-        this.docs = data.map((doc: PressCategoryModel) => this.mapData(doc));
+      next: (data: PRESS_CATEGORY_TYPE[]) => {
+        this.docs = data;
+        console.log(this.docs);
         this.dataSource.next(this.docs);
       },
       error: (error) => {
@@ -118,13 +70,17 @@ export class PressCategoriesComponent implements OnInit {
   }
 
   public _rowAction(action: { record: any; key: string }): void {
-    console.log(action)
     if (action.key === 'new') {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.editRow();
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.editRow();
+    } else if (action.key === 'view') {
+      this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
+    } else if (action.key === 'delete') {
+      this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
+      this.deleteRow();
     }
   }
 
@@ -141,8 +97,35 @@ export class PressCategoriesComponent implements OnInit {
       data: this.doc
     });
 
-    dialogRef.afterClosed().subscribe((doc: PRESS_CATEGORY_TYPE | null) => {
-      console.log(doc);
+    dialogRef.afterClosed().subscribe(async (doc: PRESS_CATEGORY_TYPE | null) => {
+
+      if (doc) {
+        const docToSave: PressCategoryModel = _.omit(doc, ['VIEW_KEYWORDS', 'VIEW_KEYWORDS_COUNT']);
+
+        if (this.selectedDoc) {
+          await this.crudService.updateDoc(docToSave.id, docToSave);
+        } else {
+          await this.crudService.createDoc(docToSave);
+        }
+      }
+    })
+  }
+
+  /*************************************************
+   *
+   * Delete
+   *
+   ************************************************/
+
+  private deleteRow(): void {
+    const dialogRef: MatDialogRef<DeleteDialogComponent> = this.dialog.open(DeleteDialogComponent, {
+      width: SM_DIALOG_WIDTH,
+      height: SM_DIALOG_HEIGHT,
+      data: {message: ''}
+    });
+
+    dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
+
     })
   }
 }

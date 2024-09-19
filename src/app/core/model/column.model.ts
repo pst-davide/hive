@@ -12,6 +12,7 @@ export const TYPE_OPTIONS = {
   ID: 'id',
   NUMBER: 'number',
   ICON: 'icon',
+  COLOR: 'color',
 }
 
 export interface ColumnModel {

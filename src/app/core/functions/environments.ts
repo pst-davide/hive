@@ -4,3 +4,6 @@ export const DEFAULT_LOCATION_COLOR: string = '#29b6f6';
 
 export const DEFAULT_PAGE_SIZE: number = 10;
 export const DEFAULT_PAGE_SIZE_OPTIONS: number[] = [10, 25, 50, 100, 250];
+
+export const SM_DIALOG_WIDTH: string = '400px';
+export const SM_DIALOG_HEIGHT: string = '300px';

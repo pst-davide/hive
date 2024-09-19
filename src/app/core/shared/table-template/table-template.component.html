@@ -82,20 +82,20 @@
               <ng-container [matColumnDef]="column.key" [stickyEnd]="column.stickyEnd">
 
                 @if (column.isSortable) {
-                  <th mat-header-cell *matHeaderCellDef
+                  <th mat-header-cell *matHeaderCellDef [id]="column.key"
                       class="text-slate-400 min-w-0 flex-grow" [mat-sort-header]="column.key"
-                      [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd"
-                      [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
-                    <div class="text-xs tracking-wider uppercase mt-0.5"
-                         [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">{{ column.name }}
+                      [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
+                    <div class="text-xs tracking-wider uppercase mt-0.5 flex">
+                      {{ column.name }}
                     </div>
                   </th>
                 } @else {
                   <th mat-header-cell *matHeaderCellDef class="text-slate-400 min-w-0 flex-grow"
-                      [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd"
-                      [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
-                    <div class="text-xs tracking-wider uppercase mt-0.5"
-                         [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">{{ column.name }}
+                      [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
+                    <div class="text-xs tracking-wider uppercase mt-0.5 flex"
+                         [class.justify-start]="column.align && column.align === ALIGN_OPTIONS.LEFT"
+                         [class.justify-center]="column.align && column.align === ALIGN_OPTIONS.CENTER"
+                         [class.justify-end]="column.align && column.align === ALIGN_OPTIONS.RIGHT">{{ column.name }}
                     </div>
                   </th>
                 }
@@ -104,10 +104,19 @@
                     class="min-w-0 flex-grow"
                     [ngClass]="column?.className"
                     [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
-                  <div class="w-full" [class.text-center]="column.align && column.align === ALIGN_OPTIONS.CENTER">
+                  <div class="w-full flex"
+                       [class.justify-start]="column.align && column.align === ALIGN_OPTIONS.LEFT"
+                       [class.justify-center]="column.align && column.align === ALIGN_OPTIONS.CENTER"
+                       [class.justify-end]="column.align && column.align === ALIGN_OPTIONS.RIGHT">
                     @switch (column.type) {
                       @case (TYPE_OPTIONS.ID) {
                         {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
+                      }
+                      @case (TYPE_OPTIONS.COLOR) {
+                        <div class="flex items-center">
+                          <div class="w-4 h-4 rounded-full mr-2" [style.background-color]="row.color"></div>
+                          <span>{{ row[column.key] }}</span>
+                        </div>
                       }
                       @case (TYPE_OPTIONS.ICON) {
                         @if (column.icon) {

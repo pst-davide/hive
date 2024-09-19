@@ -9,8 +9,8 @@ export interface PressCategoryModel {
 
 export type PRESS_CATEGORY_TYPE = PressCategoryModel & {
   VIEW_KEYWORDS?: string | null;
+  VIEW_KEYWORDS_COUNT?: number;
 };
-
 
 export const EMPTY_PRESS_CATEGORY: PRESS_CATEGORY_TYPE = {
   id: 0,
