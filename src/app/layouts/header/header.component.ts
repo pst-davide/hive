@@ -1,4 +1,14 @@
-import {Component, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  model,
+  ModelSignal,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {BreadcrumbComponent} from '../breadcrumb/breadcrumb.component';
 import {Breadcrumb, BreadcrumbService} from 'app/core/services/breadcrumb.service';
 import _ from 'lodash';
@@ -7,7 +17,7 @@ import {faBell, faGear, faUser} from '@fortawesome/free-solid-svg-icons';
 import {WeatherService} from '../../core/services/weather.service';
 import {Subject, takeUntil} from 'rxjs';
 import moment, {Moment} from 'moment';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 
 export interface WeatherCondition {
   icon: string | null;
@@ -40,17 +50,23 @@ export const EMPTY_WEATHER: WeatherCondition = {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [BreadcrumbComponent, FontAwesomeModule, DatePipe],
+  imports: [BreadcrumbComponent, FontAwesomeModule, DatePipe, NgClass],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public title: string = 'HIVE';
+  /* page title */
+  public title: ModelSignal<string> = model<string>('hive');
 
   /* icons */
   public faUser: IconDefinition = faUser;
   public faGear: IconDefinition = faGear;
   public faBell: IconDefinition = faBell;
+
+  /* element ref */
+  @ViewChild('iconPath') iconPath!: ElementRef;
+  @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
+  @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
 
   /* weather */
   public weather: WeatherCondition = _.cloneDeep(EMPTY_WEATHER);
@@ -64,8 +80,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {id: 5, label: '18'}
   ];
 
-  public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
+  /* sidebar state */
+  public isSidebarMinimized: ModelSignal<boolean> = model<boolean>(false);
 
+  /* notification panel */
+  public isNotificationPanelOpen: ModelSignal<boolean> = model<boolean>(false);
+
+  /* scroll */
+  public isScrolled: ModelSignal<boolean> = model<boolean>(false);
+
+  /* subject */
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private breadcrumbService: BreadcrumbService, private weatherService: WeatherService) {
@@ -81,17 +105,39 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  /***************************************************************************************
+   *
+   * Breadcrumb
+   *
+   * ************************************************************************************/
+
   private setBreadcrumbs() {
     this.breadcrumbService.getBreadcrumbs()
       .pipe(takeUntil(this.destroy$))
       .subscribe((breadcrumbs: Breadcrumb[]) => {
         const lastBreadcrumbs: Breadcrumb | null = _.last(breadcrumbs) || null;
-        this.title = lastBreadcrumbs ? lastBreadcrumbs.label : 'HIVE';
+        this.title.set(lastBreadcrumbs ? lastBreadcrumbs.label : 'hive');
       });
   }
 
+  /***************************************************************************************
+   *
+   * Sidebar
+   *
+   * ************************************************************************************/
+
+  public toggleSidebar(): void {
+    this.isSidebarMinimized.set(!this.isSidebarMinimized());
+  }
+
+  /******************************************************************************************
+   *
+   * Notification Panel
+   *
+   * ***************************************************************************************/
+
   public _toggleNotificationPanel(): void {
-    this.showNotificationPanel.set(!this.showNotificationPanel());
+    this.isNotificationPanelOpen.set(!this.isNotificationPanelOpen());
   }
 
   /******************************************************************************************

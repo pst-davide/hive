@@ -18,8 +18,6 @@ import {
   faCalendarDays,
   faUser,
   faEnvelope,
-  faGear,
-  faBell
 } from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
@@ -27,11 +25,10 @@ import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
 import {SwPush} from '@angular/service-worker';
-import {LoaderService} from "./core/services/loader.service";
-import {combineLatest, delay, map, Observable, of, startWith, switchMap} from "rxjs";
-import {NavigationService} from "./core/services/navigation.service";
-import {MatProgressBar} from "@angular/material/progress-bar";
-import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
+import {LoaderService} from './core/services/loader.service';
+import {combineLatest, delay, map, Observable, of, startWith, switchMap} from 'rxjs';
+import {NavigationService} from './core/services/navigation.service';
+import {MatProgressBar} from '@angular/material/progress-bar';
 
 interface MenuItem {
   label: string;
@@ -43,7 +40,7 @@ interface MenuItem {
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage,
-    CommonModule, NotificationCenterComponent, MatProgressBar, BreadcrumbComponent],
+    CommonModule, NotificationCenterComponent, MatProgressBar],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -71,19 +68,17 @@ export class AppComponent {
   public isLoading$!: Observable<boolean>;
 
   /* sidebar state */
-  public isSidebarOpen: boolean = true;
-  public isSidebarMinimized: boolean = false;
+  public isSidebarMinimized: ModelSignal<boolean> = model<boolean>(false);
 
   /* notification panel */
-  public showNotificationPanel: ModelSignal<boolean> = model<boolean>(false);
+  public isNotificationPanelOpen: ModelSignal<boolean> = model<boolean>(false);
 
-  /* header */
-  public isScrolled: boolean = false;
+  /* scroll */
+  public isScrolled: ModelSignal<boolean> = model<boolean>(false);
   @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-    this.isScrolled = scrollPosition > 50;
+  onWindowScroll(): void {
+    const scrollPosition: number = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.isScrolled.set(scrollPosition > 50);
   }
 
   /* menu */
@@ -96,8 +91,6 @@ export class AppComponent {
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
   ];
-
-  public isNotificationPanelOpen: boolean = false;
 
   constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {
     moment.locale('it');
@@ -119,6 +112,11 @@ export class AppComponent {
       })
     );
 
+    this.isSidebarMinimized.subscribe(() => {
+      this.animateSidebarText();
+      this.animateSidebarIcon();
+    });
+
   }
 
   /***************************************************************************************
@@ -127,24 +125,12 @@ export class AppComponent {
    *
    * ************************************************************************************/
 
-  public toggleSidebar(): void {
-    if (this.isSidebarOpen) {
-      this.isSidebarMinimized = !this.isSidebarMinimized;
-      this.isSidebarOpen = false;
-    } else {
-      this.isSidebarOpen = true;
-      this.isSidebarMinimized = false;
-    }
-
-    this.animateSidebarText();
-    this.animateSidebarIcon();
-
-  }
-
   private animateSidebarText(): void {
-    if (!this.isSidebarOpen) {
+    if (this.isSidebarMinimized()) {
       anime({
-        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
+        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => {
+          return el.nativeElement;
+        }),
         translateX: [0, -100], // Sposta da 0 a -100 (fuori dalla vista)
         opacity: {
           value: [1, 0],
@@ -163,7 +149,7 @@ export class AppComponent {
 
       anime({
         targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
-        translateX: [0, -12], // Sposta da 0 a -12px (compensazione del margine)
+        translateX: [0, -16], // Sposta da 0 a -16px (compensazione del margine)
         easing: 'easeInOutQuad',
         duration: 350,
         complete: () => {
@@ -192,7 +178,7 @@ export class AppComponent {
 
       anime({
         targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
-        translateX: [-12, 0], // Sposta da -12px a 0 (compensazione del margine)
+        translateX: [-16, 0], // Sposta da -16px a 0 (compensazione del margine)
         easing: 'easeInOutQuad',
         duration: 350,
         complete: () => {
@@ -210,10 +196,10 @@ export class AppComponent {
   private animateSidebarIcon(): void {
     const path = this.iconPath.nativeElement;
 
-    const startD: string = this.isSidebarOpen
+    const startD: string = !this.isSidebarMinimized()
       ? 'M6 18L18 6M6 6l12 12'
       : 'M4 6h16M4 12h16M4 18h16';
-    const endD: string = this.isSidebarOpen
+    const endD: string = !this.isSidebarMinimized()
       ? 'M4 6h16M4 12h16M4 18h16'
       : 'M6 18L18 6M6 6l12 12';
 
@@ -228,17 +214,4 @@ export class AppComponent {
     });
   }
 
-  /***************************************************************************************
-   *
-   * Notification Panel
-   *
-   * ************************************************************************************/
-
-  _toggleNotificationPanel() {
-    this.isNotificationPanelOpen = !this.isNotificationPanelOpen;
-  }
-
-  protected readonly faGear = faGear;
-  protected readonly faBell = faBell;
-  protected readonly faUser = faUser;
 }

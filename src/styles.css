@@ -28,6 +28,12 @@ body {
   border-style: none;
 }
 
+.comfortaa-text {
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 .border-element {
   border-style: solid;
   border-bottom-width: 1px;
@@ -61,6 +67,12 @@ body {
   background-image: linear-gradient(310deg, #ff0080, #7928ca);
 }
 
+.gradient-text {
+  background: linear-gradient(90deg, #7928ca, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .shadow-soft-md {
   --tw-shadow: 0 4px 7px -1px rgba(0, 0, 0, .11), 0 2px 4px -1px rgba(0, 0, 0, .07);
   --tw-shadow-colored: 0 4px 7px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
@@ -81,12 +93,6 @@ body {
   background-size: 150%;
 }
 
-.hover\:scale-102:hover {
-  --tw-scale-x: 1.02;
-  --tw-scale-y: 1.02;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .mat-mdc-table, .mat-mdc-paginator {
   background-color: transparent !important;
 }
@@ -104,8 +110,12 @@ body {
   backdrop-filter: blur(3px);
 }
 
-.transition-transform {
-  transition: transform 0.3s ease-in-out;
+.translate-4 {
+  transform: translateX(0); /* posizione iniziale con margine mx-4 */
+}
+
+.translate-1 {
+  transform: translateX(-16px); /* compensazione per ridurre l'effetto di margine mx-4 a mx-1 */
 }
 
 /*# sourceMappingURL=styles.css.map */

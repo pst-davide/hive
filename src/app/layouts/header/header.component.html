@@ -1,39 +1,62 @@
-<header>
-  <div class="h-28 flex flex-col justify-start items-stretch">
+<header class="text-slate-500 fixed z-10 w-full"
+        [ngClass]="{'backdrop-blur-md transition-all duration-300 ease-in-out': isScrolled}">
 
-    <div class="h-8 min-h-8 w-full  flex pl-4 items-center">
-      <app-breadcrumb></app-breadcrumb>
+  <!-- breadcrumb -->
+  <div class="h-8 w-full transition-all duration-500 ease-in-out"
+       [ngClass]="{'pl-64': !isSidebarMinimized(), 'pl-16': isSidebarMinimized()}">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+
+  <div class="mx-auto flex items-center h-16">
+
+    <!-- logo -->
+    <div class="flex-shrink-0 flex items-center justify-start transition-all duration-500 ease-in-out"
+         [ngClass]="{'w-64': !isSidebarMinimized(), 'w-16': isSidebarMinimized()}">
+      <div class="transition-all duration-500 ease-in-out flex items-center"
+           [ngClass]="{'pl-7 scale-100': !isSidebarMinimized(), 'pl-3 scale-75': isSidebarMinimized()}">
+        <img src="/images/logo.svg" class="w-10 h-auto max-h-10" alt="Hive App Logo"/>
+        <span class="comfortaa-text font-bold gradient-text text-2xl transition-all duration-500 ml-3"
+              [ngClass]="{
+                          'opacity-100 pointer-events-auto': !isSidebarMinimized(),
+                          'opacity-0 pointer-events-none': isSidebarMinimized()
+                      }">hive</span>
+      </div>
     </div>
 
-    <div class="flex-1 h-20 min-h-20 w-full flex items-start">
-      <div class="w-full flex justify-between">
-        <!-- title -->
-        <div class="text-white ml-4 mt-1">
-          <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left mt-[2px]">
-            {{ title }}
-          </h2>
-        </div>
-
-        <!-- menu -->
-        <div class="text-white mr-4 mt-0">
+    <!-- sidebar toggle, header menu -->
+    <div class="flex items-center justify-between w-full px-4 transition-all duration-500 ease-in-out">
+      <div class="flex items-center justify-start">
+        <button (click)="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+               class="w-6 h-6 text-slate-400">
+            <path #iconPath stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <span class="comfortaa-text font-bold gradient-text text-2xl transition-all duration-500 ml-3">hive</span>
+      </div>
+      <div class="ml-auto">
+        <div class="flex items-center">
           <ul class="flex flex-wrap justify-center list-none lg:justify-end">
-
             @if (weather.icon) {
               <li class="nav-item flex items-center relative">
-                <a (click)="_toggleWeatherOverlay()" class="relative z-10 group">
+                <button class="font-normal text-sm text-slate-500
+                            rounded-2xl p-2 text-center transition-all
+                            flex items-center justify-center
+                            hover:text-slate-800 hover:bg-slate-200
+                            focus:bg-slate-100
+                            ease-soft-in-out"
+                        (mouseenter)="_toggleWeatherOverlay()" (mouseleave)="_toggleWeatherOverlay()"
+                        (click)="_toggleWeatherOverlay()" type="button">
                   <img [src]="'/images/weather/mono/' + weather.icon + '.svg'" [alt]="weather.description"
-                       class="h-8 mr-3"/>
-                </a>
+                       class="h-8"/>
+                </button>
 
-                <!-- weather overlay -->
-                <div class="absolute -right-5 top-10 w-60 z-50
-                   bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50
-                   transition-opacity duration-400"
-                     [class.opacity-100]="showWeatherOverlay"
-                     [class.opacity-0]="!showWeatherOverlay"
-                     [class.block]="showWeatherOverlay"
-                     [class.hidden]="!showWeatherOverlay">
-                  <div class="flex flex-col">
+                <!-- Weather Overlay -->
+                @if (showWeatherOverlay) {
+                  <div
+                    class="absolute top-10 left-1/2 transform -translate-x-1/2 mt-2 w-48 p-4 bg-white shadow-lg
+                    rounded-md z-50 min-w-64">
+                    <div class="flex flex-col">
                     <div>
                       <h2 class="font-bold text-gray-600 text-center">Schio</h2>
                     </div>
@@ -90,56 +113,63 @@
                       </div>
                     </div>
                   </div>
-                </div>
 
+                  </div>
+                }
               </li>
             }
-
             <li class="nav-item flex items-center">
               <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                rounded-2xl p-2 text-center transition-all "
+                            rounded-2xl p-2 text-center transition-all"
                       (click)="_toggleNotificationPanel()" type="button">
                 <img
                   alt="user 1"
                   src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
-                  class="relative inline-block h-8 w-8 rounded-full border-2 border-white object-cover object-center hover:ring-2 hover:ring-fuchsia-400 transition-all duration-300"
+                  class="relative inline-block h-8 w-8 rounded-full border-2 border-white object-cover object-center
+                    hover:ring-2 hover:ring-fuchsia-400 transition-all duration-300"
                 />
               </button>
             </li>
             <li class="nav-item flex items-center">
-              <button class="block font-bold ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                rounded-2xl p-2 text-center transition-all
-               hover:bg-slate-200 focus:bg-slate-100 active:bg-slate-100"
+              <button class="font-normal text-sm text-slate-500
+                            rounded-2xl p-2 text-center transition-all
+                            flex items-center justify-center
+                            hover:text-slate-800 hover:bg-slate-200
+                            focus:bg-slate-100 active:bg-slate-100
+                            ease-soft-in-out"
                       (click)="_toggleNotificationPanel()" type="button">
                 <fa-icon [icon]="faUser" class="mr-2"></fa-icon>
                 Log Out
               </button>
             </li>
             <li class="nav-item flex items-center">
-              <button class="block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                rounded-2xl p-2 text-center transition-all
-               hover:bg-slate-200 focus:bg-slate-100 active:bg-slate-100"
+              <button class="font-normal text-sm text-slate-500
+                            rounded-2xl p-2 text-center transition-all
+                            w-10 h-10 flex items-center justify-center
+                            hover:text-slate-800 hover:bg-slate-200
+                            focus:bg-slate-100 active:bg-slate-100
+                            ease-soft-in-out"
                       (click)="_toggleNotificationPanel()" type="button">
                 <fa-icon [icon]="faGear"></fa-icon>
               </button>
             </li>
             <li class="nav-item flex items-center">
-              <button
-                class="relative block font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800 mr-2
-                           rounded-2xl p-2 text-center transition-all
-                           hover:bg-slate-200 focus:bg-slate-100 active:bg-slate-100"
-                (click)="_toggleNotificationPanel()"
-                type="button"
-              >
+              <button class="font-normal text-sm text-slate-500
+                            rounded-2xl p-2 text-center transition-all
+                            w-10 h-10 flex items-center justify-center
+                            hover:text-slate-800 hover:bg-slate-200
+                            focus:bg-slate-100 active:bg-slate-100
+                            ease-soft-in-out"
+                      (click)="_toggleNotificationPanel()" type="button">
                 <fa-icon [icon]="faBell"></fa-icon>
                 <span
-                  class="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full"
-                ></span>
+                  class="absolute top-14 right-6 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
               </button>
             </li>
           </ul>
         </div>
       </div>
     </div>
+
   </div>
 </header>
