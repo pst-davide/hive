@@ -12,7 +12,15 @@ import {RouterModule, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
-import {faLocationDot, faFont, faCalendarDays, faUser, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {
+  faLocationDot,
+  faFont,
+  faCalendarDays,
+  faUser,
+  faEnvelope,
+  faGear,
+  faBell
+} from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
@@ -23,6 +31,7 @@ import {LoaderService} from "./core/services/loader.service";
 import {combineLatest, delay, map, Observable, of, startWith, switchMap} from "rxjs";
 import {NavigationService} from "./core/services/navigation.service";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {BreadcrumbComponent} from './layouts/breadcrumb/breadcrumb.component';
 
 interface MenuItem {
   label: string;
@@ -34,7 +43,7 @@ interface MenuItem {
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage,
-    CommonModule, NotificationCenterComponent, MatProgressBar],
+    CommonModule, NotificationCenterComponent, MatProgressBar, BreadcrumbComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -88,7 +97,6 @@ export class AppComponent {
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
   ];
 
-  public isSidebarMinified: boolean = false;
   public isNotificationPanelOpen: boolean = false;
 
   constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {
@@ -113,6 +121,12 @@ export class AppComponent {
 
   }
 
+  /***************************************************************************************
+   *
+   * Sidebar
+   *
+   * ************************************************************************************/
+
   public toggleSidebar(): void {
     if (this.isSidebarOpen) {
       this.isSidebarMinimized = !this.isSidebarMinimized;
@@ -130,27 +144,31 @@ export class AppComponent {
   private animateSidebarText(): void {
     if (!this.isSidebarOpen) {
       anime({
-        targets: this.menuTextElements.toArray().map(el => el.nativeElement),
+        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
         translateX: [0, -100], // Sposta da 0 a -100 (fuori dalla vista)
-        opacity: [1, 0],       // Riduce l'opacità da 1 a 0
+        opacity: {
+          value: [1, 0],
+          easing: 'easeInOutQuad',
+          delay: 50
+        },
         easing: 'easeInOutQuad',
-        duration: 200,
+        duration: 350,
         delay: anime.stagger(50)
       });
 
-      this.menuLinkElements.forEach(link => {
+      this.menuLinkElements.forEach((link: ElementRef<any>) => {
         link.nativeElement.classList.add('translate-4');
         link.nativeElement.classList.remove('translate-1');
       });
 
       anime({
-        targets: this.menuLinkElements.toArray().map(el => el.nativeElement),
-        translateX: [0, -12], // Transla da 0 a -12px (compensazione del margine)
+        targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
+        translateX: [0, -12], // Sposta da 0 a -12px (compensazione del margine)
         easing: 'easeInOutQuad',
-        duration: 300,
+        duration: 350,
         complete: () => {
           // Rimuovi la classe di trasformazione finale
-          this.menuLinkElements.forEach(link => {
+          this.menuLinkElements.forEach((link: ElementRef<any>) => {
             link.nativeElement.classList.remove('translate-4');
             link.nativeElement.classList.add('translate-1');
           });
@@ -159,27 +177,27 @@ export class AppComponent {
 
     } else {
       anime({
-        targets: this.menuTextElements.toArray().map(el => el.nativeElement),
+        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
         translateX: [-100, 0], // Sposta da -100 a 0 (di nuovo visibile)
-        opacity: [0, 1],       // Aumenta l'opacità da 0 a 1
+        opacity: [0, 1],
         easing: 'easeInOutQuad',
-        duration: 200,
+        duration: 350,
         delay: anime.stagger(50)
       });
 
-      this.menuLinkElements.forEach(link => {
+      this.menuLinkElements.forEach((link: ElementRef<any>) => {
         link.nativeElement.classList.add('translate-1');
         link.nativeElement.classList.remove('translate-4');
       });
 
       anime({
-        targets: this.menuLinkElements.toArray().map(el => el.nativeElement),
-        translateX: [-12, 0], // Transla da -12px a 0 (compensazione del margine)
+        targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
+        translateX: [-12, 0], // Sposta da -12px a 0 (compensazione del margine)
         easing: 'easeInOutQuad',
-        duration: 300,
+        duration: 350,
         complete: () => {
           // Rimuovi la classe di trasformazione finale
-          this.menuLinkElements.forEach(link => {
+          this.menuLinkElements.forEach((link: ElementRef<any>) => {
             link.nativeElement.classList.remove('translate-1');
             link.nativeElement.classList.add('translate-4');
           });
@@ -210,13 +228,17 @@ export class AppComponent {
     });
   }
 
-  toggleNotificationPanel() {
+  /***************************************************************************************
+   *
+   * Notification Panel
+   *
+   * ************************************************************************************/
+
+  _toggleNotificationPanel() {
     this.isNotificationPanelOpen = !this.isNotificationPanelOpen;
   }
 
-  _toggleSidebar() {
-    this.isSidebarMinified = !this.isSidebarMinified;
-    this.animateSidebarIcon();
-  }
-
+  protected readonly faGear = faGear;
+  protected readonly faBell = faBell;
+  protected readonly faUser = faUser;
 }
