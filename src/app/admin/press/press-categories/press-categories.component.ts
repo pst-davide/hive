@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {Component, model, ModelSignal, OnInit} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BehaviorSubject} from "rxjs";
 import {PressService} from "../service/press.service";
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
@@ -11,20 +11,38 @@ import {PressCategoryComponent} from './edit/press-category/press-category.compo
 import {displayedColumns} from './press-categories.table';
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
 import {SM_DIALOG_HEIGHT, SM_DIALOG_WIDTH} from '../../../core/functions/environments';
+import {PressKeywordsComponent} from '../press-keywords/press-keywords.component';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
+import {EMPTY_CRUD} from '../../../core/model/crud.model';
 
 @Component({
   selector: 'app-press-categories',
   standalone: true,
   imports: [
-    TableTemplateComponent
+    TableTemplateComponent,
+    PressKeywordsComponent,
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    ReactiveFormsModule
   ],
   templateUrl: './press-categories.component.html',
   styleUrl: './press-categories.component.scss'
 })
 export class PressCategoriesComponent implements OnInit {
 
+  /* form control */
+  public keywordsControl: FormControl<string | null> = new FormControl('');
+
+  /* doc */
   public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
   public emptyDoc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
+
+  /* category */
+  public categoryId: ModelSignal<number | null> = model<number | null>(-1);
 
   /****************************
    * table
@@ -32,11 +50,11 @@ export class PressCategoriesComponent implements OnInit {
   public docs: PRESS_CATEGORY_TYPE[] = [];
   public dataSource: BehaviorSubject<PRESS_CATEGORY_TYPE[]> = new BehaviorSubject<PRESS_CATEGORY_TYPE[]>([]);
 
-  // filter
+  /* filter */
   public filters: Record<string, string> = {};
   public filterForm: FormGroup = new FormGroup({name: new FormControl('')});
 
-  // columns
+  /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
   constructor(private crudService: PressService, public dialog: MatDialog) {
@@ -76,6 +94,7 @@ export class PressCategoriesComponent implements OnInit {
       this.editRow();
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
+      this.categoryId.set(this.doc.id);
     } else if (action.key === 'delete') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.deleteRow();
@@ -119,5 +138,41 @@ export class PressCategoriesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
 
     })
+  }
+
+  /*************************************************
+   *
+   * New Keywords
+   *
+   ************************************************/
+
+  public _transformKeywords(): void {
+
+    const keywordPattern = /#(high|medium|low)#\s*([^#]+)/g;
+    const input: string | null = this.keywordsControl.value;
+    const result: PRESS_KEYWORD_TYPE[] = [];
+    let match: RegExpExecArray | null;
+
+    if (input) {
+      while ((match = keywordPattern.exec(input)) !== null) {
+      const importance: string = match[1];  // high, medium, low
+      const words: string[] = match[2].split(';').map((word: string) => word.trim()); // Separiamo le parole
+
+      words.forEach(word => {
+        if (word) {
+          const keywordModel: PRESS_KEYWORD_TYPE = {
+            id: 0,
+            word: word || null,
+            category: this.categoryId(),
+            importance: importance,
+            crud: _.cloneDeep(EMPTY_CRUD)
+          };
+          result.push(keywordModel);
+        }
+      });
+    }
+    }
+
+    console.log(result);
   }
 }

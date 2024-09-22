@@ -101,7 +101,8 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   public faLocationDot: IconDefinition = faLocationDot;
 
   /* data column options */
-  public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string; ICON: string; COLOR: string } = TYPE_OPTIONS;
+  public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string;
+    ICON: string; COLOR: string; BADGE: string } = TYPE_OPTIONS;
   public readonly ALIGN_OPTIONS: { CENTER: string; LEFT: string; RIGHT: string } = ALIGN_OPTIONS;
 
   /* Subject */

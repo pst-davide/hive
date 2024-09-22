@@ -13,6 +13,7 @@ export const TYPE_OPTIONS = {
   NUMBER: 'number',
   ICON: 'icon',
   COLOR: 'color',
+  BADGE: 'badge'
 }
 
 export interface ColumnModel {
@@ -30,4 +31,5 @@ export interface ColumnModel {
   isFilterable?: boolean;
   isSortable?: boolean;
   isExportable?: boolean;
+  dependency?: string;
 }

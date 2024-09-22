@@ -4,7 +4,6 @@ import {
   model,
   ModelSignal,
   QueryList,
-  ViewChild,
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,7 +16,7 @@ import {
   faFont,
   faCalendarDays,
   faUser,
-  faEnvelope,
+  faEnvelope, faChevronUp, faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
@@ -34,6 +33,8 @@ interface MenuItem {
   label: string;
   link: string;
   icon: IconDefinition;
+  isOpen?: boolean;
+  subItems?: MenuItem[];
 }
 
 @Component({
@@ -58,9 +59,7 @@ interface MenuItem {
   ]
 })
 export class AppComponent {
-  title = 'hive-app';
 
-  @ViewChild('iconPath') iconPath!: ElementRef;
   @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
   @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
 
@@ -75,6 +74,7 @@ export class AppComponent {
 
   /* scroll */
   public isScrolled: ModelSignal<boolean> = model<boolean>(false);
+
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const scrollPosition: number = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -90,9 +90,17 @@ export class AppComponent {
     {label: 'Utenti', link: 'admin/users', icon: faUser},
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
+    {
+      label: 'Test', link: 'admin/press/categories', icon: faEnvelope, isOpen: false,
+      subItems: [
+        {label: 'Submenu 1-1', link: '/sub1', icon: faFont},
+        {label: 'Submenu 1-2', link: '/sub2', icon: faLocationDot}
+      ]
+    },
   ];
 
-  constructor(private swPush: SwPush, private loaderService: LoaderService, private navigationService: NavigationService) {
+  constructor(private swPush: SwPush, private loaderService: LoaderService,
+              private navigationService: NavigationService) {
     moment.locale('it');
 
     if (this.swPush.isEnabled) {
@@ -114,7 +122,6 @@ export class AppComponent {
 
     this.isSidebarMinimized.subscribe(() => {
       this.animateSidebarText();
-      this.animateSidebarIcon();
     });
 
   }
@@ -126,92 +133,84 @@ export class AppComponent {
    * ************************************************************************************/
 
   private animateSidebarText(): void {
+    const textElements: any[] = this.menuTextElements.toArray().map((el: ElementRef<any>) => {
+      return el.nativeElement;
+    });
+    const linkElements: any[] = this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement);
+
     if (this.isSidebarMinimized()) {
+
       anime({
-        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => {
-          return el.nativeElement;
-        }),
-        translateX: [0, -100], // Sposta da 0 a -100 (fuori dalla vista)
+        targets: textElements,
+        translateX: [0, -100],
         opacity: {
           value: [1, 0],
           easing: 'easeInOutQuad',
-          delay: 50
+          delay: anime.stagger(50),
         },
         easing: 'easeInOutQuad',
         duration: 350,
         delay: anime.stagger(50)
       });
 
-      this.menuLinkElements.forEach((link: ElementRef<any>) => {
-        link.nativeElement.classList.add('translate-4');
-        link.nativeElement.classList.remove('translate-1');
-      });
-
       anime({
-        targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
-        translateX: [0, -16], // Sposta da 0 a -16px (compensazione del margine)
+        targets: linkElements,
+        translateX: [0, -16],
         easing: 'easeInOutQuad',
         duration: 350,
-        complete: () => {
-          // Rimuovi la classe di trasformazione finale
-          this.menuLinkElements.forEach((link: ElementRef<any>) => {
-            link.nativeElement.classList.remove('translate-4');
-            link.nativeElement.classList.add('translate-1');
-          });
-        }
       });
 
-    } else {
       anime({
-        targets: this.menuTextElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
-        translateX: [-100, 0], // Sposta da -100 a 0 (di nuovo visibile)
-        opacity: [0, 1],
+        targets: '.chevron',
+        opacity: [1, 0],
+        translateX: [0, -100],
         easing: 'easeInOutQuad',
         duration: 350,
         delay: anime.stagger(50)
       });
 
-      this.menuLinkElements.forEach((link: ElementRef<any>) => {
-        link.nativeElement.classList.add('translate-1');
-        link.nativeElement.classList.remove('translate-4');
+    } else {
+      anime({
+        targets: textElements,
+        translateX: [-100, 0],
+        opacity: {
+          value: [0, 1],
+          easing: 'easeInOutQuad',
+          delay: anime.stagger(50),
+        },
+        easing: 'easeInOutQuad',
+        duration: 350,
+        delay: anime.stagger(50)
       });
 
       anime({
-        targets: this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement),
-        translateX: [-16, 0], // Sposta da -16px a 0 (compensazione del margine)
+        targets: linkElements,
+        translateX: [-16, 0],
         easing: 'easeInOutQuad',
         duration: 350,
-        complete: () => {
-          // Rimuovi la classe di trasformazione finale
-          this.menuLinkElements.forEach((link: ElementRef<any>) => {
-            link.nativeElement.classList.remove('translate-1');
-            link.nativeElement.classList.add('translate-4');
-          });
-        }
       });
 
+      anime({
+        targets: '.chevron',
+        opacity: [0, 1],
+        translateX: [-100, -0],
+        easing: 'easeInOutQuad',
+        duration: 350,
+        delay: anime.stagger(50)
+      });
     }
   }
 
-  private animateSidebarIcon(): void {
-    const path = this.iconPath.nativeElement;
-
-    const startD: string = !this.isSidebarMinimized()
-      ? 'M6 18L18 6M6 6l12 12'
-      : 'M4 6h16M4 12h16M4 18h16';
-    const endD: string = !this.isSidebarMinimized()
-      ? 'M4 6h16M4 12h16M4 18h16'
-      : 'M6 18L18 6M6 6l12 12';
+  public toggleSubmenu(item: any): void {
+    item.isOpen = !item.isOpen;
 
     anime({
-      targets: path,
-      d: [
-        {value: startD},
-        {value: endD}
-      ],
-      easing: 'easeInOutQuad',
-      duration: 300,
+      targets: '.chevron',
+      rotate: item.isOpen ? 180 : 0,
+      duration: 150,
+      easing: 'easeInOutQuad'
     });
   }
 
+  protected readonly faChevronDown = faChevronDown;
 }

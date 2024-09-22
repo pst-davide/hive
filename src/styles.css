@@ -118,4 +118,15 @@ body {
   transform: translateX(-16px); /* compensazione per ridurre l'effetto di margine mx-4 a mx-1 */
 }
 
+.icon-container {
+  width: 2.5rem; /* Larghezza minima quando chiusa */
+  min-width: 2.5rem;
+  height: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.chevron {
+  right: 0.5rem; /* Posiziona il chevron a destra */
+}
+
 /*# sourceMappingURL=styles.css.map */

@@ -1,18 +1,8 @@
 import {ALIGN_OPTIONS, ColumnModel, TYPE_OPTIONS} from '../../../core/model/column.model';
-import {faEdit, faEye, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {COLUMN_DELETE, COLUMN_EDIT, COLUMN_ID, COLUMN_VIEW} from '../../../core/functions/default-columns';
 
 export const displayedColumns: ColumnModel[] = [
-  {
-    key: 'id',
-    name: '#',
-    hide: false,
-    type: TYPE_OPTIONS.ID,
-    align: ALIGN_OPTIONS.CENTER,
-    isFilterable: false,
-    isSortable: false,
-    className: 'text-slate-400 max-w-28 w-28',
-    isExportable: true,
-  },
+  COLUMN_ID,
   {
     key: 'name',
     name: 'Argomento',
@@ -32,40 +22,7 @@ export const displayedColumns: ColumnModel[] = [
     isSortable: true,
     isExportable: true,
   },
-  {
-    key: 'view',
-    name: 'Dettaglio',
-    hide: false,
-    type: TYPE_OPTIONS.ICON,
-    isFilterable: false,
-    isSortable: false,
-    align: ALIGN_OPTIONS.CENTER,
-    stickyEnd: true,
-    icon: faEye,
-    isExportable: false,
-  },
-  {
-    key: 'edit',
-    name: 'Modifica',
-    hide: false,
-    type: TYPE_OPTIONS.ICON,
-    isFilterable: false,
-    isSortable: false,
-    align: ALIGN_OPTIONS.CENTER,
-    stickyEnd: true,
-    icon: faEdit,
-    isExportable: false,
-  },
-  {
-    key: 'delete',
-    name: 'Elimina',
-    hide: false,
-    type: TYPE_OPTIONS.ICON,
-    isFilterable: false,
-    isSortable: false,
-    align: ALIGN_OPTIONS.CENTER,
-    stickyEnd: true,
-    icon: faTrash,
-    isExportable: false,
-  }
+  COLUMN_VIEW,
+  COLUMN_EDIT,
+  COLUMN_DELETE
 ];

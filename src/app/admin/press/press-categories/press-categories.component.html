@@ -9,12 +9,19 @@
 <!-- detail -->
 <div class="grid grid-cols-2 gap-4 my-5">
   <div class="col-span-1 md:col-span-1 sm:col-span-2">
-    <app-table-template
-      [filters]="filters"
-      [filterForm]="filterForm"
-      [displayedColumns]="displayedColumns"
-      [data]="dataSource"
-      [exportFileName]="'Elenco Argomenti'"
-      (rowAction)="_rowAction($event)"></app-table-template>
+    <app-press-keywords [(categoryId)]="categoryId"></app-press-keywords>
+  </div>
+  <div class="col-span-1 md:col-span-1 sm:col-span-2">
+    <div class="w-full max-w-full flex-0">
+      <div
+        class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Nuove Keywords</mat-label>
+          <textarea matInput style="min-height: 150px" [formControl]="keywordsControl"
+                    placeholder="Inserire seguendo il formato: #high# parola 1; parola 2 #medium# parola3 #low# parola 4; parola5"></textarea>
+        </mat-form-field>
+        <button (click)="_transformKeywords()">Salva</button>
+      </div>
+    </div>
   </div>
 </div>

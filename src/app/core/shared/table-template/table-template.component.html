@@ -118,6 +118,16 @@
                           <span>{{ row[column.key] }}</span>
                         </div>
                       }
+                      @case (TYPE_OPTIONS.BADGE) {
+                        <div class="flex items-center">
+                          <span class="py-1 px-2 text-xs rounded-xl inline-block
+                          whitespace-nowrap text-center
+                          align-baseline font-bold uppercase leading-none text-white"
+                          [style.background-color]="row[column?.dependency ?? column.key]">
+                            {{ row[column.key] }}
+                          </span>
+                        </div>
+                      }
                       @case (TYPE_OPTIONS.ICON) {
                         @if (column.icon) {
                           <button class="font-normal ease-soft-in-out text-sm text-slate-500 hover:text-slate-800

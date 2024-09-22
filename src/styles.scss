@@ -119,3 +119,19 @@ body {
 .translate-1 {
   transform: translateX(-16px); /* compensazione per ridurre l'effetto di margine mx-4 a mx-1 */
 }
+
+ul[ngClass] {
+  // transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.icon-container {
+  width: 2.5rem; /* Larghezza minima quando chiusa */
+  min-width: 2.5rem;
+  height: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+
+.chevron {
+  right: 0.5rem; /* Posiziona il chevron a destra */
+}

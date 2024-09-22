@@ -1,6 +1,6 @@
 import express, {Router} from 'express';
-import { RoomController } from '../controllers/room.controller';
 import {PressCategoryController} from "../controllers/press-category.controller";
+import {PressKeywordController} from '../controllers/press-keyword.controller';
 
 const pressRouter: Router = express.Router();
 
@@ -10,10 +10,10 @@ pressRouter.post('/press/categories', PressCategoryController.create);
 pressRouter.put('/press/categories/:id', PressCategoryController.update);
 pressRouter.delete('/press/categories/:id', PressCategoryController.delete);
 
-pressRouter.get('/press/keywords', RoomController.findAll);
-pressRouter.get('/press/keywords/:id', RoomController.findById);
-pressRouter.post('/press/keywords', RoomController.create);
-pressRouter.put('/press/keywords/:id', RoomController.update);
-pressRouter.delete('/press/keywords/:id', RoomController.delete);
+pressRouter.get('/press/keywords', PressKeywordController.findAll);
+pressRouter.get('/press/keywords/:id', PressKeywordController.findById);
+pressRouter.post('/press/keywords', PressKeywordController.create);
+pressRouter.put('/press/keywords/:id', PressKeywordController.update);
+pressRouter.delete('/press/keywords/:id', PressKeywordController.delete);
 
 export default pressRouter;

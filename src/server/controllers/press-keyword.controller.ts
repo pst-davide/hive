@@ -1,35 +1,37 @@
 import { AppDataSource } from '../database/dataSource';
 import { Request, Response } from 'express';
 import {DeleteResult, Repository} from 'typeorm';
-import {PressCategory} from '../entity/press-category.entity';
+import {PressKeyword} from '../entity/press-keyword.entity';
 
-export class PressCategoryController {
+export class PressKeywordController {
 
-  static docsRepository: Repository<PressCategory> = AppDataSource.getRepository(PressCategory);
+  static docsRepository: Repository<PressKeyword> = AppDataSource.getRepository(PressKeyword);
 
   static async findAll(req: Request, res: Response): Promise<void> {
-    const { includeKeywords, countKeywords } = req.query;
-
-    let docs: PressCategory[] = [];
     try {
-      if (countKeywords === 'true') {
-        docs = await PressCategoryController.docsRepository
-          .createQueryBuilder('category')
-          .loadRelationCountAndMap('category.keywordsCount', 'category.keywords')
-          .getMany();
-      } else if (includeKeywords === 'true') {
-        docs = await PressCategoryController.docsRepository.find({
-          relations: ['keywords'],
+      const { categoryId } = req.query;
+
+      let docs;
+      if (categoryId) {
+        const categoryIdNumber: number = parseInt(categoryId as string, 10);
+        if (isNaN(categoryIdNumber)) {
+          res.status(400).json({ error: 'categoryId deve essere un numero valido' });
+          return;
+        }
+
+        docs = await PressKeywordController.docsRepository.find({
+          where: { category: { id: categoryIdNumber } },
+          relations: ['category'],
         });
       } else {
-        docs = await PressCategoryController.docsRepository.find();
+        docs = await PressKeywordController.docsRepository.find({
+          relations: ['category'],
+        });
       }
-
-      console.log(docs);
 
       res.status(200).json(docs);
     } catch (error) {
-      res.status(500).json({ error: 'Errore durante il recupero del documento' });
+      res.status(500).json({ error: 'Errore durante il recupero delle keywords' });
     }
   }
 
@@ -42,7 +44,7 @@ export class PressCategoryController {
     }
 
     try {
-      const doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
+      const doc: PressKeyword | null = await PressKeywordController.docsRepository.findOneBy({ id });
       if (doc) {
         res.status(200).json(doc);
       } else {
@@ -56,8 +58,8 @@ export class PressCategoryController {
   static async create(req: Request, res: Response): Promise<void> {
     console.log(req.body)
     try {
-      const doc: PressCategory[] = PressCategoryController.docsRepository.create(req.body);
-      const savedDoc: PressCategory[] = await PressCategoryController.docsRepository.save(doc);
+      const doc: PressKeyword[] = PressKeywordController.docsRepository.create(req.body);
+      const savedDoc: PressKeyword[] = await PressKeywordController.docsRepository.save(doc);
       res.status(200).json(savedDoc);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante la creazione del documento' });
@@ -73,11 +75,11 @@ export class PressCategoryController {
     }
 
     try {
-      let doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
+      let doc: PressKeyword | null = await PressKeywordController.docsRepository.findOneBy({ id });
       if (doc) {
-        PressCategoryController.docsRepository.merge(doc, req.body);
-        const updatedDoc: PressCategory = await PressCategoryController.docsRepository.save(doc);
-        res.status(200).json(updatedDoc);
+        PressKeywordController.docsRepository.merge(doc, req.body);
+        const Doc: PressKeyword = await PressKeywordController.docsRepository.save(doc);
+        res.status(200).json(Doc);
       } else {
         res.status(404).json({ error: 'Documento non trovato' });
       }
@@ -89,7 +91,7 @@ export class PressCategoryController {
   static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      const result: DeleteResult = await PressCategoryController.docsRepository.delete(id);
+      const result: DeleteResult = await PressKeywordController.docsRepository.delete(id);
       if (result.affected) {
         res.status(200).json({ message: 'Documento eliminato con successo' });
       } else {
