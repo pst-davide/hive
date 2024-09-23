@@ -1,8 +1,8 @@
-import {Component, model, ModelSignal, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, model, ModelSignal, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {PRESS_CATEGORY_TYPE} from '../model/press-category.model';
 import _ from 'lodash';
 import {EMPTY_PRESS_KEYWORD_TYPE, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ColumnModel} from '../../../core/model/column.model';
 import {displayedColumns} from './press-keywords.table';
@@ -12,6 +12,7 @@ import {TableTemplateComponent} from '../../../core/shared/table-template/table-
 import {SM_DIALOG_HEIGHT, SM_DIALOG_WIDTH} from '../../../core/functions/environments';
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
 import {PressCategoryComponent} from '../press-categories/edit/press-category/press-category.component';
+import {PressCategoriesComponent} from '../press-categories/press-categories.component';
 
 @Component({
   selector: 'app-press-keywords',
@@ -22,7 +23,7 @@ import {PressCategoryComponent} from '../press-categories/edit/press-category/pr
   templateUrl: './press-keywords.component.html',
   styleUrl: './press-keywords.component.scss'
 })
-export class PressKeywordsComponent implements OnInit, OnChanges {
+export class PressKeywordsComponent implements OnInit, OnDestroy {
 
   /* category */
   public categoryId: ModelSignal<number | null> = model<number | null>(null);
@@ -44,15 +45,22 @@ export class PressKeywordsComponent implements OnInit, OnChanges {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  constructor(private crudService: PressService, public dialog: MatDialog) {
+  private categoryIdUpdateSubscription!: Subscription;
+
+  constructor(private crudService: PressService, public dialog: MatDialog,
+              private parentComponent: PressCategoriesComponent) {
+    this.categoryIdUpdateSubscription = this.parentComponent.categoryIdUpdateSubject
+      .subscribe((newCategoryId: number | null) => {
+      this.getCollection(newCategoryId);
+    });
   }
 
   ngOnInit(): void {
+    this.getCollection(this.categoryId());
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(this.categoryId())
-    this.getCollection(this.categoryId());
+  ngOnDestroy() {
+    this.categoryIdUpdateSubscription.unsubscribe();
   }
 
   /*************************************************

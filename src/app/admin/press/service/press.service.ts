@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {firstValueFrom, map, Observable} from 'rxjs';
 import {PressCategory} from '../../../../server/entity/press-category.entity';
-import {PRESS_CATEGORY_TYPE, PressCategoryModel} from '../model/press-category.model';
+import {PRESS_CATEGORY_TYPE} from '../model/press-category.model';
 import {IMPORTANCE_BADGE, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
+import {PressKeyword} from '../../../../server/entity/press-keyword.entity';
+import axios, {AxiosResponse} from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +24,9 @@ export class PressService {
    *
    ************************************************/
 
-  private toEntity(model: PressCategoryModel): PressCategory {
+  private toEntity(model: PRESS_CATEGORY_TYPE): PressCategory {
     const doc: PressCategory = new PressCategory();
-    doc.id = model.id ?? '';
+    doc.id = model.id && model.id !== 0 ? model.id : 0;
     doc.name = model.name ?? '';
     doc.color = model.color ?? '';
     doc.createdAt = model.crud.createAt ?? new Date();
@@ -58,21 +60,24 @@ export class PressService {
       .pipe(map((entities: any[]) => entities.map((entity: any) => this.toModel(entity))));
   }
 
-  public getById(id: string): Observable<PressCategoryModel> {
-    return this.http.get<PressCategoryModel>(`${this.apiCategoryUrl}/${id}`);
+  public getById(id: string): Observable<PRESS_CATEGORY_TYPE> {
+    return this.http.get<PRESS_CATEGORY_TYPE>(`${this.apiCategoryUrl}/${id}`)
+      .pipe(map((entity: any) => this.toModel(entity)));
   }
 
-  public async createDoc(doc: PressCategoryModel): Promise<PressCategoryModel> {
+  public async createDoc(doc: PRESS_CATEGORY_TYPE): Promise<PRESS_CATEGORY_TYPE> {
     const entity: PressCategory = this.toEntity(doc);
+
     try {
       const savedEntity: PressCategory = await firstValueFrom(this.http.post<PressCategory>(this.apiCategoryUrl, entity));
       return this.toModel(savedEntity);
     } catch (error) {
+      console.log(error)
       throw error;
     }
   }
 
-  public async updateDoc(id: number, doc: PressCategoryModel): Promise<PressCategoryModel> {
+  public async updateDoc(id: number, doc: PRESS_CATEGORY_TYPE): Promise<PRESS_CATEGORY_TYPE> {
     const entity: PressCategory = this.toEntity(doc);
     try {
       const savedEntity: PressCategory = await firstValueFrom(this.http.put<PressCategory>(`${this.apiCategoryUrl}/${id}`, entity));
@@ -82,8 +87,8 @@ export class PressService {
     }
   }
 
-  public deleteDoc(id: string): Observable<PressCategoryModel> {
-    return this.http.delete<PressCategoryModel>(`${this.apiCategoryUrl}/${id}`);
+  public deleteDoc(id: number): Observable<PRESS_CATEGORY_TYPE> {
+    return this.http.delete<PRESS_CATEGORY_TYPE>(`${this.apiCategoryUrl}/${id}`);
   }
 
   /*************************************************
@@ -93,7 +98,6 @@ export class PressService {
    ************************************************/
 
   private toKeywordModel(entity: any): PRESS_KEYWORD_TYPE {
-    console.log(entity);
     const model: PRESS_KEYWORD_TYPE = {} as PRESS_KEYWORD_TYPE;
     model.id = entity.id;
     model.word = entity.word;
@@ -116,8 +120,32 @@ export class PressService {
     return model;
   }
 
+  private toKeywordEntity(model: PRESS_KEYWORD_TYPE): PressKeyword {
+    const doc: PressKeyword = new PressKeyword();
+    doc.id = model.id && model.id !== 0 ? model.id : 0;
+    doc.word = model.word ?? '';
+    doc.importance = model.importance ?? 'low';
+    doc.categoryId = model.category ?? 0;
+    doc.createdAt = model.crud.createAt ?? new Date();
+    doc.createdBy = model.crud.createBy ?? null;
+    doc.modifiedAt = model.crud.modifiedAt ?? new Date();
+    doc.modifiedBy = model.crud.modifiedBy ?? null;
+
+    return doc;
+  }
+
   public getKeywordsDocs(id: number | null = null): Observable<PRESS_KEYWORD_TYPE[]> {
     return this.http.get<PRESS_KEYWORD_TYPE[]>(`${this.apiKeywordUrl}${(id ? '?categoryId=' + id : '')}`)
       .pipe(map((entities: any[]) => entities.map((entity: any) => this.toKeywordModel(entity))));
+  }
+
+  public async saveKeywordsBatch(keywords: PRESS_KEYWORD_TYPE[]): Promise<void> {
+    try {
+      const entities: PressKeyword[] = keywords.map((keyword: PRESS_KEYWORD_TYPE) => this.toKeywordEntity(keyword));
+      const response: AxiosResponse<any, any> = await axios.post(`${this.apiKeywordUrl}/batch`, entities);
+      console.log('Keywords salvate:', response.data);
+    } catch (error) {
+      console.error('Errore durante il salvataggio delle keywords:', error);
+    }
   }
 }

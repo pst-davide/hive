@@ -13,6 +13,7 @@ pressRouter.delete('/press/categories/:id', PressCategoryController.delete);
 pressRouter.get('/press/keywords', PressKeywordController.findAll);
 pressRouter.get('/press/keywords/:id', PressKeywordController.findById);
 pressRouter.post('/press/keywords', PressKeywordController.create);
+pressRouter.post('/press/keywords/batch', PressKeywordController.createBatch);
 pressRouter.put('/press/keywords/:id', PressKeywordController.update);
 pressRouter.delete('/press/keywords/:id', PressKeywordController.delete);
 

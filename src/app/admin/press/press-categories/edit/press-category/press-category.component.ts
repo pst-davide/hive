@@ -136,13 +136,16 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
     this.doc.name = this.name.value;
     this.doc.color = this.color.value;
 
-    if (!this.doc.id) {
-      await this.crudService.createDoc(this.doc);
-    } else {
-      await this.crudService.updateDoc(this.doc.id, this.doc);
+    try {
+      if (!this.doc.id || this.doc.id === 0) {
+        await this.crudService.createDoc(this.doc);
+      } else {
+        await this.crudService.updateDoc(this.doc.id, this.doc);
+      }
+      this.dialogRef.close(this.doc);
+    } catch (error) {
+      console.error('Errore durante il salvataggio del documento:', error);
     }
-
-    this.dialogRef.close(this.doc);
   }
 
   public closeDialog(): void {

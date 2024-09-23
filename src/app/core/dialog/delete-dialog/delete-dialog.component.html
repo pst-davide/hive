@@ -1,8 +1,50 @@
-<div class="p-6 flex justify-center items-center w-full h-full">
-  <div id="delete-icon" class="cursor-pointer">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"
-         class="w-24 h-24 text-red-600">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
+<div class="flex items-end justify-center p-4 text-center sm:items-center sm:p-0 w-full h-full">
+  <div class="relative flex flex-col justify-between h-full sm:h-auto">
+    <div class="p-6">
+      <div class="sm:flex sm:items-start">
+        <div
+          class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+               aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+          </svg>
+        </div>
+        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+          <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{{data.title}}</h3>
+          <div class="mt-2 mb-4">
+            <p class="text-sm text-gray-500" [innerHTML]="data.message"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 px-4 py-3 flex justify-end">
+      <button type="button"
+              class="px-4 py-2 mr-2
+                  bg-transparent
+                  text-slate-500
+                  hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-500
+                  hover:shadow-lg
+                  hover:scale-102 active:scale-95
+                  font-bold text-center uppercase text-xs
+                  border-0 rounded-3xl
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="close()">
+        Chiudi
+      </button>
+      <button class="px-4 py-2
+                  w-auto
+                  bg-gradient-to-r from-fuchsia-500 to-pink-500
+                  hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
+                  shadow-lg hover:shadow-2xl
+                  hover:scale-102 active:scale-95
+                  font-bold text-center text-white uppercase text-xs
+                  border-0 rounded-3xl
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+                  (click)="confirmDelete()">Elimina
+          </button>
+    </div>
   </div>
 </div>

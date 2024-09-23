@@ -1,7 +1,7 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject} from "rxjs";
-import {PressService} from "../service/press.service";
+import {BehaviorSubject, Subject} from 'rxjs';
+import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
 import {ColumnModel} from '../../../core/model/column.model';
@@ -10,7 +10,6 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {PressCategoryComponent} from './edit/press-category/press-category.component';
 import {displayedColumns} from './press-categories.table';
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
-import {SM_DIALOG_HEIGHT, SM_DIALOG_WIDTH} from '../../../core/functions/environments';
 import {PressKeywordsComponent} from '../press-keywords/press-keywords.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -40,9 +39,11 @@ export class PressCategoriesComponent implements OnInit {
   /* doc */
   public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
   public emptyDoc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
+  public deletedDoc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
 
   /* category */
   public categoryId: ModelSignal<number | null> = model<number | null>(-1);
+  public categoryIdUpdateSubject: Subject<number | null> = new Subject<number | null>();
 
   /****************************
    * table
@@ -88,15 +89,20 @@ export class PressCategoriesComponent implements OnInit {
   public _rowAction(action: { record: any; key: string }): void {
     if (action.key === 'new') {
       this.doc = _.cloneDeep(this.emptyDoc);
+      this.categoryId.set(-1);
       this.editRow();
+      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
+      this.categoryId.set(this.doc.id);
       this.editRow();
+      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.categoryId.set(this.doc.id);
+      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'delete') {
-      this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
+      this.deletedDoc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.deleteRow();
     }
   }
@@ -130,13 +136,20 @@ export class PressCategoriesComponent implements OnInit {
 
   private deleteRow(): void {
     const dialogRef: MatDialogRef<DeleteDialogComponent> = this.dialog.open(DeleteDialogComponent, {
-      width: SM_DIALOG_WIDTH,
-      height: SM_DIALOG_HEIGHT,
-      data: {message: ''}
+      data: {
+        title: 'Cancellazione Argomento',
+        message: `Sei sicuro di voler eliminare l\'argomento <strong>${this.deletedDoc.name}</strong>?`
+      }
     });
 
     dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
+      if (doc) {
+        this.crudService.deleteDoc(this.deletedDoc.id);
 
+        this.getCollection();
+        this.categoryId.set(-1);
+        this.categoryIdUpdateSubject.next(this.categoryId());
+      }
     })
   }
 
@@ -146,19 +159,26 @@ export class PressCategoriesComponent implements OnInit {
    *
    ************************************************/
 
-  public _transformKeywords(): void {
-
-    const keywordPattern = /#(high|medium|low)#\s*([^#]+)/g;
+  public async _transformKeywords(): Promise<void> {
+    const keywordPattern = /#(h |m |l )\s*([^#]+)/g;
     const input: string | null = this.keywordsControl.value;
     const result: PRESS_KEYWORD_TYPE[] = [];
+
+    // Verifica se il testo contiene almeno uno dei tag richiesti {h}, {m}, {l}
+    if (!input || !/#(h |m |l )/.test(input)) {
+      console.error('Il testo non è conforme: deve includere {h}, {m} o {l}.');
+      return;
+    }
+
     let match: RegExpExecArray | null;
 
-    if (input) {
-      while ((match = keywordPattern.exec(input)) !== null) {
-      const importance: string = match[1];  // high, medium, low
-      const words: string[] = match[2].split(';').map((word: string) => word.trim()); // Separiamo le parole
+    while ((match = keywordPattern.exec(input)) !== null) {
+      // Mappa h, m, l con valori high, medium, low
+      const importanceMap: { [key: string]: string } = {'h': 'high', 'm': 'medium', 'l': 'low'};
+      const importance: string = importanceMap[match[1]];
+      const words: string[] = match[2].split(';').map((word: string) => word.trim());
 
-      words.forEach(word => {
+      words.forEach((word: string) => {
         if (word) {
           const keywordModel: PRESS_KEYWORD_TYPE = {
             id: 0,
@@ -171,8 +191,14 @@ export class PressCategoriesComponent implements OnInit {
         }
       });
     }
+
+    if (result.length === 0) {
+      console.error('Il testo non contiene parole valide nel formato richiesto.');
+      return;
     }
 
-    console.log(result);
+    await this.crudService.saveKeywordsBatch(result);
+    this.getCollection();
+    this.categoryIdUpdateSubject.next(this.categoryId());
   }
 }

@@ -1,5 +1,5 @@
-import { AppDataSource } from '../database/dataSource';
-import { Request, Response } from 'express';
+import {AppDataSource} from '../database/dataSource';
+import {Request, Response} from 'express';
 import {DeleteResult, Repository} from 'typeorm';
 import {PressCategory} from '../entity/press-category.entity';
 
@@ -8,7 +8,7 @@ export class PressCategoryController {
   static docsRepository: Repository<PressCategory> = AppDataSource.getRepository(PressCategory);
 
   static async findAll(req: Request, res: Response): Promise<void> {
-    const { includeKeywords, countKeywords } = req.query;
+    const {includeKeywords, countKeywords} = req.query;
 
     let docs: PressCategory[] = [];
     try {
@@ -25,11 +25,9 @@ export class PressCategoryController {
         docs = await PressCategoryController.docsRepository.find();
       }
 
-      console.log(docs);
-
       res.status(200).json(docs);
     } catch (error) {
-      res.status(500).json({ error: 'Errore durante il recupero del documento' });
+      res.status(500).json({error: 'Errore durante il recupero del documento'});
     }
   }
 
@@ -37,66 +35,87 @@ export class PressCategoryController {
     const id: number = parseInt(req.params['id'], 10);
 
     if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({ error: 'ID non valido' });
+      res.status(400).json({error: 'ID non valido'});
       return;
     }
 
     try {
-      const doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
+      const doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({id});
       if (doc) {
         res.status(200).json(doc);
       } else {
-        res.status(404).json({ error: 'Documento non trovato' });
+        res.status(404).json({error: 'Documento non trovato'});
       }
     } catch (error) {
-      res.status(500).json({ error: `Errore durante la creazione del documento: ${error}` });
+      res.status(500).json({error: `Errore durante la creazione del documento: ${error}`});
     }
   }
 
   static async create(req: Request, res: Response): Promise<void> {
-    console.log(req.body)
     try {
       const doc: PressCategory[] = PressCategoryController.docsRepository.create(req.body);
       const savedDoc: PressCategory[] = await PressCategoryController.docsRepository.save(doc);
       res.status(200).json(savedDoc);
     } catch (error) {
-      res.status(500).json({ error: 'Errore durante la creazione del documento' });
+      res.status(500).json({error: 'Errore durante la creazione del documento'});
     }
   }
 
   static async update(req: Request, res: Response): Promise<void> {
-    const id: number = parseInt(req.params['id'], 10);
+  const id: number = parseInt(req.params['id'], 10);
 
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({ error: 'ID non valido' });
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'ID non valido' });
+    return;
+  }
+
+  try {
+    // Trova la categoria esistente per l'ID fornito
+    let doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
+
+    if (!doc) {
+      res.status(404).json({ error: 'Documento non trovato' });
       return;
     }
 
-    try {
-      let doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
-      if (doc) {
-        PressCategoryController.docsRepository.merge(doc, req.body);
-        const updatedDoc: PressCategory = await PressCategoryController.docsRepository.save(doc);
-        res.status(200).json(updatedDoc);
-      } else {
-        res.status(404).json({ error: 'Documento non trovato' });
+    // Controlla se il nuovo `name` è già in uso da un'altra categoria diversa da quella corrente
+    if (req.body.name && req.body.name !== doc.name) {
+      const existingCategory: PressCategory | null = await PressCategoryController.docsRepository.findOne({
+        where: { name: req.body.name }
+      });
+
+      // Se esiste una categoria con lo stesso nome ma con un ID diverso, blocca l'operazione
+      if (existingCategory && existingCategory.id !== id) {
+        res.status(409).json({ error: 'Il nome della categoria è già in uso' });
+        return;
       }
-    } catch (error) {
-      res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
     }
+
+    // Merge dei dati
+    PressCategoryController.docsRepository.merge(doc, req.body);
+
+    // Salva il documento aggiornato
+    const updatedDoc: PressCategory = await PressCategoryController.docsRepository.save(doc);
+    res.status(200).json(updatedDoc);
+
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento del documento:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
   }
+}
 
   static async delete(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
+    const id: number = parseInt(req.params['id'], 10);
+    console.log('ID da cancellare: ' + id)
     try {
       const result: DeleteResult = await PressCategoryController.docsRepository.delete(id);
       if (result.affected) {
-        res.status(200).json({ message: 'Documento eliminato con successo' });
+        res.status(200).json({message: 'Documento eliminato con successo'});
       } else {
-        res.status(404).json({ error: 'Documento non trovato' });
+        res.status(404).json({error: 'Documento non trovato'});
       }
     } catch (error) {
-      res.status(500).json({ error: 'Errore durante l\'eliminazione del documento' });
+      res.status(500).json({error: 'Errore durante l\'eliminazione del documento'});
     }
   }
 
