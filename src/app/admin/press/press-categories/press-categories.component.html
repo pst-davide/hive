@@ -19,10 +19,10 @@
         <div
           class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
           <mat-form-field appearance="outline">
-            <mat-label>Nuove Keywords</mat-label>
+            <mat-label>Inserisci Keywords @if (doc.name) {per {{doc.name}} }</mat-label>
             <textarea matInput style="min-height: 150px" [formControl]="keywordsControl"
                       [readonly]="categoryId() === -1"
-                      placeholder="Inserire seguendo il formato: {h} parola 1; parola 2 {m} parola3 {l} parola 4; parola5"></textarea>
+                      placeholder="Inserire seguendo il formato: #h parola 1; parola 2 #m parola3 #l parola 4; parola5"></textarea>
           </mat-form-field>
           <div class="flex justify-end mt-4">
             <button class="px-4 py-2 mr-2
@@ -35,6 +35,7 @@
                   border-0 rounded-3xl
                   transition-all duration-300 ease-out
                   disabled:opacity-50 disabled:cursor-not-allowed"
+                    (click)="keywordsControl.setValue(null)"
                     [disabled]="keywordsControl.value === ''">
               Annulla
             </button>

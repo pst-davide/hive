@@ -119,6 +119,10 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
       const capitalizedValue: string = word.charAt(0).toUpperCase() + word.slice(1);
       this.word.setValue(capitalizedValue);
     });
+
+    this.category$.subscribe((category: number | null) => {
+      this.category.setValue(category);
+    });
   }
 
   public async onSubmit(): Promise<void> {
@@ -134,13 +138,13 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
 
     this.doc.word = this.word.value;
     this.doc.importance = this.importance.value;
-    this.doc.category = this.category.value;
+    this.doc.category = this.category$();
 
     try {
       if (!this.doc.id || this.doc.id === 0) {
-        // await this.crudService.createDoc(this.doc);
+        await this.crudService.createKeywordDoc(this.doc);
       } else {
-        // await this.crudService.updateDoc(this.doc.id, this.doc);
+        await this.crudService.updateKeywordDoc(this.doc.id, this.doc);
       }
       this.dialogRef.close(this.doc);
     } catch (error) {

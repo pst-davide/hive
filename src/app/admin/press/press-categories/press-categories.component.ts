@@ -1,6 +1,6 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject, Observable, Subject, take, takeUntil} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, take} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
@@ -154,6 +154,11 @@ export class PressCategoriesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
       if (doc) {
+        if (this.deletedDoc.VIEW_KEYWORDS_COUNT && this.deletedDoc.VIEW_KEYWORDS_COUNT > 0) {
+          // TODO notify
+          return;
+        }
+
         this.loaderService.setComponentLoader(PressCategoryComponent.name);
         await this.crudService.deleteDoc(this.deletedDoc.id);
 
@@ -173,13 +178,13 @@ export class PressCategoriesComponent implements OnInit {
    ************************************************/
 
   public async _transformKeywords(): Promise<void> {
-    const keywordPattern = /#(h |m |l )\s*([^#]+)/g;
+    const keywordPattern = /#([hml])\s*([^#]+)/g;
     const input: string | null = this.keywordsControl.value;
     const result: PRESS_KEYWORD_TYPE[] = [];
 
-    // Verifica se il testo contiene almeno uno dei tag richiesti {h}, {m}, {l}
-    if (!input || !/#(h |m |l )/.test(input)) {
-      console.error('Il testo non è conforme: deve includere {h}, {m} o {l}.');
+    // Verifica se il testo contiene almeno uno dei tag richiesti
+    if (!input || !/#([hml])/.test(input)) {
+      console.error('Il testo non è conforme: deve includere #h, #m o l.');
       return;
     }
 
@@ -214,4 +219,5 @@ export class PressCategoriesComponent implements OnInit {
     this.getCollection();
     this.categoryIdUpdateSubject.next(this.categoryId());
   }
+
 }

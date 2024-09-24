@@ -69,8 +69,8 @@ export class PressService {
     const entity: PressCategory = this.toEntity(doc);
 
     try {
-      const savedEntity: PressCategory = await firstValueFrom(this.http.post<PressCategory>(this.apiCategoryUrl, entity));
-      return this.toModel(savedEntity);
+      const response: AxiosResponse<any, any> = await axios.post(`${this.apiCategoryUrl}`, entity);
+      return this.toModel(response.data);
     } catch (error) {
       console.log(error)
       throw error;
@@ -80,8 +80,8 @@ export class PressService {
   public async updateDoc(id: number, doc: PRESS_CATEGORY_TYPE): Promise<PRESS_CATEGORY_TYPE> {
     const entity: PressCategory = this.toEntity(doc);
     try {
-      const savedEntity: PressCategory = await firstValueFrom(this.http.put<PressCategory>(`${this.apiCategoryUrl}/${id}`, entity));
-      return this.toModel(savedEntity);
+      const response: AxiosResponse<any, any> = await axios.put(`${this.apiCategoryUrl}/${id}`, entity);
+      return this.toModel(response.data);
     } catch (error) {
       throw error;
     }
@@ -124,8 +124,8 @@ export class PressService {
     model.VIEW_COLOR = importance?.color ?? null;
     model.VIEW_IMPORTANCE = importance?.label ?? null;
 
-    model.VIEW_CATEGORY_NAME = entity?.category.name ?? null;
-    model.VIEW_CATEGORY_COLOR = entity?.category.color ?? null;
+    model.VIEW_CATEGORY_NAME = entity?.category?.name ?? null;
+    model.VIEW_CATEGORY_COLOR = entity?.category?.color ?? null;
 
     return model;
   }

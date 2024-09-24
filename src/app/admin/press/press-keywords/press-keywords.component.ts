@@ -114,7 +114,7 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (doc: PRESS_KEYWORD_TYPE | null) => {
 
       if (doc) {
-        this.getCollection();
+        this.getCollection(this.categoryId());
       }
     })
   }

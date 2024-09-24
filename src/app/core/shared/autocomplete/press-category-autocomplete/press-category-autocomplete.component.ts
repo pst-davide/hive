@@ -70,7 +70,7 @@ export class PressCategoryAutocompleteComponent implements OnInit {
 
         this.filteredDocs = this.docCtrl.valueChanges.pipe(
           startWith(''),
-          map((value: string | null) => this._filter(value ?? ''))
+          map((value: string | null) => this._filter(value?.toString() ?? ''))
         );
 
         const selectedDoc: string | null = (this.doc$() ?? '') as string;
