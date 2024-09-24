@@ -18,6 +18,7 @@ import {WeatherService} from '../../core/services/weather.service';
 import {Subject, takeUntil} from 'rxjs';
 import moment, {Moment} from 'moment';
 import {DatePipe, NgClass} from '@angular/common';
+import anime from 'animejs/lib/anime.es.js';
 
 export interface WeatherCondition {
   icon: string | null;
@@ -127,6 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * ************************************************************************************/
 
   public toggleSidebar(): void {
+    this.animateSidebarIcon();
     this.isSidebarMinimized.set(!this.isSidebarMinimized());
   }
 
@@ -210,11 +212,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
           }
         }
-        console.log(this.forecast);
       });
   }
 
   public _toggleWeatherOverlay(): void {
     this.showWeatherOverlay = !this.showWeatherOverlay;
+  }
+
+  private animateSidebarIcon(): void {
+    const path = this.iconPath.nativeElement;
+
+    const startD: string = !this.isSidebarMinimized()
+      ? 'M6 18L18 6M6 6l12 12'
+      : 'M4 6h16M4 12h16M4 18h16';
+    const endD: string = this.isSidebarMinimized()
+      ? 'M4 6h16M4 12h16M4 18h16'
+      : 'M6 18L18 6M6 6l12 12';
+
+    anime({
+      targets: path,
+      d: [
+        {value: startD},
+        {value: endD}
+      ],
+      easing: 'easeInOutQuad',
+      duration: 300,
+    });
   }
 }
