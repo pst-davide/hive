@@ -16,7 +16,7 @@ export type PRESS_KEYWORD_TYPE = PressKeywordModel & {
   VIEW_CATEGORY_COLOR?: string | null;
 }
 
-export const EMPTY_PRESS_KEYWORD_TYPE: PRESS_KEYWORD_TYPE = {
+export const EMPTY_PRESS_KEYWORD: PRESS_KEYWORD_TYPE = {
   id: 0,
   word: null,
   category: null,

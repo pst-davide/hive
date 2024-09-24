@@ -111,6 +111,7 @@ export class PressService {
     model.id = entity.id;
     model.word = entity.word;
     model.importance = entity.importance;
+    model.category = entity.categoryId;
     model.crud = {
       createAt: entity.createdAt,
       createBy: entity.createdBy,
@@ -155,6 +156,41 @@ export class PressService {
       console.log('Keywords salvate:', response.data);
     } catch (error) {
       console.error('Errore durante il salvataggio delle keywords:', error);
+    }
+  }
+
+  public async createKeywordDoc(doc: PRESS_KEYWORD_TYPE): Promise<PRESS_KEYWORD_TYPE> {
+    const entity: PressKeyword = this.toKeywordEntity(doc);
+
+    try {
+      const response: AxiosResponse<any, any> = await axios.post(`${this.apiKeywordUrl}`, entity);
+      return this.toKeywordModel(response.data);
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  }
+
+  public async updateKeywordDoc(id: number, doc: PRESS_KEYWORD_TYPE): Promise<PRESS_KEYWORD_TYPE> {
+    const entity: PressKeyword = this.toKeywordEntity(doc);
+    try {
+      const response: AxiosResponse<any, any> = await axios.put(`${this.apiKeywordUrl}/${id}`, entity);
+      return this.toKeywordModel(response.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async deleteKeywordDoc(id: number): Promise<any> {
+    try {
+      const response: PRESS_KEYWORD_TYPE = await firstValueFrom(
+        this.http.delete<PRESS_KEYWORD_TYPE>(`${this.apiKeywordUrl}/delete/${id}`)
+      );
+      console.log('Delete successful:', response);
+      return response;
+    } catch (error) {
+      console.error('Delete failed:', error);
+      throw error;
     }
   }
 }

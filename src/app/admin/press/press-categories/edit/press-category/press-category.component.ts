@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -24,7 +24,8 @@ import {PressService} from '../../../service/press.service';
     MatLabel,
     MatSuffix,
     NgxColorsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOptimizedImage
   ],
   templateUrl: './press-category.component.html',
   styleUrl: './press-category.component.scss'

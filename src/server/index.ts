@@ -57,6 +57,11 @@ app.use('/api', uploadRouter);
 /* openAi notification */
 app.use('/api', openAiRouter);
 
+app.use((req, res, next) => {
+  console.log(`${req.method} request for ${req.url}`);
+  next();
+});
+
 /* upload directory */
 const uploadsDir: string = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {

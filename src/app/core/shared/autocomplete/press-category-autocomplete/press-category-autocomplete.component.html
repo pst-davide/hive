@@ -1,0 +1,38 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label()}} @if (isRequired()) {*}</mat-label>
+  <input type="text"
+         aria-label="docId"
+         matInput
+         [placeholder]="placeholder()"
+         [formControl]="docCtrl"
+         [matAutocomplete]="docAutocomplete"
+         (keyup)="_onKeyUp($event)">
+
+  @if (docCtrl.value && isEnabled()) {
+    <button matSuffix mat-icon-button type="button"
+            aria-label="Clear" matTooltip="'Cancella la Selezione'"
+            (click)="_remove()" tabindex="-1">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+
+  <mat-autocomplete #docAutocomplete="matAutocomplete"
+                    (optionSelected)="_onSelectionChange($event)"
+                    [displayWith]="displayFn.bind(this)">
+
+    @for (doc of filteredDocs | async; track doc.id) {
+      <mat-option [value]="doc.id">
+        <span>{{doc.name}}</span>
+      </mat-option>
+    }
+  </mat-autocomplete>
+
+  @if (docCtrl.hasError('required')) {
+    <mat-error [innerHTML]="requiredError()"></mat-error>
+  }
+
+  @if (docCtrl.hasError('requireMatch')) {
+    <mat-error [innerHTML]="matchError()"></mat-error>
+  }
+</mat-form-field>
+

@@ -1,28 +1,31 @@
-<app-table-template
-  [filters]="filters"
-  [filterForm]="filterForm"
-  [displayedColumns]="displayedColumns"
-  [data]="dataSource"
-  [exportFileName]="'Elenco Argomenti'"
-  (rowAction)="_rowAction($event)"></app-table-template>
+@if (isKeywordsRoute()) {
+  <router-outlet></router-outlet>
+} @else {
+  <app-table-template
+    [filters]="filters"
+    [filterForm]="filterForm"
+    [displayedColumns]="displayedColumns"
+    [data]="dataSource"
+    [exportFileName]="'Elenco Argomenti'"
+    (rowAction)="_rowAction($event)"></app-table-template>
 
-<!-- detail -->
-<div class="grid grid-cols-2 gap-4 my-5">
-  <div class="col-span-1 md:col-span-1 sm:col-span-2">
-    <app-press-keywords [(categoryId)]="categoryId"></app-press-keywords>
-  </div>
-  <div class="col-span-1 md:col-span-1 sm:col-span-2">
-    <div class="w-full max-w-full flex-0">
-      <div
-        class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
-        <mat-form-field appearance="outline">
-          <mat-label>Nuove Keywords</mat-label>
-          <textarea matInput style="min-height: 150px" [formControl]="keywordsControl"
-                    [readonly]="categoryId() === -1"
-                    placeholder="Inserire seguendo il formato: #high# parola 1; parola 2 #medium# parola3 #low# parola 4; parola5"></textarea>
-        </mat-form-field>
-        <div class="flex justify-end mt-4">
-          <button class="px-4 py-2 mr-2
+  <!-- detail -->
+  <div class="grid grid-cols-2 gap-4 my-5">
+    <div class="col-span-1 md:col-span-1 sm:col-span-2">
+      <app-press-keywords [(categoryId)]="categoryId"></app-press-keywords>
+    </div>
+    <div class="col-span-1 md:col-span-1 sm:col-span-2">
+      <div class="w-full max-w-full flex-0">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Nuove Keywords</mat-label>
+            <textarea matInput style="min-height: 150px" [formControl]="keywordsControl"
+                      [readonly]="categoryId() === -1"
+                      placeholder="Inserire seguendo il formato: {h} parola 1; parola 2 {m} parola3 {l} parola 4; parola5"></textarea>
+          </mat-form-field>
+          <div class="flex justify-end mt-4">
+            <button class="px-4 py-2 mr-2
                   bg-transparent
                   text-slate-500
                   hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-500
@@ -32,10 +35,10 @@
                   border-0 rounded-3xl
                   transition-all duration-300 ease-out
                   disabled:opacity-50 disabled:cursor-not-allowed"
-                  [disabled]="keywordsControl.value === ''">
-            Annulla
-          </button>
-          <button class="px-4 py-2
+                    [disabled]="keywordsControl.value === ''">
+              Annulla
+            </button>
+            <button class="px-4 py-2
                   w-auto
                   bg-gradient-to-r from-fuchsia-500 to-pink-500
                   hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
@@ -45,11 +48,13 @@
                   border-0 rounded-3xl
                   transition-all duration-300 ease-out
                   disabled:opacity-50 disabled:cursor-not-allowed"
-                  [disabled]="keywordsControl.value === '' || categoryId() === -1"
-                  (click)="_transformKeywords()">Inserisci
-          </button>
+                    [disabled]="keywordsControl.value === '' || categoryId() === -1"
+                    (click)="_transformKeywords()">Inserisci
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+}
+

@@ -13,7 +13,7 @@ export interface Breadcrumb {
 })
 export class BreadcrumbService {
   private breadcrumbs$: BehaviorSubject<Breadcrumb[]> = new BehaviorSubject<Breadcrumb[]>([]);
-  
+
   constructor(private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -43,6 +43,15 @@ export class BreadcrumbService {
 
       const label: string = child.data['breadcrumb'];
       const enabled: boolean = child.data['enabled'] ?? false;
+      const parentRoute: string = child.data['parent'];  // Verifica se c'è una rotta genitore
+
+      // Se c'è una rotta genitore, aggiungila manualmente ai breadcrumb
+      if (parentRoute) {
+        const parentLabel = this.getLabelForRoute(parentRoute); // Funzione che restituisce il label della rotta genitore
+        if (parentLabel) {
+          breadcrumbs.push({ label: parentLabel, url: `/${parentRoute}`, enabled: true });
+        }
+      }
 
       if (label) {
         breadcrumbs.push({ label, url, enabled });
@@ -53,4 +62,11 @@ export class BreadcrumbService {
 
     return breadcrumbs;
   }
+
+// Funzione che restituisce il label di una route dato il suo path
+  private getLabelForRoute(path: string): string | null {
+    const route = this.router.config.find(r => r.path === path);
+    return route ? route.data?.['breadcrumb'] : null;
+  }
+
 }

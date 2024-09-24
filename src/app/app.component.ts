@@ -90,6 +90,7 @@ export class AppComponent {
     {label: 'Utenti', link: 'admin/users', icon: faUser},
     {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
+    {label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faEnvelope},
     {
       label: 'Test', link: 'admin/press/categories', icon: faEnvelope, isOpen: false,
       subItems: [

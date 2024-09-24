@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function RequireMatch(arr: (string | null)[], required: boolean): ValidatorFn {
+export function RequireMatch(arr: (string | number | null)[], required: boolean): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const id: string = control.value;
     if (required && !id) {

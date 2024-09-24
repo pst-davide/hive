@@ -110,7 +110,9 @@
                        [class.justify-end]="column.align && column.align === ALIGN_OPTIONS.RIGHT">
                     @switch (column.type) {
                       @case (TYPE_OPTIONS.ID) {
-                        {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
+                        @if (paginator) {
+                          {{ i + (paginator.pageIndex * paginator.pageSize) + 1 }}
+                        }
                       }
                       @case (TYPE_OPTIONS.COLOR) {
                         <div class="flex items-center">

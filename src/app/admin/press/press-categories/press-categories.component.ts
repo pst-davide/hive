@@ -1,6 +1,6 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, take, takeUntil} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
@@ -16,6 +16,7 @@ import {MatInput} from '@angular/material/input';
 import {PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
 import {EMPTY_CRUD} from '../../../core/model/crud.model';
 import {LoaderService} from '../../../core/services/loader.service';
+import {Router, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-press-categories',
@@ -27,7 +28,8 @@ import {LoaderService} from '../../../core/services/loader.service';
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterOutlet
   ],
   templateUrl: './press-categories.component.html',
   styleUrl: './press-categories.component.scss'
@@ -62,11 +64,15 @@ export class PressCategoriesComponent implements OnInit {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  constructor(private crudService: PressService, public dialog: MatDialog, private loaderService: LoaderService) {
-  }
+  constructor(private crudService: PressService, public dialog: MatDialog, private loaderService: LoaderService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.getCollection();
+  }
+
+  public isKeywordsRoute(): boolean {
+    return this.router.url.includes('/press/categories/keywords');
   }
 
   /*************************************************
@@ -76,7 +82,7 @@ export class PressCategoriesComponent implements OnInit {
    ************************************************/
 
   private getCollection(): void {
-    this.crudService.getDocs().subscribe({
+    this.crudService.getDocs().pipe(take(1)).subscribe({
       next: (data: PRESS_CATEGORY_TYPE[]) => {
         this.docs = data;
         this.dataSource.next(this.docs);

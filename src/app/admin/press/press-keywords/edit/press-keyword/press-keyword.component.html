@@ -6,8 +6,7 @@
       <div class="flex items-center">
         <!-- logo -->
         <div class="flex text-left">
-          <img src="/images/logo.svg" class="inline h-full max-w-full max-h-10" alt="main_logo" width="40px"
-               height="40"/>
+          <img src="/images/logo.svg" class="inline h-full max-w-full max-h-10" alt="main_logo" width="40px"/>
         </div>
 
         <!-- title -->
@@ -32,36 +31,28 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="w-full mx-auto">
 
-            <!-- name, color -->
+            <!-- name, topic, importance -->
             <div class="grid grid-cols-12 gap-4 mb-4">
-              <div class="col-span-12 lg:col-span-9 md:col-span-8 text-right">
+              <div class="col-span-12 md:col-span-6 text-right">
                 <mat-form-field appearance="outline">
-                  <mat-label>Argomento</mat-label>
-                  <input matInput placeholder="Argomento" formControlName="name">
-                  @if (name.hasError('required')) {
-                    <mat-error>L'<strong>argomento</strong> è obbligatorio</mat-error>
-                  }
+                  <mat-label>Parola Chiave</mat-label>
+                    <input matInput placeholder="Parola Chiave" formControlName="word">
+                    @if (word.hasError('required')) {
+                      <mat-error>La <strong>parola chiave</strong> è obbligatoria</mat-error>
+                    }
                 </mat-form-field>
               </div>
-              <div class="col-span-12 lg:col-span-3 md:col-span-4 flex items-center">
+              <div class="col-span-12 md:col-span-3">
+                <app-press-category-autocomplete [isRequired]="true" [(doc$)]="category$"></app-press-category-autocomplete>
+              </div>
+              <div class="col-span-12 md:col-span-3 flex items-center">
                 <mat-form-field appearance="outline">
-                  <mat-label>Colore</mat-label>
-                  <input matInput formControlName="color"/>
-                  <ngx-colors
-                    class="suffix"
-                    matSuffix
-                    ngx-colors-trigger
-                    formControlName="picker"
-                    [acceptLabel]="'Seleziona'"
-                    [cancelLabel]="'Cancella'"
-                    (input)="_onColorChange($event)"
-                  ></ngx-colors>
-                  @if (color.hasError('invalidColor')) {
-                    <mat-error>Seleziona un <strong>colore</strong> valido</mat-error>
-                  }
-                  @if (color.hasError('required')) {
-                    <mat-error>Il campo <strong>colore</strong> è obbligatorio</mat-error>
-                  }
+                  <mat-label>Importanza</mat-label>
+                    <mat-select formControlName="importance">
+                      <mat-option value="high">Alta</mat-option>
+                      <mat-option value="medium">Media</mat-option>
+                      <mat-option value="low">Bassa</mat-option>
+                    </mat-select>
                 </mat-form-field>
               </div>
             </div>
@@ -86,4 +77,3 @@
 
   </div>
 </div>
-

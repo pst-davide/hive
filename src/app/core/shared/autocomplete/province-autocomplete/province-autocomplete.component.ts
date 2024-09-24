@@ -53,7 +53,7 @@ export class ProvinceAutocompleteComponent implements OnInit, OnDestroy {
       province => {
         this.docs = province ? province.province as ProvinceModel[] : [];
         this.docIds = this.docs.map(doc => doc.sigla );
-     
+
         this.filteredDocs = this.docCtrl.valueChanges.pipe(
           startWith(''),
           map((value: string | null) => this._filter(value ?? ''))
@@ -84,7 +84,7 @@ export class ProvinceAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   public displayFn(event: string): string {
-    const doc = this.docs.find((x: ProvinceModel) => x.sigla === event);
+    const doc: ProvinceModel | null = this.docs.find((x: ProvinceModel) => x.sigla === event) ?? null;
     return doc ? `${doc.provincia} | ${doc.sigla}` : '';
   }
 
