@@ -105,6 +105,10 @@ export class PressCategoryController {
 }
 
   static async delete(req: Request, res: Response): Promise<void> {
+    console.log('Richiesta DELETE ricevuta:', req.url);
+    console.log('Parametri della richiesta:', req.params);
+    console.log('Headers della richiesta:', req.headers);
+
     const id: number = parseInt(req.params['id'], 10);
     console.log('ID da cancellare: ' + id)
     try {

@@ -1,6 +1,6 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
@@ -15,6 +15,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
 import {EMPTY_CRUD} from '../../../core/model/crud.model';
+import {LoaderService} from '../../../core/services/loader.service';
 
 @Component({
   selector: 'app-press-categories',
@@ -32,6 +33,9 @@ import {EMPTY_CRUD} from '../../../core/model/crud.model';
   styleUrl: './press-categories.component.scss'
 })
 export class PressCategoriesComponent implements OnInit {
+
+  /* loading */
+  public isLoading$!: Observable<boolean>;
 
   /* form control */
   public keywordsControl: FormControl<string | null> = new FormControl('');
@@ -58,7 +62,7 @@ export class PressCategoriesComponent implements OnInit {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  constructor(private crudService: PressService, public dialog: MatDialog) {
+  constructor(private crudService: PressService, public dialog: MatDialog, private loaderService: LoaderService) {
   }
 
   ngOnInit(): void {
@@ -144,11 +148,14 @@ export class PressCategoriesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
       if (doc) {
-        this.crudService.deleteDoc(this.deletedDoc.id);
+        this.loaderService.setComponentLoader(PressCategoryComponent.name);
+        await this.crudService.deleteDoc(this.deletedDoc.id);
 
         this.getCollection();
         this.categoryId.set(-1);
         this.categoryIdUpdateSubject.next(this.categoryId());
+
+        this.loaderService.setComponentLoaded(PressCategoryComponent.name);
       }
     })
   }

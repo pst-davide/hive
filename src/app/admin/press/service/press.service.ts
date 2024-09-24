@@ -87,8 +87,17 @@ export class PressService {
     }
   }
 
-  public deleteDoc(id: number): Observable<PRESS_CATEGORY_TYPE> {
-    return this.http.delete<PRESS_CATEGORY_TYPE>(`${this.apiCategoryUrl}/${id}`);
+  public async deleteDoc(id: number): Promise<any> {
+    try {
+      const response: PRESS_CATEGORY_TYPE = await firstValueFrom(
+        this.http.delete<PRESS_CATEGORY_TYPE>(`${this.apiCategoryUrl}/delete/${id}`)
+      );
+      console.log('Delete successful:', response);
+      return response;
+    } catch (error) {
+      console.error('Delete failed:', error);
+      throw error;
+    }
   }
 
   /*************************************************

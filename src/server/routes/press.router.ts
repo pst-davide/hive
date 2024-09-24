@@ -8,7 +8,7 @@ pressRouter.get('/press/categories', PressCategoryController.findAll);
 pressRouter.get('/press/categories/:id', PressCategoryController.findById);
 pressRouter.post('/press/categories', PressCategoryController.create);
 pressRouter.put('/press/categories/:id', PressCategoryController.update);
-pressRouter.delete('/press/categories/:id', PressCategoryController.delete);
+pressRouter.delete('/press/categories/delete/:id', PressCategoryController.delete);
 
 pressRouter.get('/press/keywords', PressKeywordController.findAll);
 pressRouter.get('/press/keywords/:id', PressKeywordController.findById);
