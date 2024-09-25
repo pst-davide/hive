@@ -18,19 +18,18 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {
-  faEdit,
   faFileExcel,
   faFilePdf,
   faFilter,
   faFilterCircleXmark,
-  faLocationDot,
   faMagnifyingGlass,
   faPlus,
-  faTrash
+  faCheck,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {MatFormField, MatSuffix} from '@angular/material/form-field';
+import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import _ from 'lodash';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -40,6 +39,9 @@ import {ALIGN_OPTIONS, ColumnModel, TYPE_OPTIONS} from '../../model/column.model
 import {NgClass} from '@angular/common';
 import {PdfService} from '../../services/pdf.service';
 import {exporter} from '../../functions/file-exporter';
+import {TruncatePipe} from '../../pipe/truncate.pipe';
+import {MatOption} from '@angular/material/autocomplete';
+import {MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-table-template',
@@ -55,6 +57,10 @@ import {exporter} from '../../functions/file-exporter';
     MatTableModule,
     MatPaginatorModule,
     NgClass,
+    TruncatePipe,
+    MatLabel,
+    MatOption,
+    MatSelect,
   ],
   templateUrl: './table-template.component.html',
   styleUrl: './table-template.component.scss',
@@ -83,11 +89,11 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
 
   /* Filters */
   public globalFilterCtrl: FormControl = new FormControl();
-  public filters: ModelSignal<Record<string, string>> = model<Record<string, string>>({});
-  public filterForm: ModelSignal<FormGroup<any>> = model<FormGroup<any>>(new FormGroup({}));
+  public filters: ModelSignal<Record<string, any>> = model<Record<string, any>>({});
   public globalFilter: string = '';
   public isFiltersOpen: boolean = false;
   public activeFilter: boolean = false;
+  public form: FormGroup = new FormGroup({});
 
   /* icons */
   public faPlus: IconDefinition = faPlus;
@@ -96,13 +102,12 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   public faFilterClear: IconDefinition = faFilterCircleXmark;
   public faPdf: IconDefinition = faFilePdf;
   public faExcel: IconDefinition = faFileExcel;
-  public faEdit: IconDefinition = faEdit;
-  public faTrash: IconDefinition = faTrash;
-  public faLocationDot: IconDefinition = faLocationDot;
+  public faCheck: IconDefinition = faCheck;
+  public faXmark: IconDefinition = faXmark;
 
   /* data column options */
   public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string;
-    ICON: string; COLOR: string; BADGE: string } = TYPE_OPTIONS;
+    ICON: string; COLOR: string; BADGE: string; TRUNCATE: string; BOOLEAN: string } = TYPE_OPTIONS;
   public readonly ALIGN_OPTIONS: { CENTER: string; LEFT: string; RIGHT: string } = ALIGN_OPTIONS;
 
   /* Subject */
@@ -117,26 +122,45 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
 
+      for (const column of this.displayedColumns()) {
+        if (column.isFilterable) {
+          let defaultValue: any = '';
+          if (column.type === TYPE_OPTIONS.BOOLEAN) {
+            defaultValue = null;
+          }
+          this.form.addControl(column.key, new FormControl(defaultValue));
+        }
+      }
+
       this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
         const searchTerms = JSON.parse(filter);
-        const globalFilter = searchTerms.global || ''; // Ottieni il filtro globale
-        delete searchTerms.global; // Rimuovi il filtro globale dall'oggetto
+        const globalFilter = searchTerms.global || '';
+        delete searchTerms.global;
 
-        // Filtro per campi specifici (per le colonne selezionate)
-        const matchFilter: boolean = Object.keys(searchTerms).every(column => {
-          const columnValue = data[column] ? data[column].toString().toLowerCase() : ''; // Gestisce null e undefined
-          return columnValue.includes(searchTerms[column]);
+        // Filtra per colonne specifiche
+        const matchFilter: boolean = Object.keys(searchTerms).every((column: string) => {
+          const filterValue: any = searchTerms[column];
+
+          if (typeof data[column] === 'number') {
+            return data[column] === filterValue || data[column].toString().includes(filterValue.toString());
+          } else if (typeof data[column] === 'boolean') {
+            if (filterValue === 'Tutti' || filterValue === '') return true;
+            return data[column] === (filterValue === 'true');
+          } else {
+            const columnValue: string = data[column]?.toString().toLowerCase() ?? '';
+            return columnValue.includes(filterValue.toLowerCase());
+          }
         });
 
         // Filtro globale (su tutti i campi)
         const globalMatch: boolean = globalFilter
           ? Object.keys(data).some((key: string) => {
-            const fieldValue = data[key] ? data[key].toString().toLowerCase() : ''; // Gestisce null e undefined
+            const fieldValue = data[key]?.toString().toLowerCase() ?? ''; // Gestione null e undefined
             return fieldValue.includes(globalFilter);
           })
           : true;
 
-        return matchFilter && globalMatch; // Entrambi i filtri devono corrispondere
+        return matchFilter && globalMatch;
       };
 
       this.cdr.detectChanges();
@@ -166,16 +190,26 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
     this.updateFilters();
   }
 
-  public singleFilter(event: any, column: string) {
-    const value = event.target.value;
-    this.filters()[column] = value.trim().toLowerCase();
+  public singleFilter(event: any, columnKey: string): void {
+    let value: string | boolean;
+    const column: ColumnModel | null = this.displayedColumns()
+      .find((col: ColumnModel) => col.key === columnKey) ?? null;
+
+    if (column?.type === TYPE_OPTIONS.BOOLEAN) {
+      const selectedValue = event.value;
+      value = selectedValue === 'Tutti' ? 'Tutti' : selectedValue === 'true';
+    } else {
+      value = event.target.value.trim().toLowerCase();
+    }
+
+    this.filters()[columnKey] = value;
     this.updateFilters();
   }
 
   private updateFilters(): void {
     const combinedFilter = {
-      ...this.filters(),  // Filtro per colonne specifiche
-      global: this.globalFilter  // Filtro globale
+      ...this.filters(),
+      global: this.globalFilter
     };
     console.log(combinedFilter);
     // Converte l'oggetto in una stringa e lo assegna alla dataSource.filter
@@ -190,7 +224,10 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
 
   private hasActiveFilters(): boolean {
     for (const key in this.filters()) {
-      if (this.filters()[key].trim() !== '') {
+      const filterValue = this.filters()[key];
+      if (typeof filterValue === 'string' && filterValue.trim() !== '') {
+        return true;
+      } else if (typeof filterValue === 'boolean' && filterValue) {
         return true;
       }
     }
@@ -202,13 +239,15 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   public _clearFilter(): void {
-    _.forEach(this.filters, (value, key) => {
-      this.filters()[key] = '';
-    });
+    for (const key in this.filters()) {
+      if (this.filters().hasOwnProperty(key)) {
+        this.filters()[key] = '';
+      }
+    }
 
     this.globalFilter = '';
     this.globalFilterCtrl.setValue(null);
-    this.filterForm().reset();
+    this.form.reset();
     this.activeFilter = false;
 
     this.updateFilters();

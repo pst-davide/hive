@@ -120,12 +120,19 @@
                           <span>{{ row[column.key] }}</span>
                         </div>
                       }
+                      @case (TYPE_OPTIONS.BOOLEAN) {
+                        @if (row[column.key]) {
+                          <fa-icon [icon]="faCheck" class="text-green-500"></fa-icon>
+                        } @else {
+                          <fa-icon [icon]="faXmark" class="text-red-500"></fa-icon>
+                        }
+                      }
                       @case (TYPE_OPTIONS.BADGE) {
                         <div class="flex items-center">
                           <span class="py-1 px-2 text-xs rounded-xl inline-block
                           whitespace-nowrap text-center
                           align-baseline font-bold uppercase leading-none text-white"
-                          [style.background-color]="row[column?.dependency ?? column.key]">
+                                [style.background-color]="row[column?.dependency ?? column.key]">
                             {{ row[column.key] }}
                           </span>
                         </div>
@@ -140,6 +147,13 @@
                           </button>
                         }
                       }
+                      @case (TYPE_OPTIONS.TRUNCATE) {
+                        @if (column.truncateConfig) {
+                          {{ row[column.key] | truncate:column.truncateConfig.length:column.truncateConfig.omission:column.truncateConfig.mode }}
+                        } @else {
+                          {{ row[column.key] }}
+                        }
+                      }
                       @default {
                         {{ row[column.key] }}
                       }
@@ -151,30 +165,42 @@
           }
 
           <!-- filters -->
-          @for (column of displayedColumns(); track column.key) {
-            @if (!column.hide) {
-              <ng-container [matColumnDef]="'_' + column.key" [stickyEnd]="column.stickyEnd">
-                <th mat-header-cell *matHeaderCellDef
-                    class="text-slate-400 min-w-0 flex-grow"
-                    [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
-                  <div class="text-xs font-bold tracking-wide uppercase mt-1">
-                    @if (column.isFilterable) {
-                      <input (click)="$event.stopPropagation()"
-                             (keyup)="singleFilter($event, column.key)"
-                             class="rounded-md py-1 px-3 text-sm border
-                   text-slate-500 placeholder:text-slate-400
-                   bg-slate-100  hover:bg-slate-300
-                   border-slate-200 hover:border-slate-300
-                   focus:outline-none focus:border-slate-400 shadow-sm focus:shadow
-                   transition duration-300 ease"
-                             [formControlName]="column.key"
-                             placeholder="">
-                    }
-                  </div>
-                </th>
-              </ng-container>
+          <form [formGroup]="form">
+            @for (column of displayedColumns(); track column.key) {
+              @if (!column.hide) {
+                <ng-container [matColumnDef]="'_' + column.key" [stickyEnd]="column.stickyEnd">
+                  <th mat-header-cell *matHeaderCellDef
+                      class="text-slate-400 min-w-0 flex-grow"
+                      [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
+                    <div class="text-xs font-bold tracking-wide uppercase mt-1 w-full flex"
+                         [class.justify-start]="column.align && column.align === ALIGN_OPTIONS.LEFT"
+                         [class.justify-center]="column.align && column.align === ALIGN_OPTIONS.CENTER"
+                         [class.justify-end]="column.align && column.align === ALIGN_OPTIONS.RIGHT">
+                      @if (column.isFilterable) {
+                        @if (column.type === TYPE_OPTIONS.BOOLEAN) {
+                          <mat-form-field appearance="outline" class="table-input-filter">
+                            <mat-select [formControlName]="column.key"
+                                        (selectionChange)="singleFilter($event, column.key)">
+                              <mat-option value="">Tutti</mat-option>
+                              <mat-option value="true">Attivo</mat-option>
+                              <mat-option value="false">Disattivo</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        } @else {
+                          <mat-form-field appearance="outline" class="table-input-filter">
+                          <input matInput
+                                 (click)="$event.stopPropagation()"
+                                 (keyup)="singleFilter($event, column.key)"
+                                 [formControlName]="column.key">
+                          </mat-form-field>
+                        }
+                      }
+                    </div>
+                  </th>
+                </ng-container>
+              }
             }
-          }
+          </form>
 
           <ng-container matColumnDef="emptyRow">
             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns().length" class="text-center">

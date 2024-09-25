@@ -14,7 +14,7 @@ export const displayedColumns: ColumnModel[] = [
   },
   {
     key: 'word',
-    name: 'Keyword',
+    name: 'Parola Chiave',
     hide: false,
     type: TYPE_OPTIONS.STRING,
     isFilterable: false,

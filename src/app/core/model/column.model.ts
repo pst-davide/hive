@@ -13,7 +13,9 @@ export const TYPE_OPTIONS = {
   NUMBER: 'number',
   ICON: 'icon',
   COLOR: 'color',
-  BADGE: 'badge'
+  BADGE: 'badge',
+  TRUNCATE: 'truncate',
+  BOOLEAN: 'boolean',
 }
 
 export interface ColumnModel {
@@ -32,4 +34,5 @@ export interface ColumnModel {
   isSortable?: boolean;
   isExportable?: boolean;
   dependency?: string;
+  truncateConfig?: {length: number; omission: string; mode: 'words' | 'letters'};
 }

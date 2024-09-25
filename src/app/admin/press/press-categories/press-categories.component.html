@@ -3,7 +3,6 @@
 } @else {
   <app-table-template
     [filters]="filters"
-    [filterForm]="filterForm"
     [displayedColumns]="displayedColumns"
     [data]="dataSource"
     [exportFileName]="'Elenco Argomenti'"
@@ -12,14 +11,14 @@
   <!-- detail -->
   <div class="grid grid-cols-2 gap-4 my-5">
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
-      <app-press-keywords [(categoryId)]="categoryId"></app-press-keywords>
+      <app-press-keywords [(categoryId)]="categoryId" (keywordsChanged)="_reloadCollection()"></app-press-keywords>
     </div>
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
       <div class="w-full max-w-full flex-0">
         <div
           class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-lg rounded-2xl bg-clip-border px-3 py-6">
           <mat-form-field appearance="outline">
-            <mat-label>Inserisci Keywords @if (doc.name) {per {{doc.name}} }</mat-label>
+            <mat-label>Inserisci Parole Chiave @if (doc.name) {per {{doc.name}} }</mat-label>
             <textarea matInput style="min-height: 150px" [formControl]="keywordsControl"
                       [readonly]="categoryId() === -1"
                       placeholder="Inserire seguendo il formato: #h parola 1; parola 2 #m parola3 #l parola 4; parola5"></textarea>

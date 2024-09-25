@@ -1,5 +1,5 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BehaviorSubject, Observable, Subject, take} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
@@ -59,7 +59,6 @@ export class PressCategoriesComponent implements OnInit {
 
   /* filter */
   public filters: Record<string, string> = {};
-  public filterForm: FormGroup = new FormGroup({name: new FormControl('')});
 
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
@@ -117,6 +116,12 @@ export class PressCategoriesComponent implements OnInit {
     }
   }
 
+  public _reloadCollection(): void {
+    this.loaderService.setComponentLoader(PressCategoryComponent.name);
+    this.getCollection();
+    this.loaderService.setComponentLoaded(PressCategoryComponent.name);
+  }
+
   /*************************************************
    *
    * Edit
@@ -133,7 +138,7 @@ export class PressCategoriesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (doc: PRESS_CATEGORY_TYPE | null) => {
 
       if (doc) {
-        this.getCollection();
+        this._reloadCollection();
       }
     })
   }
@@ -215,9 +220,12 @@ export class PressCategoriesComponent implements OnInit {
       return;
     }
 
+    this.loaderService.setComponentLoader(PressCategoryComponent.name);
     await this.crudService.saveKeywordsBatch(result);
     this.getCollection();
     this.categoryIdUpdateSubject.next(this.categoryId());
+    this.keywordsControl.setValue(null);
+    this.loaderService.setComponentLoaded(PressCategoryComponent.name);
   }
 
 }

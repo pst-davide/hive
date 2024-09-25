@@ -53,6 +53,7 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
 
   /* form */
   public form: FormGroup = new FormGroup({});
+  public isEnabled: boolean = true;
 
   /* categories */
   public category$: ModelSignal<number | null> = model<number | null>(null);
@@ -63,13 +64,13 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
 
 
   constructor(public dialogRef: MatDialogRef<PressKeywordComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: PRESS_KEYWORD_TYPE,
+              @Inject(MAT_DIALOG_DATA) public data: { doc: PRESS_KEYWORD_TYPE, categoryId: number | null },
               private fb: FormBuilder, private crudService: PressService, public dialog: MatDialog) {
   };
 
   ngOnInit(): void {
-    this.doc = this.data;
-    this.category$.set(this.doc.category);
+    this.doc = this.data.doc;
+    this.category$.set(this.data.categoryId && this.data.categoryId > 0 ? this.data.categoryId : this.doc.category);
     this.formTitle = this.doc.word ? `Modifica Parola Chiave - ${this.doc.word}` : 'Nuova Parola Chiave';
     this.createForm();
   }
@@ -90,7 +91,7 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       word: doc.word,
       importance: doc.importance,
-      category: doc.category,
+      category: this.data.categoryId && this.data.categoryId > 0 ? this.data.categoryId : doc.category,
     });
   }
 
@@ -123,6 +124,10 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
     this.category$.subscribe((category: number | null) => {
       this.category.setValue(category);
     });
+
+    if (this.data.categoryId && this.data.categoryId > 0) {
+      this.isEnabled = false;
+    }
   }
 
   public async onSubmit(): Promise<void> {

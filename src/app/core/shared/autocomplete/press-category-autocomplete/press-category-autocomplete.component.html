@@ -6,7 +6,7 @@
          [placeholder]="placeholder()"
          [formControl]="docCtrl"
          [matAutocomplete]="docAutocomplete"
-         (keyup)="_onKeyUp($event)">
+         (keyup)="_onKeyUp($event)" [readonly]="!isEnabled()">
 
   @if (docCtrl.value && isEnabled()) {
     <button matSuffix mat-icon-button type="button"

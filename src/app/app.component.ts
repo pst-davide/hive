@@ -7,7 +7,7 @@ import {
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {Router, RouterModule, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
@@ -16,7 +16,7 @@ import {
   faFont,
   faCalendarDays,
   faUser,
-  faEnvelope, faChevronUp, faChevronDown,
+  faEnvelope, faChevronDown, faCog,
 } from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, transition, trigger} from '@angular/animations';
@@ -60,11 +60,12 @@ interface MenuItem {
 })
 export class AppComponent {
 
-  @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
-  @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
-
   /* loading */
   public isLoading$!: Observable<boolean>;
+
+  /* animations */
+  @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
+  @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
 
   /* sidebar state */
   public isSidebarMinimized: ModelSignal<boolean> = model<boolean>(false);
@@ -92,7 +93,7 @@ export class AppComponent {
     {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
     {label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faEnvelope},
     {
-      label: 'Test', link: 'admin/press/categories', icon: faEnvelope, isOpen: false,
+      label: 'Amministrazione', link: 'admin/press/categories', icon: faCog, isOpen: false,
       subItems: [
         {label: 'Submenu 1-1', link: '/sub1', icon: faFont},
         {label: 'Submenu 1-2', link: '/sub2', icon: faLocationDot}
@@ -100,8 +101,11 @@ export class AppComponent {
     },
   ];
 
+  /* icons */
+  public readonly faChevronDown: IconDefinition = faChevronDown;
+
   constructor(private swPush: SwPush, private loaderService: LoaderService,
-              private navigationService: NavigationService) {
+              private navigationService: NavigationService, private router: Router) {
     moment.locale('it');
 
     if (this.swPush.isEnabled) {
@@ -213,5 +217,7 @@ export class AppComponent {
     });
   }
 
-  protected readonly faChevronDown = faChevronDown;
+  public navigate(link: string): void {
+    this.router.navigate([link]).then(() => {});
+  }
 }

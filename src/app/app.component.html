@@ -13,11 +13,11 @@
       <div class="h-full overflow-y-auto">
         <ul>
           <li *ngFor="let item of menuItems" class="mt-5 w-full">
-            <a #menuLink class="text-sm my-0 mx-3 flex items-center whitespace-nowrap px-4"
-               [routerLink]="item.link" (click)="item.subItems ? toggleSubmenu(item) : null">
+            <a #menuLink class="text-sm my-0 mx-3 flex items-center whitespace-nowrap px-4 cursor-pointer"
+               (click)="item.subItems ? toggleSubmenu(item) : (item.link ? navigate(item.link) : null)">
               <div class="icon-container shadow-md shadow-slate-400 w-8 min-w-8 h-8 mr-2 bg-white
-          text-slate-500 rounded-md flex items-center justify-center
-          hover:scale-110 hover:shadow-lg hover:duration-300">
+              text-slate-500 rounded-md flex items-center justify-center
+              hover:scale-110 hover:shadow-lg hover:duration-300">
                 <fa-icon [icon]="item.icon"></fa-icon>
               </div>
 
@@ -32,10 +32,14 @@
             </a>
 
             <!-- Submenu -->
-            <ul *ngIf="item.isOpen" class="pl-12">
-              <li *ngFor="let subItem of item.subItems" class="my-2">
+            <ul *ngIf="item.isOpen" class="pl-6 bg-slate-200 py-3 rounded-2xl mt-3 ml-5">
+              <li *ngFor="let subItem of item.subItems" class="mb-5">
                 <a class="text-xs flex items-center whitespace-nowrap" [routerLink]="subItem.link">
-                  <fa-icon [icon]="subItem.icon" class="mr-2 text-xs"></fa-icon>
+                  <div class="icon-container shadow-md shadow-slate-400 w-8 min-w-8 h-8 mr-2 bg-white
+                  text-slate-500 rounded-md flex items-center justify-center
+                  hover:scale-110 hover:shadow-lg hover:duration-300">
+                    <fa-icon [icon]="subItem.icon" class="text-xs"></fa-icon>
+                  </div>
                   <span *ngIf="!isSidebarMinimized()">{{ subItem.label }}</span>
                 </a>
               </li>
