@@ -1,6 +1,6 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject, Observable, Subject, take} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
@@ -64,10 +64,12 @@ export class PressCategoriesComponent implements OnInit {
   public displayedColumns: ColumnModel[] = displayedColumns;
 
   constructor(private crudService: PressService, public dialog: MatDialog, private loaderService: LoaderService,
-              private router: Router) {}
+              private router: Router) {
+  }
 
   ngOnInit(): void {
-    this.getCollection();
+    this._reloadCollection().then(() => {
+    });
   }
 
   public isKeywordsRoute(): boolean {
@@ -80,19 +82,13 @@ export class PressCategoriesComponent implements OnInit {
    *
    ************************************************/
 
-  private getCollection(): void {
-    this.crudService.getDocs().pipe(take(1)).subscribe({
-      next: (data: PRESS_CATEGORY_TYPE[]) => {
-        this.docs = data;
-        this.dataSource.next(this.docs);
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero dei documenti:', error);
-      },
-      complete: () => {
-        console.log('Recupero documenti completato');
-      }
-    });
+  private async getCollection(): Promise<void> {
+    try {
+      this.docs = await this.crudService.getDocs();
+      this.dataSource.next(this.docs);
+    } catch (error) {
+      console.error('Errore durante il caricamento dei documenti:', error);
+    }
   }
 
   public _rowAction(action: { record: any; key: string }): void {
@@ -116,10 +112,13 @@ export class PressCategoriesComponent implements OnInit {
     }
   }
 
-  public _reloadCollection(): void {
-    this.loaderService.setComponentLoader(PressCategoryComponent.name);
-    this.getCollection();
-    this.loaderService.setComponentLoaded(PressCategoryComponent.name);
+  public async _reloadCollection(): Promise<void> {
+    try {
+      this.loaderService.setComponentLoader(PressCategoryComponent.name);
+      await this.getCollection();
+    } finally {
+      this.loaderService.setComponentLoaded(PressCategoryComponent.name);
+    }
   }
 
   /*************************************************
@@ -138,7 +137,8 @@ export class PressCategoriesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (doc: PRESS_CATEGORY_TYPE | null) => {
 
       if (doc) {
-        this._reloadCollection();
+        this._reloadCollection().then(() => {
+        });
       }
     })
   }
@@ -157,23 +157,16 @@ export class PressCategoriesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
-      if (doc) {
-        if (this.deletedDoc.VIEW_KEYWORDS_COUNT && this.deletedDoc.VIEW_KEYWORDS_COUNT > 0) {
-          // TODO notify
-          return;
-        }
-
+    dialogRef.afterClosed().subscribe(async (confirmed: boolean | null) => {
+      if (confirmed && (!this.deletedDoc.VIEW_KEYWORDS_COUNT || this.deletedDoc.VIEW_KEYWORDS_COUNT === 0)) {
         this.loaderService.setComponentLoader(PressCategoryComponent.name);
         await this.crudService.deleteDoc(this.deletedDoc.id);
-
-        this.getCollection();
+        await this.getCollection();
         this.categoryId.set(-1);
         this.categoryIdUpdateSubject.next(this.categoryId());
-
         this.loaderService.setComponentLoaded(PressCategoryComponent.name);
       }
-    })
+    });
   }
 
   /*************************************************
@@ -222,7 +215,7 @@ export class PressCategoriesComponent implements OnInit {
 
     this.loaderService.setComponentLoader(PressCategoryComponent.name);
     await this.crudService.saveKeywordsBatch(result);
-    this.getCollection();
+    await this.getCollection();
     this.categoryIdUpdateSubject.next(this.categoryId());
     this.keywordsControl.setValue(null);
     this.loaderService.setComponentLoaded(PressCategoryComponent.name);

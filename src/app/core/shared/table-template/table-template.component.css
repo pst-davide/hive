@@ -1,3 +1,35 @@
+.table-input-filter .mat-mdc-form-field-infix {
+  min-height: 16px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  font-size: 14px !important;
+}
 
+.table-input-filter .mat-mdc-form-field-subscript-wrapper {
+  height: 0 !important;
+}
+
+.table-template .mat-form-field input {
+  text-transform: none !important;
+}
+
+.table-input-filter .mat-mdc-form-field-input-control.mat-mdc-form-field-input-control {
+  text-transform: none;
+}
+
+.table-input-filter .mat-mdc-form-field {
+  min-height: 16px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  font-size: 14px !important;
+}
+
+.table-input-filter .mat-mdc-select-value-text {
+  text-transform: none !important;
+}
+
+.table-input-filter {
+  max-width: 150px !important;
+}
 
 /*# sourceMappingURL=table-template.component.css.map */

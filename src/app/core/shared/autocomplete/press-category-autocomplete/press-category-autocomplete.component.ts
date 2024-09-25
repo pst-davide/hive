@@ -1,7 +1,7 @@
 import {Component, input, InputSignal, model, ModelSignal, OnInit} from '@angular/core';
 import {PRESS_CATEGORY_TYPE} from '../../../../admin/press/model/press-category.model';
 import {PressService} from '../../../../admin/press/service/press.service';
-import {map, Observable, startWith, take} from 'rxjs';
+import {map, Observable, startWith} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -59,34 +59,29 @@ export class PressCategoryAutocompleteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCollection();
-  }
-
-  private getCollection(): void {
-    this.crudService.getDocs().pipe(take(1)).subscribe({
-      next: (data: PRESS_CATEGORY_TYPE[]) => {
-        this.docs = data;
-        this.docIds = this.docs.map((doc: PRESS_CATEGORY_TYPE) => doc.id );
-
-        this.filteredDocs = this.docCtrl.valueChanges.pipe(
-          startWith(''),
-          map((value: string | null) => this._filter(value?.toString() ?? ''))
-        );
-
-        const selectedDoc: string | null = (this.doc$() ?? '') as string;
-        this.docCtrl.setValue(selectedDoc);
-
-        this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
-        this.docCtrl.updateValueAndValidity();
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero dei documenti:', error);
-      },
-      complete: () => {
-        console.log('Recupero documenti completato');
-      }
+    this.getCollection().then(() => {
     });
   }
+
+  private async getCollection(): Promise<void> {
+  try {
+    this.docs = await this.crudService.getDocs();
+    this.docIds = this.docs.map((doc: PRESS_CATEGORY_TYPE) => doc.id);
+
+    this.filteredDocs = this.docCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value: string | null) => this._filter(value?.toString() ?? ''))
+    );
+
+    const selectedDoc: string | null = (this.doc$() ?? '') as string;
+    this.docCtrl.setValue(selectedDoc);
+
+    this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+    this.docCtrl.updateValueAndValidity();
+  } catch (error) {
+    console.error('Errore durante il caricamento dei documenti:', error);
+  }
+}
 
   private _filter(value: string): PRESS_CATEGORY_TYPE[] {
     const filterValue: string = value.toLowerCase();

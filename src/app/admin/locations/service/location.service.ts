@@ -2,7 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {LocationModel} from '../model/location.model';
 import {Location} from '../../../../server/entity/location.entity';
-import {firstValueFrom, map, Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
+import axios, {AxiosResponse} from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -81,8 +82,8 @@ export class LocationService {
   public async createDoc(doc: LocationModel): Promise<LocationModel> {
     const entity: Location = this.toEntity(doc);
     try {
-      const savedEntity: Location = await firstValueFrom(this.http.post<Location>(this.apiUrl, entity));
-      return this.toModel(savedEntity);
+      const response: AxiosResponse<any, any> = await axios.post(this.apiUrl, entity)
+      return this.toModel(response.data);
     } catch (error) {
       throw error;
     }
@@ -91,8 +92,8 @@ export class LocationService {
   public async updateDoc(id: string, doc: LocationModel): Promise<LocationModel> {
     const entity: Location = this.toEntity(doc);
     try {
-      const savedEntity: Location = await firstValueFrom(this.http.put<Location>(`${this.apiUrl}/${id}`, entity));
-      return this.toModel(savedEntity);
+      const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity);
+      return this.toModel(response.data);
     } catch (error) {
       throw error;
     }
