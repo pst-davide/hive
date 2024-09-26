@@ -16,10 +16,10 @@ import {
   faFont,
   faCalendarDays,
   faUser,
-  faEnvelope, faChevronDown, faCog,
+  faEnvelope, faChevronDown, faCog, faChevronRight, faCaretRight, faNewspaper, faDoorClosed,
 } from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {animate, transition, trigger} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
@@ -30,8 +30,9 @@ import {NavigationService} from './core/services/navigation.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 
 interface MenuItem {
+  id: string;
   label: string;
-  link: string;
+  link?: string;
   icon: IconDefinition;
   isOpen?: boolean;
   subItems?: MenuItem[];
@@ -55,7 +56,12 @@ interface MenuItem {
         transition('closed => open', [
           animate('400ms ease-in-out')
         ])
-      ])
+      ]),
+    trigger('menuAnimation', [
+      state('collapsed', style({ height: '0', overflow: 'hidden' })),
+      state('expanded', style({ height: '*', overflow: 'hidden' })),
+      transition('collapsed <=> expanded', [animate('300ms ease-in-out')]),
+    ]),
   ]
 })
 export class AppComponent {
@@ -66,6 +72,7 @@ export class AppComponent {
   /* animations */
   @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
   @ViewChildren('menuLink') menuLinkElements!: QueryList<ElementRef>;
+  @ViewChildren('subUl') subUlElements!: QueryList<ElementRef>;
 
   /* sidebar state */
   public isSidebarMinimized: ModelSignal<boolean> = model<boolean>(false);
@@ -84,25 +91,34 @@ export class AppComponent {
 
   /* menu */
   public menuItems: MenuItem[] = [
-    {label: 'Agende', link: 'calendars', icon: faCalendarDays},
-    {label: 'Sedi', link: 'admin/locations', icon: faLocationDot},
-    {label: 'Stanze', link: 'admin/rooms', icon: faLocationDot},
-    {label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
-    {label: 'Utenti', link: 'admin/users', icon: faUser},
-    {label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
-    {label: 'Categorie', link: 'admin/press/categories', icon: faEnvelope},
-    {label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faEnvelope},
+    {id: 'm1', label: 'Agende', link: 'calendars', icon: faCalendarDays},
+    {id: 'm4', label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
+    {id: 'm6', label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {
-      label: 'Amministrazione', link: 'admin/press/categories', icon: faCog, isOpen: false,
+      id: 'm9', label: 'Amministrazione', icon: faCog, isOpen: false,
       subItems: [
-        {label: 'Submenu 1-1', link: '/sub1', icon: faFont},
-        {label: 'Submenu 1-2', link: '/sub2', icon: faLocationDot}
+        {id: 'm10', label: 'Rassegna Stampa', icon: faNewspaper, isOpen: false,
+          subItems: [
+            {id: 'm11', label: 'Categorie', link: 'admin/press/categories', icon: faCaretRight},
+            {id: 'm12', label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faCaretRight},
+          ]
+        },
+        {id: 'm13', label: 'Anagrafiche', icon: faUser, isOpen: false,
+          subItems: [
+            {id: 'm2', label: 'Sedi', link: 'admin/locations', icon: faCaretRight},
+            {id: 'm3', label: 'Stanze', link: 'admin/rooms', icon: faCaretRight},
+            {id: 'm5', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
+          ]
+        },
+        {id: 'm14', label: 'Submenu 1-2', link: '/sub2', icon: faLocationDot}
       ]
-    },
+    }
   ];
+  public activeItem: string = '';
 
   /* icons */
   public readonly faChevronDown: IconDefinition = faChevronDown;
+  public readonly faChevronRight: IconDefinition = faChevronRight;
 
   constructor(private swPush: SwPush, private loaderService: LoaderService,
               private navigationService: NavigationService, private router: Router) {
@@ -137,11 +153,14 @@ export class AppComponent {
    *
    * ************************************************************************************/
 
+  public toggleItem(item: MenuItem): void {
+    item.isOpen = !item.isOpen;
+  }
+
   private animateSidebarText(): void {
-    const textElements: any[] = this.menuTextElements.toArray().map((el: ElementRef<any>) => {
-      return el.nativeElement;
-    });
+    const textElements: any[] = this.menuTextElements.toArray().map((el: ElementRef<any>) => el.nativeElement);
     const linkElements: any[] = this.menuLinkElements.toArray().map((el: ElementRef<any>) => el.nativeElement);
+    const subElements: any[] = this.subUlElements.toArray().map((el: ElementRef<any>) => el.nativeElement);
 
     if (this.isSidebarMinimized()) {
 
@@ -155,7 +174,7 @@ export class AppComponent {
         },
         easing: 'easeInOutQuad',
         duration: 350,
-        delay: anime.stagger(50)
+        delay: anime.stagger(50),
       });
 
       anime({
@@ -163,6 +182,13 @@ export class AppComponent {
         translateX: [0, -16],
         easing: 'easeInOutQuad',
         duration: 350,
+      });
+
+      anime({
+        targets: subElements,
+        translateX: [0, -16],
+        easing: 'easeInOutQuad',
+        duration: 150,
       });
 
       anime({
@@ -185,7 +211,7 @@ export class AppComponent {
         },
         easing: 'easeInOutQuad',
         duration: 350,
-        delay: anime.stagger(50)
+        delay: anime.stagger(50),
       });
 
       anime({
@@ -193,6 +219,13 @@ export class AppComponent {
         translateX: [-16, 0],
         easing: 'easeInOutQuad',
         duration: 350,
+      });
+
+      anime({
+        targets: subElements,
+        translateX: [-16, 0],
+        easing: 'easeInOutQuad',
+        duration: 150,
       });
 
       anime({
@@ -206,18 +239,9 @@ export class AppComponent {
     }
   }
 
-  public toggleSubmenu(item: any): void {
-    item.isOpen = !item.isOpen;
-
-    anime({
-      targets: '.chevron',
-      rotate: item.isOpen ? 180 : 0,
-      duration: 150,
-      easing: 'easeInOutQuad'
-    });
+  public navigate(item: MenuItem): void {
+    this.activeItem = item.id;
+    this.router.navigate([item.link]).then(() => {});
   }
 
-  public navigate(link: string): void {
-    this.router.navigate([link]).then(() => {});
-  }
 }

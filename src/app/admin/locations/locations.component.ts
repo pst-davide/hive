@@ -7,7 +7,7 @@ import {LocationComponent} from './edit/location/location.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
-import {BehaviorSubject, catchError, of, Subject, take, takeUntil, tap} from 'rxjs';
+import {BehaviorSubject, catchError, of, Subject, takeUntil, tap} from 'rxjs';
 import {AddressService, CityModel, ProvinceModel} from '../../core/services/address.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import 'animate.css';
@@ -81,7 +81,7 @@ export class LocationsComponent implements OnInit {
     this.loaderService.setComponentLoader(LocationsComponent.name);
     this.getCities();
     this.getProvinces();
-    this.getCollection();
+    this.getCollection().then(() => {});
     this.loaderService.setComponentLoaded(LocationsComponent.name);
 
     // this.analyzeText();
@@ -142,19 +142,14 @@ export class LocationsComponent implements OnInit {
     } as LOCATION_TYPE;
   }
 
-  private getCollection(): void {
-    this.crudService.getDocs().pipe(take(1)).subscribe({
-      next: (data: LocationModel[]) => {
-        this.docs = data.map((doc: LocationModel) => this.mapDoc(doc));
-        this.dataSource.next(this.docs);
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero dei documenti:', error);
-      },
-      complete: () => {
-        console.log('Recupero documenti completato');
-      }
-    });
+  private async getCollection(): Promise<void> {
+    try {
+      const docs: LocationModel[] = await this.crudService.getDocs();
+      this.docs = docs.map((doc: LocationModel) => this.mapDoc(doc));
+      this.dataSource.next(this.docs);
+    } catch (error) {
+      console.error('Errore durante il caricamento dei documenti:', error);
+    }
   }
 
   public _rowAction(action: { record: any; key: string }): void {
@@ -213,8 +208,8 @@ export class LocationsComponent implements OnInit {
       if (doc) {
         this.loaderService.setComponentLoader(LocationsComponent.name);
 
-        this.crudService.deleteDoc(this.deletedDoc.id as string);
-        this.getCollection();
+        await this.crudService.deleteDoc(this.deletedDoc.id as string);
+        await this.getCollection();
 
         this.loaderService.setComponentLoaded(LocationsComponent.name);
       }

@@ -13,7 +13,7 @@ import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {LocationService} from '../../service/location.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faLocationDot, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {NgxColorsModule, validColorValidator} from 'ngx-colors';
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
@@ -349,4 +349,5 @@ export class LocationComponent implements OnInit, OnDestroy {
     return this.form.get('email') as AbstractControl;
   }
 
+  protected readonly faLocationDot = faLocationDot;
 }

@@ -7,6 +7,6 @@ locationRouter.get('/locations', LocationController.findAll);
 locationRouter.get('/locations/:id', LocationController.findById);
 locationRouter.post('/locations', LocationController.create);
 locationRouter.put('/locations/:id', LocationController.update);
-locationRouter.delete('/locations/:id', LocationController.delete);
+locationRouter.delete('/locations/delete/:id', LocationController.delete);
 
 export default locationRouter;

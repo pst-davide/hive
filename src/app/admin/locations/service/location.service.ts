@@ -2,8 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {LocationModel} from '../model/location.model';
 import {Location} from '../../../../server/entity/location.entity';
-import {map, Observable} from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
+import {PRESS_CATEGORY_TYPE} from '../../press/model/press-category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -70,9 +71,14 @@ export class LocationService {
     return model;
   }
 
-  public getDocs(): Observable<LocationModel[]> {
-    return this.http.get<Location[]>(this.apiUrl)
-      .pipe(map((entities: Location[]) => entities.map((entity: Location) => this.toModel(entity))));
+  public async getDocs(): Promise<LocationModel[]> {
+    try {
+      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(this.apiUrl);
+      return response.data.map((entity: any) => this.toModel(entity));
+    } catch (error) {
+      console.error('Errore durante il fetch dei documenti:', error);
+      throw error;
+    }
   }
 
   public getById(id: string): Observable<LocationModel> {
@@ -99,7 +105,16 @@ export class LocationService {
     }
   }
 
-  public deleteDoc(id: string): Observable<LocationModel> {
-    return this.http.delete<LocationModel>(`${this.apiUrl}/${id}`);
+  public async deleteDoc(id: string): Promise<any> {
+    try {
+      const response: LocationModel = await firstValueFrom(
+        this.http.delete<LocationModel>(`${this.apiUrl}/delete/${id}`)
+      );
+      console.log('Delete successful:', response);
+      return response;
+    } catch (error) {
+      console.error('Delete failed:', error);
+      throw error;
+    }
   }
 }

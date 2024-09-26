@@ -56,13 +56,13 @@ export class PressService {
   }
 
   public async getDocs(): Promise<PRESS_CATEGORY_TYPE[]> {
-  try {
-    const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(`${this.apiCategoryUrl}?countKeywords=true`);
-    return response.data.map((entity: any) => this.toModel(entity));
-  } catch (error) {
-    console.error('Errore durante il fetch dei documenti:', error);
-    throw error;
-  }
+    try {
+      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(`${this.apiCategoryUrl}?countKeywords=true`);
+      return response.data.map((entity: any) => this.toModel(entity));
+    } catch (error) {
+      console.error('Errore durante il fetch dei documenti:', error);
+      throw error;
+    }
 }
 
   public getById(id: string): Observable<PRESS_CATEGORY_TYPE> {
@@ -149,9 +149,14 @@ export class PressService {
     return doc;
   }
 
-  public getKeywordsDocs(id: number | null = null): Observable<PRESS_KEYWORD_TYPE[]> {
-    return this.http.get<PRESS_KEYWORD_TYPE[]>(`${this.apiKeywordUrl}${(id ? '?categoryId=' + id : '')}`)
-      .pipe(map((entities: any[]) => entities.map((entity: any) => this.toKeywordModel(entity))));
+  public async getKeywordsDocs(id: number | null = null): Promise<PRESS_KEYWORD_TYPE[]> {
+    try {
+      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(`${this.apiKeywordUrl}${(id ? '?categoryId=' + id : '')}`);
+      return response.data.map((entity: any) => this.toKeywordModel(entity));
+    } catch (error) {
+      console.error('Errore durante il fetch dei documenti:', error);
+      throw error;
+    }
   }
 
   public async saveKeywordsBatch(keywords: PRESS_KEYWORD_TYPE[]): Promise<void> {

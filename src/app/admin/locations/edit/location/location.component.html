@@ -18,11 +18,14 @@
         </div>
 
         <!-- close -->
-        <div class="flex text-right">
-          <button (click)="closeDialog()">
-            <fa-icon [icon]="faTimes" class="text-5xl"></fa-icon>
+        <div class="flex justify-end">
+          <button (click)="closeDialog()"
+                  class="group w-12 h-12 rounded-full bg-slate-100 hover:bg-red-500 hover:scale-110
+                  transition duration-300 ease-in-out flex items-center justify-center">
+            <fa-icon [icon]="faTimes" class="text-gray-600 group-hover:text-white text-2xl"></fa-icon>
           </button>
         </div>
+
       </div>
 
     </div>
@@ -149,37 +152,31 @@
             <div class="grid grid-cols-2 gap-4">
 
               <div class="col-span-2 md:col-span-1">
-                <button type="button" class="
-              py-2 px-4 rounded-full
-              text-center text-sm text-white
-              shadow-soft-md hover:shadow-soft-2xl
-              bg-gradient-fuchsia hover:bg-gradient-fuchsia-reverse hover:bg-blue-800
-              focus:outline-none focus:ring-4 focus:ring-blue-300
-              " (click)="_openMap()">Default
-                </button>
-
-                <button class="py-2 px-4 rounded-full
-                border border-transparent
-                text-center text-sm text-white
-                bg-gradient-fuchsia hover:bg-gradient-fuchsia-reverse
-                shadow-soft-md hover:shadow-soft-2xl
-                transition-all ease-in duration-400
-                focus:bg-gradient-fuchsia focus:shadow-none
-                active:bg-gradient-fuchsia
-                active:shadow-none
-                disabled:pointer-events-none disabled:opacity-50
-                disabled:shadow-none" type="button">
-                  Gradient
+                <button type="button" class="px-4 py-2 mr-2
+                  bg-transparent
+                  text-slate-500
+                  hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-500
+                  hover:shadow-lg
+                  hover:scale-102 active:scale-95
+                  font-bold text-center uppercase text-xs
+                  border-0 rounded-3xl
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+                        (click)="_openMap()">
+                  Visualizza nella Mappa
                 </button>
               </div>
               <div class="col-span-2 md:col-span-1 text-right">
-                <button class="px-6 py-2
-                  bg-gradient-fuchsia hover:bg-gradient-fuchsia-reverse
-                  shadow-soft-md hover:shadow-soft-2xl
-                  hover:scale-102
-                  font-bold text-center text-white uppercase align-middle text-size-xs
+                <button class="px-4 py-2
+                  w-auto
+                  bg-gradient-to-r from-fuchsia-500 to-pink-500
+                  hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
+                  shadow-lg hover:shadow-2xl
+                  hover:scale-102 active:scale-95
+                  font-bold text-center text-white uppercase text-xs
                   border-0 rounded-3xl
-                  transition-all ease-in">
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed">
                   Salva
                 </button>
               </div>

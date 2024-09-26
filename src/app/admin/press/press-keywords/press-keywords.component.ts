@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import _ from 'lodash';
 import {EMPTY_PRESS_KEYWORD, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
-import {BehaviorSubject, Subscription, take} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import {ColumnModel} from '../../../core/model/column.model';
 import {displayedColumns} from './press-keywords.table';
 import {PressService} from '../service/press.service';
@@ -60,14 +60,14 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
               private parentComponent: PressCategoriesComponent, private loaderService: LoaderService) {
     this.categoryIdUpdateSubscription = this.parentComponent.categoryIdUpdateSubject
       .subscribe((newCategoryId: number | null) => {
-      this.getCollection(newCategoryId);
+      this.getCollection(newCategoryId).then(() => {
+      });
     });
   }
 
   ngOnInit(): void {
-    this.loaderService.setComponentLoader(PressKeywordComponent.name);
-    this.getCollection(this.categoryId());
-    this.loaderService.setComponentLoaded(PressKeywordComponent.name);
+    this._reloadCollection().then(() => {
+    });
   }
 
   ngOnDestroy() {
@@ -80,19 +80,13 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private getCollection(id: number | null = null): void {
-    this.crudService.getKeywordsDocs(id).pipe(take(1)).subscribe({
-      next: (data: PRESS_KEYWORD_TYPE[]) => {
-        this.docs = data;
-        this.dataSource.next(this.docs);
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero dei documenti:', error);
-      },
-      complete: () => {
-        console.log('Recupero documenti completato');
-      }
-    });
+  private async getCollection(id: number | null = null): Promise<void> {
+    try {
+      this.docs = await this.crudService.getKeywordsDocs(id);
+      this.dataSource.next(this.docs);
+    } catch (error) {
+      console.error('Errore durante il caricamento dei documenti:', error);
+    }
   }
 
   public _rowAction(action: { record: any; key: string }): void {
@@ -107,6 +101,15 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
     } else if (action.key === 'delete') {
       this.deletedDoc = _.cloneDeep(action.record ? action.record as PRESS_KEYWORD_TYPE : this.emptyDoc);
       this.deleteRow();
+    }
+  }
+
+  public async _reloadCollection(): Promise<void> {
+    try {
+      this.loaderService.setComponentLoader(PressKeywordComponent.name);
+      await this.getCollection(this.categoryId());
+    } finally {
+      this.loaderService.setComponentLoaded(PressKeywordComponent.name);
     }
   }
 
@@ -126,12 +129,9 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(async (doc: PRESS_KEYWORD_TYPE | null) => {
 
       if (doc) {
-        this.loaderService.setComponentLoader(PressKeywordComponent.name);
-
-        this.getCollection(this.categoryId());
+        this._reloadCollection().then(() => {
+        });
         this.keywordsChanged.next();
-
-        this.loaderService.setComponentLoaded(PressKeywordComponent.name);
       }
     })
   }
@@ -155,7 +155,7 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
           this.loaderService.setComponentLoader(PressKeywordComponent.name);
 
           await this.crudService.deleteKeywordDoc(this.deletedDoc.id);
-          this.getCollection(this.categoryId());
+          await this.getCollection(this.categoryId());
           this.keywordsChanged.next();
 
           this.loaderService.setComponentLoaded(PressKeywordComponent.name);
