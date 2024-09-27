@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import {ROOM_TYPE, RoomModel} from '../model/room.model';
 import {Room} from '../../../../server/entity/room.entity';
 import axios, {AxiosResponse} from 'axios';
-import {IMPORTANCE_BADGE, PRESS_KEYWORD_TYPE} from '../../press/model/press-keyword.model';
 
 @Injectable({
   providedIn: 'root'

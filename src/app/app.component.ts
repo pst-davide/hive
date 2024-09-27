@@ -65,6 +65,7 @@ interface MenuItem {
   ]
 })
 export class AppComponent implements OnInit {
+  public title: string = 'Hive';
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -106,7 +107,7 @@ export class AppComponent implements OnInit {
         {id: 'm13', label: 'Anagrafiche', icon: faUser, isOpen: false,
           subItems: [
             {id: 'm2', label: 'Sedi', link: 'admin/locations', icon: faCaretRight},
-            {id: 'm3', label: 'Stanze', link: 'admin/rooms', icon: faCaretRight},
+            {id: 'm3', label: 'Stanze', link: 'admin/locations/rooms', icon: faCaretRight},
             {id: 'm5', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
           ]
         },

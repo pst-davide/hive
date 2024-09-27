@@ -349,5 +349,4 @@ export class LocationComponent implements OnInit, OnDestroy {
     return this.form.get('email') as AbstractControl;
   }
 
-  protected readonly faLocationDot = faLocationDot;
 }

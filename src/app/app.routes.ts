@@ -21,8 +21,11 @@ export const routes: Routes = [
           { path: 'keywords', component: PressKeywordsComponent, data: { breadcrumb: 'Parole Chiave', enabled: true } }
         ]
       },
-      { path: 'locations', component: LocationsComponent, data: { breadcrumb: 'Sedi', enabled: true } },
-      { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } },
+      { path: 'locations', component: LocationsComponent, data: { breadcrumb: 'Sedi', enabled: true },
+        children: [
+          { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } }
+        ]
+      },
       { path: 'users', component: UsersComponent, data: { breadcrumb: 'Utenti', enabled: true } }
     ]
   },

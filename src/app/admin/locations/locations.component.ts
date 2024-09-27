@@ -143,10 +143,10 @@ export class LocationsComponent implements OnInit {
       data: this.doc
     });
 
-    dialogRef.afterClosed().subscribe((doc: LOCATION_TYPE | null) => {
+    dialogRef.afterClosed().subscribe(async (doc: LOCATION_TYPE | null) => {
       if (doc) {
         this.loaderService.setComponentLoader(LocationsComponent.name);
-        this.getCollection();
+        await this.getCollection();
         this.loaderService.setComponentLoaded(LocationsComponent.name);
       }
     })
