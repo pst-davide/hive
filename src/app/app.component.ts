@@ -2,7 +2,7 @@ import {
   Component,
   ElementRef, HostListener,
   model,
-  ModelSignal,
+  ModelSignal, OnInit,
   QueryList,
   ViewChildren,
   ViewEncapsulation
@@ -16,7 +16,7 @@ import {
   faFont,
   faCalendarDays,
   faUser,
-  faEnvelope, faChevronDown, faCog, faChevronRight, faCaretRight, faNewspaper, faDoorClosed,
+  faEnvelope, faChevronDown, faCog, faChevronRight, faCaretRight, faNewspaper,
 } from '@fortawesome/free-solid-svg-icons';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -64,7 +64,7 @@ interface MenuItem {
     ]),
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -145,6 +145,12 @@ export class AppComponent {
       this.animateSidebarText();
     });
 
+  }
+
+  ngOnInit(): void {
+    this.navigationService.currentRoute$.subscribe((currentUrl: string) => {
+      this.setActiveItem(currentUrl);
+    });
   }
 
   /***************************************************************************************
@@ -242,6 +248,51 @@ export class AppComponent {
   public navigate(item: MenuItem): void {
     this.activeItem = item.id;
     this.router.navigate([item.link]).then(() => {});
+  }
+
+  private setActiveItem(currentUrl: string): void {
+
+    this.menuItems.forEach(item => {
+      item.isOpen = false;
+      if (item.subItems) {
+        item.subItems.forEach(subItem => {
+          subItem.isOpen = false;
+          if (subItem.subItems) {
+            subItem.subItems.forEach(innerSubItem => {
+              innerSubItem.isOpen = false; // Reset degli inner subItems
+            });
+          }
+        });
+      }
+    });
+
+    // Controlla gli elementi principali
+    this.menuItems.forEach(item => {
+      if (item.link && currentUrl.includes(item.link)) {
+        this.activeItem = item.id;
+      }
+
+      // Controlla i subItems
+      if (item.subItems) {
+        item.subItems.forEach(subItem => {
+          if (subItem.link && currentUrl.includes(subItem.link)) {
+            this.activeItem = subItem.id;
+            item.isOpen = true; // Apri il menu principale se un subItem è attivo
+          }
+
+          // Controlla i subItems di secondo livello
+          if (subItem.subItems) {
+            subItem.subItems.forEach(innerSubItem => {
+              if (innerSubItem.link && currentUrl.includes(innerSubItem.link)) {
+                this.activeItem = innerSubItem.id;
+                subItem.isOpen = true; // Apri il subItem se un innerSubItem è attivo
+                item.isOpen = true; // Apri anche il menu principale
+              }
+            });
+          }
+        });
+      }
+    });
   }
 
 }

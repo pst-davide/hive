@@ -13,7 +13,7 @@
            style="height: calc(100vh - 6rem);">
       <div class="h-full overflow-y-auto sidebar-scrollbar pt-3 pl-5">
         <ul>
-          <li *ngFor="let item of menuItems" class="text-sm">
+          <li *ngFor="let item of menuItems" class="text-sm" [ngClass]="{'active': activeItem === item.id}">
             <div class="cursor-pointer flex items-center justify-between p-2"
                  [ngClass]="{'bg-slate-200 rounded-xl': activeItem === item.id && !isSidebarMinimized()}"
                  (click)="!item.link ? toggleItem(item) : navigate(item)">
