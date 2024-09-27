@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
+import {Location} from './location.entity';
 
 @Entity()
 export class Room {
@@ -26,23 +27,9 @@ export class Room {
   @Column()
   enabled!: boolean;
 
-  @Column({ type: 'varchar', length: 80, nullable: true })
-  street!: string | null;
-
-  @Column({ type: 'varchar', length: 80, nullable: true })
-  city!: string | null;
-
-  @Column({ type: 'varchar', length: 80, nullable: true })
-  province!: string | null;
-
-  @Column({ type: 'varchar', length: 5, nullable: true })
-  zip!: string | null;
-
-  @Column({ type: 'decimal', precision: 10, scale: 8 })
-  latitude!: number;
-
-  @Column({ type: 'decimal', precision: 11, scale: 8 })
-  longitude!: number;
+  @ManyToOne(() => Location, (location: Location) => location.rooms, { nullable: false })
+  @JoinColumn({ name: 'locationId', referencedColumnName: 'id' })
+  location!: Location;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;

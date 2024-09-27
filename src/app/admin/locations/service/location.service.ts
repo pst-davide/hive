@@ -2,9 +2,10 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {LocationModel} from '../model/location.model';
 import {Location} from '../../../../server/entity/location.entity';
-import {firstValueFrom, Observable} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
 import {PRESS_CATEGORY_TYPE} from '../../press/model/press-category.model';
+import {CrudService} from '../../../core/services/crud.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,11 @@ export class LocationService {
 
   private apiUrl: string = 'http://localhost:3000/api/locations';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private crud: CrudService) {
   }
 
   private toEntity(model: LocationModel): Location {
-    const doc: Location = new Location();
+    let doc: Location = new Location();
     doc.id = model.id ?? '';
     doc.code = model.code ?? '';
     doc.name = model.name ?? '';
@@ -32,10 +33,7 @@ export class LocationService {
     doc.zip = model.address?.zip ?? null;
     doc.latitude = model.address?.latitude ?? 0;
     doc.longitude = model.address?.longitude ?? 0;
-    doc.createdAt = model.crud.createAt ?? new Date();
-    doc.createdBy = model.crud.createBy ?? null;
-    doc.modifiedAt = model.crud.modifiedAt ?? new Date();
-    doc.modifiedBy = model.crud.modifiedBy ?? null;
+    doc = this.crud.setCrudEntity(model, doc);
 
     return doc;
   }
@@ -79,10 +77,6 @@ export class LocationService {
       console.error('Errore durante il fetch dei documenti:', error);
       throw error;
     }
-  }
-
-  public getById(id: string): Observable<LocationModel> {
-    return this.http.get<LocationModel>(`${this.apiUrl}/${id}`);
   }
 
   public async createDoc(doc: LocationModel): Promise<LocationModel> {

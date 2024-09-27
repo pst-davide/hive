@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {firstValueFrom, map, Observable} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {PressCategory} from '../../../../server/entity/press-category.entity';
 import {PRESS_CATEGORY_TYPE} from '../model/press-category.model';
 import {IMPORTANCE_BADGE, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
 import {PressKeyword} from '../../../../server/entity/press-keyword.entity';
 import axios, {AxiosResponse} from 'axios';
+import {CrudService} from '../../../core/services/crud.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PressService {
   private apiCategoryUrl: string = 'http://localhost:3000/api/press/categories';
   private apiKeywordUrl: string = 'http://localhost:3000/api/press/keywords';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private crud: CrudService) {
   }
 
   /*************************************************
@@ -25,14 +26,11 @@ export class PressService {
    ************************************************/
 
   private toEntity(model: PRESS_CATEGORY_TYPE): PressCategory {
-    const doc: PressCategory = new PressCategory();
+    let doc: PressCategory = new PressCategory();
     doc.id = model.id && model.id !== 0 ? model.id : 0;
     doc.name = model.name ?? '';
     doc.color = model.color ?? '';
-    doc.createdAt = model.crud.createAt ?? new Date();
-    doc.createdBy = model.crud.createBy ?? null;
-    doc.modifiedAt = model.crud.modifiedAt ?? new Date();
-    doc.modifiedBy = model.crud.modifiedBy ?? null;
+    doc = this.crud.setCrudEntity(model, doc);
 
     return doc;
   }
@@ -57,17 +55,12 @@ export class PressService {
 
   public async getDocs(): Promise<PRESS_CATEGORY_TYPE[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(`${this.apiCategoryUrl}?countKeywords=true`);
+      const response: AxiosResponse<any, any> = await axios.get(`${this.apiCategoryUrl}?countKeywords=true`);
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);
       throw error;
     }
-}
-
-  public getById(id: string): Observable<PRESS_CATEGORY_TYPE> {
-    return this.http.get<PRESS_CATEGORY_TYPE>(`${this.apiCategoryUrl}/${id}`)
-      .pipe(map((entity: any) => this.toModel(entity)));
   }
 
   public async createDoc(doc: PRESS_CATEGORY_TYPE): Promise<PRESS_CATEGORY_TYPE> {
@@ -136,22 +129,19 @@ export class PressService {
   }
 
   private toKeywordEntity(model: PRESS_KEYWORD_TYPE): PressKeyword {
-    const doc: PressKeyword = new PressKeyword();
+    let doc: PressKeyword = new PressKeyword();
     doc.id = model.id && model.id !== 0 ? model.id : 0;
     doc.word = model.word ?? '';
     doc.importance = model.importance ?? 'low';
     doc.categoryId = model.category ?? 0;
-    doc.createdAt = model.crud.createAt ?? new Date();
-    doc.createdBy = model.crud.createBy ?? null;
-    doc.modifiedAt = model.crud.modifiedAt ?? new Date();
-    doc.modifiedBy = model.crud.modifiedBy ?? null;
+    doc = this.crud.setCrudEntity(model, doc);
 
     return doc;
   }
 
   public async getKeywordsDocs(id: number | null = null): Promise<PRESS_KEYWORD_TYPE[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(`${this.apiKeywordUrl}${(id ? '?categoryId=' + id : '')}`);
+      const response: AxiosResponse<any, any> = await axios.get(`${this.apiKeywordUrl}${(id ? '?categoryId=' + id : '')}`);
       return response.data.map((entity: any) => this.toKeywordModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);
@@ -203,4 +193,5 @@ export class PressService {
       throw error;
     }
   }
+
 }

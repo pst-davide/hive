@@ -13,8 +13,12 @@ export interface RoomModel {
   address: AddressModel;
   crud: CrudModel;
 }
+export type ROOM_TYPE = RoomModel & {
+  VIEW_LOCATION_NAME?: string | null;
+  VIEW_COLOR?: string | null;
+}
 
-export const EMPTY_ROOM: RoomModel = {
+export const EMPTY_ROOM: ROOM_TYPE = {
   id: null,
   code: null,
   name: null,

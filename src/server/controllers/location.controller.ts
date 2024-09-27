@@ -59,6 +59,7 @@ export class LocationController {
 
   static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
+    console.log(`ID da cancellare: ${id}`)
     try {
       const result: DeleteResult = await LocationController.docRepository.delete(id);
       if (result.affected) {

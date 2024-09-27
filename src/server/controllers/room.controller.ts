@@ -30,6 +30,28 @@ export class RoomController {
     }
   }
 
+  static async findByLocation(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const room: Room | null = await RoomController.roomRepository.createQueryBuilder('room')
+        .where('room.locationId = :locationId', { locationId: id })
+        .limit(1)
+        .getOne();
+
+      if (!room) {
+        console.log('Nessuna stanza trovata.');
+        return res.status(200).json({ message: 'Nessuna stanza trovata per questa sede.' });
+      }
+
+      console.log('Stanza trovata:', room);
+      return res.status(200).json(room);
+    } catch (error) {
+      console.error('Errore nel recuperare le stanze per la location:', error);
+      return res.status(500).json({ message: 'Errore nel recuperare le stanze per la location.' });
+    }
+  }
+
   static async create(req: Request, res: Response): Promise<void> {
     console.log(req.body)
     try {

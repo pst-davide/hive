@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryColumn} from 'typeorm';
+import {Room} from './room.entity';
 
 @Entity()
 export class Location {
@@ -35,7 +36,7 @@ export class Location {
   @Column({ type: 'varchar', length: 80, nullable: true })
   province!: string | null;
 
-  @Column({ type: 'varchar', length: 5, nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   zip!: string | null;
 
   @Column({ type: 'decimal', precision: 10, scale: 8 })
@@ -43,6 +44,9 @@ export class Location {
 
   @Column({ type: 'decimal', precision: 11, scale: 8 })
   longitude!: number;
+
+  @OneToMany(() => Room, (room: Room) => room.location)
+  rooms!: Room[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
