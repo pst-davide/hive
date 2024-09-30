@@ -3,7 +3,10 @@ import * as amqp from 'amqplib';
 import SMTPPool from 'nodemailer/lib/smtp-pool';
 import winston from 'winston';
 
-// configura il logger di Winston
+/******************************************************************
+ * Logger
+ * ***************************************************************/
+
 const logger: winston.Logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
@@ -18,6 +21,12 @@ const logger: winston.Logger = winston.createLogger({
   ]
 });
 
+/******************************************************************
+ *
+ * Nodemailer Transponder
+ *
+ * ***************************************************************/
+
 const transporter: nodemailer.Transporter<SMTPPool.SentMessageInfo> = nodemailer.createTransport({
   pool: true,
   host: 'zimbra.altovicentino.net',
@@ -31,28 +40,95 @@ const transporter: nodemailer.Transporter<SMTPPool.SentMessageInfo> = nodemailer
   maxMessages: Infinity
 });
 
+/******************************************************************
+ *
+ * Rabbit Connection and send to queue
+ *
+ * ***************************************************************/
+
+let rabbitConnection: amqp.Connection | null = null;
+let rabbitChannel: amqp.Channel | null = null;
+
 async function connectQueue(): Promise<amqp.Channel> {
-  const connection: amqp.Connection = await amqp.connect('amqp://localhost');
-  return await connection.createChannel();
+  if (rabbitChannel) return rabbitChannel;
+
+  try {
+    if (!rabbitConnection) {
+      rabbitConnection = await amqp.connect('amqp://localhost');
+      logger.info('Connessione a RabbitMQ stabilita.');
+    }
+    rabbitChannel = await rabbitConnection.createChannel();
+    return rabbitChannel;
+  } catch (error) {
+    logger.error(`Errore durante la connessione a RabbitMQ: ${(error as Error).message}`);
+    throw error;
+  }
 }
 
 export async function sendToQueue(emailData: any): Promise<void> {
-  const channel: amqp.Channel = await connectQueue();
-  const queue: 'emailQueue' = 'emailQueue';
+  await connectQueue();
+  const queue: string = 'emailQueue';
+
+  if (!rabbitChannel) {
+    return;
+  }
 
   // Assicura che la coda esista
-  await channel.assertQueue(queue, {
+  await rabbitChannel.assertQueue(queue, {
     durable: true
   });
 
   // Invia i dettagli dell'email alla coda
-  channel.sendToQueue(queue, Buffer.from(JSON.stringify(emailData)), {
+  rabbitChannel.sendToQueue(queue, Buffer.from(JSON.stringify(emailData)), {
     persistent: true
   });
 
   logger.info(`Email aggiunta alla coda: ${emailData.to}`);
 }
 
+
+/******************************************************************
+ *
+ * Rabbit Clear queue
+ *
+ * ***************************************************************/
+
+async function clearQueue(): Promise<void> {
+  await connectQueue();
+  const queue: string = 'emailQueue';
+
+  if (!rabbitChannel) {
+    return;
+  }
+
+  // Svuota la coda
+  const result:amqp.Replies.PurgeQueue = await rabbitChannel.purgeQueue(queue);
+  logger.info(`Coda svuotata. Messaggi rimossi: ${result.messageCount}`);
+}
+
+async function processQueue3(): Promise<void> {
+  await connectQueue();
+  const queue: string = 'emailQueue';
+
+  if (!rabbitChannel) {
+    return;
+  }
+
+  await rabbitChannel.consume(queue, async (msg: amqp.ConsumeMessage | null) => {
+    if (msg === null) {
+      return;
+    }
+
+    const emailData = JSON.parse(msg.content.toString());
+    console.log(emailData);
+  });
+}
+
+/******************************************************************
+ *
+ * Rabbit Clear queue
+ *
+ * ***************************************************************/
 // Funzione per inserire un ritardo tra l'invio delle email
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -139,7 +215,7 @@ export async function processQueue2(): Promise<void> {
 export async function processQueue(): Promise<void> {
   try {
     const channel: amqp.Channel = await connectQueue();
-    const queue: 'emailQueue' = 'emailQueue';
+    const queue: string = 'emailQueue';
     const batchSize: number = BATCH_SIZE;
     let currentBatch: { msg: amqp.Message, emailData: any }[] = [];
 
@@ -204,4 +280,26 @@ async function processBatch(batch: { msg: amqp.Message, emailData: any }[], chan
   }
 }
 
+const emailList: string[] = ['davide.sorrentino@gmail.com', 'davide.sorrentino@gmail.com', 'davide.sorrentino@gmail.com',
+  'davide.sorrentino@gmail.com', 'davide.sorrentino@gmail.com', 'davide.sorrentino@gmail.com'];
+const createTestEmail = (index: number) => ({
+  to: emailList[index],
+  subject: `Test Email ${index}`,
+  text: `This is a test email number ${index}.`
+});
 
+async function sendTestEmails(): Promise<void> {
+  for (let i = 0; i <= 5; i++) {
+    const emailData = createTestEmail(i);
+    await sendToQueue(emailData);
+    console.log(`Email ${i} inviata alla coda.`);
+  }
+}
+
+sendTestEmails().then(async () => {
+  await delay(5000)
+  processQueue3()
+  await delay(15000)
+  clearQueue()
+  // processQueue().then(() => {});
+})

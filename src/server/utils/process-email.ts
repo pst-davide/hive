@@ -1,11 +1,11 @@
 import {processQueue} from './email';
 import * as amqp from 'amqplib';
 
-async function testQueue() {
+async function testQueue(): Promise<void> {
   try {
     const connection = await amqp.connect('amqp://localhost');
     const channel = await connection.createChannel();
-    const queue = 'emailQueue';
+    const queue: string = 'emailQueue';
 
     await channel.assertQueue(queue, { durable: true });
     console.log('Coda creata con successo');
