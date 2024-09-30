@@ -146,7 +146,6 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   private changeLocationId(id: string | null): void {
     this.locationId.set(id);
-    this.crudService.updateLocationId(id);
   }
 
   /*************************************************

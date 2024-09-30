@@ -5,11 +5,10 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RoomComponent} from './edit/room/room.component';
 import _ from 'lodash';
 import {LoaderService} from '../../core/services/loader.service';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {ColumnModel} from '../../core/model/column.model';
 import {displayedColumns} from './rooms.table';
 import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
-import {BranchService} from '../branches/service/branch.service';
 import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
 
 @Component({
@@ -23,8 +22,10 @@ import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dial
 })
 export class RoomsComponent implements OnInit, OnDestroy {
 
-  /* location */
-  public locationId: ModelSignal<string | null> = model<string | null>(null);
+  /* loading */
+  public isLoading$!: Observable<boolean>;
+
+  /* branch */
   public branchId: ModelSignal<string | null> = model<string | null>(null);
   @Output() locationChanged: EventEmitter<void> = new EventEmitter<void>();
 
@@ -45,12 +46,11 @@ export class RoomsComponent implements OnInit, OnDestroy {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  constructor(private crudService: RoomService, private locationService: BranchService,
+  /* subscription */
+  private branchIdUpdateSubscription!: Subscription;
+
+  constructor(private crudService: RoomService,
               private loaderService: LoaderService, public dialog: MatDialog) {
-    this.locationService.locationId$.subscribe(id => {
-      this._reloadCollection().then(() => {
-      });
-    });
   }
 
   ngOnInit(): void {
@@ -59,7 +59,9 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    if (this.branchIdUpdateSubscription) {
+      this.branchIdUpdateSubscription.unsubscribe();
+    }
   }
 
   /*************************************************
@@ -80,7 +82,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   public async _reloadCollection(): Promise<void> {
     try {
       this.loaderService.setComponentLoader(RoomsComponent.name);
-      await this.getCollection(this.locationId());
+      await this.getCollection(this.branchId());
     } finally {
       this.loaderService.setComponentLoaded(RoomsComponent.name);
     }
@@ -111,7 +113,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     const dialogRef: MatDialogRef<RoomComponent> = this.dialog.open(RoomComponent, {
       width: '100%',
       height: '100%',
-      data: {doc: this.doc, locationId: this.locationId()}
+      data: {doc: this.doc, locationId: this.branchId()}
     });
 
     dialogRef.afterClosed().subscribe(async (doc: ROOM_TYPE | null) => {
@@ -133,7 +135,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   private deleteRow(): void {
     const dialogRef: MatDialogRef<DeleteDialogComponent> = this.dialog.open(DeleteDialogComponent, {
       data: {
-        title: 'Cancellazione Parola Chiave',
+        title: 'Cancellazione Stanza',
         message: `Sei sicuro di voler eliminare la stanza <strong>${this.deletedDoc.name}</strong>?`
       }
     });

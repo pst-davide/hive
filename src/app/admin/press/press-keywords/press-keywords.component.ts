@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import _ from 'lodash';
 import {EMPTY_PRESS_KEYWORD, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {ColumnModel} from '../../../core/model/column.model';
 import {displayedColumns} from './press-keywords.table';
 import {PressService} from '../service/press.service';
@@ -30,6 +30,9 @@ import {LoaderService} from '../../../core/services/loader.service';
   styleUrl: './press-keywords.component.scss'
 })
 export class PressKeywordsComponent implements OnInit, OnDestroy {
+
+  /* loading */
+  public isLoading$!: Observable<boolean>;
 
   /* category */
   public categoryId: ModelSignal<number | null> = model<number | null>(null);
@@ -54,6 +57,7 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
+  /* subscription */
   private categoryIdUpdateSubscription!: Subscription;
 
   constructor(private crudService: PressService, public dialog: MatDialog,

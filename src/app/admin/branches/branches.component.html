@@ -11,7 +11,7 @@
   <!-- detail -->
   <div class="grid grid-cols-2 gap-4 my-5">
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
-      <app-rooms [(branchId)]="branchId"></app-rooms>
+      <app-rooms [(branchId)]="branchId" (locationChanged)="_reloadCollection()"></app-rooms>
     </div>
   </div>
 }

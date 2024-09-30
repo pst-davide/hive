@@ -57,7 +57,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   /* branch */
   public branchId: ModelSignal<string | null> = model<string | null>('');
-  public locationIdUpdateSubject: Subject<string | null> = new Subject<string | null>();
+  public branchIdUpdateSubject: Subject<string | null> = new Subject<string | null>();
 
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
@@ -74,6 +74,10 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() : void {
     this.changeLocationId(null);
+    if (this.destroy$) {
+      this.destroy$.next();
+      this.destroy$.complete();
+    }
   }
 
   public isRoomsRoute(): boolean {
@@ -114,16 +118,16 @@ export class BranchesComponent implements OnInit, OnDestroy {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.locationIdUpdateSubject.next(this.branchId());
+      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.locationIdUpdateSubject.next(this.branchId());
+      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
-      this.locationIdUpdateSubject.next(this.branchId());
+      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'map') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.openMap(this.doc);
@@ -144,7 +148,6 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   private changeLocationId(id: string | null): void {
     this.branchId.set(id);
-    this.crudService.updateLocationId(id);
   }
 
   /*************************************************
@@ -196,7 +199,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
         await this.crudService.deleteDoc(this.deletedDoc.id as string);
         await this.getCollection();
         this.changeLocationId('');
-        this.locationIdUpdateSubject.next(this.branchId());
+        this.branchIdUpdateSubject.next(this.branchId());
 
         this.loaderService.setComponentLoaded(BranchesComponent.name);
       }
