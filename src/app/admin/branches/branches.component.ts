@@ -1,35 +1,33 @@
 import {Component, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {EMPTY_BRANCH, BRANCH_TYPE, BranchModel} from '../branches/model/branchModel';
-import _ from 'lodash';
-import {BranchService} from '../branches/service/branch.service';
-import {LocationComponent} from './edit/location/location.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
-import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
-import {AddressService, CityModel, ProvinceModel} from '../../core/services/address.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import 'animate.css';
-import {MapComponent} from '../../core/dialog/map/map.component';
-import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
+import {RoomsComponent} from '../rooms/rooms.component';
 import {ColumnModel} from '../../core/model/column.model';
-import {displayedColumns} from './locations.table';
+import {EMPTY_BRANCH, BRANCH_TYPE, BranchModel} from './model/branchModel';
+import {BehaviorSubject, Subject, takeUntil} from 'rxjs';
+import _ from 'lodash';
+import {AddressService, CityModel, ProvinceModel} from '../../core/services/address.service';
+import {BranchService} from './service/branch.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {LoaderService} from '../../core/services/loader.service';
-import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
 import {RoomService} from '../rooms/service/room.service';
 import {Router, RouterOutlet} from '@angular/router';
-import {RoomsComponent} from '../rooms/rooms.component';
+import {LocationComponent} from '../locations/edit/location/location.component';
+import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
+import {MapComponent} from '../../core/dialog/map/map.component';
+import {displayedColumns} from './branches.table';
+import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
 
 @Component({
-  selector: 'app-locations',
+  selector: 'app-branches',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule,
-    FormsModule, ReactiveFormsModule, TableTemplateComponent, RouterOutlet, RoomsComponent],
-  templateUrl: './locations.component.html',
-  styleUrl: './locations.component.scss'
+  imports: [
+    RoomsComponent,
+    TableTemplateComponent,
+    RouterOutlet
+  ],
+  templateUrl: './branches.component.html',
+  styleUrl: './branches.component.scss'
 })
-export class LocationsComponent implements OnInit, OnDestroy {
+export class BranchesComponent implements OnInit, OnDestroy {
 
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
@@ -57,8 +55,8 @@ export class LocationsComponent implements OnInit, OnDestroy {
   /* provinces */
   public provinces: ProvinceModel[] = [];
 
-  /* category */
-  public locationId: ModelSignal<string | null> = model<string | null>('');
+  /* branch */
+  public branchId: ModelSignal<string | null> = model<string | null>('');
   public locationIdUpdateSubject: Subject<string | null> = new Subject<string | null>();
 
   /* Subject */
@@ -116,16 +114,16 @@ export class LocationsComponent implements OnInit, OnDestroy {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.locationIdUpdateSubject.next(this.locationId());
+      this.locationIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.locationIdUpdateSubject.next(this.locationId());
+      this.locationIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
-      this.locationIdUpdateSubject.next(this.locationId());
+      this.locationIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'map') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.openMap(this.doc);
@@ -137,15 +135,15 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   public async _reloadCollection(): Promise<void> {
     try {
-      this.loaderService.setComponentLoader(LocationsComponent.name);
+      this.loaderService.setComponentLoader(BranchesComponent.name);
       await this.getCollection();
     } finally {
-      this.loaderService.setComponentLoaded(LocationsComponent.name);
+      this.loaderService.setComponentLoaded(BranchesComponent.name);
     }
   }
 
   private changeLocationId(id: string | null): void {
-    this.locationId.set(id);
+    this.branchId.set(id);
     this.crudService.updateLocationId(id);
   }
 
@@ -164,9 +162,9 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(async (doc: BRANCH_TYPE | null) => {
       if (doc) {
-        this.loaderService.setComponentLoader(LocationsComponent.name);
+        this.loaderService.setComponentLoader(BranchesComponent.name);
         await this.getCollection();
-        this.loaderService.setComponentLoaded(LocationsComponent.name);
+        this.loaderService.setComponentLoaded(BranchesComponent.name);
       }
     })
   }
@@ -187,20 +185,20 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(async (confirmed: boolean | null) => {
       if (confirmed) {
-        this.loaderService.setComponentLoader(LocationsComponent.name);
+        this.loaderService.setComponentLoader(BranchesComponent.name);
 
         const hasRooms: boolean = await this.roomService.hasRoom(this.deletedDoc.id as string);
         if (hasRooms) {
-          this.loaderService.setComponentLoaded(LocationsComponent.name);
+          this.loaderService.setComponentLoaded(BranchesComponent.name);
           return;
         }
 
         await this.crudService.deleteDoc(this.deletedDoc.id as string);
         await this.getCollection();
         this.changeLocationId('');
-        this.locationIdUpdateSubject.next(this.locationId());
+        this.locationIdUpdateSubject.next(this.branchId());
 
-        this.loaderService.setComponentLoaded(LocationsComponent.name);
+        this.loaderService.setComponentLoaded(BranchesComponent.name);
       }
     })
   }
@@ -269,5 +267,4 @@ export class LocationsComponent implements OnInit, OnDestroy {
     }
 
   }
-
 }

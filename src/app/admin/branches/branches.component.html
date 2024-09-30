@@ -5,14 +5,13 @@
   [filters]="filters"
   [displayedColumns]="displayedColumns"
   [data]="dataSource"
-  [exportFileName]="'Elenco Keywords'"
+  [exportFileName]="'Elenco Sedi'"
   (rowAction)="_rowAction($event)"></app-table-template>
 
   <!-- detail -->
   <div class="grid grid-cols-2 gap-4 my-5">
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
-      <app-rooms [(locationId)]="locationId"></app-rooms>
+      <app-rooms [(branchId)]="branchId"></app-rooms>
     </div>
   </div>
 }
-

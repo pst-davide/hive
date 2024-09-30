@@ -1,3 +1,15 @@
+.sidebar-scrollbar {
+  scrollbar-width: none; /* Nasconde la scrollbar in Firefox */
+  -ms-overflow-style: none; /* Nasconde la scrollbar in Internet Explorer e Edge */
+}
 
+.sidebar-scrollbar::-webkit-scrollbar {
+  display: none; /* Nasconde la scrollbar in Chrome, Safari e Opera */
+}
+
+.rotate-180 {
+  transition: transform 0.3s ease;
+  transform: rotate(180deg);
+}
 
 /*# sourceMappingURL=app.component.css.map */

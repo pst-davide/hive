@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {LocationModel} from '../model/location.model';
+import {BranchModel} from '../model/branchModel';
 import {Location} from '../../../../server/entity/location.entity';
 import {firstValueFrom} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
@@ -10,14 +10,14 @@ import {CrudService} from '../../../core/services/crud.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
+export class BranchService {
 
   private apiUrl: string = 'http://localhost:3000/api/locations';
 
   constructor(private http: HttpClient, private crud: CrudService) {
   }
 
-  private toEntity(model: LocationModel): Location {
+  private toEntity(model: BranchModel): Location {
     let doc: Location = new Location();
     doc.id = model.id ?? '';
     doc.code = model.code ?? '';
@@ -38,8 +38,8 @@ export class LocationService {
     return doc;
   }
 
-  private toModel(entity: Location): LocationModel {
-    const model: LocationModel = {} as LocationModel;
+  private toModel(entity: Location): BranchModel {
+    const model: BranchModel = {} as BranchModel;
 
     model.id = entity.id;
     model.code = entity.code;
@@ -69,7 +69,7 @@ export class LocationService {
     return model;
   }
 
-  public async getDocs(): Promise<LocationModel[]> {
+  public async getDocs(): Promise<BranchModel[]> {
     try {
       const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(this.apiUrl);
       return response.data.map((entity: any) => this.toModel(entity));
@@ -79,7 +79,7 @@ export class LocationService {
     }
   }
 
-  public async createDoc(doc: LocationModel): Promise<LocationModel> {
+  public async createDoc(doc: BranchModel): Promise<BranchModel> {
     const entity: Location = this.toEntity(doc);
     try {
       const response: AxiosResponse<any, any> = await axios.post(this.apiUrl, entity)
@@ -89,7 +89,7 @@ export class LocationService {
     }
   }
 
-  public async updateDoc(id: string, doc: LocationModel): Promise<LocationModel> {
+  public async updateDoc(id: string, doc: BranchModel): Promise<BranchModel> {
     const entity: Location = this.toEntity(doc);
     try {
       const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity);
@@ -101,8 +101,8 @@ export class LocationService {
 
   public async deleteDoc(id: string): Promise<any> {
     try {
-      const response: LocationModel = await firstValueFrom(
-        this.http.delete<LocationModel>(`${this.apiUrl}/delete/${id}`)
+      const response: BranchModel = await firstValueFrom(
+        this.http.delete<BranchModel>(`${this.apiUrl}/delete/${id}`)
       );
       console.log('Delete successful:', response);
       return response;

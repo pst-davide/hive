@@ -8,10 +8,10 @@ import {
   Validators
 } from '@angular/forms';
 import _ from 'lodash';
-import {EMPTY_LOCATION, LocationModel} from '../../model/location.model';
+import {EMPTY_BRANCH, BranchModel} from '../../../branches/model/branchModel';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
-import {LocationService} from '../../service/location.service';
+import {BranchService} from '../../../branches/service/branch.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {faLocationDot, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {NgxColorsModule, validColorValidator} from 'ngx-colors';
@@ -52,7 +52,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   public faTimes: IconDefinition = faTimes;
 
   /* icons */
-  public doc: LocationModel = _.cloneDeep(EMPTY_LOCATION);
+  public doc: BranchModel = _.cloneDeep(EMPTY_BRANCH);
 
   /* form */
   public form: FormGroup = new FormGroup({});
@@ -73,8 +73,8 @@ export class LocationComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   public isReadOnly: boolean = false;
 
-  constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: LocationModel,
-              private fb: FormBuilder, private crudService: LocationService, private geoService: GeoService,
+  constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: BranchModel,
+              private fb: FormBuilder, private crudService: BranchService, private geoService: GeoService,
               private addressService: AddressService, public dialog: MatDialog) {
   };
 
@@ -97,7 +97,7 @@ export class LocationComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private patchForm(doc: LocationModel): void {
+  private patchForm(doc: BranchModel): void {
     this.province$.set(doc.address.province);
     this.city$.set(doc.address.city);
 

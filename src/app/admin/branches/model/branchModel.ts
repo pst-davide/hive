@@ -2,7 +2,7 @@ import {DEFAULT_LOCATION_COLOR} from "app/core/functions/environments";
 import {AddressModel, EMPTY_ADDRESS} from "app/core/model/address.model";
 import {CrudModel, EMPTY_CRUD} from "app/core/model/crud.model";
 
-export interface LocationModel {
+export interface BranchModel {
   id: string | null;
   code: string | null;
   name: string | null;
@@ -15,14 +15,14 @@ export interface LocationModel {
   crud: CrudModel;
 }
 
-export type LOCATION_TYPE = LocationModel & {
+export type BRANCH_TYPE = BranchModel & {
   VIEW_STREET?: string | null;
   VIEW_ZIP?: string | null;
   VIEW_CITY?: string | null;
   VIEW_PROVINCE?: string | null;
 };
 
-export const EMPTY_LOCATION: LOCATION_TYPE = {
+export const EMPTY_BRANCH: BRANCH_TYPE = {
   id: null,
   code: null,
   name: null,
