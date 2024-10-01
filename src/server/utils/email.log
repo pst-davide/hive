@@ -1,0 +1,1557 @@
+2024-10-01T10:09:42.801Z [INFO]: Server is running...
+2024-10-01T10:11:20.075Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.076Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.076Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.076Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.076Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.077Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.077Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.077Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.077Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.077Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.078Z [INFO]: Jobs in queue: 1, completed: 0, failed: 0
+2024-10-01T10:11:20.446Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T10:11:20.451Z [INFO]: Job 1 has been completed.
+2024-10-01T10:11:21.287Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T10:11:21.289Z [INFO]: Job 2 has been completed.
+2024-10-01T10:11:22.293Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T10:11:22.294Z [INFO]: Job 3 has been completed.
+2024-10-01T10:11:22.821Z [INFO]: Jobs in queue: 0, completed: 3, failed: 0
+2024-10-01T10:11:23.302Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T10:11:23.303Z [INFO]: Job 4 has been completed.
+2024-10-01T10:11:24.312Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T10:11:24.314Z [INFO]: Job 5 has been completed.
+2024-10-01T10:11:25.248Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T10:11:25.250Z [INFO]: Job 6 has been completed.
+2024-10-01T10:11:26.236Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T10:11:26.238Z [INFO]: Job 7 has been completed.
+2024-10-01T10:11:27.250Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T10:11:27.252Z [INFO]: Job 8 has been completed.
+2024-10-01T10:11:27.823Z [INFO]: Jobs in queue: 0, completed: 8, failed: 0
+2024-10-01T10:11:28.252Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T10:11:28.255Z [INFO]: Job 9 has been completed.
+2024-10-01T10:11:29.261Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T10:11:29.263Z [INFO]: Job 10 has been completed.
+2024-10-01T10:11:30.276Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T10:11:30.277Z [INFO]: Job 11 has been completed.
+2024-10-01T10:11:31.288Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T10:11:31.289Z [INFO]: Job 12 has been completed.
+2024-10-01T10:11:32.302Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T10:11:32.303Z [INFO]: Job 13 has been completed.
+2024-10-01T10:11:32.823Z [INFO]: Jobs in queue: 0, completed: 13, failed: 0
+2024-10-01T10:11:33.330Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 13"
+2024-10-01T10:11:33.332Z [INFO]: Job 14 has been completed.
+2024-10-01T10:11:34.220Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 14"
+2024-10-01T10:11:34.222Z [INFO]: Job 15 has been completed.
+2024-10-01T10:11:35.236Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 15"
+2024-10-01T10:11:35.238Z [INFO]: Job 16 has been completed.
+2024-10-01T10:11:36.236Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 16"
+2024-10-01T10:11:36.238Z [INFO]: Job 17 has been completed.
+2024-10-01T10:11:37.248Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 17"
+2024-10-01T10:11:37.249Z [INFO]: Job 18 has been completed.
+2024-10-01T10:11:37.823Z [INFO]: Jobs in queue: 0, completed: 18, failed: 0
+2024-10-01T10:11:38.270Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 18"
+2024-10-01T10:11:38.272Z [INFO]: Job 19 has been completed.
+2024-10-01T10:11:39.282Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 19"
+2024-10-01T10:11:39.283Z [INFO]: Job 20 has been completed.
+2024-10-01T10:11:42.825Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:11:47.826Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:11:52.827Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:11:57.829Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:02.829Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:07.830Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:12.832Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:17.832Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:22.833Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:27.834Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:32.834Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:37.836Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:42.836Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:47.838Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:52.839Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:12:57.839Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:02.840Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:07.842Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:12.843Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:17.844Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:22.845Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:27.846Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:32.846Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:37.849Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:42.849Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:47.850Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:52.851Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:13:57.852Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:02.853Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:07.854Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:12.855Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:17.856Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:22.857Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:27.857Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:32.858Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:37.859Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:42.861Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:47.863Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:52.863Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:14:57.865Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:02.867Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:07.868Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:12.870Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:17.871Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:22.871Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:27.873Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:32.873Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:37.874Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:42.875Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:47.876Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:52.876Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:15:57.877Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:02.878Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:07.879Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:12.879Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:17.880Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:22.881Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:27.882Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:32.884Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:37.885Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:42.885Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:47.887Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:52.888Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:16:57.889Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:02.889Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:07.890Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:12.890Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:17.893Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:22.893Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:27.894Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:32.894Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:37.897Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:42.898Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:47.899Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:52.900Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:17:57.901Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:02.902Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:07.903Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:12.904Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:17.905Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:22.907Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:27.908Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:32.909Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:37.910Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:42.910Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:47.912Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:52.911Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:18:57.913Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:02.914Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:07.915Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:12.916Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:17.925Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:22.933Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:27.939Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:32.944Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:37.948Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:42.952Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:47.953Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:52.956Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:19:57.958Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:02.960Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:07.963Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:12.964Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:17.966Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:22.967Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:27.968Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:32.970Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:37.972Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:42.973Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:47.975Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:52.976Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:20:57.977Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:02.977Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:07.979Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:12.980Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:17.981Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:22.983Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:27.985Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:32.986Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:37.988Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:42.989Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:47.990Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:52.992Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:21:57.993Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:02.993Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:07.994Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:12.996Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:17.996Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:22.997Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:27.998Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:33.000Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:38.003Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:43.004Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:48.006Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:53.009Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:22:58.010Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:03.012Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:08.014Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:13.017Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:18.019Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:23.022Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:28.024Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:33.026Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:38.029Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:43.030Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:48.032Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:53.034Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:23:58.035Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:03.036Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:08.037Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:13.040Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:18.042Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:23.045Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:28.048Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:33.050Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:38.053Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:43.054Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:48.057Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:53.058Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:24:58.058Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:03.061Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:08.063Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:13.065Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:18.067Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:23.069Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:28.071Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:33.073Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:38.074Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:43.075Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:48.077Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:53.079Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:25:58.081Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:03.083Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:08.086Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:13.087Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:18.089Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:23.089Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:28.091Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:33.093Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:38.093Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:43.095Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:48.096Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:53.097Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:26:58.096Z [INFO]: Jobs in queue: 0, completed: 20, failed: 0
+2024-10-01T10:27:04.199Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:08.098Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:13.100Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:18.100Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:23.102Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:28.102Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:33.103Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:38.105Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:43.106Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:48.107Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:53.108Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:27:58.109Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:03.110Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:08.111Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:13.112Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:18.113Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:23.115Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:28.115Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:33.116Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:38.118Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:43.120Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:48.122Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:53.123Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:28:58.124Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:03.124Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:08.126Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:13.126Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:18.127Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:23.129Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:28.130Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:33.131Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:38.132Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:43.132Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:48.134Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:53.135Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:29:58.136Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:03.137Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:08.138Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:13.139Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:18.140Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:23.142Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:28.141Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:33.143Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:38.144Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:43.145Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:48.147Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:53.148Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:30:58.150Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:03.151Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:08.152Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:13.153Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:18.154Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:23.156Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:28.157Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:33.157Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:38.158Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:43.159Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:48.160Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:53.161Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:31:58.162Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:03.163Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:08.164Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:13.164Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:18.166Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:23.167Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:28.168Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:33.169Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:38.170Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:43.171Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:48.171Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:53.173Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:32:58.174Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:03.175Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:08.176Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:13.177Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:18.177Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:23.179Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:28.181Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:33.181Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:38.182Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:43.183Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:48.184Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:53.185Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:33:58.186Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:03.188Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:08.188Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:13.190Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:18.192Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:23.192Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:28.194Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:33.195Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:38.196Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:43.197Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:48.198Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:53.200Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:34:58.200Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:03.201Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:08.202Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:13.202Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:18.205Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:23.205Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:28.207Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:33.207Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:38.208Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:43.208Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:48.210Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:53.211Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:35:58.211Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:03.214Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:08.215Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:13.217Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:18.217Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:23.218Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:28.218Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:33.220Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:38.221Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:43.222Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:48.223Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:53.223Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:36:58.224Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:03.225Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:08.227Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:13.227Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:18.228Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:23.229Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:28.231Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:33.231Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:38.231Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:43.233Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:48.234Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:53.234Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:37:58.236Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:03.236Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:08.238Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:13.238Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:18.239Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:23.241Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:28.241Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:33.242Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:38.244Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:43.245Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:48.246Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:53.248Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:38:58.249Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:03.249Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:08.251Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:13.252Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:18.254Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:23.254Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:28.255Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:33.256Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:38.258Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:43.259Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:48.260Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:53.262Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:39:58.263Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:03.264Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:08.265Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:13.267Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:18.268Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:23.268Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:28.270Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:33.271Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:38.272Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:43.274Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:48.274Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:53.275Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:40:58.277Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:03.278Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:08.279Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:13.280Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:18.280Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:23.281Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:28.282Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:33.284Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:38.285Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:43.287Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:48.288Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:53.289Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:41:58.290Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:03.290Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:08.291Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:13.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:18.293Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:23.293Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:28.295Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:33.296Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:38.297Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:43.298Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:48.299Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:53.299Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:42:58.300Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:03.302Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:08.304Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:13.304Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:18.301Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:23.298Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:28.294Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:33.293Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:38.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:43.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:48.291Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:53.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:43:58.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:03.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:08.292Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:13.293Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:18.294Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:23.295Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:28.296Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:33.296Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:38.298Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:43.298Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:48.299Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:53.300Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:44:58.301Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:03.301Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:08.303Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:13.303Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:18.304Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:23.305Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:28.306Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:33.307Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:38.308Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:43.310Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:48.312Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:53.313Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:45:58.314Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:03.315Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:08.316Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:13.317Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:18.317Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:23.319Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:28.319Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:33.321Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:38.322Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:43.324Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:48.325Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:53.327Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:46:58.326Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:03.328Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:08.329Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:13.331Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:18.332Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:23.333Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:28.333Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:33.335Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:38.335Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:43.335Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:48.336Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:53.338Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:47:58.338Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:03.339Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:08.341Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:13.341Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:18.343Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:23.343Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:28.344Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:33.345Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:38.346Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:43.348Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:48.349Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:53.351Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:48:58.352Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:03.353Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:08.354Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:13.355Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:18.356Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:23.359Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:28.358Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:33.360Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:38.360Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:43.362Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:48.364Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:53.365Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:49:58.367Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:03.367Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:08.369Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:13.369Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:18.371Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:23.371Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:28.373Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:33.374Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:38.374Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:43.375Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:48.377Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:53.376Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:50:58.377Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:03.379Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:08.379Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:13.381Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:18.381Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:23.383Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:28.383Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:33.383Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:38.384Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:43.385Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:48.387Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:53.388Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:51:58.390Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:03.392Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:08.393Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:13.394Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:18.395Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:23.396Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:28.397Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:33.398Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:38.399Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:43.400Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:48.401Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:53.402Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:52:58.403Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:03.405Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:08.407Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:13.408Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:18.411Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:23.413Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:28.415Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:33.416Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:38.419Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:43.420Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:48.422Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:53.423Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:53:58.424Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:03.424Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:08.425Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:13.426Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:18.428Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:23.430Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:28.430Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:33.432Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:38.432Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:43.433Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:48.434Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:53.434Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:54:58.437Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:03.438Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:08.440Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:13.439Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:18.440Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:23.442Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:28.443Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:33.444Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:38.445Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:43.446Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:48.447Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:53.448Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:55:58.449Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:03.449Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:08.451Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:13.451Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:18.452Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:23.453Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:28.454Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:33.456Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:38.456Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:43.458Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:48.460Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:53.461Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:56:58.462Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:03.466Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:08.466Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:13.466Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:18.466Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:23.467Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:28.469Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:33.469Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:38.470Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:43.472Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:48.472Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:53.473Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:57:58.475Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:03.475Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:08.476Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:13.477Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:18.478Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:23.480Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:28.481Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:33.483Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:38.483Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:43.484Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:48.485Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:53.486Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:58:58.487Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:03.488Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:08.489Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:13.490Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:18.491Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:23.491Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:28.492Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:33.492Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:38.494Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:43.494Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:48.496Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:53.498Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T10:59:58.498Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:03.499Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:08.501Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:13.502Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:18.502Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:23.503Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:28.505Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:33.505Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:38.507Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:43.507Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:48.509Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:53.510Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:00:58.513Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:03.513Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:08.514Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:13.515Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:18.516Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:23.517Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:28.518Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:33.519Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:38.520Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:43.521Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:48.522Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:53.523Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:01:58.524Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:03.525Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:08.526Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:13.527Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:18.528Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:23.529Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:28.531Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:33.533Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:38.535Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:43.535Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:48.537Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:53.538Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:02:58.539Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:03.540Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:08.541Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:13.542Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:18.543Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:23.544Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:28.545Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:33.546Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:38.546Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:43.549Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:48.550Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:53.553Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:03:58.554Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:03.556Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:08.558Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:13.561Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:18.562Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:23.565Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:28.567Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:33.569Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:38.570Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:43.572Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:48.575Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:53.576Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:04:58.578Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:03.580Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:08.582Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:13.583Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:18.584Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:23.587Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:28.589Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:33.591Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:38.593Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:43.596Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:48.597Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:53.599Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:05:58.600Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:03.602Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:08.603Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:13.606Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:18.606Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:23.608Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:28.609Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:33.611Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:38.614Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:43.616Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:48.618Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:53.620Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:06:58.622Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:03.624Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:08.627Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:13.628Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:18.630Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:23.632Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:28.634Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:33.637Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:38.639Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:43.640Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:48.644Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:53.647Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:07:58.651Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:03.654Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:08.657Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:13.660Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:18.663Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:23.665Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:28.668Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:33.671Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:38.672Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:43.674Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:48.677Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:53.679Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:08:58.680Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:05.489Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:10.493Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:15.495Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:20.496Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:25.497Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:30.499Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:35.500Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:40.500Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:45.501Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:50.502Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:15:55.502Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:00.504Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:05.504Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:10.505Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:15.506Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:20.507Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:25.509Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:30.509Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:35.509Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:40.510Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:45.512Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:50.511Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:16:55.512Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:00.514Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:05.512Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:10.513Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:15.514Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:20.514Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:25.516Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:30.516Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:35.515Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:40.517Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:45.518Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:50.519Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:17:55.519Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:00.520Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:05.519Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:10.520Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:15.522Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:20.523Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:25.525Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:30.525Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:35.525Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:40.527Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:45.528Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:50.529Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:18:55.530Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:00.529Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:05.530Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:10.532Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:15.534Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:20.532Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:25.534Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:30.536Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:35.536Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:40.537Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:45.571Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:50.538Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:19:55.540Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:00.541Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:05.541Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:10.543Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:15.544Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:20.545Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:25.545Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:30.546Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:35.547Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:40.550Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:45.550Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:50.551Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:20:55.552Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:00.554Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:05.553Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:10.555Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:15.556Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:20.556Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:25.557Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:30.558Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:35.558Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:40.559Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:45.560Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:50.561Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:21:55.562Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:00.563Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:05.564Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:10.565Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:15.567Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:20.567Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:25.568Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:30.569Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:35.570Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:40.571Z [INFO]: Jobs in queue: 0, completed: 0, failed: 0
+2024-10-01T11:22:48.659Z [INFO]: Server is running...
+2024-10-01T11:22:48.672Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T11:22:48.675Z [INFO]: Job 1 has been completed.
+2024-10-01T11:22:53.664Z [INFO]: Jobs in queue: 0, completed: 1, failed: 0
+2024-10-01T11:22:58.665Z [INFO]: Jobs in queue: 0, completed: 1, failed: 0
+2024-10-01T11:23:03.665Z [INFO]: Jobs in queue: 0, completed: 1, failed: 0
+2024-10-01T11:23:03.727Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T11:23:03.747Z [INFO]: Job 2 has been completed.
+2024-10-01T11:23:08.666Z [INFO]: Jobs in queue: 0, completed: 2, failed: 0
+2024-10-01T11:23:13.668Z [INFO]: Jobs in queue: 0, completed: 2, failed: 0
+2024-10-01T11:23:18.670Z [INFO]: Jobs in queue: 0, completed: 2, failed: 0
+2024-10-01T11:23:18.775Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T11:23:18.777Z [INFO]: Job 3 has been completed.
+2024-10-01T11:23:23.670Z [INFO]: Jobs in queue: 0, completed: 3, failed: 0
+2024-10-01T11:23:28.671Z [INFO]: Jobs in queue: 0, completed: 3, failed: 0
+2024-10-01T11:23:33.673Z [INFO]: Jobs in queue: 0, completed: 3, failed: 0
+2024-10-01T11:23:33.730Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T11:23:33.732Z [INFO]: Job 4 has been completed.
+2024-10-01T11:23:38.673Z [INFO]: Jobs in queue: 0, completed: 4, failed: 0
+2024-10-01T11:23:43.675Z [INFO]: Jobs in queue: 0, completed: 4, failed: 0
+2024-10-01T11:23:48.675Z [INFO]: Jobs in queue: 0, completed: 4, failed: 0
+2024-10-01T11:23:48.685Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T11:23:48.686Z [INFO]: Job 5 has been completed.
+2024-10-01T11:23:53.676Z [INFO]: Jobs in queue: 0, completed: 5, failed: 0
+2024-10-01T11:23:58.677Z [INFO]: Jobs in queue: 0, completed: 5, failed: 0
+2024-10-01T11:24:03.679Z [INFO]: Jobs in queue: 0, completed: 5, failed: 0
+2024-10-01T11:24:03.680Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T11:24:03.684Z [INFO]: Job 6 has been completed.
+2024-10-01T11:24:08.680Z [INFO]: Jobs in queue: 0, completed: 6, failed: 0
+2024-10-01T11:24:13.681Z [INFO]: Jobs in queue: 0, completed: 6, failed: 0
+2024-10-01T11:24:18.678Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T11:24:18.680Z [INFO]: Job 7 has been completed.
+2024-10-01T11:24:18.680Z [INFO]: Jobs in queue: 0, completed: 7, failed: 0
+2024-10-01T11:24:23.683Z [INFO]: Jobs in queue: 0, completed: 7, failed: 0
+2024-10-01T11:29:05.850Z [INFO]: Server is running...
+2024-10-01T11:29:05.863Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T11:29:05.864Z [INFO]: Job 101 has been completed.
+2024-10-01T11:29:05.864Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T11:29:05.865Z [INFO]: Job 8 has been completed.
+2024-10-01T11:29:05.865Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T11:29:05.866Z [INFO]: Job 9 has been completed.
+2024-10-01T11:29:05.866Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T11:29:05.866Z [INFO]: Job 10 has been completed.
+2024-10-01T11:29:05.866Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T11:29:05.866Z [INFO]: Job 11 has been completed.
+2024-10-01T11:29:05.866Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T11:29:05.867Z [INFO]: Job 12 has been completed.
+2024-10-01T11:29:05.867Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T11:29:05.868Z [INFO]: Job 13 has been completed.
+2024-10-01T11:29:05.868Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 13"
+2024-10-01T11:29:05.868Z [INFO]: Job 14 has been completed.
+2024-10-01T11:29:05.868Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 14"
+2024-10-01T11:29:05.869Z [INFO]: Job 15 has been completed.
+2024-10-01T11:29:05.869Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 15"
+2024-10-01T11:29:05.869Z [INFO]: Job 16 has been completed.
+2024-10-01T11:29:05.869Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 16"
+2024-10-01T11:29:05.869Z [INFO]: Job 17 has been completed.
+2024-10-01T11:29:05.870Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 17"
+2024-10-01T11:29:05.870Z [INFO]: Job 18 has been completed.
+2024-10-01T11:29:05.870Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 18"
+2024-10-01T11:29:05.870Z [INFO]: Job 19 has been completed.
+2024-10-01T11:29:05.870Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 19"
+2024-10-01T11:29:05.870Z [INFO]: Job 20 has been completed.
+2024-10-01T11:29:05.870Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 20"
+2024-10-01T11:29:05.870Z [INFO]: Job 21 has been completed.
+2024-10-01T11:29:05.871Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 21"
+2024-10-01T11:29:05.871Z [INFO]: Job 22 has been completed.
+2024-10-01T11:29:05.871Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 22"
+2024-10-01T11:29:05.871Z [INFO]: Job 23 has been completed.
+2024-10-01T11:29:05.871Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 23"
+2024-10-01T11:29:05.871Z [INFO]: Job 24 has been completed.
+2024-10-01T11:29:05.871Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 24"
+2024-10-01T11:29:05.872Z [INFO]: Job 25 has been completed.
+2024-10-01T11:29:05.872Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 25"
+2024-10-01T11:29:05.872Z [INFO]: Job 26 has been completed.
+2024-10-01T11:29:18.777Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 26"
+2024-10-01T11:29:18.779Z [INFO]: Job 27 has been completed.
+2024-10-01T11:29:20.898Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T11:29:20.899Z [INFO]: Job 102 has been completed.
+2024-10-01T11:29:33.732Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 27"
+2024-10-01T11:29:33.734Z [INFO]: Job 28 has been completed.
+2024-10-01T11:29:35.867Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T11:29:35.868Z [INFO]: Job 103 has been completed.
+2024-10-01T11:29:48.711Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 28"
+2024-10-01T11:29:48.712Z [INFO]: Job 29 has been completed.
+2024-10-01T11:29:50.935Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T11:29:50.936Z [INFO]: Job 104 has been completed.
+2024-10-01T11:30:03.775Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 29"
+2024-10-01T11:30:03.776Z [INFO]: Job 30 has been completed.
+2024-10-01T11:30:05.870Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T11:30:05.871Z [INFO]: Job 105 has been completed.
+2024-10-01T11:30:18.735Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 30"
+2024-10-01T11:30:18.736Z [INFO]: Job 31 has been completed.
+2024-10-01T11:30:20.957Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T11:30:20.958Z [INFO]: Job 106 has been completed.
+2024-10-01T11:30:33.694Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 31"
+2024-10-01T11:30:33.696Z [INFO]: Job 32 has been completed.
+2024-10-01T11:30:35.873Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T11:30:35.874Z [INFO]: Job 107 has been completed.
+2024-10-01T11:30:48.750Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 32"
+2024-10-01T11:30:48.751Z [INFO]: Job 33 has been completed.
+2024-10-01T11:30:50.871Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T11:30:50.872Z [INFO]: Job 108 has been completed.
+2024-10-01T11:31:03.702Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 33"
+2024-10-01T11:31:03.703Z [INFO]: Job 34 has been completed.
+2024-10-01T11:31:05.875Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T11:31:05.877Z [INFO]: Job 109 has been completed.
+2024-10-01T11:31:18.754Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 34"
+2024-10-01T11:31:18.754Z [INFO]: Job 35 has been completed.
+2024-10-01T11:31:20.875Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T11:31:20.878Z [INFO]: Job 110 has been completed.
+2024-10-01T11:31:33.703Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 35"
+2024-10-01T11:31:33.704Z [INFO]: Job 36 has been completed.
+2024-10-01T11:31:35.877Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T11:31:35.878Z [INFO]: Job 111 has been completed.
+2024-10-01T11:31:48.720Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 36"
+2024-10-01T11:31:48.721Z [INFO]: Job 37 has been completed.
+2024-10-01T11:31:50.961Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T11:31:50.961Z [INFO]: Job 112 has been completed.
+2024-10-01T11:32:03.776Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 37"
+2024-10-01T11:32:03.777Z [INFO]: Job 38 has been completed.
+2024-10-01T11:32:05.879Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T11:32:05.880Z [INFO]: Job 113 has been completed.
+2024-10-01T11:32:18.743Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 38"
+2024-10-01T11:32:18.745Z [INFO]: Job 39 has been completed.
+2024-10-01T11:32:20.964Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 13"
+2024-10-01T11:32:20.966Z [INFO]: Job 114 has been completed.
+2024-10-01T11:32:33.749Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 39"
+2024-10-01T11:32:33.751Z [INFO]: Job 40 has been completed.
+2024-10-01T11:32:35.882Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 14"
+2024-10-01T11:32:35.884Z [INFO]: Job 115 has been completed.
+2024-10-01T11:32:48.706Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 40"
+2024-10-01T11:32:48.706Z [INFO]: Job 41 has been completed.
+2024-10-01T11:32:50.933Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 15"
+2024-10-01T11:32:50.934Z [INFO]: Job 116 has been completed.
+2024-10-01T11:33:03.765Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 41"
+2024-10-01T11:33:03.766Z [INFO]: Job 42 has been completed.
+2024-10-01T11:33:05.886Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 16"
+2024-10-01T11:33:05.887Z [INFO]: Job 117 has been completed.
+2024-10-01T11:33:18.718Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 42"
+2024-10-01T11:33:18.719Z [INFO]: Job 43 has been completed.
+2024-10-01T11:33:20.877Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 17"
+2024-10-01T11:33:20.878Z [INFO]: Job 118 has been completed.
+2024-10-01T11:34:23.572Z [INFO]: Server is running...
+2024-10-01T11:34:23.587Z [INFO]: Queue has been obliterated.
+2024-10-01T11:36:45.490Z [INFO]: Server is running...
+2024-10-01T11:36:45.501Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T11:37:00.547Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T11:37:15.506Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T11:37:30.554Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T11:37:45.508Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T11:38:00.583Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T11:38:15.512Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T11:38:30.592Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T11:38:45.519Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T11:39:00.586Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T11:39:15.518Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T11:39:30.596Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T11:39:45.521Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T11:40:02.633Z [INFO]: Server is running...
+2024-10-01T11:40:02.645Z [INFO]: Queue has been obliterated.
+2024-10-01T11:40:21.134Z [INFO]: Server is running...
+2024-10-01T11:40:21.145Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T11:40:21.146Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T11:40:21.147Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T11:40:21.147Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T11:40:21.148Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T11:40:21.148Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T11:40:21.149Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T11:40:21.149Z [INFO]: Job 6 added to the queue with delay of 90000 ms
+2024-10-01T11:40:21.149Z [INFO]: Job 7 added to the queue with delay of 105000 ms
+2024-10-01T11:40:21.150Z [INFO]: Job 8 added to the queue with delay of 120000 ms
+2024-10-01T11:40:21.150Z [INFO]: Job 9 added to the queue with delay of 135000 ms
+2024-10-01T11:40:21.151Z [INFO]: Job 10 added to the queue with delay of 150000 ms
+2024-10-01T11:40:21.151Z [INFO]: Job 11 added to the queue with delay of 165000 ms
+2024-10-01T11:40:21.151Z [INFO]: Job 12 added to the queue with delay of 180000 ms
+2024-10-01T11:40:21.152Z [INFO]: Job 13 added to the queue with delay of 195000 ms
+2024-10-01T11:40:21.152Z [INFO]: Job 14 added to the queue with delay of 210000 ms
+2024-10-01T11:40:21.152Z [INFO]: Job 15 added to the queue with delay of 225000 ms
+2024-10-01T11:40:21.153Z [INFO]: Job 16 added to the queue with delay of 240000 ms
+2024-10-01T11:40:21.153Z [INFO]: Job 17 added to the queue with delay of 255000 ms
+2024-10-01T11:40:21.153Z [INFO]: Job 18 added to the queue with delay of 270000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 19 added to the queue with delay of 285000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 20 added to the queue with delay of 300000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 21 added to the queue with delay of 315000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 22 added to the queue with delay of 330000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 23 added to the queue with delay of 345000 ms
+2024-10-01T11:40:21.154Z [INFO]: Job 24 added to the queue with delay of 360000 ms
+2024-10-01T11:40:21.155Z [INFO]: Job 25 added to the queue with delay of 375000 ms
+2024-10-01T11:40:21.155Z [INFO]: Job 26 added to the queue with delay of 390000 ms
+2024-10-01T11:40:21.155Z [INFO]: Job 27 added to the queue with delay of 405000 ms
+2024-10-01T11:40:21.155Z [INFO]: Job 28 added to the queue with delay of 420000 ms
+2024-10-01T11:40:21.156Z [INFO]: Job 29 added to the queue with delay of 435000 ms
+2024-10-01T11:40:21.156Z [INFO]: Job 30 added to the queue with delay of 450000 ms
+2024-10-01T11:40:21.156Z [INFO]: Job 31 added to the queue with delay of 465000 ms
+2024-10-01T11:40:21.156Z [INFO]: Job 32 added to the queue with delay of 480000 ms
+2024-10-01T11:40:21.157Z [INFO]: Job 33 added to the queue with delay of 495000 ms
+2024-10-01T11:40:21.157Z [INFO]: Job 34 added to the queue with delay of 510000 ms
+2024-10-01T11:40:21.157Z [INFO]: Job 35 added to the queue with delay of 525000 ms
+2024-10-01T11:40:21.157Z [INFO]: Job 36 added to the queue with delay of 540000 ms
+2024-10-01T11:40:21.158Z [INFO]: Job 37 added to the queue with delay of 555000 ms
+2024-10-01T11:40:21.158Z [INFO]: Job 38 added to the queue with delay of 570000 ms
+2024-10-01T11:40:21.158Z [INFO]: Job 39 added to the queue with delay of 585000 ms
+2024-10-01T11:40:21.158Z [INFO]: Job 40 added to the queue with delay of 600000 ms
+2024-10-01T11:40:21.159Z [INFO]: Job 41 added to the queue with delay of 615000 ms
+2024-10-01T11:40:21.159Z [INFO]: Job 42 added to the queue with delay of 630000 ms
+2024-10-01T11:40:21.159Z [INFO]: Job 43 added to the queue with delay of 645000 ms
+2024-10-01T11:40:21.159Z [INFO]: Job 44 added to the queue with delay of 660000 ms
+2024-10-01T11:40:21.159Z [INFO]: Job 45 added to the queue with delay of 675000 ms
+2024-10-01T11:40:21.160Z [INFO]: Job 46 added to the queue with delay of 690000 ms
+2024-10-01T11:40:21.160Z [INFO]: Job 47 added to the queue with delay of 705000 ms
+2024-10-01T11:40:21.160Z [INFO]: Job 48 added to the queue with delay of 720000 ms
+2024-10-01T11:40:21.160Z [INFO]: Job 49 added to the queue with delay of 735000 ms
+2024-10-01T11:40:21.160Z [INFO]: Job 50 added to the queue with delay of 750000 ms
+2024-10-01T11:40:21.161Z [INFO]: Job 51 added to the queue with delay of 765000 ms
+2024-10-01T11:40:21.161Z [INFO]: Job 52 added to the queue with delay of 780000 ms
+2024-10-01T11:40:21.161Z [INFO]: Job 53 added to the queue with delay of 795000 ms
+2024-10-01T11:40:21.161Z [INFO]: Job 54 added to the queue with delay of 810000 ms
+2024-10-01T11:40:21.161Z [INFO]: Job 55 added to the queue with delay of 825000 ms
+2024-10-01T11:40:21.162Z [INFO]: Job 56 added to the queue with delay of 840000 ms
+2024-10-01T11:40:21.162Z [INFO]: Job 57 added to the queue with delay of 855000 ms
+2024-10-01T11:40:21.162Z [INFO]: Job 58 added to the queue with delay of 870000 ms
+2024-10-01T11:40:21.162Z [INFO]: Job 59 added to the queue with delay of 885000 ms
+2024-10-01T11:40:21.162Z [INFO]: Job 60 added to the queue with delay of 900000 ms
+2024-10-01T11:40:21.163Z [INFO]: Job 61 added to the queue with delay of 915000 ms
+2024-10-01T11:40:21.163Z [INFO]: Job 62 added to the queue with delay of 930000 ms
+2024-10-01T11:40:21.163Z [INFO]: Job 63 added to the queue with delay of 945000 ms
+2024-10-01T11:40:21.163Z [INFO]: Job 64 added to the queue with delay of 960000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 65 added to the queue with delay of 975000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 66 added to the queue with delay of 990000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 67 added to the queue with delay of 1005000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 68 added to the queue with delay of 1020000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 69 added to the queue with delay of 1035000 ms
+2024-10-01T11:40:21.164Z [INFO]: Job 70 added to the queue with delay of 1050000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 71 added to the queue with delay of 1065000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 72 added to the queue with delay of 1080000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 73 added to the queue with delay of 1095000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 74 added to the queue with delay of 1110000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 75 added to the queue with delay of 1125000 ms
+2024-10-01T11:40:21.165Z [INFO]: Job 76 added to the queue with delay of 1140000 ms
+2024-10-01T11:40:21.166Z [INFO]: Job 77 added to the queue with delay of 1155000 ms
+2024-10-01T11:40:21.166Z [INFO]: Job 78 added to the queue with delay of 1170000 ms
+2024-10-01T11:40:21.166Z [INFO]: Job 79 added to the queue with delay of 1185000 ms
+2024-10-01T11:40:21.166Z [INFO]: Job 80 added to the queue with delay of 1200000 ms
+2024-10-01T11:40:21.167Z [INFO]: Job 81 added to the queue with delay of 1215000 ms
+2024-10-01T11:40:21.167Z [INFO]: Job 82 added to the queue with delay of 1230000 ms
+2024-10-01T11:40:21.167Z [INFO]: Job 83 added to the queue with delay of 1245000 ms
+2024-10-01T11:40:21.167Z [INFO]: Job 84 added to the queue with delay of 1260000 ms
+2024-10-01T11:40:21.167Z [INFO]: Job 85 added to the queue with delay of 1275000 ms
+2024-10-01T11:40:21.168Z [INFO]: Job 86 added to the queue with delay of 1290000 ms
+2024-10-01T11:40:21.168Z [INFO]: Job 87 added to the queue with delay of 1305000 ms
+2024-10-01T11:40:21.168Z [INFO]: Job 88 added to the queue with delay of 1320000 ms
+2024-10-01T11:40:21.168Z [INFO]: Job 89 added to the queue with delay of 1335000 ms
+2024-10-01T11:40:21.168Z [INFO]: Job 90 added to the queue with delay of 1350000 ms
+2024-10-01T11:40:21.169Z [INFO]: Job 91 added to the queue with delay of 1365000 ms
+2024-10-01T11:40:21.169Z [INFO]: Job 92 added to the queue with delay of 1380000 ms
+2024-10-01T11:40:21.169Z [INFO]: Job 93 added to the queue with delay of 1395000 ms
+2024-10-01T11:40:21.169Z [INFO]: Job 94 added to the queue with delay of 1410000 ms
+2024-10-01T11:40:21.169Z [INFO]: Job 95 added to the queue with delay of 1425000 ms
+2024-10-01T11:40:21.170Z [INFO]: Job 96 added to the queue with delay of 1440000 ms
+2024-10-01T11:40:21.170Z [INFO]: Job 97 added to the queue with delay of 1455000 ms
+2024-10-01T11:40:21.170Z [INFO]: Job 98 added to the queue with delay of 1470000 ms
+2024-10-01T11:40:21.170Z [INFO]: Job 99 added to the queue with delay of 1485000 ms
+2024-10-01T11:40:36.246Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T11:40:51.195Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T11:41:06.252Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T11:41:21.151Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T11:41:36.174Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T11:41:51.154Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T11:42:06.177Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T11:42:21.158Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T11:42:36.183Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T11:42:51.160Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T11:43:06.202Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T11:43:21.155Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T11:43:36.211Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 13"
+2024-10-01T11:43:51.163Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 14"
+2024-10-01T11:44:06.221Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 15"
+2024-10-01T11:44:21.166Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 16"
+2024-10-01T11:44:36.223Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 17"
+2024-10-01T11:44:51.170Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 18"
+2024-10-01T11:45:06.233Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 19"
+2024-10-01T11:45:21.172Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 20"
+2024-10-01T11:45:36.241Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 21"
+2024-10-01T11:45:51.175Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 22"
+2024-10-01T11:46:06.246Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 23"
+2024-10-01T11:46:21.177Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 24"
+2024-10-01T11:46:36.253Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 25"
+2024-10-01T11:46:51.181Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 26"
+2024-10-01T11:47:06.165Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 27"
+2024-10-01T11:47:21.184Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 28"
+2024-10-01T11:47:36.175Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 29"
+2024-10-01T11:47:51.185Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 30"
+2024-10-01T11:48:06.187Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 31"
+2024-10-01T11:48:21.188Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 32"
+2024-10-01T11:48:36.198Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 33"
+2024-10-01T11:48:51.191Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 34"
+2024-10-01T11:49:06.206Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 35"
+2024-10-01T11:49:21.193Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 36"
+2024-10-01T11:49:36.212Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 37"
+2024-10-01T11:49:51.165Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 38"
+2024-10-01T11:50:06.223Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 39"
+2024-10-01T11:50:21.179Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 40"
+2024-10-01T11:50:36.234Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 41"
+2024-10-01T11:50:51.185Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 42"
+2024-10-01T11:51:06.240Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 43"
+2024-10-01T11:51:21.187Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 44"
+2024-10-01T11:51:36.242Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 45"
+2024-10-01T11:51:51.197Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 46"
+2024-10-01T11:52:06.250Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 47"
+2024-10-01T11:52:21.203Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 48"
+2024-10-01T11:52:36.261Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 49"
+2024-10-01T11:52:51.208Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 50"
+2024-10-01T11:53:06.170Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 51"
+2024-10-01T11:53:21.212Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 52"
+2024-10-01T11:53:36.177Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 53"
+2024-10-01T11:53:51.214Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 54"
+2024-10-01T11:54:06.195Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 55"
+2024-10-01T11:54:21.217Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 56"
+2024-10-01T11:54:36.202Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 57"
+2024-10-01T11:54:51.219Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 58"
+2024-10-01T11:55:06.217Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 59"
+2024-10-01T11:55:21.179Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 60"
+2024-10-01T11:55:36.236Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 61"
+2024-10-01T11:55:51.193Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 62"
+2024-10-01T11:56:06.247Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 63"
+2024-10-01T11:56:21.208Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 64"
+2024-10-01T11:56:36.255Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 65"
+2024-10-01T11:56:51.212Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 66"
+2024-10-01T11:57:06.267Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 67"
+2024-10-01T11:57:21.227Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 68"
+2024-10-01T11:57:36.192Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 69"
+2024-10-01T11:57:51.229Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 70"
+2024-10-01T11:58:06.200Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 71"
+2024-10-01T11:58:21.233Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 72"
+2024-10-01T11:58:36.209Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 73"
+2024-10-01T11:58:51.235Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 74"
+2024-10-01T11:59:06.220Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 75"
+2024-10-01T11:59:21.177Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 76"
+2024-10-01T11:59:36.232Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 77"
+2024-10-01T11:59:51.185Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 78"
+2024-10-01T12:00:06.247Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 79"
+2024-10-01T12:00:21.202Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 80"
+2024-10-01T12:00:36.257Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 81"
+2024-10-01T12:00:51.210Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 82"
+2024-10-01T12:01:06.263Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 83"
+2024-10-01T12:01:21.218Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 84"
+2024-10-01T12:01:36.173Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 85"
+2024-10-01T12:01:51.222Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 86"
+2024-10-01T12:02:06.174Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 87"
+2024-10-01T12:02:21.230Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 88"
+2024-10-01T12:02:36.182Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 89"
+2024-10-01T12:02:51.249Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 90"
+2024-10-01T12:03:06.204Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 91"
+2024-10-01T12:03:21.258Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 92"
+2024-10-01T12:03:36.216Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 93"
+2024-10-01T12:03:51.261Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 94"
+2024-10-01T12:04:06.217Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 95"
+2024-10-01T12:04:21.177Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 96"
+2024-10-01T12:04:36.233Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 97"
+2024-10-01T12:04:51.190Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 98"
+2024-10-01T12:05:06.244Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 99"
+2024-10-01T12:06:17.389Z [INFO]: Server is running...
+2024-10-01T12:06:17.400Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T12:06:17.401Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T12:06:17.401Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T12:06:17.402Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T12:06:17.402Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T12:06:17.403Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T12:06:17.403Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T12:06:17.404Z [INFO]: Job 6 added to the queue with delay of 90000 ms
+2024-10-01T12:06:17.404Z [INFO]: Job 7 added to the queue with delay of 105000 ms
+2024-10-01T12:06:17.405Z [INFO]: Job 8 added to the queue with delay of 120000 ms
+2024-10-01T12:06:17.405Z [INFO]: Job 9 added to the queue with delay of 135000 ms
+2024-10-01T12:06:17.405Z [INFO]: Job 10 added to the queue with delay of 150000 ms
+2024-10-01T12:06:17.405Z [INFO]: Job 11 added to the queue with delay of 165000 ms
+2024-10-01T12:06:17.406Z [INFO]: Job 12 added to the queue with delay of 180000 ms
+2024-10-01T12:06:17.406Z [INFO]: Job 13 added to the queue with delay of 195000 ms
+2024-10-01T12:06:17.406Z [INFO]: Job 14 added to the queue with delay of 210000 ms
+2024-10-01T12:06:17.406Z [INFO]: Job 15 added to the queue with delay of 225000 ms
+2024-10-01T12:06:17.407Z [INFO]: Job 16 added to the queue with delay of 240000 ms
+2024-10-01T12:06:17.407Z [INFO]: Job 17 added to the queue with delay of 255000 ms
+2024-10-01T12:06:17.407Z [INFO]: Job 18 added to the queue with delay of 270000 ms
+2024-10-01T12:06:17.407Z [INFO]: Job 19 added to the queue with delay of 285000 ms
+2024-10-01T12:06:17.408Z [INFO]: Job 20 added to the queue with delay of 300000 ms
+2024-10-01T12:06:17.408Z [INFO]: Job 21 added to the queue with delay of 315000 ms
+2024-10-01T12:06:17.408Z [INFO]: Job 22 added to the queue with delay of 330000 ms
+2024-10-01T12:06:17.408Z [INFO]: Job 23 added to the queue with delay of 345000 ms
+2024-10-01T12:06:17.409Z [INFO]: Job 24 added to the queue with delay of 360000 ms
+2024-10-01T12:06:17.409Z [INFO]: Job 25 added to the queue with delay of 375000 ms
+2024-10-01T12:06:17.409Z [INFO]: Job 26 added to the queue with delay of 390000 ms
+2024-10-01T12:06:17.409Z [INFO]: Job 27 added to the queue with delay of 405000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 28 added to the queue with delay of 420000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 29 added to the queue with delay of 435000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 30 added to the queue with delay of 450000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 31 added to the queue with delay of 465000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 32 added to the queue with delay of 480000 ms
+2024-10-01T12:06:17.410Z [INFO]: Job 33 added to the queue with delay of 495000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 34 added to the queue with delay of 510000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 35 added to the queue with delay of 525000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 36 added to the queue with delay of 540000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 37 added to the queue with delay of 555000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 38 added to the queue with delay of 570000 ms
+2024-10-01T12:06:17.411Z [INFO]: Job 39 added to the queue with delay of 585000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 40 added to the queue with delay of 600000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 41 added to the queue with delay of 615000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 42 added to the queue with delay of 630000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 43 added to the queue with delay of 645000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 44 added to the queue with delay of 660000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 45 added to the queue with delay of 675000 ms
+2024-10-01T12:06:17.412Z [INFO]: Job 46 added to the queue with delay of 690000 ms
+2024-10-01T12:06:17.413Z [INFO]: Job 47 added to the queue with delay of 705000 ms
+2024-10-01T12:06:17.413Z [INFO]: Job 48 added to the queue with delay of 720000 ms
+2024-10-01T12:06:17.413Z [INFO]: Job 49 added to the queue with delay of 735000 ms
+2024-10-01T12:06:17.413Z [INFO]: Job 50 added to the queue with delay of 750000 ms
+2024-10-01T12:06:17.414Z [INFO]: Job 51 added to the queue with delay of 765000 ms
+2024-10-01T12:06:17.414Z [INFO]: Job 52 added to the queue with delay of 780000 ms
+2024-10-01T12:06:17.414Z [INFO]: Job 53 added to the queue with delay of 795000 ms
+2024-10-01T12:06:17.414Z [INFO]: Job 54 added to the queue with delay of 810000 ms
+2024-10-01T12:06:17.414Z [INFO]: Job 55 added to the queue with delay of 825000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 56 added to the queue with delay of 840000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 57 added to the queue with delay of 855000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 58 added to the queue with delay of 870000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 59 added to the queue with delay of 885000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 60 added to the queue with delay of 900000 ms
+2024-10-01T12:06:17.415Z [INFO]: Job 61 added to the queue with delay of 915000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 62 added to the queue with delay of 930000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 63 added to the queue with delay of 945000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 64 added to the queue with delay of 960000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 65 added to the queue with delay of 975000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 66 added to the queue with delay of 990000 ms
+2024-10-01T12:06:17.416Z [INFO]: Job 67 added to the queue with delay of 1005000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 68 added to the queue with delay of 1020000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 69 added to the queue with delay of 1035000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 70 added to the queue with delay of 1050000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 71 added to the queue with delay of 1065000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 72 added to the queue with delay of 1080000 ms
+2024-10-01T12:06:17.417Z [INFO]: Job 73 added to the queue with delay of 1095000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 74 added to the queue with delay of 1110000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 75 added to the queue with delay of 1125000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 76 added to the queue with delay of 1140000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 77 added to the queue with delay of 1155000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 78 added to the queue with delay of 1170000 ms
+2024-10-01T12:06:17.418Z [INFO]: Job 79 added to the queue with delay of 1185000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 80 added to the queue with delay of 1200000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 81 added to the queue with delay of 1215000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 82 added to the queue with delay of 1230000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 83 added to the queue with delay of 1245000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 84 added to the queue with delay of 1260000 ms
+2024-10-01T12:06:17.419Z [INFO]: Job 85 added to the queue with delay of 1275000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 86 added to the queue with delay of 1290000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 87 added to the queue with delay of 1305000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 88 added to the queue with delay of 1320000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 89 added to the queue with delay of 1335000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 90 added to the queue with delay of 1350000 ms
+2024-10-01T12:06:17.420Z [INFO]: Job 91 added to the queue with delay of 1365000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 92 added to the queue with delay of 1380000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 93 added to the queue with delay of 1395000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 94 added to the queue with delay of 1410000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 95 added to the queue with delay of 1425000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 96 added to the queue with delay of 1440000 ms
+2024-10-01T12:06:17.421Z [INFO]: Job 97 added to the queue with delay of 1455000 ms
+2024-10-01T12:06:17.422Z [INFO]: Job 98 added to the queue with delay of 1470000 ms
+2024-10-01T12:06:17.422Z [INFO]: Job 99 added to the queue with delay of 1485000 ms
+2024-10-01T12:06:22.497Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T12:06:27.449Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T12:06:32.500Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T12:06:37.451Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T12:06:42.410Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T12:06:47.457Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T12:06:52.410Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T12:06:57.464Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T12:07:02.414Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T12:07:07.465Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 10"
+2024-10-01T12:07:12.427Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 11"
+2024-10-01T12:07:17.408Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 12"
+2024-10-01T12:07:22.431Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 13"
+2024-10-01T12:07:27.482Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 14"
+2024-10-01T12:07:32.436Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 15"
+2024-10-01T12:07:37.487Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 16"
+2024-10-01T12:07:42.446Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 17"
+2024-10-01T12:07:47.411Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 18"
+2024-10-01T12:07:52.452Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 19"
+2024-10-01T12:07:57.504Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 20"
+2024-10-01T12:08:02.458Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 21"
+2024-10-01T12:08:07.508Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 22"
+2024-10-01T12:08:12.465Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 23"
+2024-10-01T12:08:17.414Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 24"
+2024-10-01T12:08:22.469Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 25"
+2024-10-01T12:08:27.419Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 26"
+2024-10-01T12:08:32.473Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 27"
+2024-10-01T12:08:37.426Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 28"
+2024-10-01T12:08:42.483Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 29"
+2024-10-01T12:08:47.417Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 30"
+2024-10-01T12:08:52.487Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 31"
+2024-10-01T12:08:57.440Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 32"
+2024-10-01T12:09:02.494Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 33"
+2024-10-01T12:09:07.445Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 34"
+2024-10-01T12:09:12.505Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 35"
+2024-10-01T12:09:17.421Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 36"
+2024-10-01T12:09:22.509Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 37"
+2024-10-01T12:09:27.460Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 38"
+2024-10-01T12:09:32.516Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 39"
+2024-10-01T12:09:37.466Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 40"
+2024-10-01T12:09:42.425Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 41"
+2024-10-01T12:09:47.423Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 42"
+2024-10-01T12:09:52.431Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 43"
+2024-10-01T12:09:57.481Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 44"
+2024-10-01T12:10:02.430Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 45"
+2024-10-01T12:10:07.480Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 46"
+2024-10-01T12:10:12.439Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 47"
+2024-10-01T12:10:17.427Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 48"
+2024-10-01T12:10:22.442Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 49"
+2024-10-01T12:10:27.495Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 50"
+2024-10-01T12:10:32.448Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 51"
+2024-10-01T12:10:37.499Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 52"
+2024-10-01T12:10:42.460Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 53"
+2024-10-01T12:10:47.429Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 54"
+2024-10-01T12:10:52.462Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 55"
+2024-10-01T12:10:57.512Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 56"
+2024-10-01T12:11:02.463Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 57"
+2024-10-01T12:11:07.517Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 58"
+2024-10-01T12:11:12.478Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 59"
+2024-10-01T12:11:17.432Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 60"
+2024-10-01T12:11:22.430Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 61"
+2024-10-01T12:11:27.426Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 62"
+2024-10-01T12:11:32.420Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 63"
+2024-10-01T12:11:37.512Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 64"
+2024-10-01T12:11:42.509Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 65"
+2024-10-01T12:11:47.436Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 66"
+2024-10-01T12:11:52.499Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 67"
+2024-10-01T12:11:57.483Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 68"
+2024-10-01T12:12:02.481Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 69"
+2024-10-01T12:12:07.477Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 70"
+2024-10-01T12:12:12.475Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 71"
+2024-10-01T12:12:17.441Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 72"
+2024-10-01T12:12:22.464Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 73"
+2024-10-01T12:12:27.453Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 74"
+2024-10-01T12:12:32.445Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 75"
+2024-10-01T12:12:37.440Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 76"
+2024-10-01T12:12:42.439Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 77"
+2024-10-01T12:12:47.429Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 78"
+2024-10-01T12:12:52.424Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 79"
+2024-10-01T12:12:57.512Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 80"
+2024-10-01T12:13:02.506Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 81"
+2024-10-01T12:13:07.502Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 82"
+2024-10-01T12:13:12.501Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 83"
+2024-10-01T12:13:17.447Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 84"
+2024-10-01T12:13:22.492Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 85"
+2024-10-01T12:13:27.489Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 86"
+2024-10-01T12:13:32.483Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 87"
+2024-10-01T12:13:37.479Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 88"
+2024-10-01T12:13:42.477Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 89"
+2024-10-01T12:13:47.450Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 90"
+2024-10-01T12:13:52.468Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 91"
+2024-10-01T12:13:57.466Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 92"
+2024-10-01T12:14:02.461Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 93"
+2024-10-01T12:14:07.454Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 94"
+2024-10-01T12:14:12.453Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 95"
+2024-10-01T12:14:17.448Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 96"
+2024-10-01T12:14:22.441Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 97"
+2024-10-01T12:14:27.435Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 98"
+2024-10-01T12:14:32.432Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 99"
+2024-10-01T12:49:00.391Z [INFO]: Server is running...
+2024-10-01T12:49:00.403Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T12:49:00.403Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T12:49:00.404Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T12:49:00.404Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T12:49:00.405Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T12:49:00.406Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T12:49:00.406Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T12:49:00.406Z [INFO]: Job 6 added to the queue with delay of 90000 ms
+2024-10-01T12:49:00.407Z [INFO]: Job 7 added to the queue with delay of 105000 ms
+2024-10-01T12:49:00.407Z [INFO]: Job 8 added to the queue with delay of 120000 ms
+2024-10-01T12:49:00.407Z [INFO]: Job 9 added to the queue with delay of 135000 ms
+2024-10-01T12:49:02.485Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T12:49:04.507Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T12:49:06.426Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T12:49:08.446Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T12:49:10.471Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T12:49:12.490Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T12:49:14.411Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T12:49:16.433Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T12:49:18.454Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T12:51:32.506Z [INFO]: Server is running...
+2024-10-01T12:51:32.517Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T12:51:32.517Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T12:51:32.518Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T12:51:32.519Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T12:51:32.519Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T12:51:32.519Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T12:51:32.520Z [INFO]: Job 6 added to the queue with delay of 90000 ms
+2024-10-01T12:51:32.520Z [INFO]: Job 7 added to the queue with delay of 105000 ms
+2024-10-01T12:51:32.521Z [INFO]: Job 8 added to the queue with delay of 120000 ms
+2024-10-01T12:51:32.521Z [INFO]: Job 9 added to the queue with delay of 135000 ms
+2024-10-01T12:51:34.519Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T12:51:34.521Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T12:51:36.523Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T12:51:36.524Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T12:51:38.527Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T12:51:38.528Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T12:51:40.531Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T12:51:40.533Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T12:51:42.537Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T12:51:42.539Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T12:53:59.456Z [INFO]: Server is running...
+2024-10-01T12:53:59.467Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T12:53:59.468Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T12:53:59.468Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T12:53:59.469Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T12:53:59.469Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T12:53:59.470Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T12:53:59.470Z [INFO]: Job 6 added to the queue with delay of 90000 ms
+2024-10-01T12:53:59.471Z [INFO]: Job 7 added to the queue with delay of 105000 ms
+2024-10-01T12:53:59.471Z [INFO]: Job 8 added to the queue with delay of 120000 ms
+2024-10-01T12:53:59.471Z [INFO]: Job 9 added to the queue with delay of 135000 ms
+2024-10-01T12:53:59.472Z [INFO]: Fake added to the queue
+2024-10-01T12:54:29.780Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T12:54:29.820Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T12:54:59.907Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T12:54:59.925Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T12:55:30.032Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T12:55:30.036Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T12:56:00.137Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 7"
+2024-10-01T12:56:00.152Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 6"
+2024-10-01T12:56:30.268Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 9"
+2024-10-01T12:56:30.270Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 8"
+2024-10-01T12:57:00.396Z [INFO]: Email sent to davide.sorrentino@gmail.comxxx with subject: "Test Email fake"
+2024-10-01T14:14:15.598Z [INFO]: Server is running...
+2024-10-01T14:14:15.607Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T14:14:15.608Z [INFO]: Job 1 added to the queue with delay of 15000 ms
+2024-10-01T14:14:15.609Z [INFO]: Job 2 added to the queue with delay of 30000 ms
+2024-10-01T14:14:15.609Z [INFO]: Job 3 added to the queue with delay of 45000 ms
+2024-10-01T14:14:15.610Z [INFO]: Job 4 added to the queue with delay of 60000 ms
+2024-10-01T14:14:15.610Z [INFO]: Job 5 added to the queue with delay of 75000 ms
+2024-10-01T14:14:15.610Z [INFO]: Fake added to the queue
+2024-10-01T14:14:45.953Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:14:45.954Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:14:45.977Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:14:45.977Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:15:16.073Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:15:16.073Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:15:16.102Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:15:16.102Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:15:46.270Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T14:15:46.270Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T14:15:46.288Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T14:15:46.288Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T14:16:48.505Z [INFO]: Server is running...
+2024-10-01T14:16:48.519Z [INFO]: Queue has been obliterated.
+2024-10-01T14:17:28.251Z [INFO]: Server is running...
+2024-10-01T14:17:28.262Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T14:17:28.263Z [INFO]: Job 1 added to the queue with delay of 3000 ms
+2024-10-01T14:17:28.264Z [INFO]: Job 2 added to the queue with delay of 6000 ms
+2024-10-01T14:17:28.264Z [INFO]: Job 3 added to the queue with delay of 9000 ms
+2024-10-01T14:17:28.265Z [INFO]: Job 4 added to the queue with delay of 12000 ms
+2024-10-01T14:17:28.265Z [INFO]: Job 5 added to the queue with delay of 15000 ms
+2024-10-01T14:17:28.266Z [INFO]: Fake added to the queue
+2024-10-01T14:17:58.688Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:17:58.690Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:17:58.824Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:17:58.824Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:18:28.830Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:18:28.831Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:18:28.932Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:18:28.932Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:18:58.972Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T14:18:58.973Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 4"
+2024-10-01T14:18:59.036Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T14:18:59.037Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 5"
+2024-10-01T14:19:29.118Z [INFO]: Email sent to davide.sorrentino@gmail.comxxx with subject: "Test Email fake"
+2024-10-01T14:19:29.119Z [INFO]: Email sent to davide.sorrentino@gmail.comxxx with subject: "Test Email fake"
+2024-10-01T14:52:33.184Z [INFO]: Server is running...
+2024-10-01T14:52:33.195Z [INFO]: Job 0 added to the queue with delay of 0 ms
+2024-10-01T14:52:33.195Z [INFO]: Job 1 added to the queue with delay of 3000 ms
+2024-10-01T14:52:33.196Z [INFO]: Job 2 added to the queue with delay of 6000 ms
+2024-10-01T14:52:33.197Z [INFO]: Job 3 added to the queue with delay of 9000 ms
+2024-10-01T14:52:33.197Z [INFO]: Fake added to the queue
+2024-10-01T14:52:36.539Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:52:36.540Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T14:52:39.671Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:52:39.673Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T14:52:42.796Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:52:42.796Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T14:52:45.914Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:52:45.914Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T14:52:49.033Z [INFO]: Email sent to davide.sorrentino@gmail.comxxx with subject: "Test Email fake"
+2024-10-01T14:52:49.034Z [INFO]: Email sent to davide.sorrentino@gmail.comxxx with subject: "Test Email fake"
+2024-10-01T16:42:08.969Z [INFO]: Server is running...
+2024-10-01T16:42:08.981Z [INFO]: Job 0 added to the queue
+2024-10-01T16:42:08.982Z [INFO]: Job 1 added to the queue
+2024-10-01T16:42:08.983Z [INFO]: Job 2 added to the queue
+2024-10-01T16:42:08.983Z [INFO]: Job 3 added to the queue
+2024-10-01T16:42:08.983Z [INFO]: Fake added to the queue
+2024-10-01T16:42:11.984Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0"
+2024-10-01T16:42:14.990Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1"
+2024-10-01T16:42:17.996Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2"
+2024-10-01T16:42:21.002Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 3"
+2024-10-01T16:42:24.008Z [INFO]: Email sent to davide.sorrentino@gmail.comxxxewewew with subject: "Test Email fake"
+2024-10-01T16:51:23.211Z [INFO]: Server is running...
+2024-10-01T16:51:23.222Z [INFO]: Job 0 added to the queue
+2024-10-01T16:51:23.222Z [INFO]: Job 1 added to the queue
+2024-10-01T16:51:23.223Z [INFO]: Job 2 added to the queue
+2024-10-01T16:51:23.223Z [INFO]: Fake added to the queue
+2024-10-01T16:51:23.224Z [INFO]: Worker started.
+2024-10-01T16:51:26.534Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 0". SMTP response: 250 2.0.0 Ok: queued as 81F2A40372
+2024-10-01T16:51:26.535Z [INFO]: Email accepted by SMTP server for davide.sorrentino@gmail.com
+2024-10-01T16:51:29.646Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 1". SMTP response: 250 2.0.0 Ok: queued as 9DD5E40372
+2024-10-01T16:51:29.647Z [INFO]: Email accepted by SMTP server for davide.sorrentino@gmail.com
+2024-10-01T16:51:32.760Z [INFO]: Email sent to davide.sorrentino@gmail.com with subject: "Test Email 2". SMTP response: 250 2.0.0 Ok: queued as B8D8F40372
+2024-10-01T16:51:32.760Z [INFO]: Email accepted by SMTP server for davide.sorrentino@gmail.com
+2024-10-01T16:51:35.869Z [INFO]: Email sent to davide.sorrentino@gmail.comxxxewewew with subject: "Test Email fake". SMTP response: 250 2.0.0 Ok: queued as D3E5340372
+2024-10-01T16:51:35.870Z [INFO]: Email accepted by SMTP server for davide.sorrentino@gmail.comxxxewewew
