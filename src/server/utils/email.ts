@@ -55,7 +55,7 @@ const connection: Redis = new Redis({
 const emailQueue: Queue<any, any, string> = new Queue('emailQueue', { connection });
 
 async function addEmailsToQueue(): Promise<void> {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     await emailQueue.add('sendEmail', {
       to: `davide.sorrentino@gmail.com`,
       subject: `Test Email ${i}`,
@@ -146,6 +146,9 @@ function startWorker() {
             to,
             subject,
             text,
+            headers: {
+              'Return-Path': 'bounce@pasubiotecnologia.it' // Header per i bounce
+            }
           }, (error, info) => {
             if (error) {
               logger.error(`Error sending email to ${to}: ${error.message}`);
@@ -160,7 +163,7 @@ function startWorker() {
         if (info.accepted && info.accepted.length > 0) {
           logger.info(`Email accepted by SMTP server for ${to}`);
         } else if (info.rejected && info.rejected.length > 0) {
-          throw new Error(`Email rejected for ${to}: ${info.rejected}`);
+          logger.error(`Email rejected for ${to}: ${info.rejected}`);
         }
       } catch (error: any) {
         logger.error(`Error sending email to ${to}: ${error.message}`);

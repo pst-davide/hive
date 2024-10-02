@@ -1,5 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
+@Entity('press')
 @Entity()
 export class Press {
   @PrimaryGeneratedColumn()

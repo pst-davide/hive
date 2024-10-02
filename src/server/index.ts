@@ -25,6 +25,7 @@ import ocrRouter from './routes/ocr.router';
 import uploadRouter from './routes/upload.router';
 import pushNotificationRouter from './routes/push-notification.router';
 import openAiRouter from './routes/openai.router';
+import newsletterRouter from './routes/newsletter.router';
 
 /* initialize */
 const app: Express = express();
@@ -47,6 +48,7 @@ app.use('/push', pushNotificationRouter);
 app.use('/api', roomRouter);
 app.use('/api', locationRouter);
 app.use('/api', pressRouter);
+app.use('/api', newsletterRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);

@@ -111,7 +111,12 @@ export class AppComponent implements OnInit {
             {id: 'm5', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
           ]
         },
-        {id: 'm14', label: 'Submenu 1-2', link: '/sub2', icon: faLocationDot}
+        {
+          id: 'm14', label: 'Newsletter', icon: faEnvelope, isOpen: false,
+          subItems: [
+            {id: 'm2', label: 'Liste', link: 'admin/newsletter/lists', icon: faCaretRight},
+          ]
+        }
       ]
     }
   ];

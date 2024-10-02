@@ -7,6 +7,7 @@ import {EmailComponent} from './email-editor/email.component';
 import {PressCategoriesComponent} from './admin/press/press-categories/press-categories.component';
 import {PressKeywordsComponent} from './admin/press/press-keywords/press-keywords.component';
 import {BranchesComponent} from './admin/branches/branches.component';
+import {NewsletterChannelsComponent} from './admin/newsletters/newsletter-channels/newsletter-channels.component';
 
 export const routes: Routes = [
   { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true } },
@@ -26,6 +27,7 @@ export const routes: Routes = [
           { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } }
         ]
       },
+      { path: 'newsletter/lists', component: NewsletterChannelsComponent, data: { breadcrumb: 'Liste di Distribuzione', enabled: true } },
       { path: 'users', component: UsersComponent, data: { breadcrumb: 'Utenti', enabled: true } }
     ]
   },
