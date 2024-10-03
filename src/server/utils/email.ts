@@ -133,40 +133,76 @@ let worker: Worker<any, any, string> | null = null;
 
 // Funzione per avviare il worker
 function startWorker() {
+  const invalidEmails: Set<string> = new Set();
+
   if (!worker) {
     worker = new Worker('emailQueue', async job => {
       const { to, subject, text } = job.data;
+      const attemptsMade: number = job.attemptsMade;
+
+      // Controlla se l'email è già segnata come non valida
+      if (invalidEmails.has(to)) {
+        logger.error(`Skipping sending email to invalid address: ${to}`);
+        return; // Non tentare di inviare l'email
+      }
 
       await new Promise(resolve => setTimeout(resolve, 3000));
 
       try {
-        const info: any = await new Promise((resolve, reject) => {
-          transporter.sendMail({
-            from: 'guesttracker@pasubiotecnologia.it',
-            to,
-            subject,
-            text,
-            headers: {
-              'Return-Path': 'bounce@pasubiotecnologia.it' // Header per i bounce
-            }
-          }, (error, info) => {
-            if (error) {
-              logger.error(`Error sending email to ${to}: ${error.message}`);
-              return reject(error);
-            }
-
-            logger.info(`Email sent to ${to} with subject: "${subject}". SMTP response: ${info.response}`);
-            resolve(info);
-          });
+        const info: SMTPPool.SentMessageInfo = await transporter.sendMail({
+          from: 'guesttracker@pasubiotecnologia.it',
+          to,
+          subject,
+          text,
+          headers: {
+            'Return-Path': 'bounce@pasubiotecnologia.it' // Header per i bounce
+          }
         });
 
         if (info.accepted && info.accepted.length > 0) {
-          logger.info(`Email accepted by SMTP server for ${to}`);
-        } else if (info.rejected && info.rejected.length > 0) {
-          logger.error(`Email rejected for ${to}: ${info.rejected}`);
+          logger.info(`Email sent to ${to} with subject: "${subject}". SMTP response: ${info.response}`);
         }
       } catch (error: any) {
-        logger.error(`Error sending email to ${to}: ${error.message}`);
+        logger.error(`Error sending email to ${to} (attempt ${attemptsMade + 1}): ${error.message}`);
+
+        if (error.responseCode) {
+          const responseCode = error.responseCode;
+
+          switch (responseCode) {
+            case 421:
+              logger.warn(`Message temporarily deferred for ${to}. Too many connections in a short timeframe.`);
+              break;
+            case 450:
+              logger.warn(`Mailbox unavailable for ${to}. It may be locked or not routable.`);
+              break;
+            case 451:
+              logger.warn(`Message failed for ${to}. This is likely a server problem.`);
+              break;
+            case 452:
+              logger.warn(`Not enough system storage for ${to}. Message deferred until storage is available.`);
+              break;
+            case 550:
+              logger.error(`Mailbox unavailable or message rejected for ${to}.`);
+              invalidEmails.add(to);
+              break;
+            case 551:
+              logger.error(`Mailbox does not exist for ${to}.`);
+              invalidEmails.add(to);
+              break;
+            case 552:
+              logger.error(`Mailbox full for ${to}.`);
+              break;
+            case 553:
+              logger.error(`Mailbox name does not exist for ${to}.`);
+              invalidEmails.add(to);
+              break;
+            case 554:
+              logger.error(`Generic error for ${to}: ${responseCode}. This may require further investigation.`);
+              break;
+            default:
+              logger.error(`Unknown error for ${to}: ${responseCode}`);
+          }
+        }
       }
     }, {
       connection,

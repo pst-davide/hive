@@ -1,29 +1,36 @@
+import webpush, { PushSubscription } from 'web-push';
 import { Request, Response } from 'express';
-import webPush from 'web-push';
 
-// Chiavi VAPID
-const publicVapidKey: string = 'BFGQimvmI8cHZDwbhBp1NxDfXAkzX00juGwr1v4TL72CKsBTNacANfkvhZeKrDCuZzQSSZDjvm1ItWI-wbDVyT0';
-const privateVapidKey: string = 'ci3uYT1g3UBdExNeWFX8jf8J59zAC1hrnjyLsj4ZTsk';
+// Configura le chiavi VAPID
+const vapidKeys = {
+  publicKey: 'BNoxscD2qZ71bMDlSu0bYaWMODSCaShPVqGlYxF03iLT_LkqrVveen2gnOJwaqDBkSx_K6UAigGCVfSoI13d9vE',
+  privateKey: '3OSEg8Q_yCEKBlSTTz-rOiIYKdpo0lVrAXKnh4Su6Es',
+};
 
-// Configurazione di VAPID
-webPush.setVapidDetails(
+webpush.setVapidDetails(
   'mailto:davide.sorrentino@gmail.com',
-  publicVapidKey,
-  privateVapidKey
+  vapidKeys.publicKey,
+  vapidKeys.privateKey
 );
 
-// Funzione che gestisce la sottoscrizione e invia la notifica
-export const subscribe = (req: Request, res: Response): void => {
-  const subscription = req.body;
+export class PushNotificationController {
+  static async pushSubscribe(req: Request, res: Response): Promise<void> {
+    const subscription: PushSubscription = req.body;
 
-  // Risposta di conferma della sottoscrizione
-  res.status(201).json({});
+    // Salva la sottoscrizione nel tuo database (opzionale)
+    console.log(subscription);
 
-  // Contenuto della notifica
-  const payload: string = JSON.stringify({ title: 'Push Notification' });
+    // Rispondi con successo
+    res.status(201).json({});
 
-  // Invio della notifica
-  webPush.sendNotification(subscription, payload).catch(error => {
-    console.error('Errore invio notifica:', error);
-  });
-};
+    // Invia una notifica di test
+    const payload: string = JSON.stringify({ title: 'Test Notification' });
+
+    try {
+      await webpush.sendNotification(subscription, payload);
+      console.log('Notification sent successfully.');
+    } catch (err) {
+      console.error('Error sending notification:', err);
+    }
+  }
+}

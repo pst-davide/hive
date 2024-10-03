@@ -9,17 +9,20 @@ import {EMPTY_NEWSLETTER_CHANNEL, NEWSLETTER_CHANNEL_TYPE} from '../model/newsle
 import {ColumnModel} from '../../../core/model/column.model';
 import {displayedColumns} from './newsletter-channels.table';
 import _ from 'lodash';
-import {PressCategoryComponent} from '../../press/press-categories/edit/press-category/press-category.component';
 import {PRESS_CATEGORY_TYPE} from '../../press/model/press-category.model';
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
 import {NewsletterChannelComponent} from './edit/newsletter-channel/newsletter-channel.component';
+import {PressKeywordsComponent} from '../../press/press-keywords/press-keywords.component';
+import {NewsletterSubscribersComponent} from '../newsletter-subscribers/newsletter-subscribers.component';
 
 @Component({
   selector: 'app-newsletter-channels',
   standalone: true,
   imports: [
     RouterOutlet,
-    TableTemplateComponent
+    TableTemplateComponent,
+    PressKeywordsComponent,
+    NewsletterSubscribersComponent
   ],
   templateUrl: './newsletter-channels.component.html',
   styleUrl: './newsletter-channels.component.scss'

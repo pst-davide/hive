@@ -7,7 +7,7 @@ export const displayedColumns: ColumnModel[] = [
     key: 'name',
     name: 'Lista',
     hide: false,
-    type: TYPE_OPTIONS.COLOR,
+    type: TYPE_OPTIONS.STRING,
     isFilterable: false,
     isSortable: true,
     isExportable: true,

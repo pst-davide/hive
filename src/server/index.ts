@@ -27,6 +27,9 @@ import pushNotificationRouter from './routes/push-notification.router';
 import openAiRouter from './routes/openai.router';
 import newsletterRouter from './routes/newsletter.router';
 
+/* web push */
+import pushRouter from './routes/push-notification.router';
+
 /* initialize */
 const app: Express = express();
 // app.use(cors());
@@ -58,6 +61,9 @@ app.use('/api', uploadRouter);
 
 /* openAi notification */
 app.use('/api', openAiRouter);
+
+/* web push */
+app.use('/subscribe', pushRouter);
 
 app.use((req, res, next) => {
   console.log(`${req.method} request for ${req.url}`);

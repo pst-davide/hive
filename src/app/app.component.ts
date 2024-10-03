@@ -12,7 +12,6 @@ import {HeaderComponent} from './layouts/header/header.component';
 import {FooterComponent} from './layouts/footer/footer.component';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {
-  faLocationDot,
   faFont,
   faCalendarDays,
   faUser,
@@ -23,11 +22,11 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import anime from 'animejs/lib/anime.es.js';
 import {NotificationCenterComponent} from './layouts/notification-center/notification-center.component';
 import moment from 'moment';
-import {SwPush} from '@angular/service-worker';
 import {LoaderService} from './core/services/loader.service';
 import {combineLatest, delay, map, Observable, of, startWith, switchMap} from 'rxjs';
 import {NavigationService} from './core/services/navigation.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
+import {PushNotificationService} from './core/services/push-notification.service';
 
 interface MenuItem {
   id: string;
@@ -126,15 +125,9 @@ export class AppComponent implements OnInit {
   public readonly faChevronDown: IconDefinition = faChevronDown;
   public readonly faChevronRight: IconDefinition = faChevronRight;
 
-  constructor(private swPush: SwPush, private loaderService: LoaderService,
+  constructor(private pushNotificationService: PushNotificationService, private loaderService: LoaderService,
               private navigationService: NavigationService, private router: Router) {
     moment.locale('it');
-
-    if (this.swPush.isEnabled) {
-      console.log('Notifiche push abilitate');
-    } else {
-      console.error('Notifiche push non abilitate o non supportate in questo browser.');
-    }
 
     this.isLoading$ = combineLatest([
       this.loaderService.isLoading$,
@@ -157,6 +150,13 @@ export class AppComponent implements OnInit {
     this.navigationService.currentRoute$.subscribe((currentUrl: string) => {
       this.setActiveItem(currentUrl);
     });
+
+    this.pushNotificationService.requestNotificationPermission()
+      .then(() => {
+        console.log('Send subscribe request to service');
+        this.pushNotificationService.subscribeToPushNotifications();
+      })
+      .catch(err => console.error('Permission denied:', err));
   }
 
   /***************************************************************************************

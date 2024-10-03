@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { subscribe } from '../controllers/push-notification.controller';
+import {PushNotificationController} from '../controllers/push-notification.controller';
 
-const router: Router = Router();
+const pushRouter: Router = Router();
 
 // Definisci la rotta POST per la sottoscrizione
-router.post('/subscribe', subscribe);
+pushRouter.post('/', PushNotificationController.pushSubscribe);
 
-export default router;
+export default pushRouter;

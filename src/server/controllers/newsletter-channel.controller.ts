@@ -1,4 +1,4 @@
-import {DeleteResult, Repository} from 'typeorm';
+import {DeleteResult, Repository, SelectQueryBuilder} from 'typeorm';
 import {AppDataSource} from '../database/dataSource';
 import {Request, Response} from 'express';
 import {Channel} from '../entity/newsletter-channel.entity';
@@ -10,41 +10,35 @@ export class NewsletterChannelController {
   static docsRepository: Repository<Channel> = AppDataSource.getRepository(Channel);
 
   static async findAll(req: Request, res: Response): Promise<void> {
-    const {includeUsers, countSubscribers} = req.query;
+    const { includeUsers, countSubscribers } = req.query;
 
-    let docs: Channel[] = [];
     try {
+      let query: SelectQueryBuilder<Channel> = NewsletterChannelController.docsRepository.createQueryBuilder('channel');
+
+      // Se devi contare i subscribers
       if (countSubscribers === 'true') {
-        docs = await NewsletterChannelController.docsRepository.find();
-
-        const subscribersRepository: Repository<Subscriber> = AppDataSource.getRepository(Subscriber);
-
-        const docsWithCounts: number[] = await Promise.all(
-          docs.map(async (doc) => {
-            try {
-              const subscriberCount: number = await subscribersRepository.count({ where: { channelId: doc.id } });
-              console.log([doc.id, subscriberCount])
-              return subscriberCount;
-            } catch (err) {
-              console.error(`Errore nel contare i subscribers per il canale ${doc.id}:`, err);
-              return 0;
-            }
-          })
-        );
-
-        console.log(docsWithCounts)
-
-      } else if (includeUsers === 'true') {
-        docs = await NewsletterChannelController.docsRepository.find({
-          relations: ['users'],
-        });
-      } else {
-        docs = await NewsletterChannelController.docsRepository.find();
+        query
+          .leftJoin(Subscriber, 'subscriber', 'subscriber.channelId = channel.id') // Join con la tabella subscribers sulla chiave esterna
+          .addSelect('COUNT(subscriber.id)', 'subscriberCount') // Seleziona il count dei subscribers
+          .groupBy('channel.id'); // Raggruppa per canale
       }
 
-      res.status(200).json(docs);
+      // Se vuoi includere gli users
+      if (includeUsers === 'true') {
+        query.leftJoinAndSelect('channel.users', 'user'); // Join con users
+      }
+
+      const result = await query.getRawAndEntities();
+      const channels = result.entities.map((channel, index) => ({
+        ...channel,
+        subscriberCount: Number(result.raw[index].subscriberCount) || 0, // Aggiunge il conteggio dei subscribers al canale
+      }));
+
+      res.status(200).json(channels);
+
     } catch (error) {
-      res.status(500).json({error: 'Errore durante il recupero del documento'});
+      console.error('Errore durante il recupero del documento:', error);
+      res.status(500).json({ error: 'Errore durante il recupero del documento' });
     }
   }
 

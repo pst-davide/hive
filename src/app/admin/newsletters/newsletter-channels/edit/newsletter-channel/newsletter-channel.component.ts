@@ -56,6 +56,7 @@ export class NewsletterChannelComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.doc = this.data;
+    console.log(this.doc)
     this.formTitle = this.doc.name ? `Modifica Lista - ${this.doc.name}` : 'Nuova Lista';
     this.createForm();
   }

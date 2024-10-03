@@ -1,5 +1,4 @@
 import {CrudModel, EMPTY_CRUD} from '../../../core/model/crud.model';
-import {ROOM_TYPE} from '../../rooms/model/room.model';
 
 export interface NewsletterChannelModel {
   id: number | null;
@@ -21,3 +20,23 @@ export const EMPTY_NEWSLETTER_CHANNEL: NEWSLETTER_CHANNEL_TYPE = {
   owners: [],
   crud: EMPTY_CRUD
 }
+
+export interface NewsletterSubscriptionModel {
+  id: number | null;
+  userId: string | null;
+  channelId: number | null;
+  subscriptionDate: Date | null;
+}
+
+export type NEWSLETTER_SUBSCRIBERS_TYPE = NewsletterSubscriptionModel & {
+  VIEW_CHANNEL_NAME?: string | null;
+  VIEW_USER_NAME?: string | null;
+  VIEW_USER_LASTNAME?: string | null;
+}
+
+export const EMPTY_NEWSLETTER_SUBSCRIBER: NEWSLETTER_SUBSCRIBERS_TYPE = {
+  id: null,
+  userId: null,
+  channelId: null,
+  subscriptionDate: null,
+};

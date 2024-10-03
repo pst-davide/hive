@@ -7,4 +7,12 @@
     [data]="dataSource"
     [exportFileName]="'Elenco Liste'"
     (rowAction)="_rowAction($event)"></app-table-template>
+
+  <!-- detail -->
+  <div class="grid grid-cols-2 gap-4 my-5">
+    <div class="col-span-1 md:col-span-1 sm:col-span-2">
+      <app-newsletter-subscribers [(channelId)]="channelId"></app-newsletter-subscribers>
+    </div>
+    <div class="col-span-1 md:col-span-1 sm:col-span-2"></div>
+  </div>
 }
