@@ -92,28 +92,28 @@ export class AppComponent implements OnInit {
   /* menu */
   public menuItems: MenuItem[] = [
     {id: 'm1', label: 'Agende', link: 'calendars', icon: faCalendarDays},
-    {id: 'm4', label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
-    {id: 'm6', label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
+    {id: 'm2', label: 'Scansione OCR', link: 'admin/ocr', icon: faFont},
+    {id: 'm3', label: 'Email Editor', link: 'email-editor', icon: faEnvelope},
     {
-      id: 'm9', label: 'Amministrazione', icon: faCog, isOpen: false,
+      id: 'm4', label: 'Amministrazione', icon: faCog, isOpen: false,
       subItems: [
-        {id: 'm10', label: 'Rassegna Stampa', icon: faNewspaper, isOpen: false,
+        {id: 'm5', label: 'Rassegna Stampa', icon: faNewspaper, isOpen: false,
           subItems: [
-            {id: 'm11', label: 'Categorie', link: 'admin/press/categories', icon: faCaretRight},
-            {id: 'm12', label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faCaretRight},
+            {id: 'm6', label: 'Categorie', link: 'admin/press/categories', icon: faCaretRight},
+            {id: 'm7', label: 'Parole Chiave', link: 'admin/press/categories/keywords', icon: faCaretRight},
           ]
         },
-        {id: 'm13', label: 'Anagrafiche', icon: faUser, isOpen: false,
+        {id: 'm8', label: 'Anagrafiche', icon: faUser, isOpen: false,
           subItems: [
-            {id: 'm2', label: 'Sedi', link: 'admin/locations', icon: faCaretRight},
-            {id: 'm3', label: 'Stanze', link: 'admin/locations/rooms', icon: faCaretRight},
-            {id: 'm5', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
+            {id: 'm9', label: 'Sedi', link: 'admin/locations', icon: faCaretRight},
+            {id: 'm10', label: 'Stanze', link: 'admin/locations/rooms', icon: faCaretRight},
+            {id: 'm11', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
           ]
         },
         {
-          id: 'm14', label: 'Newsletter', icon: faEnvelope, isOpen: false,
+          id: 'm12', label: 'Newsletter', icon: faEnvelope, isOpen: false,
           subItems: [
-            {id: 'm2', label: 'Liste', link: 'admin/newsletter/lists', icon: faCaretRight},
+            {id: 'm13', label: 'Liste', link: 'admin/newsletter/lists', icon: faCaretRight},
           ]
         }
       ]

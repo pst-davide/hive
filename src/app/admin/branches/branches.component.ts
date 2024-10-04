@@ -66,10 +66,10 @@ export class BranchesComponent implements OnInit, OnDestroy {
               private loaderService: LoaderService, private roomService: RoomService, private router: Router) {
   }
 
-  ngOnInit(): void {
-    this.getCities();
-    this.getProvinces();
-    this._reloadCollection().then(() => {});
+  async ngOnInit(): Promise<void> {
+    await Promise.all([this.getCities(), this.getProvinces()]);
+    this._reloadCollection().then(() => {
+    });
   }
 
   ngOnDestroy() : void {
@@ -212,11 +212,14 @@ export class BranchesComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private getCities(): void {
-    this.loaderService.setComponentLoader('cities');
-    this.addressService.getCities().pipe(takeUntil(this.destroy$)).subscribe(city => {
-      this.cities = city.city ?? [];
-      this.loaderService.setComponentLoaded('cities');
+  private getCities(): Promise<void> {
+    return new Promise((resolve) => {
+      this.loaderService.setComponentLoader('cities');
+      this.addressService.getCities().pipe(takeUntil(this.destroy$)).subscribe(city => {
+        this.cities = city.city ?? [];
+        this.loaderService.setComponentLoaded('cities');
+        resolve();
+      });
     });
   }
 
@@ -224,6 +227,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
     if (!istat) {
       return null;
     }
+
     const city: CityModel | null = this.cities.find((city: CityModel) => city.istat === istat) ?? null;
     return city ? city.comune : null;
   }
@@ -234,11 +238,14 @@ export class BranchesComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private getProvinces(): void {
-    this.loaderService.setComponentLoader('provinces');
-    this.addressService.getProvincies().pipe(takeUntil(this.destroy$)).subscribe(province => {
-      this.provinces = province.province ?? [];
-      this.loaderService.setComponentLoaded('provinces');
+  private getProvinces(): Promise<void> {
+    return new Promise((resolve) => {
+      this.loaderService.setComponentLoader('provinces');
+      this.addressService.getProvinces().pipe(takeUntil(this.destroy$)).subscribe(province => {
+        this.provinces = province.province ?? [];
+        this.loaderService.setComponentLoaded('provinces');
+        resolve();
+      });
     });
   }
 

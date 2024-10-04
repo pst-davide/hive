@@ -234,7 +234,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   private getProvinces(): void {
     this.loaderService.setComponentLoader('provinces');
-    this.addressService.getProvincies().pipe(takeUntil(this.destroy$)).subscribe(province => {
+    this.addressService.getProvinces().pipe(takeUntil(this.destroy$)).subscribe(province => {
       this.provinces = province.province ?? [];
       this.loaderService.setComponentLoaded('provinces');
     });

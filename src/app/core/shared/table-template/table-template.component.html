@@ -14,7 +14,32 @@
       </div>
 
       <!-- column select -->
-      <div class="col-span-3 lg:col-span-1"></div>
+      <div class="col-span-3 lg:col-span-1 lg:ml-3">
+        @if (selectableColumns.length > 0) {
+          <mat-form-field appearance="outline">
+            <mat-select [formControl]="columnCtrl" multiple (selectionChange)="_toggleColumns($event)">
+              <mat-select-trigger>
+                {{ getColumnControlName(columnCtrl.value?.[0]) || '' }}
+                @if ((columnCtrl.value?.length || 0) > 1) {
+                  <span class="additional-selection">
+                  (+{{ (columnCtrl.value?.length || 0) - 1 }}
+                    {{ columnCtrl.value?.length === 2 ? "altro" : "altri" }})
+              </span>
+                }
+              </mat-select-trigger>
+              <mat-option
+                value="select-all"
+                (onSelectionChange)="_toggleAll($event)"
+                [ngClass]="{'mat-option-checked': allSelected}"
+              >Seleziona tutti</mat-option>
+
+              @for (column of selectableColumns; track column.key) {
+                <mat-option [value]="column.key">{{ column.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+      </div>
 
       <!-- icons -->
       <div class="col-span-3 lg:col-span-1 flex justify-end items-center -mt-5">
@@ -90,7 +115,7 @@
                     </div>
                   </th>
                 } @else {
-                  <th mat-header-cell *matHeaderCellDef class="text-slate-400 min-w-0 flex-grow"
+                  <th mat-header-cell *matHeaderCellDef class="text-slate-400 min-w-0 flex-grow" [id]="column.key"
                       [class.max-w-32]="column.stickyEnd" [class.w-32]="column.stickyEnd">
                     <div class="text-xs tracking-wider uppercase mt-0.5 flex"
                          [class.justify-start]="column.align && column.align === ALIGN_OPTIONS.LEFT"
@@ -188,10 +213,10 @@
                           </mat-form-field>
                         } @else {
                           <mat-form-field appearance="outline" class="table-input-filter">
-                          <input matInput
-                                 (click)="$event.stopPropagation()"
-                                 (keyup)="singleFilter($event, column.key)"
-                                 [formControlName]="column.key">
+                            <input matInput
+                                   (click)="$event.stopPropagation()"
+                                   (keyup)="singleFilter($event, column.key)"
+                                   [formControlName]="column.key">
                           </mat-form-field>
                         }
                       }

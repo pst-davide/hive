@@ -36,7 +36,7 @@ export class AddressService {
 
   constructor(private http: HttpClient) { }
 
-  public getProvincies(): Observable<any> {
+  public getProvinces(): Observable<any> {
     return this.http.get<any>('/assets/provincies.json');
   }
 

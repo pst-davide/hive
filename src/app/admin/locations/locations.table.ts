@@ -31,7 +31,18 @@ export const displayedColumns: ColumnModel[] = [
     isFilterable: true,
     isSortable: true,
     isExportable: true,
+    isSelectable: true,
     truncateConfig: {length: 30, omission: '...', mode: 'words'}
+  },
+  {
+    key: 'name',
+    name: 'Sede',
+    hide: true,
+    type: TYPE_OPTIONS.STRING,
+    isFilterable: true,
+    isSortable: true,
+    isExportable: true,
+    isSelectable: true,
   },
   {
     key: 'enabled',

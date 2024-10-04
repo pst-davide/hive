@@ -49,7 +49,7 @@ export class ProvinceAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this._subscription = this.provinceService.getProvincies().subscribe(
+    this._subscription = this.provinceService.getProvinces().subscribe(
       province => {
         this.docs = province ? province.province as ProvinceModel[] : [];
         this.docIds = this.docs.map(doc => doc.sigla );

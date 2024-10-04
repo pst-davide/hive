@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component, effect, ElementRef,
   EventEmitter,
   Input,
   model,
@@ -41,7 +41,12 @@ import {PdfService} from '../../services/pdf.service';
 import {exporter} from '../../functions/file-exporter';
 import {TruncatePipe} from '../../pipe/truncate.pipe';
 import {MatOption} from '@angular/material/autocomplete';
-import {MatSelect} from '@angular/material/select';
+import {MatSelectChange, MatSelectModule} from '@angular/material/select';
+import {MatOptionSelectionChange} from '@angular/material/core';
+
+export interface SelectColumnModel {
+  key: string, name: string, checked: boolean
+}
 
 @Component({
   selector: 'app-table-template',
@@ -60,7 +65,7 @@ import {MatSelect} from '@angular/material/select';
     TruncatePipe,
     MatLabel,
     MatOption,
-    MatSelect,
+    MatSelectModule,
   ],
   templateUrl: './table-template.component.html',
   styleUrl: './table-template.component.scss',
@@ -95,6 +100,11 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   public activeFilter: boolean = false;
   public form: FormGroup = new FormGroup({});
 
+  /* view columns */
+  public columnCtrl: FormControl = new FormControl();
+  public selectableColumns: SelectColumnModel[] = [];
+  public allSelected: boolean = false;
+
   /* icons */
   public faPlus: IconDefinition = faPlus;
   public faGlass: IconDefinition = faMagnifyingGlass;
@@ -113,24 +123,32 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private cdr: ChangeDetectorRef, private pdfService: PdfService, private elRef: ElementRef, private renderer: Renderer2) {}
+  constructor(private cdr: ChangeDetectorRef, private pdfService: PdfService, private elRef: ElementRef,
+              private renderer: Renderer2) {
+    effect(() => {
+      const columns: ColumnModel[] = this.displayedColumns();
+      if (columns.length > 0) {
+        this.setSelectableColumns(columns);
+      }
+    });
+  }
 
   ngOnInit(): void {
+    for (const column of this.displayedColumns()) {
+      if (column.isFilterable) {
+        let defaultValue: any = '';
+        if (column.type === TYPE_OPTIONS.BOOLEAN) {
+          defaultValue = null;
+        }
+        this.form.addControl(column.key, new FormControl(defaultValue));
+      }
+    }
+
     this.data.pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.dataSource.data = data;
       this.dataSource.filteredData = data;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-
-      for (const column of this.displayedColumns()) {
-        if (column.isFilterable) {
-          let defaultValue: any = '';
-          if (column.type === TYPE_OPTIONS.BOOLEAN) {
-            defaultValue = null;
-          }
-          this.form.addControl(column.key, new FormControl(defaultValue));
-        }
-      }
 
       this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
         const searchTerms = JSON.parse(filter);
@@ -275,7 +293,6 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
     headers.forEach((header: any) => {
 
       const headerId = header.getAttribute('ng-reflect-id');
-
       const containerDiv = header.querySelector('.mat-sort-header-container');
 
       if (containerDiv) {
@@ -298,6 +315,108 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
         }
       }
     });
+  }
+
+  /************************************************
+   *
+   * visible Columns
+   *
+   ***********************************************/
+
+  public _toggleAll(event: MatOptionSelectionChange): void {
+    this.allSelected = event.source.selected;
+
+    const checkedColumns: string[] = [];
+    this.selectableColumns = this.selectableColumns.map((column: SelectColumnModel) => {
+      if (event.source.selected) {
+        checkedColumns.push(column.key);
+      }
+      column.checked = event.source.selected;
+      return column;
+    });
+
+    for (const column of this.displayedColumns()) {
+      if (column.isSelectable) {
+        column.hide = !event.source.selected;
+      }
+    }
+
+    this.columnCtrl.setValue(checkedColumns);
+    this.resetColumnClass();
+  }
+
+  public _toggleColumns(event: MatSelectChange): void {
+    for (const column of this.displayedColumns()) {
+      if (column.isSelectable) {
+        const index = event.value.findIndex((v: string) => v === column.key);
+        column.hide = index === -1;
+      }
+    }
+
+    this.allSelected = this.displayedColumns().filter((column: ColumnModel) => column.isSortable && column.hide).length === 0;
+    // TODO
+    if (!this.allSelected) {
+      const checked: string[] = this.columnCtrl.value;
+      this.columnCtrl.setValue(checked.map((c: string) => c !?? 'select-all') ?? []);
+    }
+
+    this.resetColumnClass();
+  }
+
+  private setSelectableColumns(columns: ColumnModel[]): void {
+    const checkedColumns: string[] = [];
+
+    for (const column of columns) {
+      if (column.isSelectable) {
+        this.selectableColumns.push({
+          key: column.key,
+          name: column?.selectableName ?? column.name,
+          checked: !column.hide
+        });
+
+        if (!column.hide) {
+          checkedColumns.push(column.key);
+        }
+      }
+    }
+
+    this.selectableColumns = _.sortBy(this.selectableColumns, 'name');
+    this.columnCtrl.setValue(checkedColumns);
+  }
+
+  public getColumnControlName(key: string | null): string {
+    if (key) {
+      const column: ColumnModel | null = this.displayedColumns().find((col: ColumnModel) => col.key === key) ?? null;
+      const {selectableName, name = ''} = column ?? {};
+      return selectableName ?? name;
+    }
+    return '';
+  }
+
+  private resetColumnClass(): void {
+    setTimeout(() => {
+      const columns: ColumnModel[] = this.displayedColumns();
+
+      for (const column of columns) {
+        const containerDiv: HTMLElement | null = document.getElementById(`${column.key}`);
+        if (containerDiv) {
+          const sortHeaderContainerDiv: Element | null = containerDiv.querySelector('.mat-sort-header-container');
+          if (sortHeaderContainerDiv) {
+            this.renderer.removeClass(sortHeaderContainerDiv, 'justify-start');
+            this.renderer.removeClass(sortHeaderContainerDiv, 'justify-center');
+            this.renderer.removeClass(sortHeaderContainerDiv, 'justify-end');
+
+            if (column.align === ALIGN_OPTIONS.LEFT) {
+              this.renderer.addClass(sortHeaderContainerDiv, 'justify-start');
+            } else if (column.align === ALIGN_OPTIONS.CENTER) {
+              this.renderer.addClass(sortHeaderContainerDiv, 'justify-center');
+            } else if (column.align === ALIGN_OPTIONS.RIGHT) {
+              this.renderer.addClass(sortHeaderContainerDiv, 'justify-end');
+            }
+          }
+        }
+      }
+    }, 0);
   }
 
   /************************************************
