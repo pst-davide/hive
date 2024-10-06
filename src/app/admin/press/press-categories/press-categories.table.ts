@@ -14,7 +14,7 @@ export const displayedColumns: ColumnModel[] = [
   },
   {
     key: 'VIEW_KEYWORDS_COUNT',
-    name: 'Keywords',
+    name: 'Nr. Parole Chiave',
     hide: false,
     type: TYPE_OPTIONS.NUMBER,
     align: ALIGN_OPTIONS.CENTER,

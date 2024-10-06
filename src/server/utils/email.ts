@@ -4,6 +4,9 @@ import winston from 'winston';
 import {Job, Queue, Worker} from 'bullmq';
 import Redis from 'ioredis';
 
+const MAX_CONCURRENCY: number = 2;
+const EMAIL_DELAY: number = 1000;
+
 /******************************************************************
  *
  * Logger
@@ -14,13 +17,13 @@ const logger: winston.Logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
-    winston.format.printf(({ timestamp, level, message }) => {
+    winston.format.printf(({timestamp, level, message}) => {
       return `${timestamp} [${level.toUpperCase()}]: ${message}`;
     })
   ),
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({ filename: 'email.log' })
+    new winston.transports.File({filename: 'email.log'})
   ]
 });
 
@@ -30,16 +33,32 @@ const logger: winston.Logger = winston.createLogger({
  *
  * ***************************************************************/
 
-const transporter: nodemailer.Transporter<SMTPPool.SentMessageInfo> = nodemailer.createTransport({
+/***
+ const transporter: nodemailer.Transporter<SMTPPool.SentMessageInfo> = nodemailer.createTransport({
+ pool: true,
+ host: 'zimbra.altovicentino.net',
+ port: 465,
+ secure: true,
+ auth: {
+ user: 'guesttracker@pasubiotecnologia.it',
+ pass: 'VS)Ce39k@89u!3'
+ },
+ maxConnections: MAX_CONCURRENCY, // Numero di connessioni in parallelo
+ rateLimit: 5, // Max mail per secondo
+ maxMessages: Infinity
+ });
+ ****/
+
+const transporter = nodemailer.createTransport({
   pool: true,
-  host: 'zimbra.altovicentino.net',
-  port: 465,
-  secure: true,
+  host: 'sandbox.smtp.mailtrap.io',
+  port: 2525,
   auth: {
-    user: 'guesttracker@pasubiotecnologia.it',
-    pass: 'VS)Ce39k@89u!3'
+    user: '7fbc5ea16d2990',
+    pass: '1c87da8f70846b'
   },
-  maxConnections: 2, // Numero di connessioni in parallelo
+  maxConnections: MAX_CONCURRENCY, // Numero di connessioni in parallelo
+  rateLimit: 5, // Max mail per secondo
   maxMessages: Infinity
 });
 
@@ -52,12 +71,12 @@ const transporter: nodemailer.Transporter<SMTPPool.SentMessageInfo> = nodemailer
 const connection: Redis = new Redis({
   maxRetriesPerRequest: null
 });
-const emailQueue: Queue<any, any, string> = new Queue('emailQueue', { connection });
+const emailQueue: Queue<any, any, string> = new Queue('emailQueue', {connection});
 
 async function addEmailsToQueue(): Promise<void> {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10; i++) {
     await emailQueue.add('sendEmail', {
-      to: `davide.sorrentino@gmail.com`,
+      to: `name+${i}@inbox.mailtrap.io`,
       subject: `Test Email ${i}`,
       text: `This is a test email number ${i}.`
     }, {
@@ -73,16 +92,16 @@ async function addEmailsToQueue(): Promise<void> {
     logger.info(`Job ${i} added to the queue`);
   }
   await emailQueue.add('sendEmail', {
-      to: `davide.sorrentino@gmail.comxxxewewew`,
-      subject: `Test Email fake`,
-      text: `This is a fake email.`
-    }, {
-      attempts: 3,
-      backoff: {
-        type: 'exponential',
-        delay: 3000
-      }
-    });
+    to: `qweertyofemccdhienwòfrrnjrgr@gmail.com`,
+    subject: `Test Email fake`,
+    text: `This is a fake email.`
+  }, {
+    attempts: 3,
+    backoff: {
+      type: 'exponential',
+      delay: 3000
+    }
+  });
   logger.info(`Fake added to the queue`);
 }
 
@@ -114,7 +133,7 @@ async function viewJobsInQueue(): Promise<void> {
 
 async function emptyQueue(): Promise<void> {
   try {
-    await emailQueue.obliterate({ force: true });
+    await emailQueue.obliterate({force: true});
     logger.info('Queue has been obliterated.');
   } catch (err: any) {
     logger.error(`Error while emptying queue: ${err.message}`);
@@ -135,18 +154,25 @@ let worker: Worker<any, any, string> | null = null;
 function startWorker() {
   const invalidEmails: Set<string> = new Set();
 
+  let totalEmailsSent: number = 0;
+  let totalErrors: number = 0;
+  let totalWaitTime: number = 0;
+  let totalEmailsAttempted: number = 0;
+
   if (!worker) {
     worker = new Worker('emailQueue', async job => {
-      const { to, subject, text } = job.data;
+      const {to, subject, text} = job.data;
       const attemptsMade: number = job.attemptsMade;
 
       // Controlla se l'email è già segnata come non valida
       if (invalidEmails.has(to)) {
         logger.error(`Skipping sending email to invalid address: ${to}`);
-        return; // Non tentare di inviare l'email
+        totalErrors++;
+        return;
       }
 
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise(resolve => setTimeout(resolve, EMAIL_DELAY));
+      totalWaitTime += EMAIL_DELAY;
 
       try {
         const info: SMTPPool.SentMessageInfo = await transporter.sendMail({
@@ -156,14 +182,22 @@ function startWorker() {
           text,
           headers: {
             'Return-Path': 'bounce@pasubiotecnologia.it' // Header per i bounce
+          },
+          envelope: {
+            from: 'bounce@pasubiotecnologia.it',  // Mittente per i bounce
+            to // Destinatario dell'email
           }
         });
 
         if (info.accepted && info.accepted.length > 0) {
           logger.info(`Email sent to ${to} with subject: "${subject}". SMTP response: ${info.response}`);
+          totalEmailsSent++;
         }
       } catch (error: any) {
         logger.error(`Error sending email to ${to} (attempt ${attemptsMade + 1}): ${error.message}`);
+        if (attemptsMade >= 2) {
+          totalErrors++;
+        }
 
         if (error.responseCode) {
           const responseCode = error.responseCode;
@@ -183,7 +217,7 @@ function startWorker() {
               break;
             case 550:
               logger.error(`Mailbox unavailable or message rejected for ${to}.`);
-              invalidEmails.add(to);
+              // invalidEmails.add(to);
               break;
             case 551:
               logger.error(`Mailbox does not exist for ${to}.`);
@@ -203,13 +237,49 @@ function startWorker() {
               logger.error(`Unknown error for ${to}: ${responseCode}`);
           }
         }
+
+        throw error;
+      } finally {
+        totalEmailsAttempted++; // Incrementa il conteggio delle email tentate
       }
     }, {
       connection,
-      concurrency: 1
+      concurrency: MAX_CONCURRENCY
     });
 
     logger.info('Worker started.');
+
+    worker.on('completed', async () => {
+      await processInvalidEmails(invalidEmails);
+
+      // Statistiche finali
+      const successRate: number = totalEmailsSent / totalEmailsAttempted * 100;
+      const averageWaitTime: number = totalWaitTime / totalEmailsAttempted;
+
+      logger.info(`Total Emails Sent: ${totalEmailsSent}`);
+      logger.info(`Total Errors: ${totalErrors}`);
+      logger.info(`Success Rate: ${successRate.toFixed(2)}%`);
+      logger.info(`Total Emails Attempted: ${totalEmailsAttempted}`);
+      logger.info(`Total Wait Time: ${totalWaitTime} ms`);
+      logger.info(`Average Wait Time: ${averageWaitTime.toFixed(2)} ms`);
+    });
+  }
+}
+
+/******************************************************************
+ *
+ * Invalid Emails
+ *
+ * ***************************************************************/
+
+async function processInvalidEmails(invalidEmails: Set<string>) {
+  if (invalidEmails.size > 0) {
+    // Qui puoi implementare la logica per gestire gli indirizzi non validi
+    logger.info(`Processing invalid emails: ${Array.from(invalidEmails).join(', ')}`);
+
+    // Esempio: aggiungi la logica per notificare o registrare gli indirizzi
+    // await saveInvalidEmailsToDatabase(Array.from(invalidEmails));
+    // Oppure invia una notifica a un sistema esterno
   }
 }
 

@@ -1,4 +1,6 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'grapesjs/dist/css/grapes.min.css';
+@import 'quill/dist/quill.snow.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -128,6 +130,11 @@ body {
 
 .chevron {
   right: 0.5rem; /* Posiziona il chevron a destra */
+}
+
+input:where(:not([type])), [multiple], select {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 /*# sourceMappingURL=styles.css.map */
