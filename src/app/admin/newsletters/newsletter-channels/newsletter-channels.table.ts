@@ -13,6 +13,17 @@ export const displayedColumns: ColumnModel[] = [
     isExportable: true,
   },
   {
+    key: 'description',
+    name: 'Descrizione',
+    hide: true,
+    type: TYPE_OPTIONS.TRUNCATE,
+    isFilterable: true,
+    isSortable: true,
+    isExportable: true,
+    isSelectable: true,
+    truncateConfig: {length: 30, omission: '...', mode: 'words'}
+  },
+  {
     key: 'VIEW_OWNERS',
     name: 'Amministratori Lista',
     hide: false,
@@ -20,6 +31,7 @@ export const displayedColumns: ColumnModel[] = [
     isFilterable: false,
     isSortable: true,
     isExportable: true,
+    isSelectable: true,
   },
   {
     key: 'VIEW_SUBSCRIBERS_COUNT',
@@ -30,6 +42,7 @@ export const displayedColumns: ColumnModel[] = [
     isFilterable: false,
     isSortable: true,
     isExportable: true,
+    isSelectable: true,
   },
   COLUMN_VIEW,
   COLUMN_EDIT,
