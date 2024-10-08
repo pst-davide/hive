@@ -11,7 +11,7 @@
   <!-- detail -->
   <div class="grid grid-cols-2 gap-4 my-5">
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
-      <app-press-keywords [(categoryId)]="categoryId" (keywordsChanged)="_reloadCollection()"></app-press-keywords>
+      <app-press-keywords [(categoryId)]="categoryId" [(keysInserted)]="keysInserted" (keywordsChanged)="_reloadCollection()"></app-press-keywords>
     </div>
     <div class="col-span-1 md:col-span-1 sm:col-span-2">
       <div class="w-full max-w-full flex-0">

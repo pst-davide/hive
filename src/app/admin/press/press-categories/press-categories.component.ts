@@ -1,6 +1,6 @@
 import {Component, model, ModelSignal, OnInit} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {PressService} from '../service/press.service';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../model/press-category.model';
@@ -49,7 +49,7 @@ export class PressCategoriesComponent implements OnInit {
 
   /* category */
   public categoryId: ModelSignal<number | null> = model<number | null>(-1);
-  public categoryIdUpdateSubject: Subject<number | null> = new Subject<number | null>();
+  public keysInserted: ModelSignal<boolean> = model<boolean>(false);
 
   /****************************
    * table
@@ -96,16 +96,13 @@ export class PressCategoriesComponent implements OnInit {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.categoryId.set(-1);
       this.editRow();
-      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.categoryId.set(this.doc.id);
       this.editRow();
-      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.categoryId.set(this.doc.id);
-      this.categoryIdUpdateSubject.next(this.categoryId());
     } else if (action.key === 'delete') {
       this.deletedDoc = _.cloneDeep(action.record ? action.record as PRESS_CATEGORY_TYPE : this.emptyDoc);
       this.deleteRow();
@@ -163,7 +160,6 @@ export class PressCategoriesComponent implements OnInit {
         await this.crudService.deleteDoc(this.deletedDoc.id);
         await this.getCollection();
         this.categoryId.set(-1);
-        this.categoryIdUpdateSubject.next(this.categoryId());
         this.loaderService.setComponentLoaded(PressCategoryComponent.name);
       }
     });
@@ -216,7 +212,7 @@ export class PressCategoriesComponent implements OnInit {
     this.loaderService.setComponentLoader(PressCategoryComponent.name);
     await this.crudService.saveKeywordsBatch(result);
     await this.getCollection();
-    this.categoryIdUpdateSubject.next(this.categoryId());
+    this.keysInserted.set(true);
     this.keywordsControl.setValue(null);
     this.loaderService.setComponentLoaded(PressCategoryComponent.name);
   }

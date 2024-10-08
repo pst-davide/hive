@@ -151,12 +151,14 @@ export class AppComponent implements OnInit {
       this.setActiveItem(currentUrl);
     });
 
+    /****
     this.pushNotificationService.requestNotificationPermission()
       .then(() => {
         console.log('Send subscribe request to service');
         this.pushNotificationService.subscribeToPushNotifications();
       })
       .catch(err => console.error('Permission denied:', err));
+      ***/
   }
 
   /***************************************************************************************

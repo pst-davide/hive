@@ -4,7 +4,6 @@ import {BranchModel} from '../model/branchModel';
 import {Location} from '../../../../server/entity/location.entity';
 import {firstValueFrom} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
-import {PRESS_CATEGORY_TYPE} from '../../press/model/press-category.model';
 import {CrudService} from '../../../core/services/crud.service';
 
 @Injectable({
@@ -71,7 +70,7 @@ export class BranchService {
 
   public async getDocs(): Promise<BranchModel[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<PRESS_CATEGORY_TYPE[]>(this.apiUrl);
+      const response: AxiosResponse<any, any> = await axios.get<BranchModel[]>(this.apiUrl);
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);
@@ -108,6 +107,17 @@ export class BranchService {
       return response;
     } catch (error) {
       console.error('Delete failed:', error);
+      throw error;
+    }
+  }
+
+  public async getDoc(id: string): Promise<BranchModel> {
+    try {
+      const response: AxiosResponse<any, any> = await axios.get<BranchModel>(`${this.apiUrl}/${id}`);
+      console.log(response.data)
+      return this.toModel(response.data);
+    } catch (error) {
+      console.error('Errore durante il fetch dei documenti:', error);
       throw error;
     }
   }

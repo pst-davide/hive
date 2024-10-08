@@ -10,11 +10,11 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {LoaderService} from '../../core/services/loader.service';
 import {RoomService} from '../rooms/service/room.service';
 import {Router, RouterOutlet} from '@angular/router';
-import {LocationComponent} from '../locations/edit/location/location.component';
 import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
 import {MapComponent} from '../../core/dialog/map/map.component';
 import {displayedColumns} from './branches.table';
 import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
+import {BranchComponent} from './edit/branch/branch.component';
 
 @Component({
   selector: 'app-branches',
@@ -57,7 +57,6 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   /* branch */
   public branchId: ModelSignal<string | null> = model<string | null>('');
-  public branchIdUpdateSubject: Subject<string | null> = new Subject<string | null>();
 
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
@@ -118,16 +117,13 @@ export class BranchesComponent implements OnInit, OnDestroy {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
       this.editRow();
-      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.changeLocationId(this.doc.id);
-      this.branchIdUpdateSubject.next(this.branchId());
     } else if (action.key === 'map') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.openMap(this.doc);
@@ -157,7 +153,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
    ************************************************/
 
   public editRow(): void {
-    let dialogRef: MatDialogRef<LocationComponent> = this.dialog.open(LocationComponent, {
+    let dialogRef: MatDialogRef<BranchComponent> = this.dialog.open(BranchComponent, {
       width: '100%',
       height: '100%',
       data: this.doc
@@ -199,7 +195,6 @@ export class BranchesComponent implements OnInit, OnDestroy {
         await this.crudService.deleteDoc(this.deletedDoc.id as string);
         await this.getCollection();
         this.changeLocationId('');
-        this.branchIdUpdateSubject.next(this.branchId());
 
         this.loaderService.setComponentLoaded(BranchesComponent.name);
       }

@@ -1,22 +1,20 @@
 import {
-  Component,
+  Component, effect,
   EventEmitter,
   model,
   ModelSignal,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import _ from 'lodash';
 import {EMPTY_PRESS_KEYWORD, PRESS_KEYWORD_TYPE} from '../model/press-keyword.model';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {ColumnModel} from '../../../core/model/column.model';
 import {displayedColumns} from './press-keywords.table';
 import {PressService} from '../service/press.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {TableTemplateComponent} from '../../../core/shared/table-template/table-template.component';
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
-import {PressCategoriesComponent} from '../press-categories/press-categories.component';
 import {PressKeywordComponent} from './edit/press-keyword/press-keyword.component';
 import {LoaderService} from '../../../core/services/loader.service';
 
@@ -29,13 +27,15 @@ import {LoaderService} from '../../../core/services/loader.service';
   templateUrl: './press-keywords.component.html',
   styleUrl: './press-keywords.component.scss'
 })
-export class PressKeywordsComponent implements OnInit, OnDestroy {
+export class PressKeywordsComponent implements OnInit {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
 
   /* category */
   public categoryId: ModelSignal<number | null> = model<number | null>(null);
+  public keysInserted: ModelSignal<boolean> = model<boolean>(false);
+  private lastCategory: number | null = null;
 
   /* doc */
   public doc: PRESS_KEYWORD_TYPE = _.cloneDeep(EMPTY_PRESS_KEYWORD);
@@ -57,25 +57,23 @@ export class PressKeywordsComponent implements OnInit, OnDestroy {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  /* subscription */
-  private categoryIdUpdateSubscription!: Subscription;
-
   constructor(private crudService: PressService, public dialog: MatDialog,
-              private parentComponent: PressCategoriesComponent, private loaderService: LoaderService) {
-    this.categoryIdUpdateSubscription = this.parentComponent.categoryIdUpdateSubject
-      .subscribe((newCategoryId: number | null) => {
-      this.getCollection(newCategoryId).then(() => {
-      });
+              private loaderService: LoaderService) {
+    effect(() => {
+      const newCategoryId: number | null = this.categoryId();
+      const reloadKeys: boolean = this.keysInserted();
+      if (reloadKeys|| newCategoryId !== this.lastCategory) {
+        this.getCollection(newCategoryId).then(() => {
+          this.keysInserted.set(false);
+          this.lastCategory = newCategoryId;
+        });
+      }
     });
   }
 
   ngOnInit(): void {
     this._reloadCollection().then(() => {
     });
-  }
-
-  ngOnDestroy() {
-    this.categoryIdUpdateSubscription.unsubscribe();
   }
 
   /*************************************************

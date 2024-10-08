@@ -1,15 +1,17 @@
-import {Component, EventEmitter, model, ModelSignal, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, effect, EventEmitter, model, ModelSignal, OnInit, Output} from '@angular/core';
 import {RoomService} from './service/room.service';
 import {EMPTY_ROOM, ROOM_TYPE} from './model/room.model';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RoomComponent} from './edit/room/room.component';
 import _ from 'lodash';
 import {LoaderService} from '../../core/services/loader.service';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {ColumnModel} from '../../core/model/column.model';
 import {displayedColumns} from './rooms.table';
 import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
 import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
+import {BranchService} from '../branches/service/branch.service';
+import {BranchModel} from '../branches/model/branchModel';
 
 @Component({
   selector: 'app-rooms',
@@ -20,7 +22,7 @@ import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dial
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss'
 })
-export class RoomsComponent implements OnInit, OnDestroy {
+export class RoomsComponent implements OnInit {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -46,22 +48,23 @@ export class RoomsComponent implements OnInit, OnDestroy {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  /* subscription */
-  private branchIdUpdateSubscription!: Subscription;
+  /* branches */
+  public branches: BranchModel[] = [];
 
-  constructor(private crudService: RoomService,
+
+  constructor(private crudService: RoomService, private branchService: BranchService,
               private loaderService: LoaderService, public dialog: MatDialog) {
-  }
-
-  ngOnInit(): void {
-    this._reloadCollection().then(() => {
+    effect(async () => {
+      await this.getBranches();
+      this._reloadCollection().then(() => {
+      });
     });
   }
 
-  ngOnDestroy() {
-    if (this.branchIdUpdateSubscription) {
-      this.branchIdUpdateSubscription.unsubscribe();
-    }
+  async ngOnInit(): Promise<void> {
+    await this.getBranches();
+    this._reloadCollection().then(() => {
+    });
   }
 
   /*************************************************
@@ -153,4 +156,25 @@ export class RoomsComponent implements OnInit, OnDestroy {
     })
   }
 
+  /*************************************************
+   *
+   * Branches
+   *
+   ************************************************/
+
+  private async getBranches(): Promise<void> {
+    try {
+      this.loaderService.setComponentLoader('branches');
+      if (this.branchId()) {
+        const branch: BranchModel = await this.branchService.getDoc(this.branchId() as string);
+        console.log(branch);
+      } else {
+        this.branches = await this.branchService.getDocs();
+      }
+    } catch (error) {
+      console.error('Errore durante il caricamento dei documenti:', error);
+    } finally {
+      this.loaderService.setComponentLoaded('branches');
+    }
+  }
 }

@@ -1,46 +1,53 @@
 import {Component, Inject, model, ModelSignal, OnDestroy, OnInit, signal, WritableSignal} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import _ from 'lodash';
-import {EMPTY_BRANCH, BranchModel} from '../../../branches/model/branchModel';
-import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
-import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
-import {BranchService} from '../../../branches/service/branch.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {faLocationDot, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {NgxColorsModule, validColorValidator} from 'ngx-colors';
-import {CommonModule} from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {
-  ProvinceAutocompleteComponent
-} from '../../../../core/shared/autocomplete/province-autocomplete/province-autocomplete.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {AsyncPipe} from '@angular/common';
 import {
   CityAutocompleteComponent
 } from '../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component';
+import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
+import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {NgxColorsModule, validColorValidator} from 'ngx-colors';
+import {NgxMaskDirective} from 'ngx-mask';
+import {
+  ProvinceAutocompleteComponent
+} from '../../../../core/shared/autocomplete/province-autocomplete/province-autocomplete.component';
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ReactiveTypedFormsModule} from '@rxweb/reactive-form-validators';
+import { MapComponent } from 'app/core/dialog/map/map.component';
 import {GeoResponse, GeoService} from '../../../../core/services/geo.service';
-import {AddressService, CityModel, ZipModel} from "../../../../core/services/address.service";
-import {MapComponent} from '../../../../core/dialog/map/map.component';
-import {NgxMaskDirective} from "ngx-mask";
+import {AddressService, CityModel, ZipModel} from 'app/core/services/address.service';
+import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
+import {BRANCH_TYPE, EMPTY_BRANCH} from '../../model/branchModel';
+import {BranchesComponent} from '../../branches.component';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {BranchService} from '../../service/branch.service';
+import _ from 'lodash';
 
 @Component({
-  selector: 'app-location',
+  selector: 'app-branch',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
-    MatFormFieldModule, NgxColorsModule, ProvinceAutocompleteComponent, MatCheckboxModule, MatSlideToggleModule,
-    CityAutocompleteComponent, NgxMaskDirective],
-  templateUrl: './location.component.html',
-  styleUrl: './location.component.scss'
+  imports: [
+    AsyncPipe,
+    CityAutocompleteComponent,
+    FaIconComponent,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSlideToggle,
+    MatSuffix,
+    NgxColorsModule,
+    NgxMaskDirective,
+    ProvinceAutocompleteComponent,
+    ReactiveFormsModule,
+    ReactiveTypedFormsModule
+  ],
+  templateUrl: './branch.component.html',
+  styleUrl: './branch.component.scss'
 })
-export class LocationComponent implements OnInit, OnDestroy {
+export class BranchComponent implements OnInit, OnDestroy {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -52,7 +59,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   public faTimes: IconDefinition = faTimes;
 
   /* icons */
-  public doc: BranchModel = _.cloneDeep(EMPTY_BRANCH);
+  public doc: BRANCH_TYPE = _.cloneDeep(EMPTY_BRANCH);
 
   /* form */
   public form: FormGroup = new FormGroup({});
@@ -73,7 +80,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   public isReadOnly: boolean = false;
 
-  constructor(public dialogRef: MatDialogRef<LocationComponent>, @Inject(MAT_DIALOG_DATA) public data: BranchModel,
+  constructor(public dialogRef: MatDialogRef<BranchesComponent>, @Inject(MAT_DIALOG_DATA) public data: BRANCH_TYPE,
               private fb: FormBuilder, private crudService: BranchService, private geoService: GeoService,
               private addressService: AddressService, public dialog: MatDialog) {
   };
@@ -97,7 +104,7 @@ export class LocationComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private patchForm(doc: BranchModel): void {
+  private patchForm(doc: BRANCH_TYPE): void {
     this.province$.set(doc.address.province);
     this.city$.set(doc.address.city);
 

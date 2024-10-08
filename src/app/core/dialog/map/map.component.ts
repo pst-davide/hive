@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AddressModel} from '../../model/address.model';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +21,8 @@ import {Feature} from "ol";
     FaIconComponent
   ],
   templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+  styleUrl: './map.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class MapComponent implements OnInit {
   public title: string = '';
@@ -40,9 +41,8 @@ export class MapComponent implements OnInit {
   }
 
   private initMap(): void {
-
     this.map = new Map({
-      target: 'map',
+      target: 'location-map',
       layers: [
         new TileLayer({
           source: new OSM()
