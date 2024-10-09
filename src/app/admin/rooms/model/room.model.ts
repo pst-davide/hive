@@ -1,5 +1,6 @@
 import {AddressModel, EMPTY_ADDRESS} from '../../../core/model/address.model';
 import {CrudModel, EMPTY_CRUD} from '../../../core/model/crud.model';
+import {DEFAULT_LOCATION_COLOR} from '../../../core/functions/environments';
 
 export interface RoomModel {
   id: string | null;
@@ -9,8 +10,9 @@ export interface RoomModel {
   capacity: number;
   owners: string[];
   floor: number;
+  color: string | null;
   enabled: boolean;
-  address: AddressModel;
+  locationId: string | null;
   crud: CrudModel;
 }
 export type ROOM_TYPE = RoomModel & {
@@ -27,6 +29,7 @@ export const EMPTY_ROOM: ROOM_TYPE = {
   owners: [],
   floor: 0,
   enabled: true,
-  address: EMPTY_ADDRESS,
+  locationId: null,
+  color: DEFAULT_LOCATION_COLOR,
   crud: EMPTY_CRUD
 };

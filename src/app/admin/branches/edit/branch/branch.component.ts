@@ -58,11 +58,12 @@ export class BranchComponent implements OnInit, OnDestroy {
   /* icons */
   public faTimes: IconDefinition = faTimes;
 
-  /* icons */
+  /* doc */
   public doc: BRANCH_TYPE = _.cloneDeep(EMPTY_BRANCH);
 
   /* form */
   public form: FormGroup = new FormGroup({});
+  public isReadOnly: boolean = false;
 
   /* province and city */
   public city$: ModelSignal<string | null> = model<string | null>(null);
@@ -76,9 +77,9 @@ export class BranchComponent implements OnInit, OnDestroy {
   /* cities */
   public cities: CityModel[] = [];
 
-  /* form */
+  /* subject */
   private destroy$: Subject<void> = new Subject<void>();
-  public isReadOnly: boolean = false;
+
 
   constructor(public dialogRef: MatDialogRef<BranchesComponent>, @Inject(MAT_DIALOG_DATA) public data: BRANCH_TYPE,
               private fb: FormBuilder, private crudService: BranchService, private geoService: GeoService,

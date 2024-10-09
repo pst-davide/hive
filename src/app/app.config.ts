@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {provideRouter, RouteReuseStrategy} from '@angular/router';
 
 import { routes } from './app.routes';
 import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
@@ -19,6 +19,7 @@ import {provideHotToastConfig} from "@ngxpert/hot-toast";
 import {LoaderService} from "./core/services/loader.service";
 import {NavigationService} from "./core/services/navigation.service";
 import {LoaderInterceptor} from "./core/functions/loader.interceptor";
+import {CustomReuseStrategy} from './core/functions/custom-reuse-strategy';
 
 registerLocaleData(localeIt);
 
@@ -61,6 +62,7 @@ export const appConfig: ApplicationConfig = {
     NavigationService,
     LoaderInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
   ]
 };
 

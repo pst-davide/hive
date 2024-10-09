@@ -15,7 +15,7 @@ export const displayedColumns: ColumnModel[] = [
   },
   {
     key: 'name',
-    name: 'Stanza',
+    name: 'Spazio',
     hide: false,
     type: TYPE_OPTIONS.STRING,
     isFilterable: true,

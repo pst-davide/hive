@@ -13,7 +13,7 @@
         <!-- title -->
         <div class="flex-auto max-w-[1340px] mx-auto">
           <h2 class="leading-normal text-2xl text-slate-500 text-center lg:text-left">
-            Nuova Sala
+            {{ formTitle }}
           </h2>
         </div>
 
@@ -25,6 +25,7 @@
             <fa-icon [icon]="faTimes" class="text-gray-600 group-hover:text-white text-2xl"></fa-icon>
           </button>
         </div>
+
       </div>
 
     </div>
@@ -34,7 +35,8 @@
       <fieldset [disabled]="isLoading$ | async">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="w-full mx-auto">
-            <!-- code, name -->
+
+            <!-- code, branch, name -->
             <div class="grid grid-cols-12 gap-4 mb-4">
               <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
@@ -46,12 +48,25 @@
                   }
                 </mat-form-field>
               </div>
-              <div class="col-span-12 md:col-span-9">
+              <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
-                  <mat-label>Nome della Sala</mat-label>
-                  <input matInput placeholder="Nome della sala" formControlName="name">
+                  <mat-label>Sede</mat-label>
+                  <mat-select >
+                    @for (branch of branches; track branch.id) {
+                      <mat-option [value]="branch.id" formControlName="locationId">
+                        {{branch.name}}
+                        <span class="text-sm text-slate-300"> | {{branch.code}}</span>
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-span-12 md:col-span-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome dello Spazio</mat-label>
+                  <input matInput placeholder="Nome dello spazio" formControlName="name">
                   @if (name.hasError('required')) {
-                    <mat-error>Il campo <strong>nome della sala</strong> è obbligatorio</mat-error>
+                    <mat-error>Il campo <strong>nome dello spazio</strong> è obbligatorio</mat-error>
                   }
                 </mat-form-field>
               </div>
@@ -92,7 +107,7 @@
                 </mat-form-field>
               </div>
               <div class="col-span-12 md:col-span-3 flex items-center mb-5">
-
+                <mat-slide-toggle formControlName="enabled"><span class="mx-3">Spazio Attivo</span></mat-slide-toggle>
               </div>
             </div>
 
@@ -104,11 +119,20 @@
                           placeholder="Descrizione..."></textarea>
               </mat-form-field>
             </div>
-
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                    (click)="onSubmit()">
-              Button
-            </button>
+            <div class="col-span-12 text-right">
+              <button class="px-4 py-2
+                  w-auto
+                  bg-gradient-to-r from-fuchsia-500 to-pink-500
+                  hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
+                  shadow-lg hover:shadow-2xl
+                  hover:scale-102 active:scale-95
+                  font-bold text-center text-white uppercase text-xs
+                  border-0 rounded-3xl
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed">
+                Salva
+              </button>
+            </div>
           </div>
         </form>
       </fieldset>

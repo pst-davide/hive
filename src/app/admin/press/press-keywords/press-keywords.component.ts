@@ -17,6 +17,7 @@ import {TableTemplateComponent} from '../../../core/shared/table-template/table-
 import {DeleteDialogComponent} from '../../../core/dialog/delete-dialog/delete-dialog.component';
 import {PressKeywordComponent} from './edit/press-keyword/press-keyword.component';
 import {LoaderService} from '../../../core/services/loader.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-press-keywords',
@@ -50,6 +51,7 @@ export class PressKeywordsComponent implements OnInit {
    * *************************/
   public docs: PRESS_KEYWORD_TYPE[] = [];
   public dataSource: BehaviorSubject<PRESS_KEYWORD_TYPE[]> = new BehaviorSubject<PRESS_KEYWORD_TYPE[]>([]);
+  public canInsert: boolean = false;
 
   /* filter */
   public filters: Record<string, string> = {};
@@ -58,10 +60,12 @@ export class PressKeywordsComponent implements OnInit {
   public displayedColumns: ColumnModel[] = displayedColumns;
 
   constructor(private crudService: PressService, public dialog: MatDialog,
-              private loaderService: LoaderService) {
+              private loaderService: LoaderService, private router: Router) {
     effect(() => {
       const newCategoryId: number | null = this.categoryId();
       const reloadKeys: boolean = this.keysInserted();
+      this.canInsert = this.isKeywordsRoute() || (!this.isKeywordsRoute()
+        && (this.categoryId() !== null && this.categoryId() !== -1));
       if (reloadKeys|| newCategoryId !== this.lastCategory) {
         this.getCollection(newCategoryId).then(() => {
           this.keysInserted.set(false);
@@ -72,8 +76,14 @@ export class PressKeywordsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.canInsert = this.isKeywordsRoute() || (!this.isKeywordsRoute()
+      && (this.categoryId() !== null && this.categoryId() !== -1));
     this._reloadCollection().then(() => {
     });
+  }
+
+  public isKeywordsRoute(): boolean {
+    return this.router.url.includes('/press/categories/keywords');
   }
 
   /*************************************************

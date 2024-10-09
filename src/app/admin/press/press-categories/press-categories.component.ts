@@ -1,4 +1,4 @@
-import {Component, model, ModelSignal, OnInit} from '@angular/core';
+import {Component, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {PressService} from '../service/press.service';
@@ -34,7 +34,7 @@ import {Router, RouterOutlet} from '@angular/router';
   templateUrl: './press-categories.component.html',
   styleUrl: './press-categories.component.scss'
 })
-export class PressCategoriesComponent implements OnInit {
+export class PressCategoriesComponent implements OnInit, OnDestroy {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
@@ -68,8 +68,15 @@ export class PressCategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('init');
     this._reloadCollection().then(() => {
     });
+  }
+
+  ngOnDestroy(): void {
+    console.log('destroy');
+    this.categoryId.set(-1);
+    this.keysInserted.set(false);
   }
 
   public isKeywordsRoute(): boolean {

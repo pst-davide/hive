@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
         {id: 'm8', label: 'Anagrafiche', icon: faUser, isOpen: false,
           subItems: [
             {id: 'm9', label: 'Sedi', link: 'admin/locations', icon: faCaretRight},
-            {id: 'm10', label: 'Stanze', link: 'admin/locations/rooms', icon: faCaretRight},
+            {id: 'm10', label: 'Spazi', link: 'admin/locations/rooms', icon: faCaretRight},
             {id: 'm11', label: 'Utenti', link: 'admin/users', icon: faCaretRight},
           ]
         },
@@ -150,7 +150,6 @@ export class AppComponent implements OnInit {
     this.navigationService.currentRoute$.subscribe((currentUrl: string) => {
       this.setActiveItem(currentUrl);
     });
-
     /****
     this.pushNotificationService.requestNotificationPermission()
       .then(() => {

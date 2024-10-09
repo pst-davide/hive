@@ -11,7 +11,7 @@ import {displayedColumns} from './rooms.table';
 import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
 import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
 import {BranchService} from '../branches/service/branch.service';
-import {BranchModel} from '../branches/model/branchModel';
+import {BRANCH_TYPE} from '../branches/model/branchModel';
 
 @Component({
   selector: 'app-rooms',
@@ -49,7 +49,7 @@ export class RoomsComponent implements OnInit {
   public displayedColumns: ColumnModel[] = displayedColumns;
 
   /* branches */
-  public branches: BranchModel[] = [];
+  public branches: BRANCH_TYPE[] = [];
 
 
   constructor(private crudService: RoomService, private branchService: BranchService,
@@ -116,7 +116,7 @@ export class RoomsComponent implements OnInit {
     const dialogRef: MatDialogRef<RoomComponent> = this.dialog.open(RoomComponent, {
       width: '100%',
       height: '100%',
-      data: {doc: this.doc, locationId: this.branchId()}
+      data: {doc: this.doc, locationId: this.branchId(), branch: this.branches.length > 0 ? this.branches[0] : null}
     });
 
     dialogRef.afterClosed().subscribe(async (doc: ROOM_TYPE | null) => {
@@ -166,8 +166,8 @@ export class RoomsComponent implements OnInit {
     try {
       this.loaderService.setComponentLoader('branches');
       if (this.branchId()) {
-        const branch: BranchModel = await this.branchService.getDoc(this.branchId() as string);
-        console.log(branch);
+        const branch: BRANCH_TYPE = await this.branchService.getDoc(this.branchId() as string);
+        this.branches = branch ? [branch] : [];
       } else {
         this.branches = await this.branchService.getDocs();
       }
