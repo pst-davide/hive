@@ -56,7 +56,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
   public provinces: ProvinceModel[] = [];
 
   /* branch */
-  public branchId: ModelSignal<string | null> = model<string | null>('');
+  public branch: ModelSignal<BRANCH_TYPE | null> = model<BRANCH_TYPE | null>({} as BRANCH_TYPE);
 
   /* Subject */
   private destroy$: Subject<void> = new Subject<void>();
@@ -73,6 +73,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() : void {
     this.changeLocationId(null);
+    this.branch.set(null);
     if (this.destroy$) {
       this.destroy$.next();
       this.destroy$.complete();
@@ -115,15 +116,15 @@ export class BranchesComponent implements OnInit, OnDestroy {
   public _rowAction(action: { record: any; key: string }): void {
     if (action.key === 'new') {
       this.doc = _.cloneDeep(this.emptyDoc);
-      this.changeLocationId(this.doc.id);
+      this.changeLocationId({} as BRANCH_TYPE);
       this.editRow();
     } else if (action.key === 'edit') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
-      this.changeLocationId(this.doc.id);
+      this.changeLocationId(this.doc);
       this.editRow();
     } else if (action.key === 'view') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
-      this.changeLocationId(this.doc.id);
+      this.changeLocationId(this.doc);
     } else if (action.key === 'map') {
       this.doc = _.cloneDeep(action.record ? action.record as BRANCH_TYPE : this.emptyDoc);
       this.openMap(this.doc);
@@ -142,8 +143,8 @@ export class BranchesComponent implements OnInit, OnDestroy {
     }
   }
 
-  private changeLocationId(id: string | null): void {
-    this.branchId.set(id);
+  private changeLocationId(doc: BRANCH_TYPE | null): void {
+    this.branch.set(doc);
   }
 
   /*************************************************
@@ -194,7 +195,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
         await this.crudService.deleteDoc(this.deletedDoc.id as string);
         await this.getCollection();
-        this.changeLocationId('');
+        this.changeLocationId({} as BRANCH_TYPE);
 
         this.loaderService.setComponentLoaded(BranchesComponent.name);
       }

@@ -10,26 +10,15 @@ export class PressKeywordController {
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
       const {categoryId} = req.query;
+      const categoryIdNumber: number = parseInt(categoryId as string, 10);
+      const whereCondition = categoryId ? {category: {id: categoryIdNumber}} : {};
 
-      let docs;
-      if (categoryId) {
-        const categoryIdNumber: number = parseInt(categoryId as string, 10);
-        if (isNaN(categoryIdNumber)) {
-          res.status(400).json({error: 'categoryId deve essere un numero valido'});
-          return;
-        }
-
-        docs = await PressKeywordController.docsRepository.find({
-          where: {category: {id: categoryIdNumber}},
+      const keywords: PressKeyword[] = await PressKeywordController.docsRepository.find({
+          where: whereCondition,
           relations: ['category'],
         });
-      } else {
-        docs = await PressKeywordController.docsRepository.find({
-          relations: ['category'],
-        });
-      }
 
-      res.status(200).json(docs);
+      res.status(200).json(keywords);
     } catch (error) {
       res.status(500).json({error: 'Errore durante il recupero delle keywords'});
     }

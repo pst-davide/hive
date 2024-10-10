@@ -42,6 +42,7 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Codice</mat-label>
                   <input matInput placeholder="Codice" formControlName="code"
+                         [readonly]="isReadOnly"
                          [value]="code && code.value ? code.value.toUpperCase() : null">
                   @if (code.hasError('required')) {
                     <mat-error>Il campo <strong>codice</strong> è obbligatorio</mat-error>
@@ -51,9 +52,9 @@
               <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
                   <mat-label>Sede</mat-label>
-                  <mat-select >
+                  <mat-select formControlName="locationId">
                     @for (branch of branches; track branch.id) {
-                      <mat-option [value]="branch.id" formControlName="locationId">
+                      <mat-option [value]="branch.id">
                         {{branch.name}}
                         <span class="text-sm text-slate-300"> | {{branch.code}}</span>
                       </mat-option>
@@ -97,6 +98,7 @@
                     formControlName="picker"
                     [acceptLabel]="'Seleziona'"
                     [cancelLabel]="'Cancella'"
+                    (input)="_onColorChange($event)"
                   ></ngx-colors>
                   @if (color.hasError('invalidColor')) {
                     <mat-error>Seleziona un <strong>colore</strong> valido</mat-error>

@@ -27,6 +27,12 @@ export class Room {
   @Column()
   enabled!: boolean;
 
+  @Column({type: 'varchar', length: 7})
+  color!: string;
+
+  @Column({ type: 'varchar' })
+  locationId!: string;
+
   @ManyToOne(() => Location, (location: Location) => location.rooms, { nullable: false })
   @JoinColumn({ name: 'locationId', referencedColumnName: 'id' })
   location!: Location;

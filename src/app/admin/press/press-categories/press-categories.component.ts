@@ -68,13 +68,11 @@ export class PressCategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('init');
     this._reloadCollection().then(() => {
     });
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
     this.categoryId.set(-1);
     this.keysInserted.set(false);
   }

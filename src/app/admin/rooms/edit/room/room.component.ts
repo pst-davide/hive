@@ -9,18 +9,20 @@ import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import _ from 'lodash';
-import { RoomService } from '../../service/room.service';
 import { NgxColorsModule, validColorValidator } from 'ngx-colors';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {DEFAULT_LOCATION_COLOR} from '../../../../core/functions/environments';
 import {BRANCH_TYPE} from '../../../branches/model/branchModel';
 import {MatOption} from '@angular/material/autocomplete';
 import {MatSelect} from '@angular/material/select';
+import {RoomService} from '../../service/room.service';
+import {BranchService} from '../../../branches/service/branch.service';
 
 @Component({
   selector: 'app-room',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, NgxColorsModule, MatSlideToggle, MatOption, MatSelect],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
+    MatFormFieldModule, NgxColorsModule, MatSlideToggle, MatOption, MatSelect],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss'
 })
@@ -48,15 +50,17 @@ export class RoomComponent implements OnInit, OnDestroy {
   /* subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(public dialogRef: MatDialogRef<RoomComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { doc: ROOM_TYPE, branchId: string | null, branch: BRANCH_TYPE | null },
-              private fb: FormBuilder, private roomService: RoomService) {}
+  constructor(public dialogRef: MatDialogRef<RoomComponent>, private crudService: RoomService,
+              @Inject(MAT_DIALOG_DATA) public data: { doc: ROOM_TYPE, branch: BRANCH_TYPE | null},
+              private fb: FormBuilder, private branchService: BranchService) {}
 
   ngOnInit(): void {
     this.doc = this.data.doc;
-    this.doc.locationId = this.data.branchId ?? null;
-    const {color = DEFAULT_LOCATION_COLOR } = this.data.branch ?? {};
-    this.doc.color = color;
+    if (!this.doc.id) {
+      const {id, color = DEFAULT_LOCATION_COLOR} = this.data.branch ?? {};
+      this.doc.locationId = id ?? null;
+      this.doc.color = color;
+    }
     this.formTitle = this.doc.name ? `Modifica Spazio - ${this.doc.name}` : 'Nuova Spazio';
     this.createForm();
     this.getBranches().then(() => {});
@@ -82,7 +86,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       floor: doc.floor,
       enabled: doc.enabled ?? true,
       color: doc.color,
-      locationId: doc.locationId,
+      locationId: doc.locationId ?? null,
     });
   }
 
@@ -155,7 +159,20 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.doc.enabled = this.enabled.value ?? true;
     this.doc.capacity = this.capacity.value ?? null;
     this.doc.floor = this.floor.value ?? null;
+    this.doc.locationId = this.locationId.value;
 
+     try {
+      if (!this.doc.id || this.doc.id === '') {
+        this.doc.id = this.code.value.toUpperCase();
+        await this.crudService.createDoc(this.doc);
+      } else {
+        await this.crudService.updateDoc(this.doc.id, this.doc);
+      }
+
+      this.dialogRef.close(this.doc);
+    } catch (error) {
+      console.error('Errore durante il salvataggio del documento:', error);
+    }
 
   }
 
@@ -166,7 +183,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   private async getBranches(): Promise<void> {
     if (this.data.branch) {
       this.branches = [this.data.branch];
-    } else {}
+    } else {
+      this.branches = await this.branchService.getDocs();
+    }
   }
 
   /*************************************************

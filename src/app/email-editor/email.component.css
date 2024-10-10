@@ -1,3 +1,11 @@
+.gjs-block-label {
+  font-size: 0.8rem !important;
+}
 
+.gjs-block__media {
+  padding-top: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
 
 /*# sourceMappingURL=email.component.css.map */

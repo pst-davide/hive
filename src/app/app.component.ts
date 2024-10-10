@@ -146,10 +146,11 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.navigationService.currentRoute$.subscribe((currentUrl: string) => {
       this.setActiveItem(currentUrl);
     });
+
     /****
     this.pushNotificationService.requestNotificationPermission()
       .then(() => {

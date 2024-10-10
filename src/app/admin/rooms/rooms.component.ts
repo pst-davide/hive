@@ -10,7 +10,7 @@ import {ColumnModel} from '../../core/model/column.model';
 import {displayedColumns} from './rooms.table';
 import {TableTemplateComponent} from '../../core/shared/table-template/table-template.component';
 import {DeleteDialogComponent} from '../../core/dialog/delete-dialog/delete-dialog.component';
-import {BranchService} from '../branches/service/branch.service';
+import {Router} from '@angular/router';
 import {BRANCH_TYPE} from '../branches/model/branchModel';
 
 @Component({
@@ -28,7 +28,7 @@ export class RoomsComponent implements OnInit {
   public isLoading$!: Observable<boolean>;
 
   /* branch */
-  public branchId: ModelSignal<string | null> = model<string | null>(null);
+  public branch: ModelSignal<BRANCH_TYPE | null> = model<BRANCH_TYPE | null>(null);
   @Output() locationChanged: EventEmitter<void> = new EventEmitter<void>();
 
   /* doc */
@@ -41,6 +41,7 @@ export class RoomsComponent implements OnInit {
    * *************************/
   public docs: ROOM_TYPE[] = [];
   public dataSource: BehaviorSubject<ROOM_TYPE[]> = new BehaviorSubject<ROOM_TYPE[]>([]);
+  public canInsert: boolean = false;
 
   /* filter */
   public filters: Record<string, string> = {};
@@ -48,23 +49,21 @@ export class RoomsComponent implements OnInit {
   /* columns */
   public displayedColumns: ColumnModel[] = displayedColumns;
 
-  /* branches */
-  public branches: BRANCH_TYPE[] = [];
-
-
-  constructor(private crudService: RoomService, private branchService: BranchService,
-              private loaderService: LoaderService, public dialog: MatDialog) {
+  constructor(private crudService: RoomService, private loaderService: LoaderService, public dialog: MatDialog,
+              private router: Router) {
     effect(async () => {
-      await this.getBranches();
+      this.canInsert = !!(this.isRoomsRoute() || (!this.isRoomsRoute() && this.branch() && this.branch()?.id));
       this._reloadCollection().then(() => {
       });
     });
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getBranches();
-    this._reloadCollection().then(() => {
-    });
+    this.canInsert = !!(this.isRoomsRoute() || (!this.isRoomsRoute() && this.branch() && this.branch()?.id));
+  }
+
+  public isRoomsRoute(): boolean {
+    return this.router.url.includes('/locations/rooms');
   }
 
   /*************************************************
@@ -85,7 +84,8 @@ export class RoomsComponent implements OnInit {
   public async _reloadCollection(): Promise<void> {
     try {
       this.loaderService.setComponentLoader(RoomsComponent.name);
-      await this.getCollection(this.branchId());
+      const id : string | null = this.branch() ? this.branch()?.id ?? '_' : null;
+      await this.getCollection(id);
     } finally {
       this.loaderService.setComponentLoaded(RoomsComponent.name);
     }
@@ -116,7 +116,7 @@ export class RoomsComponent implements OnInit {
     const dialogRef: MatDialogRef<RoomComponent> = this.dialog.open(RoomComponent, {
       width: '100%',
       height: '100%',
-      data: {doc: this.doc, locationId: this.branchId(), branch: this.branches.length > 0 ? this.branches[0] : null}
+      data: {doc: this.doc, branch: this.branch()}
     });
 
     dialogRef.afterClosed().subscribe(async (doc: ROOM_TYPE | null) => {
@@ -146,35 +146,10 @@ export class RoomsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (doc: boolean | null) => {
         if (doc) {
           this.loaderService.setComponentLoader(RoomsComponent.name);
-
-          // await this.crudService.deleteDoc(this.deletedDoc.id);
-          // await this.getCollection(this.categoryId());
-          // this.keywordsChanged.next();
-
+          await this.crudService.deleteDoc(this.deletedDoc.id as string);
+          await this.getCollection(this.branch()?.id ?? null);
           this.loaderService.setComponentLoaded(RoomsComponent.name);
         }
     })
-  }
-
-  /*************************************************
-   *
-   * Branches
-   *
-   ************************************************/
-
-  private async getBranches(): Promise<void> {
-    try {
-      this.loaderService.setComponentLoader('branches');
-      if (this.branchId()) {
-        const branch: BRANCH_TYPE = await this.branchService.getDoc(this.branchId() as string);
-        this.branches = branch ? [branch] : [];
-      } else {
-        this.branches = await this.branchService.getDocs();
-      }
-    } catch (error) {
-      console.error('Errore durante il caricamento dei documenti:', error);
-    } finally {
-      this.loaderService.setComponentLoaded('branches');
-    }
   }
 }

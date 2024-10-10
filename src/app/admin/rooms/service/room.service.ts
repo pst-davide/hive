@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {ROOM_TYPE, RoomModel} from '../model/room.model';
 import {Room} from '../../../../server/entity/room.entity';
 import axios, {AxiosResponse} from 'axios';
+import {DEFAULT_LOCATION_COLOR} from '../../../core/functions/environments';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,9 @@ export class RoomService {
   room.capacity = model.capacity;
   room.owners = model.owners;
   room.floor = model.floor;
+  room.color = model.color ?? DEFAULT_LOCATION_COLOR;
   room.enabled = model.enabled;
+  room.locationId = model.locationId ?? '';
   room.createdAt = model.crud.createAt ?? new Date();
   room.createdBy = model.crud.createBy ?? null;
   room.modifiedAt = model.crud.modifiedAt ?? new Date();
@@ -37,10 +40,12 @@ export class RoomService {
     model.code = entity.code;
     model.name = entity.name;
     model.description = entity.description;
+    model.color = entity.color ?? DEFAULT_LOCATION_COLOR;
     model.capacity = entity.capacity;
     model.owners = entity.owners;
     model.floor = entity.floor;
     model.enabled = entity.enabled;
+    model.locationId = entity.locationId;
     model.crud = {
       createAt: entity.createdAt,
       createBy: entity.createdBy,
@@ -48,12 +53,16 @@ export class RoomService {
       modifiedBy: entity.modifiedBy,
     };
 
+    model.VIEW_LOCATION_NAME = entity.locationName ?? null;
+    model.VIEW_COLOR = entity.locationColor ?? null;
+
     return model;
   }
 
   public async getDocs(id: string | null): Promise<ROOM_TYPE[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get(`${this.apiUrl}${(id ? '?locationId=' + id : '')}`);
+      const param: string | null = id && id !== '' ? id : null;
+      const response: AxiosResponse<any, any> = await axios.get(`${this.apiUrl}${(param ? '?locationId=' + param : '')}`);
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);
@@ -61,18 +70,40 @@ export class RoomService {
     }
   }
 
-
-  public createDoc(doc: RoomModel): Observable<RoomModel> {
+  public async createDoc(doc: ROOM_TYPE): Promise<ROOM_TYPE> {
     const entity: Room = this.toRoomEntity(doc);
-    return this.http.post<RoomModel>(this.apiUrl, entity);
+
+    try {
+      const response: AxiosResponse<any, any> = await axios.post(`${this.apiUrl}`, entity);
+      return this.toModel(response.data);
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
   }
 
-  public updateDoc(id: string, doc: RoomModel): Observable<RoomModel> {
-    return this.http.put<RoomModel>(`${this.apiUrl}/${id}`, doc);
+  public async updateDoc(id: string, doc: ROOM_TYPE): Promise<ROOM_TYPE> {
+    const entity: Room = this.toRoomEntity(doc);
+
+    try {
+      const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity);
+      return this.toModel(response.data);
+    } catch (error) {
+      throw error;
+    }
   }
 
-  public deleteDoc(id: string): Observable<RoomModel> {
-    return this.http.delete<RoomModel>(`${this.apiUrl}/${id}`);
+  public async deleteDoc(id: string): Promise<any> {
+    try {
+      const response: ROOM_TYPE = await firstValueFrom(
+        this.http.delete<ROOM_TYPE>(`${this.apiUrl}/delete/${id}`)
+      );
+      console.log('Delete successful:', response);
+      return response;
+    } catch (error) {
+      console.error('Delete failed:', error);
+      throw error;
+    }
   }
 
   public async hasRoom(locationId: string): Promise<boolean> {
