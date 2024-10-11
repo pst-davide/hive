@@ -138,7 +138,7 @@ export class RoomsComponent implements OnInit {
   private deleteRow(): void {
     const dialogRef: MatDialogRef<DeleteDialogComponent> = this.dialog.open(DeleteDialogComponent, {
       data: {
-        title: 'Cancellazione Stanza',
+        title: 'Cancellazione Spazio',
         message: `Sei sicuro di voler eliminare la stanza <strong>${this.deletedDoc.name}</strong>?`
       }
     });

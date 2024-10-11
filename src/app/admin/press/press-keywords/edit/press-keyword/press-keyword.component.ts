@@ -15,25 +15,27 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {
   PressCategoryAutocompleteComponent
 } from '../../../../../core/shared/autocomplete/press-category-autocomplete/press-category-autocomplete.component';
+import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
 
 @Component({
   selector: 'app-press-keyword',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    FaIconComponent,
-    FormsModule,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSuffix,
-    NgxColorsModule,
-    ReactiveFormsModule,
-    MatSelect,
-    MatOption,
-    PressCategoryAutocompleteComponent
-  ],
+    imports: [
+        AsyncPipe,
+        FaIconComponent,
+        FormsModule,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSuffix,
+        NgxColorsModule,
+        ReactiveFormsModule,
+        MatSelect,
+        MatOption,
+        PressCategoryAutocompleteComponent,
+        EditLogoComponent
+    ],
   templateUrl: './press-keyword.component.html',
   styleUrl: './press-keyword.component.scss'
 })

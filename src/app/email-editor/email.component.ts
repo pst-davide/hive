@@ -4,7 +4,6 @@ import grapesjs from 'grapesjs';
 import plugin from '.';
 import itTranslation from './utils/it';
 
-
 @Component({
   selector: 'app-email-editor',
   standalone: true,
@@ -25,7 +24,7 @@ export class EmailComponent implements OnInit {
       container: '#gjs',
       height: '100vh',
       width: 'auto',
-      plugins: [plugin],
+      plugins: [plugin, 'grapesjs-template-manager'],
       i18n: {
         locale: 'it',
         detectLocale: true,

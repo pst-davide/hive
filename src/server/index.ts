@@ -30,6 +30,7 @@ import shiftRouter from './routes/shift.router';
 
 /* web push */
 import pushRouter from './routes/push-notification.router';
+import userRouter from './routes/user.routes';
 
 /* initialize */
 const app: Express = express();
@@ -54,6 +55,7 @@ app.use('/api', locationRouter);
 app.use('/api', pressRouter);
 app.use('/api', newsletterRouter);
 app.use('/api', shiftRouter);
+app.use('/api/users', userRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);

@@ -14,7 +14,7 @@
          [ngClass]="{'w-60': !isSidebarMinimized(), 'w-16': isSidebarMinimized()}">
       <div class="transition-all duration-500 ease-in-out flex items-center"
            [ngClass]="{'pl-6 scale-100': !isSidebarMinimized(), 'pl-1 scale-75': isSidebarMinimized()}">
-        <img src="/images/logo.svg" class="w-10 h-auto max-h-10" alt="Hive App Logo"/>
+        <img ngSrc="/images/logo.svg" width="40" height="40" class="w-10 h-auto max-h-10" alt="Hive App Logo"/>
         <span class="comfortaa-text font-bold gradient-text text-2xl transition-all duration-500 ml-3"
               [ngClass]="{
                           'opacity-100 pointer-events-auto': !isSidebarMinimized(),

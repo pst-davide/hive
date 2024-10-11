@@ -3,6 +3,7 @@
 
     <!-- header -->
     <div class="w-full px-6 mb-20">
+
       <div class="flex items-center">
         <!-- logo -->
         <app-edit-logo></app-edit-logo>
@@ -22,7 +23,9 @@
             <fa-icon [icon]="faTimes" class="text-gray-600 group-hover:text-white text-2xl"></fa-icon>
           </button>
         </div>
+
       </div>
+
     </div>
 
     <!-- form -->
@@ -31,35 +34,55 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="w-full mx-auto">
 
-            <!-- name, topic, importance -->
+            <!-- code, name, color -->
             <div class="grid grid-cols-12 gap-4 mb-4">
-              <div class="col-span-12 md:col-span-6 text-right">
+              <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
-                  <mat-label>Parola Chiave</mat-label>
-                    <input matInput placeholder="Parola Chiave" formControlName="word">
-                    @if (word.hasError('required')) {
-                      <mat-error>La <strong>parola chiave</strong> è obbligatoria</mat-error>
-                    }
+                  <mat-label>Codice</mat-label>
+                  <input matInput placeholder="Codice" formControlName="code"
+                         [value]="code && code.value ? code.value.toUpperCase() : null"
+                         [readonly]="isReadOnly">
+                  @if (code.hasError('required')) {
+                    <mat-error>Il campo <strong>codice</strong> è obbligatorio</mat-error>
+                  }
                 </mat-form-field>
               </div>
-              <div class="col-span-12 md:col-span-3">
-                <app-press-category-autocomplete [isRequired]="true" [(doc$)]="category$" [isEnabled]="isEnabled"></app-press-category-autocomplete>
-              </div>
-              <div class="col-span-12 md:col-span-3 flex items-center">
+              <div class="col-span-12 lg:col-span-7 md:col-span-6 text-right">
                 <mat-form-field appearance="outline">
-                  <mat-label>Importanza</mat-label>
-                    <mat-select formControlName="importance">
-                      <mat-option value="high">Alta</mat-option>
-                      <mat-option value="medium">Media</mat-option>
-                      <mat-option value="low">Bassa</mat-option>
-                    </mat-select>
+                  <mat-label>Causale</mat-label>
+                  <input matInput placeholder="Nome della causale" formControlName="name">
+                  @if (name.hasError('required')) {
+                    <mat-error>Il campo <strong>causale</strong> è obbligatorio</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="col-span-12 lg:col-span-2 md:col-span-3 flex items-center justify-end">
+                <mat-form-field appearance="outline">
+                  <mat-label>Colore</mat-label>
+                  <input matInput formControlName="color"/>
+                  <ngx-colors
+                    class="suffix"
+                    matSuffix
+                    ngx-colors-trigger
+                    formControlName="picker"
+                    [acceptLabel]="'Seleziona'"
+                    [cancelLabel]="'Cancella'"
+                    (input)="_onColorChange($event)"
+                  ></ngx-colors>
+                  @if (color.hasError('invalidColor')) {
+                    <mat-error>Seleziona un <strong>colore</strong> valido</mat-error>
+                  }
+                  @if (color.hasError('required')) {
+                    <mat-error>Il campo <strong>colore</strong> è obbligatorio</mat-error>
+                  }
                 </mat-form-field>
               </div>
             </div>
 
             <!-- buttons -->
-            <div class="col-span-2 md:col-span-1 text-right">
-              <button class="px-4 py-2
+            <div class="grid grid-cols-1 gap-4">
+              <div class="col-span-1 text-right">
+                <button class="px-4 py-2
                   w-auto
                   bg-gradient-to-r from-fuchsia-500 to-pink-500
                   hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
@@ -69,10 +92,10 @@
                   border-0 rounded-3xl
                   transition-all duration-300 ease-out
                   disabled:opacity-50 disabled:cursor-not-allowed">
-                Salva
-              </button>
+                  Salva
+                </button>
+              </div>
             </div>
-
           </div>
         </form>
       </fieldset>
@@ -80,3 +103,4 @@
 
   </div>
 </div>
+

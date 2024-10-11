@@ -17,12 +17,13 @@ import {MatOption} from '@angular/material/autocomplete';
 import {MatSelect} from '@angular/material/select';
 import {RoomService} from '../../service/room.service';
 import {BranchService} from '../../../branches/service/branch.service';
+import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
 
 @Component({
   selector: 'app-room',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
-    MatFormFieldModule, NgxColorsModule, MatSlideToggle, MatOption, MatSelect],
+    imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
+        MatFormFieldModule, NgxColorsModule, MatSlideToggle, MatOption, MatSelect, EditLogoComponent],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss'
 })

@@ -1,65 +1,67 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
+import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {NgxColorsModule, validColorValidator} from 'ngx-colors';
-import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import _ from 'lodash';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {BranchesComponent} from '../../../branches/branches.component';
+import {ShiftService} from '../../service/shift.service';
+import {EMPTY_SHIFT, ShiftModel} from '../../model/shift.model';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../../../model/press-category.model';
-import {PressService} from '../../../service/press.service';
-import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
+import {AsyncPipe} from '@angular/common';
+import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
 
 @Component({
-  selector: 'app-press-category',
+  selector: 'app-shift',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        FaIconComponent,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatSuffix,
-        NgxColorsModule,
-        ReactiveFormsModule,
-        NgOptimizedImage,
-        EditLogoComponent
-    ],
-  templateUrl: './press-category.component.html',
-  styleUrl: './press-category.component.scss'
+  imports: [
+    FaIconComponent,
+    FormsModule,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSuffix,
+    NgxColorsModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    EditLogoComponent
+  ],
+  templateUrl: './shift.component.html',
+  styleUrl: './shift.component.scss'
 })
-export class PressCategoryComponent implements OnInit, OnDestroy {
+export class ShiftComponent implements OnInit, OnDestroy {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
 
   /* title */
-  public formTitle: string = 'Nuovo Argomento';
+  public formTitle: string = 'Nuova Causale';
 
   /* icons */
   public faTimes: IconDefinition = faTimes;
 
-  /* icons */
-  public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);
+  /* doc */
+  public doc: ShiftModel = _.cloneDeep(EMPTY_SHIFT);
 
   /* form */
   public form: FormGroup = new FormGroup({});
+  public isReadOnly: boolean = false;
 
-  /* form */
+  /* subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(public dialogRef: MatDialogRef<PressCategoryComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: PRESS_CATEGORY_TYPE,
-              private fb: FormBuilder, private crudService: PressService, public dialog: MatDialog) {
+
+  constructor(public dialogRef: MatDialogRef<BranchesComponent>, @Inject(MAT_DIALOG_DATA) public data: ShiftModel,
+              private fb: FormBuilder, private crudService: ShiftService, public dialog: MatDialog) {
   };
 
   ngOnInit(): void {
     this.doc = this.data;
-    this.formTitle = this.doc.name ? `Modifica Argomento - ${this.doc.name}` : 'Nuovo Argomento';
+    this.formTitle = this.doc.name ? `Modifica Causale - ${this.doc.name}` : 'Nuova Causale';
     this.createForm();
   }
 
@@ -74,9 +76,9 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private patchForm(doc: PRESS_CATEGORY_TYPE): void {
-
+  private patchForm(doc: ShiftModel): void {
     this.form.patchValue({
+      code: doc.code,
       name: doc.name,
       color: doc.color,
     });
@@ -84,6 +86,7 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
 
   private createForm(): void {
     this.form = this.fb.group({
+      code: ['', Validators['required']],
       name: ['', Validators['required']],
       color: [null, [Validators['required'], validColorValidator()]],
       picker: [null],
@@ -95,6 +98,8 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
   }
 
   private initializeSubscriptions(): void {
+
+    this.isReadOnly = !!this.doc.code;
 
     this.color.valueChanges.subscribe((color) => {
       if (this.form.controls['picker'].valid) {
@@ -136,19 +141,19 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.doc.code = this.code.value.toUpperCase();
     this.doc.name = this.name.value;
     this.doc.color = this.color.value;
 
-    try {
-      if (!this.doc.id || this.doc.id === 0) {
-        await this.crudService.createDoc(this.doc);
-      } else {
-        await this.crudService.updateDoc(this.doc.id, this.doc);
-      }
-      this.dialogRef.close(this.doc);
-    } catch (error) {
-      console.error('Errore durante il salvataggio del documento:', error);
+    if (!this.doc.id) {
+      this.doc.id = this.code.value.toUpperCase();
+      await this.crudService.createDoc(this.doc);
+    } else {
+      await this.crudService.updateDoc(this.doc.id, this.doc);
     }
+
+
+    this.dialogRef.close(this.doc);
   }
 
   public closeDialog(): void {
@@ -171,6 +176,10 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
    *
    ***********************************************/
 
+  get code(): AbstractControl {
+    return this.form.get('code') as AbstractControl;
+  }
+
   get name(): AbstractControl {
     return this.form.get('name') as AbstractControl;
   }
@@ -180,3 +189,4 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
   }
 
 }
+

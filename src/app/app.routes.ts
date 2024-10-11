@@ -8,6 +8,7 @@ import {PressCategoriesComponent} from './admin/press/press-categories/press-cat
 import {PressKeywordsComponent} from './admin/press/press-keywords/press-keywords.component';
 import {BranchesComponent} from './admin/branches/branches.component';
 import {NewsletterChannelsComponent} from './admin/newsletters/newsletter-channels/newsletter-channels.component';
+import {ShiftsComponent} from './admin/shifts/shifts.component';
 
 export const routes: Routes = [
   { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true } },
@@ -24,10 +25,11 @@ export const routes: Routes = [
       },
       { path: 'locations', component: BranchesComponent, data: { breadcrumb: 'Sedi', enabled: true },
         children: [
-          { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Stanze', enabled: true } }
+          { path: 'rooms', component: RoomsComponent, data: { breadcrumb: 'Spazi', enabled: true } }
         ]
       },
       { path: 'newsletter/lists', component: NewsletterChannelsComponent, data: { breadcrumb: 'Liste di Distribuzione', enabled: true } },
+      { path: 'shifts', component: ShiftsComponent, data: { breadcrumb: 'Causali', enabled: true } },
       { path: 'users', component: UsersComponent, data: { breadcrumb: 'Utenti', enabled: true } }
     ]
   },

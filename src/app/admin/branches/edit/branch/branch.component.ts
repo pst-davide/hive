@@ -24,26 +24,28 @@ import {BranchesComponent} from '../../branches.component';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {BranchService} from '../../service/branch.service';
 import _ from 'lodash';
+import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
 
 @Component({
   selector: 'app-branch',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    CityAutocompleteComponent,
-    FaIconComponent,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSlideToggle,
-    MatSuffix,
-    NgxColorsModule,
-    NgxMaskDirective,
-    ProvinceAutocompleteComponent,
-    ReactiveFormsModule,
-    ReactiveTypedFormsModule
-  ],
+    imports: [
+        AsyncPipe,
+        CityAutocompleteComponent,
+        FaIconComponent,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSlideToggle,
+        MatSuffix,
+        NgxColorsModule,
+        NgxMaskDirective,
+        ProvinceAutocompleteComponent,
+        ReactiveFormsModule,
+        ReactiveTypedFormsModule,
+        EditLogoComponent
+    ],
   templateUrl: './branch.component.html',
   styleUrl: './branch.component.scss'
 })

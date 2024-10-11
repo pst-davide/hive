@@ -11,21 +11,23 @@ import {AsyncPipe} from '@angular/common';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {NgxColorsModule} from 'ngx-colors';
+import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
 
 @Component({
   selector: 'app-newsletter-channel',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    FaIconComponent,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSuffix,
-    NgxColorsModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        AsyncPipe,
+        FaIconComponent,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSuffix,
+        NgxColorsModule,
+        ReactiveFormsModule,
+        EditLogoComponent
+    ],
   templateUrl: './newsletter-channel.component.html',
   styleUrl: './newsletter-channel.component.scss'
 })

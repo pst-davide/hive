@@ -17,7 +17,7 @@ import {faBell, faGear, faUser} from '@fortawesome/free-solid-svg-icons';
 import {WeatherService} from '../../core/services/weather.service';
 import {Subject, takeUntil} from 'rxjs';
 import moment, {Moment} from 'moment';
-import {DatePipe, NgClass} from '@angular/common';
+import {DatePipe, NgClass, NgOptimizedImage} from '@angular/common';
 import anime from 'animejs/lib/anime.es.js';
 
 export interface WeatherCondition {
@@ -51,7 +51,7 @@ export const EMPTY_WEATHER: WeatherCondition = {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [BreadcrumbComponent, FontAwesomeModule, DatePipe, NgClass],
+  imports: [BreadcrumbComponent, FontAwesomeModule, DatePipe, NgClass, NgOptimizedImage],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
