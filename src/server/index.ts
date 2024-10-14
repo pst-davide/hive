@@ -55,7 +55,7 @@ app.use('/api', locationRouter);
 app.use('/api', pressRouter);
 app.use('/api', newsletterRouter);
 app.use('/api', shiftRouter);
-app.use('/api/users', userRouter);
+app.use('/api', userRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);

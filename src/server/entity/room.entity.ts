@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
 import {Location} from './location.entity';
 
-@Entity()
+@Entity('rooms')
 export class Room {
   @PrimaryColumn({ type: 'varchar', length: 6 })
   id!: string;

@@ -1,4 +1,6 @@
-<p>users works!</p>
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" (click)="openDialog()">
-    Button
-  </button>
+<app-table-template
+  [filters]="filters"
+  [displayedColumns]="displayedColumns"
+  [data]="dataSource"
+  [exportFileName]="'Elenco Utenti'"
+  (rowAction)="_rowAction($event)"></app-table-template>

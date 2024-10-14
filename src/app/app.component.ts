@@ -27,6 +27,8 @@ import {combineLatest, delay, map, Observable, of, startWith, switchMap} from 'r
 import {NavigationService} from './core/services/navigation.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {PushNotificationService} from './core/services/push-notification.service';
+import {AuthService} from './core/services/auth.service';
+import {LoginComponent} from './layouts/login/login.component';
 
 interface MenuItem {
   id: string;
@@ -41,7 +43,7 @@ interface MenuItem {
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, HeaderComponent, FooterComponent, FontAwesomeModule, NgOptimizedImage,
-    CommonModule, NotificationCenterComponent, MatProgressBar],
+    CommonModule, NotificationCenterComponent, MatProgressBar, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -68,6 +70,9 @@ export class AppComponent implements OnInit {
 
   /* loading */
   public isLoading$!: Observable<boolean>;
+
+  /* auth user */
+  public isAuthenticated: boolean = false;
 
   /* animations */
   @ViewChildren('menuText') menuTextElements!: QueryList<ElementRef>;
@@ -127,7 +132,8 @@ export class AppComponent implements OnInit {
   public readonly faChevronRight: IconDefinition = faChevronRight;
 
   constructor(private pushNotificationService: PushNotificationService, private loaderService: LoaderService,
-              private navigationService: NavigationService, private router: Router) {
+              private navigationService: NavigationService, private router: Router,
+              private authService: AuthService) {
     moment.locale('it');
 
     this.isLoading$ = combineLatest([
@@ -150,6 +156,11 @@ export class AppComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.navigationService.currentRoute$.subscribe((currentUrl: string) => {
       this.setActiveItem(currentUrl);
+    });
+
+    this.authService.isAuthenticated$.subscribe((authStatus: boolean) => {
+      console.log(`Autenticato: ${authStatus}`)
+      this.isAuthenticated = authStatus;
     });
 
     /****

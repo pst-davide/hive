@@ -1,99 +1,105 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
 <div class="flex flex-col h-screen">
-  <!-- header -->
-  <app-header [(isScrolled)]="isScrolled"
-              [(isSidebarMinimized)]="isSidebarMinimized"
-              [(isNotificationPanelOpen)]="isNotificationPanelOpen"></app-header>
 
-  <!-- main -->
-  <div class="flex flex-1 mt-24">
-    <!-- sidebar -->
-    <aside [ngClass]="{'w-60': !isSidebarMinimized(), 'w-16': isSidebarMinimized()}"
-           class="text-slate-500 fixed z-10 transition-all duration-500 ease-in-out overflow-hidden"
-           style="height: calc(100vh - 6rem);">
-      <div class="h-full overflow-y-auto sidebar-scrollbar pt-3 pl-5">
-        <ul>
-          <li *ngFor="let item of menuItems" class="text-sm" [ngClass]="{'active': activeItem === item.id}">
-            <div class="cursor-pointer flex items-center justify-between p-2"
-                 [ngClass]="{'bg-slate-200 rounded-xl': activeItem === item.id && !isSidebarMinimized()}"
-                 (click)="!item.link ? toggleItem(item) : navigate(item)">
-
-              <div #menuLink class="flex items-center">
-                <div *ngIf="item.icon" class="icon-container shadow-md shadow-slate-400 mr-3 rounded-xl bg-white
-                text-slate-500 flex items-center justify-center
-                hover:scale-110 hover:shadow-lg hover:duration-300">
-                  <fa-icon [icon]="item.icon"></fa-icon>
-                </div>
-                <span #menuText class="max-h-[24px] p-0 m-0" style="word-wrap: break-word;">{{ item.label }}</span>
-              </div>
-
-              <fa-icon *ngIf="item.subItems"
-                       [icon]="item.isOpen ? faChevronDown : faChevronRight"
-                       [ngClass]="{'rotate-180': item.isOpen, 'transition-transform duration-300': true}"></fa-icon>
-            </div>
-            <ul #subUl [@menuAnimation]="item.isOpen ? 'expanded' : 'collapsed'" [id]="item.id"
-                [ngClass]="isSidebarMinimized() ? 'ml-0' : 'ml-4'"
-                class="transition-all duration-300 ease-in-out overflow-hidden">
-              <ng-container *ngTemplateOutlet="renderSubItems; context: { items: item.subItems }"></ng-container>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </aside>
-
-    <!-- Template per subItems -->
-    <ng-template #renderSubItems let-items="items">
-      <li *ngFor="let subItem of items" class="mb-1">
-        <div class="cursor-pointer flex items-center justify-between p-2"
-             [ngClass]="{'bg-slate-200 rounded-xl': activeItem === subItem.id && !isSidebarMinimized()}"
-             (click)="!subItem.link ? toggleItem(subItem) : navigate(subItem)">
-
-          <div class="flex items-center">
-            <div *ngIf="subItem.icon" class="icon-container shadow-md shadow-slate-400 mr-3 rounded-xl bg-white
-                text-slate-500 flex items-center justify-center
-                hover:scale-110 hover:shadow-lg hover:duration-300">
-              <fa-icon [icon]="subItem.icon"></fa-icon>
-            </div>
-            <span #menuText class="max-h-[24px] p-0 m-0" style="word-wrap: break-word;">{{ subItem.label }}</span>
-          </div>
-
-          <fa-icon *ngIf="subItem.subItems"
-                   [icon]="subItem.isOpen ? faChevronDown : faChevronRight"
-                   [ngClass]="{'rotate-180': subItem.isOpen, 'transition-transform duration-300': true}"></fa-icon>
-        </div>
-        <ul [@menuAnimation]="subItem.isOpen ? 'expanded' : 'collapsed'" [id]="subItem.id"
-            [ngClass]="isSidebarMinimized() ? 'ml-0' : 'ml-4'"
-            class="transition-all duration-300 ease-in-out overflow-hidden">
-          <ng-container *ngIf="subItem.subItems">
-            <ng-container *ngTemplateOutlet="renderSubItems; context: { items: subItem.subItems }"></ng-container>
-          </ng-container>
-        </ul>
-      </li>
-    </ng-template>
+  @if (isAuthenticated) {
+    <!-- header -->
+    <app-header [(isScrolled)]="isScrolled"
+                [(isSidebarMinimized)]="isSidebarMinimized"
+                [(isNotificationPanelOpen)]="isNotificationPanelOpen"></app-header>
 
     <!-- main -->
-    <div [ngClass]="{'ml-60': !isSidebarMinimized(), 'ml-16': isSidebarMinimized()}"
-         class="flex-1 overflow-y-auto p-4 transition-all duration-500 ease-in-out"
-         [ngStyle]="{'margin-right': isNotificationPanelOpen() ? '256px' : '0', 'min-height': 'calc(100vh - 10rem)'}">
-      <main>
-        <router-outlet/>
-      </main>
+    <div class="flex flex-1 mt-24">
+      <!-- sidebar -->
+      <aside [ngClass]="{'w-60': !isSidebarMinimized(), 'w-16': isSidebarMinimized()}"
+             class="text-slate-500 fixed z-10 transition-all duration-500 ease-in-out overflow-hidden"
+             style="height: calc(100vh - 6rem);">
+        <div class="h-full overflow-y-auto sidebar-scrollbar pt-3 pl-5">
+          <ul>
+            <li *ngFor="let item of menuItems" class="text-sm" [ngClass]="{'active': activeItem === item.id}">
+              <div class="cursor-pointer flex items-center justify-between p-2"
+                   [ngClass]="{'bg-slate-200 rounded-xl': activeItem === item.id && !isSidebarMinimized()}"
+                   (click)="!item.link ? toggleItem(item) : navigate(item)">
+
+                <div #menuLink class="flex items-center">
+                  <div *ngIf="item.icon" class="icon-container shadow-md shadow-slate-400 mr-3 rounded-xl bg-white
+                text-slate-500 flex items-center justify-center
+                hover:scale-110 hover:shadow-lg hover:duration-300">
+                    <fa-icon [icon]="item.icon"></fa-icon>
+                  </div>
+                  <span #menuText class="max-h-[24px] p-0 m-0" style="word-wrap: break-word;">{{ item.label }}</span>
+                </div>
+
+                <fa-icon *ngIf="item.subItems"
+                         [icon]="item.isOpen ? faChevronDown : faChevronRight"
+                         [ngClass]="{'rotate-180': item.isOpen, 'transition-transform duration-300': true}"></fa-icon>
+              </div>
+              <ul #subUl [@menuAnimation]="item.isOpen ? 'expanded' : 'collapsed'" [id]="item.id"
+                  [ngClass]="isSidebarMinimized() ? 'ml-0' : 'ml-4'"
+                  class="transition-all duration-300 ease-in-out overflow-hidden">
+                <ng-container *ngTemplateOutlet="renderSubItems; context: { items: item.subItems }"></ng-container>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Template per subItems -->
+      <ng-template #renderSubItems let-items="items">
+        <li *ngFor="let subItem of items" class="mb-1">
+          <div class="cursor-pointer flex items-center justify-between p-2"
+               [ngClass]="{'bg-slate-200 rounded-xl': activeItem === subItem.id && !isSidebarMinimized()}"
+               (click)="!subItem.link ? toggleItem(subItem) : navigate(subItem)">
+
+            <div class="flex items-center">
+              <div *ngIf="subItem.icon" class="icon-container shadow-md shadow-slate-400 mr-3 rounded-xl bg-white
+                text-slate-500 flex items-center justify-center
+                hover:scale-110 hover:shadow-lg hover:duration-300">
+                <fa-icon [icon]="subItem.icon"></fa-icon>
+              </div>
+              <span #menuText class="max-h-[24px] p-0 m-0" style="word-wrap: break-word;">{{ subItem.label }}</span>
+            </div>
+
+            <fa-icon *ngIf="subItem.subItems"
+                     [icon]="subItem.isOpen ? faChevronDown : faChevronRight"
+                     [ngClass]="{'rotate-180': subItem.isOpen, 'transition-transform duration-300': true}"></fa-icon>
+          </div>
+          <ul [@menuAnimation]="subItem.isOpen ? 'expanded' : 'collapsed'" [id]="subItem.id"
+              [ngClass]="isSidebarMinimized() ? 'ml-0' : 'ml-4'"
+              class="transition-all duration-300 ease-in-out overflow-hidden">
+            <ng-container *ngIf="subItem.subItems">
+              <ng-container *ngTemplateOutlet="renderSubItems; context: { items: subItem.subItems }"></ng-container>
+            </ng-container>
+          </ul>
+        </li>
+      </ng-template>
+
+      <!-- main -->
+      <div [ngClass]="{'ml-60': !isSidebarMinimized(), 'ml-16': isSidebarMinimized()}"
+           class="flex-1 overflow-y-auto p-4 transition-all duration-500 ease-in-out"
+           [ngStyle]="{'margin-right': isNotificationPanelOpen() ? '256px' : '0', 'min-height': 'calc(100vh - 10rem)'}">
+        <main>
+          <router-outlet/>
+        </main>
+      </div>
+
+      <!-- notification -->
+      <aside class="bg-white text-slate-500 h-full fixed right-0 w-64 z-10
+           transition-transform duration-300 ease-in-out rounded-l-lg my-4"
+             [ngClass]="{'transform translate-x-0': isNotificationPanelOpen(), 'transform translate-x-full': !isNotificationPanelOpen()}">
+        <div class="h-full overflow-y-auto">
+          <app-notification-center></app-notification-center>
+        </div>
+      </aside>
     </div>
 
-    <!-- notification -->
-    <aside class="bg-white text-slate-500 h-full fixed right-0 w-64 z-10
-           transition-transform duration-300 ease-in-out rounded-l-lg my-4"
-           [ngClass]="{'transform translate-x-0': isNotificationPanelOpen(), 'transform translate-x-full': !isNotificationPanelOpen()}">
-      <div class="h-full overflow-y-auto">
-        <app-notification-center></app-notification-center>
-      </div>
-    </aside>
-  </div>
+    <!-- Footer -->
+    <div [ngClass]="{'ml-60': !isSidebarMinimized(), 'ml-16': isSidebarMinimized()}"
+         class="mt-auto flex-1 py-4 transition-all duration-500 ease-in-out"
+         [ngStyle]="{'margin-right': isNotificationPanelOpen() ? '256px' : '0'}">
+      <app-footer></app-footer>
+    </div>
+  } @else {
+    <app-login></app-login>
+  }
 
-  <!-- Footer -->
-  <div [ngClass]="{'ml-60': !isSidebarMinimized(), 'ml-16': isSidebarMinimized()}"
-       class="mt-auto flex-1 py-4 transition-all duration-500 ease-in-out"
-       [ngStyle]="{'margin-right': isNotificationPanelOpen() ? '256px' : '0'}">
-    <app-footer></app-footer>
-  </div>
 </div>

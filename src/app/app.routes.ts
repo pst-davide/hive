@@ -9,9 +9,11 @@ import {PressKeywordsComponent} from './admin/press/press-keywords/press-keyword
 import {BranchesComponent} from './admin/branches/branches.component';
 import {NewsletterChannelsComponent} from './admin/newsletters/newsletter-channels/newsletter-channels.component';
 import {ShiftsComponent} from './admin/shifts/shifts.component';
+import {LoginComponent} from './layouts/login/login.component';
+import {AuthGuardService} from './core/services/auth-guard.service';
 
 export const routes: Routes = [
-  { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true } },
+  { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true }, canActivate: [AuthGuardService] },
   { path: 'email-editor', component: EmailComponent, data: { breadcrumb: 'Email Editor', enabled: true } },
   {
     path: 'admin', component: undefined, data: { breadcrumb: 'Amministrazione', enabled: false },
@@ -33,5 +35,6 @@ export const routes: Routes = [
       { path: 'users', component: UsersComponent, data: { breadcrumb: 'Utenti', enabled: true } }
     ]
   },
+  { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login', enabled: true } },
 ];
 

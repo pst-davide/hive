@@ -1,0 +1,56 @@
+<div class="flex flex-col justify-center items-center px-6 mx-auto md:h-screen pt:mt-0">
+  <img ngSrc="/images/logo.svg" priority width="60" height="55.56" class="inline" alt="Hive App Logo"/>
+  <div class="p-10 w-full max-w-lg bg-white border-0 shadow-lg rounded-2xl bg-clip-border mt-5" #passwordContainer>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="col-span-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email"
+                 [formControl]="email"
+                 [value]="email && email.value ? email.value.toLowerCase() : null">
+          @if (email.hasError('required')) {
+            <mat-error>Il campo <strong>email</strong> è obbligatorio</mat-error>
+          }
+          @if (email.hasError('email')) {
+            <mat-error>Inserisci una <strong>email</strong> valida</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-span-2">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password"
+                 [type]="passwordFieldType"
+                 [formControl]="password">
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+            <mat-icon>{{ passwordFieldType === 'password' ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <button type="button" class="text-sm text-slate-500
+                            rounded-2xl p-2 text-center transition-all
+                            flex items-center justify-center
+                            hover:text-slate-800 hover:bg-slate-200
+                            focus:bg-slate-100 active:bg-slate-100
+                            ease-soft-in-out">Ho dimenticato la password</button>
+      </div>
+      <div class="col-span-1 sm:col-span-1 text-right">
+        <button class="px-4 py-2
+                  w-auto
+                  bg-gradient-to-r from-fuchsia-500 to-pink-500
+                  hover:bg-gradient-to-l hover:from-pink-500 hover:to-fuchsia-500
+                  shadow-lg hover:shadow-2xl
+                  hover:scale-102 active:scale-95
+                  font-bold text-center text-white uppercase text-xs
+                  border-0 rounded-3xl
+                  transition-all duration-300 ease-out
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+                [disabled]="email.invalid || password.invalid"
+                (click)="login()">
+          Accedi
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

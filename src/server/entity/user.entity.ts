@@ -17,6 +17,9 @@ export class User {
   @Column({type: 'varchar', length: 80})
   password!: string;
 
+  @Column({type: 'int'})
+  role!: number;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 
@@ -34,4 +37,7 @@ export class User {
 
   @Column({ type: 'varchar', nullable: true })
   currentToken!: string | null;
+
+  @Column()
+  enabled!: boolean;
 }

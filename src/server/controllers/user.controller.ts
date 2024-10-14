@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import { Repository } from 'typeorm';
+import {DeleteResult, Repository} from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { User } from '../entity/user.entity'; // Assicurati di importare l'entità User
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 dotenv.config();
 export const { JWT_SECRET = '' } = process.env;
 
@@ -63,6 +64,7 @@ export class UserController {
     }
   }
 
+  // Refresh Token
   static async refresh(req: Request, res: Response): Promise<Response> {
     const { refreshToken } = req.body;
 
@@ -92,6 +94,7 @@ export class UserController {
     }
   }
 
+  // Logout
   static async logout(req: Request, res: Response): Promise<Response> {
     const { refreshToken } = req.body;
 
@@ -110,5 +113,81 @@ export class UserController {
     user.currentToken = null;
     await UserController.userRepository.save(user);
     return res.sendStatus(204); // No Content
+  }
+
+  static async findAll(req: Request, res: Response): Promise<void> {
+    try {
+      const docs: User[] = await UserController.userRepository.find();
+      res.status(200).json(docs);
+    } catch (error) {
+      res.status(500).json({ error: 'Errore durante il recupero dei documenti' });
+    }
+  }
+
+  static async findById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    try {
+      const doc: User | null = await UserController.userRepository.findOneBy({ id });
+      if (doc) {
+        res.status(200).json(doc);
+      } else {
+        res.status(404).json({ error: 'Documento non trovata' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: `Errore durante la creazione del documento: ${error}` });
+    }
+  }
+
+  static async create(req: Request, res: Response): Promise<void> {
+    const { email, password } = req.body;
+
+    try {
+
+      const existingUser: User | null = await UserController.userRepository.findOneBy({ email });
+      if (existingUser) {
+        res.status(400).json({ error: 'Email già registrata' });
+        return;
+      }
+
+      // Cripta la password
+      req.body.password = await bcrypt.hash(password, 10);
+
+      const doc: User[] = UserController.userRepository.create(req.body);
+      const savedDoc: User[] = await UserController.userRepository.save(doc);
+      res.status(200).json(savedDoc);
+    } catch (error) {
+      res.status(500).json({ error: 'Errore durante la creazione del documento' });
+    }
+  }
+
+  static async update(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    try {
+      let doc: User | null = await UserController.userRepository.findOneBy({ id });
+      if (doc) {
+        UserController.userRepository.merge(doc, req.body);
+        const updatedDoc: User = await UserController.userRepository.save(doc);
+        res.status(200).json(updatedDoc);
+      } else {
+        res.status(404).json({ error: 'Documento non trovato' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
+    }
+  }
+
+  static async delete(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    console.log(`ID da cancellare: ${id}`)
+    try {
+      const result: DeleteResult = await UserController.userRepository.delete(id);
+      if (result.affected) {
+        res.status(200).json({ message: 'Documento eliminato con successo' });
+      } else {
+        res.status(404).json({ error: 'Documento non trovato' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Errore durante l\'eliminazione della documento' });
+    }
   }
 }
