@@ -16,6 +16,10 @@ export interface UserModel {
   role: number;
   refreshToken: string | null;
   currentToken: string | null;
+  birthDate: Date | null;
+  birthCity: string | null;
+  birthProvince: string | null;
+  cf: string | null;
   enabled: boolean;
   crud: CrudModel;
 }
@@ -27,6 +31,10 @@ export const EMPTY_USER: UserModel = {
   email: null,
   password: null,
   role: USER_ROLES_ENUM.Utente,
+  birthDate: null,
+  birthCity: null,
+  birthProvince: null,
+  cf: null,
   refreshToken: null,
   currentToken: null,
   enabled: true,

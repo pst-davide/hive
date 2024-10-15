@@ -49,3 +49,4 @@ export class Room {
   @Column({ type: 'varchar', nullable: true })
   modifiedBy!: string | null;
 }
+

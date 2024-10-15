@@ -16,6 +16,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {LabelModel} from '../../../core/model/label.model';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {generatePassword} from '../../../core/functions/password-generator';
+import {CfValidator} from '../../../core/functions/cf-validator';
 
 @Component({
   selector: 'app-user',
@@ -75,6 +76,7 @@ export class UserComponent implements OnInit, OnDestroy {
       email: doc.email,
       role: doc.role,
       enabled: doc.enabled,
+      cf: doc.cf,
     });
   }
 
@@ -85,6 +87,7 @@ export class UserComponent implements OnInit, OnDestroy {
       email: ['', [Validators['required'], Validators['email']]],
       role: [null, Validators['required']],
       enabled: [false],
+      cf: [null, [CfValidator.validateCF(), Validators.minLength(16), Validators.maxLength(16)]]
     });
 
     this.initializeSubscriptions();
@@ -118,6 +121,25 @@ export class UserComponent implements OnInit, OnDestroy {
 
       const capitalizedValue: string = lastname.charAt(0).toUpperCase() + lastname.slice(1);
       this.lastname.setValue(capitalizedValue);
+    });
+
+    this.cf.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      distinctUntilChanged()
+    ).subscribe(cf => {
+      this.cf.setValue(cf ? cf.toUpperCase() : null);
+
+      if (this.cf.valid) {
+        console.log('valid')
+      const birthDate: Date | null = CfValidator.extractBirthDate(cf);
+      const birthPlaceCode: string | null = CfValidator.extractComuneCode(cf);
+      console.log(birthDate)
+
+      this.form.patchValue({
+        // birthDate: birthDate,
+        // birthPlaceCode: birthPlaceCode,
+      });
+    }
     });
   }
 
@@ -178,5 +200,9 @@ export class UserComponent implements OnInit, OnDestroy {
 
   get enabled(): AbstractControl {
     return this.form.get('enabled') as AbstractControl;
+  }
+
+  get cf(): AbstractControl {
+    return this.form.get('cf') as AbstractControl;
   }
 }

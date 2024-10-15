@@ -29,7 +29,6 @@ export class AuthService {
     }
   }
 
-
   // Metodo per salvare il token in localStorage
   public saveToken(token: string): void {
     localStorage.setItem('accessToken', token);

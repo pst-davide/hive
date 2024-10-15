@@ -24,6 +24,10 @@ export class UserService {
     doc.password = model.password ?? '';
     doc.role = model.role;
     doc.enabled = model.enabled ?? false;
+    doc.cf = model.cf ?? '';
+    doc.birthDate = model.birthDate ?? null;
+    doc.birthCity = model.birthCity ?? '';
+    doc.birthProvince = model.birthProvince ?? '';
     doc.currentToken = model.currentToken ?? null;
     doc.refreshToken = model.refreshToken ?? null;
     doc = this.crud.setCrudEntity(model, doc);
@@ -43,6 +47,10 @@ export class UserService {
     model.enabled = entity.enabled ?? false;
     model.currentToken = entity.currentToken ?? null;
     model.refreshToken = entity.refreshToken ?? null;
+    model.cf = entity.cf ?? null;
+    model.birthDate = entity.birthDate ?? null;
+    model.birthCity = entity.birthCity ?? null;
+    model.birthProvince = entity.birthProvince ?? null;
 
     model.crud = {
       createAt: entity.createdAt,

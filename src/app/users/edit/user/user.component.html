@@ -70,7 +70,7 @@
                   }
                 </mat-form-field>
               </div>
-              <div class="col-span-12  lg:col-span-4  md:col-span-3">
+              <div class="col-span-12 lg:col-span-4 md:col-span-3">
                 <mat-form-field appearance="outline">
                   <mat-label>Seleziona un ruolo</mat-label>
                   <mat-select formControlName="role">
@@ -82,6 +82,20 @@
               </div>
               <div class="col-span-12 lg:col-span-2 md:col-span-3 flex items-center justify-end -mt-5">
                 <mat-slide-toggle formControlName="enabled"><span class="mx-3">Abilitato</span></mat-slide-toggle>
+              </div>
+            </div>
+
+            <!-- cf -->
+            <div class="grid grid-cols-12 gap-4 mb-4">
+              <div class="col-span-12 md:col-span-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Codice Fiscale</mat-label>
+                  <input matInput placeholder="Codice Fiscale" formControlName="cf">
+                  @if (cf.hasError('maxlength')) {
+                    <mat-error>Il <strong>codice fiscale</strong> deve essere di 16 caratteri</mat-error>
+                  }
+                  <mat-hint align="end">{{ cf.value?.length || 0 }}/16</mat-hint>
+                </mat-form-field>
               </div>
             </div>
 
