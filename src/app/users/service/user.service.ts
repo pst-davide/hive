@@ -5,6 +5,7 @@ import axios, {AxiosResponse} from 'axios';
 import {firstValueFrom} from 'rxjs';
 import {User} from '../../../server/entity/user.entity';
 import {UserModel} from '../model/user.model';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class UserService {
   }
 
   private toEntity(model: UserModel): User {
+    const formattedDate: Date | null = model.birthDate ? moment(model.birthDate).toDate() : null;
+
     let doc: User = new User();
     doc.id = model.id ?? '';
     doc.email = model.email ?? '';
@@ -25,7 +28,8 @@ export class UserService {
     doc.role = model.role;
     doc.enabled = model.enabled ?? false;
     doc.cf = model.cf ?? '';
-    doc.birthDate = model.birthDate ?? null;
+    doc.phone = model.phone ?? null;
+    doc.birthDate = formattedDate;
     doc.birthCity = model.birthCity ?? '';
     doc.birthProvince = model.birthProvince ?? '';
     doc.currentToken = model.currentToken ?? null;
@@ -43,6 +47,7 @@ export class UserService {
     model.name = entity.name;
     model.email = entity.email;
     model.password = entity.password;
+    model.phone = entity.phone;
     model.role = entity.role;
     model.enabled = entity.enabled ?? false;
     model.currentToken = entity.currentToken ?? null;

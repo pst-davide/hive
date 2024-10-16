@@ -14,6 +14,7 @@ export interface UserModel {
   email: string | null;
   password: string | null;
   role: number;
+  phone: string | null;
   refreshToken: string | null;
   currentToken: string | null;
   birthDate: Date | null;
@@ -30,6 +31,7 @@ export const EMPTY_USER: UserModel = {
   lastname: null,
   email: null,
   password: null,
+  phone: null,
   role: USER_ROLES_ENUM.Utente,
   birthDate: null,
   birthCity: null,

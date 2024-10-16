@@ -30,7 +30,13 @@ export class UsersComponent implements OnInit {
   public dataSource: BehaviorSubject<UserModel[]> = new BehaviorSubject<UserModel[]>([]);
 
   /* filter */
-  public filters: Record<string, any> = {};
+  public filters: Record<string, any> = {
+    lastname: '',
+    name: '',
+    email: '',
+    cf: '',
+    enabled: 'Tutti'
+  };
 
   /* doc */
   public doc: UserModel = _.cloneDeep(EMPTY_USER);

@@ -32,6 +32,9 @@ export class User {
   @Column({ type: 'varchar', length: 16, nullable: true })
   cf!: string | null;
 
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  phone!: string | null;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
 

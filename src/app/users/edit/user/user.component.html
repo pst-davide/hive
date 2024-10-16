@@ -85,8 +85,14 @@
               </div>
             </div>
 
-            <!-- cf -->
+            <!-- cf, phone -->
             <div class="grid grid-cols-12 gap-4 mb-4">
+              <div class="col-span-12 md:col-span-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Telefono</mat-label>
+                  <input matInput placeholder="Telefono" formControlName="phone" mask="000 000 0009 9">
+                </mat-form-field>
+              </div>
               <div class="col-span-12 md:col-span-4">
                 <mat-form-field appearance="outline">
                   <mat-label>Codice Fiscale</mat-label>
@@ -94,8 +100,41 @@
                   @if (cf.hasError('maxlength')) {
                     <mat-error>Il <strong>codice fiscale</strong> deve essere di 16 caratteri</mat-error>
                   }
+                  @if (cf.hasError('invalidCf')) {
+                    <mat-error>Il <strong>codice fiscale</strong> inserito non è corretto</mat-error>
+                  }
                   <mat-hint align="end">{{ cf.value?.length || 0 }}/16</mat-hint>
                 </mat-form-field>
+              </div>
+            </div>
+
+            <!-- birth date, province, city -->
+            <div class="grid grid-cols-12 gap-4 mb-4">
+              <div class="col-span-12 md:col-span-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data di Nascita</mat-label>
+                  <input matInput [matDatepicker]="dp" formControlName="birthDate">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                  <mat-datepicker #dp></mat-datepicker>
+                  @if (birthDate.hasError('matDatepickerParse')) {
+                    <mat-error>La <strong>data</strong> inserita non è corretta</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="col-span-12 md:col-span-4">
+                <app-province-autocomplete
+                  [(doc$)]="province$"
+                  [(isValid$)]="isProvinceValid$"
+                  [label]="'Provincia di Nascita'"
+                  [isRequired]="false"></app-province-autocomplete>
+              </div>
+              <div class="col-span-12 md:col-span-4">
+                <app-city-autocomplete
+                  [province$]="province$()"
+                  [(doc$)]="city$"
+                  [label]="'Comune di Nascita'"
+                  [isRequired]="false"></app-city-autocomplete>
               </div>
             </div>
 

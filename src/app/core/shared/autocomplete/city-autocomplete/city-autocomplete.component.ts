@@ -1,4 +1,15 @@
-import { Component, input, InputSignal, model, ModelSignal, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  effect,
+  input,
+  InputSignal,
+  model,
+  ModelSignal,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,7 +50,17 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy, OnChanges {
 
   private _subscription!: Subscription;
 
-  constructor(private addressService: AddressService) {}
+  constructor(private addressService: AddressService) {
+    effect(() => {
+      const selectedDoc: string | null = this.doc$();
+      this.docCtrl.setValue(selectedDoc);
+
+      this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+      this.docCtrl.updateValueAndValidity();
+
+      this.filteredDocs = this.getFilteredDocs();
+    });
+  }
 
   ngOnInit(): void {
 

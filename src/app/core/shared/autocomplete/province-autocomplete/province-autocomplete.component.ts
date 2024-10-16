@@ -1,5 +1,5 @@
 import {
-  Component,
+  Component, effect,
   input, InputSignal,
   model,
   ModelSignal,
@@ -45,6 +45,13 @@ export class ProvinceAutocompleteComponent implements OnInit, OnDestroy {
   private _subscription!: Subscription;
 
   constructor(private provinceService: AddressService) {
+    effect(() => {
+      const selectedDoc: string | null = this.doc$();
+      this.docCtrl.setValue(selectedDoc);
+
+      this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+      this.docCtrl.updateValueAndValidity();
+    });
   }
 
   ngOnInit(): void {

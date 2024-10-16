@@ -19,6 +19,7 @@ import {Subject, takeUntil} from 'rxjs';
 import moment, {Moment} from 'moment';
 import {DatePipe, NgClass, NgOptimizedImage} from '@angular/common';
 import anime from 'animejs/lib/anime.es.js';
+import {Router} from '@angular/router';
 
 export interface WeatherCondition {
   icon: string | null;
@@ -93,7 +94,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   /* subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private breadcrumbService: BreadcrumbService, private weatherService: WeatherService) {
+  constructor(private breadcrumbService: BreadcrumbService, private weatherService: WeatherService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -104,6 +106,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public _navigateTo(url: string): void {
+    this.router.navigate([url]).then(() => {});
   }
 
   /***************************************************************************************

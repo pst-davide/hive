@@ -47,7 +47,12 @@ export class ShiftService {
 
   public async getDocs(): Promise<ShiftModel[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<ShiftModel[]>(this.apiUrl);
+      const token: string | null = localStorage.getItem('accessToken');
+      const headers: {Authorization: string} = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      const response: AxiosResponse<any, any> = await axios.get<ShiftModel[]>(this.apiUrl, { headers });
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);

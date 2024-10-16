@@ -12,6 +12,7 @@ import {ShiftsComponent} from './admin/shifts/shifts.component';
 import {LoginComponent} from './layouts/login/login.component';
 import {AuthGuardService} from './core/services/auth-guard.service';
 import {ProfileComponent} from './users/profile/profile.component';
+import {NotFoundComponent} from './layouts/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true }, canActivate: [AuthGuardService] },
@@ -38,5 +39,6 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Login', enabled: true } },
   { path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profilo Utente', enabled: true } },
+  { path: '**', component: NotFoundComponent }
 ];
 
