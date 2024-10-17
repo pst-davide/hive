@@ -2,7 +2,7 @@ import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDet
 import {provideRouter, RouteReuseStrategy} from '@angular/router';
 
 import { routes } from './app.routes';
-import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from '@angular/common/http';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -62,7 +62,7 @@ export const appConfig: ApplicationConfig = {
     NavigationService,
     LoaderInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
-    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
   ]
 };
 

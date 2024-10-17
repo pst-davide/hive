@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import {User} from '../entity/user.entity';
@@ -19,7 +19,7 @@ const authenticateToken = async (req: Request, res: Response, next: NextFunction
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
+    const decoded: { id: string; email: string } = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
 
     // Trova l'utente per ID e controlla se il token coincide con quello memorizzato
     const userRepository: Repository<User> = AppDataSource.getRepository(User);
@@ -35,7 +35,13 @@ const authenticateToken = async (req: Request, res: Response, next: NextFunction
     (req as any).user = decoded;
     next();  // Passa al prossimo middleware o route handler
   } catch (err) {
-    res.sendStatus(403);  // Forbidden
+    if (err instanceof TokenExpiredError) {
+      res.status(401).json({ message: 'Token expired' });
+    } else if (err instanceof JsonWebTokenError) {
+      res.status(403).json({ message: 'Token invalid' });
+    } else {
+      res.status(500).json({ message: 'Internal server error' });
+    }
   }
 };
 

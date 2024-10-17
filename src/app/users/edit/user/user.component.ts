@@ -10,7 +10,7 @@ import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import _ from 'lodash';
 import {EditLogoComponent} from '../../../layouts/edit-logo/edit-logo.component';
 import {BranchesComponent} from '../../../admin/branches/branches.component';
-import {EMPTY_USER, USER_ROLES, UserModel} from '../../model/user.model';
+import {EMPTY_USER, USER_ROLES, USER_TYPE} from '../../model/user.model';
 import {UserService} from '../../service/user.service';
 import {MatSelectModule} from '@angular/material/select';
 import {LabelModel} from '../../../core/model/label.model';
@@ -52,7 +52,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public faTimes: IconDefinition = faTimes;
 
   /* doc */
-  public doc: UserModel = _.cloneDeep(EMPTY_USER);
+  public doc: USER_TYPE = _.cloneDeep(EMPTY_USER);
 
   public cities: CityModel[] = [];
 
@@ -69,7 +69,7 @@ export class UserComponent implements OnInit, OnDestroy {
   /* subject */
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(public dialogRef: MatDialogRef<BranchesComponent>, @Inject(MAT_DIALOG_DATA) public data: UserModel,
+  constructor(public dialogRef: MatDialogRef<BranchesComponent>, @Inject(MAT_DIALOG_DATA) public data: USER_TYPE,
               private fb: FormBuilder, private crudService: UserService, public dialog: MatDialog,
               private addressService: AddressService) {
   };
@@ -92,7 +92,7 @@ export class UserComponent implements OnInit, OnDestroy {
    *
    ************************************************/
 
-  private patchForm(doc: UserModel): void {
+  private patchForm(doc: USER_TYPE): void {
     this.form.patchValue({
       lastname: doc.lastname,
       name: doc.name,

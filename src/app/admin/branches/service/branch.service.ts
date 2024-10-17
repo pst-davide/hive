@@ -16,6 +16,13 @@ export class BranchService {
   constructor(private http: HttpClient, private crud: CrudService) {
   }
 
+  private getHeaders():  {Authorization: string} {
+    const token: string | null = localStorage.getItem('accessToken');
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  }
+
   private toEntity(model: BranchModel): Location {
     let doc: Location = new Location();
     doc.id = model.id ?? '';
@@ -70,7 +77,9 @@ export class BranchService {
 
   public async getDocs(): Promise<BranchModel[]> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<BranchModel[]>(this.apiUrl);
+      const headers: {Authorization: string} = this.getHeaders();
+
+      const response: AxiosResponse<any, any> = await axios.get<BranchModel[]>(this.apiUrl, { headers });
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);
@@ -81,7 +90,9 @@ export class BranchService {
   public async createDoc(doc: BranchModel): Promise<BranchModel> {
     const entity: Location = this.toEntity(doc);
     try {
-      const response: AxiosResponse<any, any> = await axios.post(this.apiUrl, entity)
+      const headers: {Authorization: string} = this.getHeaders();
+
+      const response: AxiosResponse<any, any> = await axios.post(this.apiUrl, entity, { headers })
       return this.toModel(response.data);
     } catch (error) {
       throw error;
@@ -91,7 +102,9 @@ export class BranchService {
   public async updateDoc(id: string, doc: BranchModel): Promise<BranchModel> {
     const entity: Location = this.toEntity(doc);
     try {
-      const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity);
+      const headers: {Authorization: string} = this.getHeaders();
+
+      const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity, { headers });
       return this.toModel(response.data);
     } catch (error) {
       throw error;
@@ -100,8 +113,10 @@ export class BranchService {
 
   public async deleteDoc(id: string): Promise<any> {
     try {
+      const headers: {Authorization: string} = this.getHeaders();
+
       const response: BranchModel = await firstValueFrom(
-        this.http.delete<BranchModel>(`${this.apiUrl}/delete/${id}`)
+        this.http.delete<BranchModel>(`${this.apiUrl}/delete/${id}`, { headers })
       );
       console.log('Delete successful:', response);
       return response;
@@ -113,7 +128,9 @@ export class BranchService {
 
   public async getDoc(id: string): Promise<BranchModel> {
     try {
-      const response: AxiosResponse<any, any> = await axios.get<BranchModel>(`${this.apiUrl}/${id}`);
+      const headers: {Authorization: string} = this.getHeaders();
+
+      const response: AxiosResponse<any, any> = await axios.get<BranchModel>(`${this.apiUrl}/${id}`, { headers });
       console.log(response.data)
       return this.toModel(response.data);
     } catch (error) {

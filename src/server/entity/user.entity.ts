@@ -21,7 +21,7 @@ export class User {
   role!: number;
 
   @Column({ type: 'date', nullable: true })
-  birthDate!: Date | null;
+  birthDate!: string | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   birthCity!: string | null;

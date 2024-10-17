@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef, HostListener,
   model,
@@ -133,7 +134,7 @@ export class AppComponent implements OnInit {
 
   constructor(private pushNotificationService: PushNotificationService, private loaderService: LoaderService,
               private navigationService: NavigationService, private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService, private cdr: ChangeDetectorRef) {
     moment.locale('it');
 
     this.isLoading$ = combineLatest([
@@ -161,6 +162,7 @@ export class AppComponent implements OnInit {
     this.authService.isAuthenticated$.subscribe((authStatus: boolean) => {
       console.log(`Autenticato: ${authStatus}`)
       this.isAuthenticated = authStatus;
+      this.cdr.detectChanges();
     });
 
     /****

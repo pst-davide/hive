@@ -16,6 +16,7 @@ export const TYPE_OPTIONS = {
   BADGE: 'badge',
   TRUNCATE: 'truncate',
   BOOLEAN: 'boolean',
+  DATE: 'date',
 }
 
 export interface ColumnModel {

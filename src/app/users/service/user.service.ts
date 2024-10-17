@@ -4,7 +4,7 @@ import {CrudService} from '../../core/services/crud.service';
 import axios, {AxiosResponse} from 'axios';
 import {firstValueFrom} from 'rxjs';
 import {User} from '../../../server/entity/user.entity';
-import {UserModel} from '../model/user.model';
+import {USER_TYPE, UserModel} from '../model/user.model';
 import moment from 'moment';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class UserService {
   constructor(private http: HttpClient, private crud: CrudService) {
   }
 
-  private toEntity(model: UserModel): User {
-    const formattedDate: Date | null = model.birthDate ? moment(model.birthDate).toDate() : null;
+  private toEntity(model: USER_TYPE): User {
+    const formattedDate: string | null = model.birthDate ? moment(model.birthDate).format('YYYY-MM-DD') : null;
 
     let doc: User = new User();
     doc.id = model.id ?? '';
@@ -53,7 +53,7 @@ export class UserService {
     model.currentToken = entity.currentToken ?? null;
     model.refreshToken = entity.refreshToken ?? null;
     model.cf = entity.cf ?? null;
-    model.birthDate = entity.birthDate ?? null;
+    model.birthDate = moment(entity.birthDate, 'YYYY-MM-DD').toDate() ?? null;
     model.birthCity = entity.birthCity ?? null;
     model.birthProvince = entity.birthProvince ?? null;
 
@@ -77,10 +77,9 @@ export class UserService {
     }
   }
 
-  public async createDoc(doc: UserModel): Promise<UserModel> {
+  public async createDoc(doc: USER_TYPE): Promise<UserModel> {
     const entity: User = this.toEntity(doc);
     try {
-      console.log(entity);
       const response: AxiosResponse<any, any> = await axios.post(this.apiUrl, entity)
       return this.toModel(response.data);
     } catch (error) {
@@ -88,7 +87,7 @@ export class UserService {
     }
   }
 
-  public async updateDoc(id: string, doc: UserModel): Promise<UserModel> {
+  public async updateDoc(id: string, doc: USER_TYPE): Promise<UserModel> {
     const entity: User = this.toEntity(doc);
     try {
       const response: AxiosResponse<any, any> = await axios.put(`${this.apiUrl}/${id}`, entity);

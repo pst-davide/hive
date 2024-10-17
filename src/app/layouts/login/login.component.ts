@@ -43,7 +43,6 @@ export class LoginComponent {
 
     try {
       const res: AxiosResponse<any, any> = await this.authService.login(this.credentials);
-      console.log(res)
       console.log('AccessToken ricevuto:', res.data.accessToken);
       this.authService.saveToken(res.data.accessToken);
       // await this.router.navigate(['/dashboard']);

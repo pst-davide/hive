@@ -172,6 +172,9 @@
                           </button>
                         }
                       }
+                      @case (TYPE_OPTIONS.DATE) {
+                        {{ row[column.key] | date: column.format ?? 'dd.MM.YYYY' }}
+                      }
                       @case (TYPE_OPTIONS.TRUNCATE) {
                         @if (column.truncateConfig) {
                           {{ row[column.key] | truncate:column.truncateConfig.length:column.truncateConfig.omission:column.truncateConfig.mode }}

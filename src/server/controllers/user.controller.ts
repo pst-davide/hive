@@ -45,10 +45,12 @@ export class UserController {
 
     try {
       const user: User | null = await UserController.userRepository.findOneBy({email});
-      console.log(user ? user.password : '');
-      console.log(await bcrypt.hash(password, 10));
       if (!user || !(await bcrypt.compare(password, user.password))) {
         return res.status(401).json({error: 'Credenziali non valide'});
+      }
+
+      if (user && !user.enabled) {
+        return res.status(401).json({error: 'Utente non abilitato'});
       }
 
       // Genera il token JWT
@@ -60,7 +62,17 @@ export class UserController {
       user.currentToken = accessToken;
       await UserController.userRepository.save(user);
 
-      return res.json({accessToken: accessToken, refreshToken});
+      return res.json({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        user: {
+          id: user.id,
+          name: user.name,
+          lastname: user.lastname,
+          email: user.email,
+          role: user.role
+        }
+      });
     } catch (error) {
       return res.status(500).json({error: 'Errore durante il login'});
     }
@@ -68,31 +80,32 @@ export class UserController {
 
   // Refresh Token
   static async refresh(req: Request, res: Response): Promise<Response> {
-    const {refreshToken} = req.body;
+    const { refreshToken } = req.body;
 
     if (!refreshToken) {
-      return res.sendStatus(401);
+      return res.sendStatus(401); // Unauthorized
     }
 
-    const user: User | null = await UserController.userRepository.findOneBy({refreshToken});
+    const user: User | null = await UserController.userRepository.findOneBy({ refreshToken });
 
     if (!user) {
-      return res.sendStatus(403);
+      return res.sendStatus(403); // Forbidden
     }
 
     try {
       jwt.verify(refreshToken, JWT_SECRET);
 
-      const newAccessToken: string = jwt.sign({id: user.id, email: user.email}, JWT_SECRET, {expiresIn: '1h'});
-      const newRefreshToken: string = jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '7d'});
+      const newAccessToken: string = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+      const newRefreshToken: string = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
 
       // Aggiorna il refresh token nel database
       user.refreshToken = newRefreshToken;
       await UserController.userRepository.save(user);
 
-      return res.json({accessToken: newAccessToken, refreshToken: newRefreshToken});
+      return res.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     } catch (err) {
-      return res.sendStatus(403);
+      console.error('Errore nella verifica del refresh token:', err);
+      return res.sendStatus(403); // Forbidden
     }
   }
 
@@ -198,4 +211,5 @@ export class UserController {
       res.status(500).json({error: 'Errore durante l\'eliminazione della documento'});
     }
   }
+
 }

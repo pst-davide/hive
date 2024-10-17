@@ -36,7 +36,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from '../../functions/environments';
 import {MatTooltip} from '@angular/material/tooltip';
 import {ALIGN_OPTIONS, ColumnModel, TYPE_OPTIONS} from '../../model/column.model';
-import {NgClass} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {PdfService} from '../../services/pdf.service';
 import {exporter} from '../../functions/file-exporter';
 import {TruncatePipe} from '../../pipe/truncate.pipe';
@@ -66,6 +66,7 @@ export interface SelectColumnModel {
     MatLabel,
     MatOption,
     MatSelectModule,
+    DatePipe,
   ],
   templateUrl: './table-template.component.html',
   styleUrl: './table-template.component.scss',
@@ -117,7 +118,7 @@ export class TableTemplateComponent implements OnInit, AfterViewInit, OnChanges,
 
   /* data column options */
   public readonly TYPE_OPTIONS: { NUMBER: string; STRING: string; ID: string;
-    ICON: string; COLOR: string; BADGE: string; TRUNCATE: string; BOOLEAN: string } = TYPE_OPTIONS;
+    ICON: string; COLOR: string; BADGE: string; TRUNCATE: string; BOOLEAN: string; DATE: string } = TYPE_OPTIONS;
   public readonly ALIGN_OPTIONS: { CENTER: string; LEFT: string; RIGHT: string } = ALIGN_OPTIONS;
 
   /* Subject */

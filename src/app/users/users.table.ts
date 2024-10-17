@@ -52,6 +52,17 @@ export const displayedColumns: ColumnModel[] = [
     isSelectable: true,
   },
   {
+    key: 'birthDate',
+    name: 'Data di Nascita',
+    hide: true,
+    type: TYPE_OPTIONS.DATE,
+    align: ALIGN_OPTIONS.CENTER,
+    isFilterable: true,
+    isSortable: true,
+    isExportable: true,
+    isSelectable: true,
+  },
+  {
     key: 'enabled',
     name: 'Attivo',
     hide: false,
@@ -63,5 +74,15 @@ export const displayedColumns: ColumnModel[] = [
     isSelectable: true,
   },
   COLUMN_EDIT,
-  COLUMN_DELETE
+  COLUMN_DELETE,
+  {
+    key: 'SEARCH_BIRTH_DATE',
+    name: '***',
+    hide: true,
+    type: TYPE_OPTIONS.STRING,
+    isFilterable: true,
+    isSortable: false,
+    isExportable: false,
+    isSelectable: false,
+  },
 ];

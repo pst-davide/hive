@@ -5,9 +5,9 @@ import authenticateToken from '../utils/authenticateToken';
 const shiftRouter: Router = express.Router();
 
 shiftRouter.get('/shifts', authenticateToken, ShiftController.findAll);
-shiftRouter.get('/shifts/:id', ShiftController.findById);
-shiftRouter.post('/shifts', ShiftController.create);
-shiftRouter.put('/shifts/:id', ShiftController.update);
-shiftRouter.delete('/shifts/delete/:id', ShiftController.delete);
+shiftRouter.get('/shifts/:id', authenticateToken, ShiftController.findById);
+shiftRouter.post('/shifts', authenticateToken, ShiftController.create);
+shiftRouter.put('/shifts/:id', authenticateToken, ShiftController.update);
+shiftRouter.delete('/shifts/delete/:id', authenticateToken, ShiftController.delete);
 
 export default shiftRouter;

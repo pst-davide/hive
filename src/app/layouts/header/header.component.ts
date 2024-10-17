@@ -20,6 +20,7 @@ import moment, {Moment} from 'moment';
 import {DatePipe, NgClass, NgOptimizedImage} from '@angular/common';
 import anime from 'animejs/lib/anime.es.js';
 import {Router} from '@angular/router';
+import {AuthService} from '../../core/services/auth.service';
 
 export interface WeatherCondition {
   icon: string | null;
@@ -95,7 +96,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private breadcrumbService: BreadcrumbService, private weatherService: WeatherService,
-              private router: Router) {
+              private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -252,7 +253,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    *
    * ************************************************************************************/
 
-  public logout(): void {
-
+  public _logout(): void {
+    this.authService.logout();
   }
 }

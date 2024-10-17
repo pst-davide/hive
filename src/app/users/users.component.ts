@@ -6,10 +6,11 @@ import _ from 'lodash';
 import {LoaderService} from '../core/services/loader.service';
 import {DeleteDialogComponent} from '../core/dialog/delete-dialog/delete-dialog.component';
 import {displayedColumns} from './users.table';
-import {EMPTY_USER, UserModel} from './model/user.model';
+import {EMPTY_USER, USER_TYPE, UserModel} from './model/user.model';
 import {UserService} from './service/user.service';
 import {TableTemplateComponent} from '../core/shared/table-template/table-template.component';
 import {UserComponent} from './edit/user/user.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-users',
@@ -26,8 +27,8 @@ export class UsersComponent implements OnInit {
   public displayedColumns: ColumnModel[] = displayedColumns;
 
   /* table */
-  public docs: UserModel[] = [];
-  public dataSource: BehaviorSubject<UserModel[]> = new BehaviorSubject<UserModel[]>([]);
+  public docs: USER_TYPE[] = [];
+  public dataSource: BehaviorSubject<USER_TYPE[]> = new BehaviorSubject<USER_TYPE[]>([]);
 
   /* filter */
   public filters: Record<string, any> = {
@@ -39,9 +40,9 @@ export class UsersComponent implements OnInit {
   };
 
   /* doc */
-  public doc: UserModel = _.cloneDeep(EMPTY_USER);
-  public emptyDoc: UserModel = _.cloneDeep(EMPTY_USER);
-  public deletedDoc: UserModel = _.cloneDeep(EMPTY_USER);
+  public doc: USER_TYPE = _.cloneDeep(EMPTY_USER);
+  public emptyDoc: USER_TYPE = _.cloneDeep(EMPTY_USER);
+  public deletedDoc: USER_TYPE = _.cloneDeep(EMPTY_USER);
 
   constructor(private crudService: UserService, public dialog: MatDialog,
               private loaderService: LoaderService) {
@@ -58,9 +59,18 @@ export class UsersComponent implements OnInit {
    *
    ************************************************/
 
+  private mapDoc(doc: UserModel): USER_TYPE {
+    const birthDate: string = doc.birthDate ? moment(doc.birthDate).format('L LL') : '';
+    return {
+      ...doc,
+      SEARCH_BIRTH_DATE: birthDate,
+    } as USER_TYPE;
+  }
+
   private async getCollection(): Promise<void> {
     try {
-      this.docs = await this.crudService.getDocs();
+      const docs: UserModel[]   = await this.crudService.getDocs();
+      this.docs = docs.map((doc: UserModel) => this.mapDoc(doc));
       this.dataSource.next(this.docs);
     } catch (error) {
       console.error('Errore durante il caricamento dei documenti:', error);
@@ -72,10 +82,10 @@ export class UsersComponent implements OnInit {
       this.doc = _.cloneDeep(this.emptyDoc);
       this.editRow();
     } else if (action.key === 'edit') {
-      this.doc = _.cloneDeep(action.record ? action.record as UserModel : this.emptyDoc);
+      this.doc = _.cloneDeep(action.record ? action.record as USER_TYPE : this.emptyDoc);
       this.editRow();
     } else if (action.key === 'delete') {
-      this.deletedDoc = _.cloneDeep(action.record ? action.record as UserModel : this.emptyDoc);
+      this.deletedDoc = _.cloneDeep(action.record ? action.record as USER_TYPE : this.emptyDoc);
       this.deleteRow();
     }
   }
@@ -102,7 +112,7 @@ export class UsersComponent implements OnInit {
       data: this.doc
     });
 
-    dialogRef.afterClosed().subscribe(async (doc: UserModel | null) => {
+    dialogRef.afterClosed().subscribe(async (doc: USER_TYPE | null) => {
       if (doc) {
         this.loaderService.setComponentLoader(UsersComponent.name);
         await this.getCollection();

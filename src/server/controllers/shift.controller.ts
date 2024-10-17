@@ -31,7 +31,6 @@ export class ShiftController {
   }
 
   static async create(req: Request, res: Response): Promise<void> {
-    console.log(req.body);
     try {
       const doc: Shift[] = ShiftController.docRepository.create(req.body);
       const savedDoc: Shift[] = await ShiftController.docRepository.save(doc);

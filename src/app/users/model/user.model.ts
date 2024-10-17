@@ -25,7 +25,13 @@ export interface UserModel {
   crud: CrudModel;
 }
 
-export const EMPTY_USER: UserModel = {
+export type USER_TYPE = UserModel & {
+  SEARCH_BIRTH_DATE?: string | null;
+  VIEW_BIRTH_CITY?: string | null;
+  VIEW_BIRTH_PROVINCE?: string | null;
+};
+
+export const EMPTY_USER: USER_TYPE = {
   id: null,
   name: null,
   lastname: null,
