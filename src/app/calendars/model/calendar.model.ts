@@ -4,7 +4,7 @@ import { DEFAULT_CALENDAR_BACKGROUND } from "app/core/functions/environments";
 export interface CalendarModel {
     id: string | null;
     code: string | null;
-    typeId: string | null;
+    shiftId: string | null;
     resourceIds: string[];
     status: number;
     duration: number;
@@ -20,7 +20,7 @@ export const EMPTY_CALENDAR: CALENDAR = {
   code: null,
   title: 'Nuovo Evento',
   description: 'Descrizione evento',
-  typeId: null,
+  shiftId: null,
   resourceIds: [],
   customerId: null,
   allDay: false,

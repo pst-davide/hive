@@ -1,4 +1,3 @@
-import {AddressModel, EMPTY_ADDRESS} from '../../../core/model/address.model';
 import {CrudModel, EMPTY_CRUD} from '../../../core/model/crud.model';
 import {DEFAULT_LOCATION_COLOR} from '../../../core/functions/environments';
 
@@ -15,6 +14,7 @@ export interface RoomModel {
   locationId: string | null;
   crud: CrudModel;
 }
+
 export type ROOM_TYPE = RoomModel & {
   VIEW_LOCATION_NAME?: string | null;
   VIEW_COLOR?: string | null;

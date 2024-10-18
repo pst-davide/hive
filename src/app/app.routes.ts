@@ -13,8 +13,10 @@ import {LoginComponent} from './layouts/login/login.component';
 import {AuthGuardService} from './core/services/auth-guard.service';
 import {ProfileComponent} from './users/profile/profile.component';
 import {NotFoundComponent} from './layouts/not-found/not-found.component';
+import {DashboardComponent} from './layouts/dashboard/dashboard.component';
 
 export const routes: Routes = [
+  { path: '', component: DashboardComponent, data: { breadcrumb: '', enabled: true }, canActivate: [AuthGuardService] },
   { path: 'calendars', component: CalendarsComponent, data: { breadcrumb: 'Calendari', enabled: true }, canActivate: [AuthGuardService] },
   { path: 'email-editor', component: EmailComponent, data: { breadcrumb: 'Email Editor', enabled: true } },
   {

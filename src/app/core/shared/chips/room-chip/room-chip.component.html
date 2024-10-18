@@ -1,0 +1,42 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label() }} @if (isRequired()) {*}</mat-label>
+
+  <mat-chip-grid #chipList aria-label="Selezioni">
+    @for (room of roomControl.value; track $index) {
+      <mat-chip-row [removable]="true" (removed)="remove(room)">
+        {{ displayRoom(room) }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
+
+  <input type="text"
+         [matAutocomplete]="autoGroup"
+         [formControl]="roomControl"
+         [matChipInputFor]="chipList"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+  (matChipInputTokenEnd)="add($event)"
+  matInput>
+
+  <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayRoom.bind(this)">
+    <ng-container *ngFor="let group of branchGroupOptions | async;">
+      <mat-optgroup [label]="group.branchName">
+        <mat-option *ngFor="let room of group.rooms;" [value]="room.id">
+          {{ room.name }}
+          <span class="text-slate-400 text-sm"> | {{ room.code }}</span>
+        </mat-option>
+      </mat-optgroup>
+    </ng-container>
+  </mat-autocomplete>
+
+  @if (roomControl.hasError('required')) {
+    <mat-error [innerHTML]="requiredError()"></mat-error>
+  }
+
+  @if (roomControl.hasError('requireMatch')) {
+    <mat-error [innerHTML]="matchError()"></mat-error>
+  }
+</mat-form-field>
+

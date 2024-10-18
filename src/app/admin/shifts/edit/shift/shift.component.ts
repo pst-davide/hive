@@ -1,5 +1,4 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -10,26 +9,26 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {BranchesComponent} from '../../../branches/branches.component';
 import {ShiftService} from '../../service/shift.service';
 import {EMPTY_SHIFT, ShiftModel} from '../../model/shift.model';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {AsyncPipe} from '@angular/common';
 import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-shift',
   standalone: true,
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSuffix,
-    NgxColorsModule,
-    ReactiveFormsModule,
-    AsyncPipe,
-    EditLogoComponent
-  ],
+    imports: [
+        FormsModule,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSuffix,
+        NgxColorsModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+        EditLogoComponent,
+        DialogCloseButtonComponent
+    ],
   templateUrl: './shift.component.html',
   styleUrl: './shift.component.scss'
 })
@@ -40,9 +39,6 @@ export class ShiftComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuova Causale';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* doc */
   public doc: ShiftModel = _.cloneDeep(EMPTY_SHIFT);

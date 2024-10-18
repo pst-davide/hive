@@ -1,7 +1,6 @@
 import { Component, inject, Inject, OnInit, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, FormBuilder, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -19,14 +18,37 @@ import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import moment, { Moment } from 'moment';
 import 'moment/locale/it';
 import { DEFAULT_CALENDAR_BACKGROUND } from 'app/core/functions/environments';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TypeSelectComponent } from "../../../core/shared/select/type-select/type-select.component";
+import {DialogCloseButtonComponent} from '../../../layouts/dialog-close-button/dialog-close-button.component';
+import {EditLogoComponent} from '../../../layouts/edit-logo/edit-logo.component';
+import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {
+  RoomAutocompleteComponent
+} from '../../../core/shared/autocomplete/room-autocomplete/room-autocomplete.component';
+import {RoomChipComponent} from '../../../core/shared/chips/room-chip/room-chip.component';
 
 @Component({
   selector: 'app-event',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule,
-    NgxColorsModule, RxReactiveFormsModule, MatDatepickerModule, MatCheckboxModule, TypeSelectComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    NgxColorsModule,
+    RxReactiveFormsModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    TypeSelectComponent,
+    DialogCloseButtonComponent,
+    EditLogoComponent,
+    MatSlideToggle,
+    RoomAutocompleteComponent,
+    RoomChipComponent
+  ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'it'},
     {provide: MAT_DATE_FORMATS, useValue: IT_DATE_FORMATS},
@@ -39,18 +61,15 @@ import { TypeSelectComponent } from "../../../core/shared/select/type-select/typ
 export class EventComponent implements OnInit {
 
   /* date adapter & locale */
-  private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
-  private readonly _intl = inject(MatDatepickerIntl);
-  private readonly _locale = signal(inject<unknown>(MAT_DATE_LOCALE));
+  private readonly _adapter: DateAdapter<any> = inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  private readonly _intl: MatDatepickerIntl = inject(MatDatepickerIntl);
+  private readonly _locale: WritableSignal<any> = signal(inject<unknown>(MAT_DATE_LOCALE));
 
   /* loading */
   public isLoading$!: Observable<boolean>;
 
   /* title */
   public formTitle: string = 'Nuovo Evento';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* doc */
   public doc: CALENDAR = _.cloneDeep(EMPTY_CALENDAR);
@@ -93,7 +112,7 @@ export class EventComponent implements OnInit {
       from: this.doc.start ? moment(this.doc.start).clone().format('HH:mm') : null,
       to: this.doc.end ? moment(this.doc.end).clone().format('HH:mm') : null,
       color: this.doc.backgroundColor ?? DEFAULT_CALENDAR_BACKGROUND,
-      typeId: this.doc.typeId,
+      typeId: this.doc.shiftId,
       allDay: this.doc.allDay ?? false,
     });
 
@@ -102,7 +121,7 @@ export class EventComponent implements OnInit {
 
   private createForm(): void {
     this.form = this.formBuilder.formGroup(CalendarValidator);
-    
+
     this.color.valueChanges.subscribe((color) => {
       if (this.form.controls['picker'].valid) {
         this.form.controls['picker'].setValue(color, {
@@ -145,15 +164,15 @@ export class EventComponent implements OnInit {
 
   public calculateDuration(): void {
     const { from, to, date } = this.form.value;
-    
+
     if (from && to && date) {
       const start = moment(date).clone().hours(moment(from, 'HH:mm').hours()).minutes(moment(from, 'HH:mm').minutes());
       const end = moment(date).clone().hours(moment(to, 'HH:mm').hours()).minutes(moment(to, 'HH:mm').minutes());
-  
+
       if (end.isBefore(start)) {
         end.add(1, 'day');
       }
-  
+
       const duration = end.diff(start, 'minutes');
       this.duration.set(duration > 0 ? parseFloat((duration / 60).toFixed(2)) : 0);
       this.labelDuration = duration <= 60 ? 'ora' : 'ore';
@@ -163,7 +182,7 @@ export class EventComponent implements OnInit {
     }
   }
 
-  public _toggleAllDay(event: MatCheckboxChange): void {
+  public _toggleAllDay(event: MatSlideToggleChange): void {
     const date: Moment = this.date.value;
 
     if (event.checked) {
@@ -177,7 +196,7 @@ export class EventComponent implements OnInit {
     } else {
       this.isReadOnly = false;
     }
-    
+
     this.calculateDuration();
   }
 

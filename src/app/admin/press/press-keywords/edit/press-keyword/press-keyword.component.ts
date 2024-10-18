@@ -1,12 +1,10 @@
 import {Component, Inject, model, ModelSignal, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
-import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import _ from 'lodash';
 import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {PressService} from '../../../service/press.service';
 import {NgxColorsModule} from 'ngx-colors';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {EMPTY_PRESS_KEYWORD, PRESS_KEYWORD_TYPE} from '../../../model/press-keyword.model';
 import {AsyncPipe} from '@angular/common';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
@@ -16,13 +14,13 @@ import {
   PressCategoryAutocompleteComponent
 } from '../../../../../core/shared/autocomplete/press-category-autocomplete/press-category-autocomplete.component';
 import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-press-keyword',
   standalone: true,
     imports: [
         AsyncPipe,
-        FaIconComponent,
         FormsModule,
         MatError,
         MatFormField,
@@ -34,7 +32,8 @@ import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.comp
         MatSelect,
         MatOption,
         PressCategoryAutocompleteComponent,
-        EditLogoComponent
+        EditLogoComponent,
+        DialogCloseButtonComponent
     ],
   templateUrl: './press-keyword.component.html',
   styleUrl: './press-keyword.component.scss'
@@ -46,9 +45,6 @@ export class PressKeywordComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuova Parola Chiave';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* doc */
   public doc: PRESS_KEYWORD_TYPE = _.cloneDeep(EMPTY_PRESS_KEYWORD);

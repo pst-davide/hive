@@ -2,7 +2,7 @@ import {Column, Entity, OneToMany, PrimaryColumn} from 'typeorm';
 import {Room} from './room.entity';
 
 @Entity()
-export class Location {
+export class Branch {
   @PrimaryColumn({ type: 'varchar', length: 6 })
   id!: string;
 

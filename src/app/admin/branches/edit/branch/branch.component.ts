@@ -1,10 +1,8 @@
 import {Component, Inject, model, ModelSignal, OnDestroy, OnInit, signal, WritableSignal} from '@angular/core';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {AsyncPipe} from '@angular/common';
 import {
   CityAutocompleteComponent
 } from '../../../../core/shared/autocomplete/city-autocomplete/city-autocomplete.component';
-import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
@@ -25,27 +23,28 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {BranchService} from '../../service/branch.service';
 import _ from 'lodash';
 import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-branch',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        CityAutocompleteComponent,
-        FaIconComponent,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatSlideToggle,
-        MatSuffix,
-        NgxColorsModule,
-        NgxMaskDirective,
-        ProvinceAutocompleteComponent,
-        ReactiveFormsModule,
-        ReactiveTypedFormsModule,
-        EditLogoComponent
-    ],
+  imports: [
+    AsyncPipe,
+    CityAutocompleteComponent,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSlideToggle,
+    MatSuffix,
+    NgxColorsModule,
+    NgxMaskDirective,
+    ProvinceAutocompleteComponent,
+    ReactiveFormsModule,
+    ReactiveTypedFormsModule,
+    EditLogoComponent,
+    DialogCloseButtonComponent
+  ],
   templateUrl: './branch.component.html',
   styleUrl: './branch.component.scss'
 })
@@ -56,9 +55,6 @@ export class BranchComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuova Sede';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* doc */
   public doc: BRANCH_TYPE = _.cloneDeep(EMPTY_BRANCH);

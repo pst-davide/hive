@@ -1,6 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {NgxColorsModule, validColorValidator} from 'ngx-colors';
@@ -8,27 +7,27 @@ import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import _ from 'lodash';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {EMPTY_PRESS_CATEGORY, PRESS_CATEGORY_TYPE} from '../../../model/press-category.model';
 import {PressService} from '../../../service/press.service';
 import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-press-category',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        FaIconComponent,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatSuffix,
-        NgxColorsModule,
-        ReactiveFormsModule,
-        NgOptimizedImage,
-        EditLogoComponent
-    ],
+  imports: [
+    AsyncPipe,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSuffix,
+    NgxColorsModule,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    EditLogoComponent,
+    DialogCloseButtonComponent
+  ],
   templateUrl: './press-category.component.html',
   styleUrl: './press-category.component.scss'
 })
@@ -39,9 +38,6 @@ export class PressCategoryComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuovo Argomento';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* icons */
   public doc: PRESS_CATEGORY_TYPE = _.cloneDeep(EMPTY_PRESS_CATEGORY);

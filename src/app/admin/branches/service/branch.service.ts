@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BranchModel} from '../model/branchModel';
-import {Location} from '../../../../server/entity/location.entity';
+import {Branch} from '../../../../server/entity/location.entity';
 import {firstValueFrom} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
 import {CrudService} from '../../../core/services/crud.service';
@@ -23,8 +23,8 @@ export class BranchService {
     };
   }
 
-  private toEntity(model: BranchModel): Location {
-    let doc: Location = new Location();
+  private toEntity(model: BranchModel): Branch {
+    let doc: Branch = new Branch();
     doc.id = model.id ?? '';
     doc.code = model.code ?? '';
     doc.name = model.name ?? '';
@@ -44,7 +44,7 @@ export class BranchService {
     return doc;
   }
 
-  private toModel(entity: Location): BranchModel {
+  private toModel(entity: Branch): BranchModel {
     const model: BranchModel = {} as BranchModel;
 
     model.id = entity.id;
@@ -88,7 +88,7 @@ export class BranchService {
   }
 
   public async createDoc(doc: BranchModel): Promise<BranchModel> {
-    const entity: Location = this.toEntity(doc);
+    const entity: Branch = this.toEntity(doc);
     try {
       const headers: {Authorization: string} = this.getHeaders();
 
@@ -100,7 +100,7 @@ export class BranchService {
   }
 
   public async updateDoc(id: string, doc: BranchModel): Promise<BranchModel> {
-    const entity: Location = this.toEntity(doc);
+    const entity: Branch = this.toEntity(doc);
     try {
       const headers: {Authorization: string} = this.getHeaders();
 

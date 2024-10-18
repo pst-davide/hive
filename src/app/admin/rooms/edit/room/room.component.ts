@@ -1,8 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {EMPTY_ROOM, ROOM_TYPE} from '../../model/room.model';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, Validators, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -18,12 +16,24 @@ import {MatSelect} from '@angular/material/select';
 import {RoomService} from '../../service/room.service';
 import {BranchService} from '../../../branches/service/branch.service';
 import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-room',
   standalone: true,
-    imports: [CommonModule, FormsModule, FontAwesomeModule, ReactiveFormsModule, MatInputModule,
-        MatFormFieldModule, NgxColorsModule, MatSlideToggle, MatOption, MatSelect, EditLogoComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    NgxColorsModule,
+    MatSlideToggle,
+    MatOption,
+    MatSelect,
+    EditLogoComponent,
+    DialogCloseButtonComponent
+  ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss'
 })
@@ -34,9 +44,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuova Sede';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* doc */
   public doc: ROOM_TYPE = _.cloneDeep(EMPTY_ROOM);

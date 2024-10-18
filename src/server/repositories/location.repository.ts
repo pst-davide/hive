@@ -1,8 +1,8 @@
 import {Repository, SelectQueryBuilder} from 'typeorm';
 import {buildQuery, QueryCondition} from '../utils/query-builder';
-import {Location} from '../entity/location.entity';
+import {Branch} from '../entity/location.entity';
 
-export class LocationRepository extends Repository<Location> {
+export class LocationRepository extends Repository<Branch> {
 
   /**********************************************************************************
    *
@@ -10,16 +10,16 @@ export class LocationRepository extends Repository<Location> {
    *
    * *******************************************************************************/
 
-  public async findAll(): Promise<Location[]> {
+  public async findAll(): Promise<Branch[]> {
       return await this.find();
   }
 
-  public async findByConditions(conditions: QueryCondition[]): Promise<Location[]> {
-    const queryBuilder: SelectQueryBuilder<Location> = this.createQueryBuilder('room');
+  public async findByConditions(conditions: QueryCondition[]): Promise<Branch[]> {
+    const queryBuilder: SelectQueryBuilder<Branch> = this.createQueryBuilder('room');
     return buildQuery(queryBuilder, conditions).getMany();
   }
 
-  public async findById(id: string): Promise<Location | null> {
+  public async findById(id: string): Promise<Branch | null> {
     return await this.findOneBy({ id });
   }
 
@@ -29,7 +29,7 @@ export class LocationRepository extends Repository<Location> {
    *
    * *******************************************************************************/
 
-  public async saveDoc(doc: Location): Promise<Location> {
+  public async saveDoc(doc: Branch): Promise<Branch> {
     return await this.save(doc);
   }
 

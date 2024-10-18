@@ -1,0 +1,34 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label()}} @if (isRequired()) {*}</mat-label>
+  <input type="text"
+         matInput
+         [formControl]="roomControl"
+         [matAutocomplete]="autoGroup">
+  @if (roomControl.value && isEnabled()) {
+    <button matSuffix mat-icon-button type="button"
+            aria-label="Clear" matTooltip="'Cancella la Selezione'"
+            (click)="_remove()" tabindex="-1">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+  <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayRoom.bind(this)">
+    @for (group of branchGroupOptions | async; track group) {
+      <mat-optgroup [label]="group.branchName">
+        @for (room of group.rooms; track room.id) {
+          <mat-option [value]="room.id">
+            {{room.name}}
+            <span class="text-slate-400 text-sm"> | {{room.code}}</span>
+          </mat-option>
+        }
+      </mat-optgroup>
+    }
+  </mat-autocomplete>
+
+  @if (roomControl.hasError('required')) {
+    <mat-error [innerHTML]="requiredError()"></mat-error>
+  }
+
+  @if (roomControl.hasError('requireMatch')) {
+    <mat-error [innerHTML]="matchError()"></mat-error>
+  }
+</mat-form-field>

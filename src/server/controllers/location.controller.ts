@@ -1,15 +1,15 @@
 import { AppDataSource } from '../database/dataSource';
 import { Request, Response } from 'express';
 import {DeleteResult, Repository} from 'typeorm';
-import {Location} from '../entity/location.entity';
+import {Branch} from '../entity/location.entity';
 
 export class LocationController {
 
-  static docRepository: Repository<Location> = AppDataSource.getRepository(Location);
+  static docRepository: Repository<Branch> = AppDataSource.getRepository(Branch);
 
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
-      const docs: Location[] = await LocationController.docRepository.find();
+      const docs: Branch[] = await LocationController.docRepository.find();
       res.status(200).json(docs);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante il recupero dei documenti' });
@@ -19,7 +19,7 @@ export class LocationController {
   static async findById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      const doc: Location | null = await LocationController.docRepository.findOneBy({ id });
+      const doc: Branch | null = await LocationController.docRepository.findOneBy({ id });
       if (doc) {
         res.status(200).json(doc);
       } else {
@@ -33,8 +33,8 @@ export class LocationController {
   static async create(req: Request, res: Response): Promise<void> {
     console.log(req.body);
     try {
-      const doc: Location[] = LocationController.docRepository.create(req.body);
-      const savedDoc: Location[] = await LocationController.docRepository.save(doc);
+      const doc: Branch[] = LocationController.docRepository.create(req.body);
+      const savedDoc: Branch[] = await LocationController.docRepository.save(doc);
       res.status(200).json(savedDoc);
     } catch (error) {
       res.status(500).json({ error: 'Errore durante la creazione del documento' });
@@ -44,7 +44,7 @@ export class LocationController {
   static async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
-      let doc: Location | null = await LocationController.docRepository.findOneBy({ id });
+      let doc: Branch | null = await LocationController.docRepository.findOneBy({ id });
       if (doc) {
         LocationController.docRepository.merge(doc, req.body);
         const updatedRoom = await LocationController.docRepository.save(doc);

@@ -15,13 +15,7 @@
         </div>
 
         <!-- close -->
-        <div class="flex justify-end">
-          <button (click)="closeDialog()"
-                  class="group w-12 h-12 rounded-full bg-slate-100 hover:bg-red-500 hover:scale-110
-                  transition duration-300 ease-in-out flex items-center justify-center">
-            <fa-icon [icon]="faTimes" class="text-gray-600 group-hover:text-white text-2xl"></fa-icon>
-          </button>
-        </div>
+        <app-dialog-close-button (close)="closeDialog()"></app-dialog-close-button>
       </div>
     </div>
 

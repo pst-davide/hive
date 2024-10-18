@@ -1,10 +1,8 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
-import {FaIconComponent, IconDefinition} from '@fortawesome/angular-fontawesome';
 import _ from 'lodash';
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {NewsletterService} from '../../../service/newsletter.service';
 import {EMPTY_NEWSLETTER_CHANNEL, NEWSLETTER_CHANNEL_TYPE} from '../../../model/newsletter.model';
 import {AsyncPipe} from '@angular/common';
@@ -12,22 +10,23 @@ import {MatError, MatFormField, MatLabel, MatSuffix} from '@angular/material/for
 import {MatInput} from '@angular/material/input';
 import {NgxColorsModule} from 'ngx-colors';
 import {EditLogoComponent} from '../../../../../layouts/edit-logo/edit-logo.component';
+import {DialogCloseButtonComponent} from '../../../../../layouts/dialog-close-button/dialog-close-button.component';
 
 @Component({
   selector: 'app-newsletter-channel',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        FaIconComponent,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatSuffix,
-        NgxColorsModule,
-        ReactiveFormsModule,
-        EditLogoComponent
-    ],
+  imports: [
+    AsyncPipe,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSuffix,
+    NgxColorsModule,
+    ReactiveFormsModule,
+    EditLogoComponent,
+    DialogCloseButtonComponent
+  ],
   templateUrl: './newsletter-channel.component.html',
   styleUrl: './newsletter-channel.component.scss'
 })
@@ -38,9 +37,6 @@ export class NewsletterChannelComponent implements OnInit, OnDestroy {
 
   /* title */
   public formTitle: string = 'Nuova Lista';
-
-  /* icons */
-  public faTimes: IconDefinition = faTimes;
 
   /* icons */
   public doc: NEWSLETTER_CHANNEL_TYPE = _.cloneDeep(EMPTY_NEWSLETTER_CHANNEL);

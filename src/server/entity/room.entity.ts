@@ -1,5 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
-import {Location} from './location.entity';
+import {Branch} from './location.entity';
 
 @Entity('rooms')
 export class Room {
@@ -33,9 +33,9 @@ export class Room {
   @Column({ type: 'varchar' })
   locationId!: string;
 
-  @ManyToOne(() => Location, (location: Location) => location.rooms, { nullable: false })
+  @ManyToOne(() => Branch, (location: Branch) => location.rooms, { nullable: false })
   @JoinColumn({ name: 'locationId', referencedColumnName: 'id' })
-  location!: Location;
+  location!: Branch;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;
