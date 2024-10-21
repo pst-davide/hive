@@ -5,10 +5,14 @@ export class CfValidator {
     return (control: AbstractControl): ValidationErrors | null => {
       const cf = control.value;
 
+      if (!cf || cf === '') {
+        return null;
+      }
+
       // Regex per validare il CF (Codice Fiscale Italiano)
       const cfRegex = /^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i;
 
-      if (!cf || !cfRegex.test(cf)) {
+      if (!cfRegex.test(cf)) {
         return { invalidCf: 'Codice Fiscale non valido' };
       }
 

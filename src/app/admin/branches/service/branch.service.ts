@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BranchModel} from '../model/branchModel';
-import {Branch} from '../../../../server/entity/location.entity';
+import {Branch} from '../../../../server/entity/branch.entity';
 import {firstValueFrom} from 'rxjs';
 import axios, {AxiosResponse} from 'axios';
 import {CrudService} from '../../../core/services/crud.service';

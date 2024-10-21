@@ -36,6 +36,7 @@ export class UsersComponent implements OnInit {
     name: '',
     email: '',
     cf: '',
+    phone: '',
     enabled: 'Tutti'
   };
 

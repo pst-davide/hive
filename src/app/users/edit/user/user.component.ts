@@ -172,7 +172,7 @@ export class UserComponent implements OnInit, OnDestroy {
     ).subscribe(cf => {
       this.cf.setValue(cf ? cf.toUpperCase() : null);
 
-      if (this.cf.valid) {
+      if (this.cf.valid && this.cf.value) {
         const birthDate: Date | null = CfValidator.extractBirthDate(cf);
         if (birthDate) {
           this.birthDate.setValue(birthDate);
@@ -223,6 +223,7 @@ export class UserComponent implements OnInit, OnDestroy {
     if (!this.doc.id) {
       this.doc.id = this.doc.email;
       this.doc.password = generatePassword();
+      console.log(this.doc.password);
       await this.crudService.createDoc(this.doc);
     } else {
       await this.crudService.updateDoc(this.doc.id, this.doc);

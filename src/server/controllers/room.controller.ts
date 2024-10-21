@@ -9,18 +9,18 @@ export class RoomController {
 
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
-      const {locationId} = req.query;
-      const whereCondition = locationId ? {location: {id: locationId as string}} : {};
+      const {branchId} = req.query;
+      const whereCondition = branchId ? {branch: {id: branchId as string}} : {};
 
       const rooms: Room[] = await RoomController.roomRepository.find({
-        relations: ['location'],
+        relations: ['branch'],
         where: whereCondition,
       });
 
       const roomsWithLocationName: any[] = rooms.map((room: Room) => ({
         ...room,
-        locationName: room.location?.name,
-        locationColor: room.location?.color,
+        locationName: room.branch?.name,
+        locationColor: room.branch?.color,
       }));
 
       res.status(200).json(roomsWithLocationName);
@@ -61,8 +61,8 @@ export class RoomController {
 
       const roomWithLocation: any = {
         ...room,
-        locationName: room.location.name,
-        locationColor: room.location.color,
+        locationName: room.branch.name,
+        locationColor: room.branch.color,
       };
 
       console.log('Stanza trovata:', roomWithLocation);

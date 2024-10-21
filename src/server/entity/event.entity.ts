@@ -35,10 +35,10 @@ export class Event {
   eventDate!: string | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  start!: Date | null;
+  startDate!: Date | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  end!: Date | null;
+  endDate!: Date | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt!: Date;

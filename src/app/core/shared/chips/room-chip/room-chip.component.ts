@@ -73,8 +73,8 @@ export class RoomChipComponent implements OnInit {
   }
 
   public add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
+    const value: string = (event.value || '').trim();
+    console.log(value)
     // Aggiungi il valore se non è vuoto e non è già presente
     if (value && !this.roomControl.value.includes(value)) {
       this.roomControl.setValue([...this.roomControl.value, value]);

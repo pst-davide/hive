@@ -1,6 +1,6 @@
 import {Repository, SelectQueryBuilder} from 'typeorm';
 import {buildQuery, QueryCondition} from '../utils/query-builder';
-import {Branch} from '../entity/location.entity';
+import {Branch} from '../entity/branch.entity';
 
 export class LocationRepository extends Repository<Branch> {
 

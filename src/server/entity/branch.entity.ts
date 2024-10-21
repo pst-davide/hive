@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryColumn} from 'typeorm';
 import {Room} from './room.entity';
 
-@Entity()
+@Entity('branches')
 export class Branch {
   @PrimaryColumn({ type: 'varchar', length: 6 })
   id!: string;
@@ -45,7 +45,7 @@ export class Branch {
   @Column({ type: 'decimal', precision: 11, scale: 8 })
   longitude!: number;
 
-  @OneToMany(() => Room, (room: Room) => room.location)
+  @OneToMany(() => Room, (room: Room) => room.branch)
   rooms!: Room[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

@@ -25,7 +25,7 @@ export class RoomService {
   room.floor = model.floor;
   room.color = model.color ?? DEFAULT_LOCATION_COLOR;
   room.enabled = model.enabled;
-  room.locationId = model.locationId ?? '';
+  room.branchId = model.branchId ?? '';
   room.createdAt = model.crud.createAt ?? new Date();
   room.createdBy = model.crud.createBy ?? null;
   room.modifiedAt = model.crud.modifiedAt ?? new Date();
@@ -45,7 +45,7 @@ export class RoomService {
     model.owners = entity.owners;
     model.floor = entity.floor;
     model.enabled = entity.enabled;
-    model.locationId = entity.locationId;
+    model.branchId = entity.branchId;
     model.crud = {
       createAt: entity.createdAt,
       createBy: entity.createdBy,
@@ -62,7 +62,7 @@ export class RoomService {
   public async getDocs(id: string | null): Promise<ROOM_TYPE[]> {
     try {
       const param: string | null = id && id !== '' ? id : null;
-      const response: AxiosResponse<any, any> = await axios.get(`${this.apiUrl}${(param ? '?locationId=' + param : '')}`);
+      const response: AxiosResponse<any, any> = await axios.get(`${this.apiUrl}${(param ? '?branchId=' + param : '')}`);
       return response.data.map((entity: any) => this.toModel(entity));
     } catch (error) {
       console.error('Errore durante il fetch dei documenti:', error);

@@ -1,7 +1,7 @@
 import { AppDataSource } from '../database/dataSource';
 import { Request, Response } from 'express';
 import {DeleteResult, Repository} from 'typeorm';
-import {Branch} from '../entity/location.entity';
+import {Branch} from '../entity/branch.entity';
 
 export class LocationController {
 

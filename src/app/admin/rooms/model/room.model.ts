@@ -11,7 +11,7 @@ export interface RoomModel {
   floor: number;
   color: string | null;
   enabled: boolean;
-  locationId: string | null;
+  branchId: string | null;
   crud: CrudModel;
 }
 
@@ -29,7 +29,7 @@ export const EMPTY_ROOM: ROOM_TYPE = {
   owners: [],
   floor: 0,
   enabled: true,
-  locationId: null,
+  branchId: null,
   color: DEFAULT_LOCATION_COLOR,
   crud: EMPTY_CRUD
 };

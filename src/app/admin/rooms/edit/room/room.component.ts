@@ -66,7 +66,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.doc = this.data.doc;
     if (!this.doc.id) {
       const {id, color = DEFAULT_LOCATION_COLOR} = this.data.branch ?? {};
-      this.doc.locationId = id ?? null;
+      this.doc.branchId = id ?? null;
       this.doc.color = color;
     }
     this.formTitle = this.doc.name ? `Modifica Spazio - ${this.doc.name}` : 'Nuova Spazio';
@@ -94,7 +94,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       floor: doc.floor,
       enabled: doc.enabled ?? true,
       color: doc.color,
-      locationId: doc.locationId ?? null,
+      locationId: doc.branchId ?? null,
     });
   }
 
@@ -167,7 +167,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.doc.enabled = this.enabled.value ?? true;
     this.doc.capacity = this.capacity.value ?? null;
     this.doc.floor = this.floor.value ?? null;
-    this.doc.locationId = this.locationId.value;
+    this.doc.branchId = this.locationId.value;
 
      try {
       if (!this.doc.id || this.doc.id === '') {
