@@ -1,12 +1,21 @@
-import {Component, input, InputSignal, model, ModelSignal, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  input,
+  InputSignal,
+  model,
+  ModelSignal,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import {MatChipsModule} from '@angular/material/chips';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import {AsyncPipe, CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
@@ -37,7 +46,7 @@ import _ from 'lodash';
 })
 export class RoomChipComponent implements OnInit {
 
-  public doc$: ModelSignal<string | null> = model<string | null>(null);
+  public doc$: ModelSignal<string[]> = model<string[]>([]);
   public label: InputSignal<string> = input<string>('Spazio');
   public requiredError: InputSignal<string> = input<string>(`Il campo <strong>spazio</strong> è obbligatorio`);
   public matchError: InputSignal<string> = input<string>(`Seleziona uno <strong>spazio</strong> valido`);
@@ -45,14 +54,14 @@ export class RoomChipComponent implements OnInit {
   public isEnabled: InputSignal<boolean> = input<boolean>(true);
 
   private rooms: ROOM_TYPE[] = [];
-  public roomControl: FormControl = new FormControl([]);
+  public roomControl: FormControl = new FormControl('');
 
   public branchGroups: BranchGroup[] = [];
   public branchGroupOptions!: Observable<BranchGroup[]>;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor(private crudService: RoomService) { }
+  constructor(private crudService: RoomService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getCollection().then(() => {});
@@ -72,43 +81,34 @@ export class RoomChipComponent implements OnInit {
     }
   }
 
-  public add(event: MatChipInputEvent): void {
-    const value: string = (event.value || '').trim();
-    console.log(value)
-    // Aggiungi il valore se non è vuoto e non è già presente
-    if (value && !this.roomControl.value.includes(value)) {
-      this.roomControl.setValue([...this.roomControl.value, value]);
-    }
+  public remove(room: string): void {
+    this.doc$.update((rooms: string[]) => {
+      const index = rooms.indexOf(room);
+      if (index < 0) {
+        return rooms;
+      }
 
-    // Resetta il campo di input
-    event.input!.value = '';
-  }
-
-  public remove(room: ROOM_TYPE): void {
-    const currentRooms = this.roomControl.value.slice();
-    const index = currentRooms.indexOf(room.id);
-
-    if (index >= 0) {
-      currentRooms.splice(index, 1);
-      this.roomControl.setValue(currentRooms);
-    }
+      rooms.splice(index, 1);
+      return [...rooms];
+    });
   }
 
   private setGroup(rooms: ROOM_TYPE[]): BranchGroup[] {
-    const groupedByLocation: _.Dictionary<ROOM_TYPE[]> = _.groupBy(rooms, 'locationId');
+    const groupedByLocation: _.Dictionary<ROOM_TYPE[]> = _.groupBy(rooms, 'branchId');
 
-    return _.map(groupedByLocation, (rooms, locationId) => {
+    return _.map(groupedByLocation, (rooms, branchId) => {
       const firstRoom: ROOM_TYPE = rooms[0];
 
       return {
-        branchId: locationId || '',
+        branchId: branchId || '',
         branchCode: firstRoom.code || '',
         branchName: firstRoom.VIEW_LOCATION_NAME || '',
         rooms: _.map(rooms, room => ({
           id: room.id || '',
           code: room.code || '',
           name: room.name || '',
-          color: room.VIEW_COLOR || ''
+          color: room.VIEW_COLOR || '',
+          branchName: firstRoom.VIEW_LOCATION_NAME || ''
         }))
       };
     });
@@ -121,7 +121,8 @@ export class RoomChipComponent implements OnInit {
       .map((group: BranchGroup) => ({
         ...group,
         rooms: _.filter(group.rooms, room =>
-          room.name.toLowerCase().includes(filterValue)
+          room.name.toLowerCase().includes(filterValue) ||
+          room.branchName.toLowerCase().includes(filterValue)
         )
       }))
       .filter(group => group.rooms.length > 0);
@@ -136,4 +137,25 @@ export class RoomChipComponent implements OnInit {
     return room ? `${room.name} | ${room.code}` : '';
   }
 
+  public selected(event: MatAutocompleteSelectedEvent): void {
+    const index: string | null = this.doc$().find((room: string) => room === event.option.value) ?? null;
+    if (!index) {
+      this.doc$.update((rooms: string[]) => [...rooms, event.option.value]);
+    }
+
+    this.roomControl.reset();
+    this.roomControl = new FormControl('');
+
+    this.branchGroupOptions = this.roomControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterGroup(value || ''))
+    );
+
+    setTimeout(() => {
+      this.roomControl.setValue('');
+    }, 0);
+
+    this.cdr.detectChanges();
+    event.option.deselect();
+  }
 }

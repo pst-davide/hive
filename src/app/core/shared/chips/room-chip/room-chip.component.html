@@ -1,8 +1,10 @@
 <mat-form-field appearance="outline">
-  <mat-label>{{ label() }} @if (isRequired()) {*}</mat-label>
+  <mat-label>{{ label() }} @if (isRequired()) {
+    *
+  }</mat-label>
 
   <mat-chip-grid #chipList aria-label="Selezioni">
-    @for (room of roomControl.value; track $index) {
+    @for (room of doc$(); track $index) {
       <mat-chip-row [removable]="true" (removed)="remove(room)">
         {{ displayRoom(room) }}
         <button matChipRemove>
@@ -17,10 +19,10 @@
          [formControl]="roomControl"
          [matChipInputFor]="chipList"
          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-         (matChipInputTokenEnd)="add($event)"
-  matInput>
+         matInput>
 
-  <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayRoom.bind(this)">
+  <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayRoom.bind(this)"
+                    (optionSelected)="selected($event)">
     <ng-container *ngFor="let group of branchGroupOptions | async;">
       <mat-optgroup [label]="group.branchName">
         <mat-option *ngFor="let room of group.rooms;" [value]="room.id">
@@ -39,4 +41,3 @@
     <mat-error [innerHTML]="matchError()"></mat-error>
   }
 </mat-form-field>
-

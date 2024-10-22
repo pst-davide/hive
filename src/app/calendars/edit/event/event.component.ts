@@ -1,31 +1,36 @@
-import { Component, inject, Inject, OnInit, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, FormBuilder, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
+import {
+  Component,
+  inject,
+  Inject,
+  model,
+  ModelSignal,
+  OnInit,
+  signal,
+  ViewEncapsulation,
+  WritableSignal
+} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, FormBuilder} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import _ from 'lodash';
-import { NgxColorsModule } from 'ngx-colors';
-import { CALENDAR, EMPTY_CALENDAR } from 'app/calendars/model/calendar.model';
-import { RxFormBuilder, RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
-import { CalendarValidator } from 'app/calendars/validators/event.validator';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { IT_DATE_FORMATS } from 'app/app.config';
+import {CALENDAR, EMPTY_CALENDAR} from 'app/calendars/model/calendar.model';
+import {RxFormBuilder, RxReactiveFormsModule} from '@rxweb/reactive-form-validators';
+import {CalendarValidator} from 'app/calendars/validators/event.validator';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {IT_DATE_FORMATS} from 'app/app.config';
 import {MatDatepickerIntl, MatDatepickerModule} from '@angular/material/datepicker';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import moment, { Moment } from 'moment';
+import {provideMomentDateAdapter} from '@angular/material-moment-adapter';
+import moment, {Moment} from 'moment';
 import 'moment/locale/it';
-import { DEFAULT_CALENDAR_BACKGROUND } from 'app/core/functions/environments';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TypeSelectComponent } from "../../../core/shared/select/type-select/type-select.component";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {TypeSelectComponent} from '../../../core/shared/select/type-select/type-select.component';
 import {DialogCloseButtonComponent} from '../../../layouts/dialog-close-button/dialog-close-button.component';
 import {EditLogoComponent} from '../../../layouts/edit-logo/edit-logo.component';
 import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
-import {
-  RoomAutocompleteComponent
-} from '../../../core/shared/autocomplete/room-autocomplete/room-autocomplete.component';
 import {RoomChipComponent} from '../../../core/shared/chips/room-chip/room-chip.component';
 
 @Component({
@@ -38,7 +43,6 @@ import {RoomChipComponent} from '../../../core/shared/chips/room-chip/room-chip.
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
-    NgxColorsModule,
     RxReactiveFormsModule,
     MatDatepickerModule,
     MatCheckboxModule,
@@ -46,7 +50,6 @@ import {RoomChipComponent} from '../../../core/shared/chips/room-chip/room-chip.
     DialogCloseButtonComponent,
     EditLogoComponent,
     MatSlideToggle,
-    RoomAutocompleteComponent,
     RoomChipComponent
   ],
   providers: [
@@ -76,26 +79,55 @@ export class EventComponent implements OnInit {
 
   /* form */
   public form: FormGroup = new FormGroup({});
-  public roomColor: FormControl = new FormControl(null);
   public isReadOnly: boolean = false;
+
+  /* rooms */
+  public rooms$: ModelSignal<string[]> = model<string[]>([]);
+
+  /* shift */
+  public shift$: ModelSignal<string | null> = model<string | null>(null);
 
   /* duration */
   public duration: WritableSignal<number | null> = signal<number | null>(null);
   public labelDuration: string = '';
 
-  constructor(public dialogRef: MatDialogRef<EventComponent>, @Inject(MAT_DIALOG_DATA) public data: {event: CALENDAR}, private fb: FormBuilder,
-  private formBuilder: RxFormBuilder) {
+  constructor(public dialogRef: MatDialogRef<EventComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: { event: CALENDAR }, private fb: FormBuilder,
+              private formBuilder: RxFormBuilder) {
     moment.locale('it');
     this._locale.set('it');
     this._adapter.setLocale(this._locale());
+
+    this.rooms$.subscribe((docs: string[]) => {
+      if (this.resourcesCount) {
+        this.resourcesCount.setValue(docs.length ?? 0);
+        this.checkOverlay().then(() => {});
+      }
+    });
+
+    this.shift$.subscribe((doc: string | null) => {
+      if (this.typeId) {
+        this.typeId.setValue(doc);
+      }
+    });
   }
 
   ngOnInit(): void {
-      this._intl.changes.next();
-      this.doc = this.data.event;
-      this.createForm();
-      this.formTitle = this.data.event.title ?? 'Nuovo Evento';
+    this._intl.changes.next();
+    this.doc = this.data.event;
+    this.rooms$.set(this.doc.resourceIds);
+    this.shift$.set(this.doc.shiftId);
+    this.createForm();
+    this.formTitle = this.data.event.title ?? 'Nuovo Evento';
   }
+
+  /*************************************************
+   *
+   * Overlay
+   *
+   ************************************************/
+
+  private async checkOverlay(): Promise<void> {}
 
   /*************************************************
    *
@@ -104,16 +136,18 @@ export class EventComponent implements OnInit {
    ************************************************/
 
   private patchForm(): void {
-    const f = moment(this.doc.start).clone().startOf('day');
     this.form.patchValue({
-      title: this.doc.title,
+      code: this.doc.code ?? null,
+      title: this.doc.title ?? null,
+      typeId: this.doc.shiftId,
+      status: this.doc.status,
       description: this.doc['description'],
-      date: this.doc.start ?  moment(this.doc.start).clone().startOf('day') : null,
+      allDay: this.doc.allDay ?? false,
+      resourcesCount: this.doc.resourceIds ? this.doc.resourceIds.length : 0,
+      date: this.doc.start ? moment(this.doc.start).clone().startOf('day') : null,
       from: this.doc.start ? moment(this.doc.start).clone().format('HH:mm') : null,
       to: this.doc.end ? moment(this.doc.end).clone().format('HH:mm') : null,
-      color: this.doc.backgroundColor ?? DEFAULT_CALENDAR_BACKGROUND,
-      typeId: this.doc.shiftId,
-      allDay: this.doc.allDay ?? false,
+      customerId: this.doc.customerId,
     });
 
     this.calculateDuration();
@@ -121,39 +155,19 @@ export class EventComponent implements OnInit {
 
   private createForm(): void {
     this.form = this.formBuilder.formGroup(CalendarValidator);
-
-    this.color.valueChanges.subscribe((color) => {
-      if (this.form.controls['picker'].valid) {
-        this.form.controls['picker'].setValue(color, {
-          emitEvent: false,
-        });
-      }
-    });
-
-    this.form.controls['picker'].valueChanges.subscribe((color) =>
-      this.color.setValue(color, {
-        emitEvent: false,
-      })
-    );
-
     this.patchForm();
   }
 
   public async onSubmit(): Promise<void> {
+    if (!this.form.valid) {
+      return;
+    }
+
+
   }
 
   public closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  /************************************************
-   *
-   * Color
-   *
-   ***********************************************/
-
-  public _onColorChange(event: any): void {
-    console.log(event);
   }
 
   /************************************************
@@ -163,18 +177,24 @@ export class EventComponent implements OnInit {
    ***********************************************/
 
   public calculateDuration(): void {
-    const { from, to, date } = this.form.value;
+    const {from, to, date} = this.form.value;
 
     if (from && to && date) {
-      const start = moment(date).clone().hours(moment(from, 'HH:mm').hours()).minutes(moment(from, 'HH:mm').minutes());
-      const end = moment(date).clone().hours(moment(to, 'HH:mm').hours()).minutes(moment(to, 'HH:mm').minutes());
+      const start: Moment = moment(date).clone().hours(moment(from, 'HH:mm').hours()).minutes(moment(from, 'HH:mm').minutes());
+      const end: Moment = moment(date).clone().hours(moment(to, 'HH:mm').hours()).minutes(moment(to, 'HH:mm').minutes()).endOf('minute');
 
       if (end.isBefore(start)) {
         end.add(1, 'day');
       }
 
-      const duration = end.diff(start, 'minutes');
-      this.duration.set(duration > 0 ? parseFloat((duration / 60).toFixed(2)) : 0);
+      const duration: number = end.diff(start, 'minutes');
+
+      if (start.format('HH:mm') === '00:00' && end.format('HH:mm') === '23:59') {
+        this.duration.set(24);
+      } else {
+        this.duration.set(duration > 0 ? parseFloat((duration / 60).toFixed(2)) : 0);
+      }
+
       this.labelDuration = duration <= 60 ? 'ora' : 'ore';
     } else {
       this.duration.set(null);
@@ -193,10 +213,10 @@ export class EventComponent implements OnInit {
       this.to.setValue(to.format('HH:mm'));
 
       this.isReadOnly = true;
+
     } else {
       this.isReadOnly = false;
     }
-
     this.calculateDuration();
   }
 
@@ -230,10 +250,6 @@ export class EventComponent implements OnInit {
     return this.form.get('allDay') as AbstractControl;
   }
 
-  get color(): AbstractControl {
-    return this.form.get('color') as AbstractControl;
-  }
-
   get date(): AbstractControl {
     return this.form.get('date') as AbstractControl;
   }
@@ -244,5 +260,13 @@ export class EventComponent implements OnInit {
 
   get to(): AbstractControl {
     return this.form.get('to') as AbstractControl;
+  }
+
+  get customerId(): AbstractControl {
+    return this.form.get('customerId') as AbstractControl;
+  }
+
+  get resourcesCount(): AbstractControl {
+    return this.form.get('resourcesCount') as AbstractControl;
   }
 }

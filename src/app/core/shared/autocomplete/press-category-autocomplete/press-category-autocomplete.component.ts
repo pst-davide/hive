@@ -64,24 +64,24 @@ export class PressCategoryAutocompleteComponent implements OnInit {
   }
 
   private async getCollection(): Promise<void> {
-  try {
-    this.docs = await this.crudService.getDocs();
-    this.docIds = this.docs.map((doc: PRESS_CATEGORY_TYPE) => doc.id);
+    try {
+      this.docs = await this.crudService.getDocs();
+      this.docIds = this.docs.map((doc: PRESS_CATEGORY_TYPE) => doc.id);
 
-    this.filteredDocs = this.docCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value: string | null) => this._filter(value?.toString() ?? ''))
-    );
+      this.filteredDocs = this.docCtrl.valueChanges.pipe(
+        startWith(''),
+        map((value: string | null) => this._filter(value?.toString() ?? ''))
+      );
 
-    const selectedDoc: string | null = (this.doc$() ?? '') as string;
-    this.docCtrl.setValue(selectedDoc);
+      const selectedDoc: string | null = (this.doc$() ?? '') as string;
+      this.docCtrl.setValue(selectedDoc);
 
-    this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
-    this.docCtrl.updateValueAndValidity();
-  } catch (error) {
-    console.error('Errore durante il caricamento dei documenti:', error);
+      this.docCtrl.setValidators(RequireMatch(this.docIds, this.isRequired()));
+      this.docCtrl.updateValueAndValidity();
+    } catch (error) {
+      console.error('Errore durante il caricamento dei documenti:', error);
+    }
   }
-}
 
   private _filter(value: string): PRESS_CATEGORY_TYPE[] {
     const filterValue: string = value.toLowerCase();

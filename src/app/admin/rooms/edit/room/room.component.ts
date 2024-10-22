@@ -12,7 +12,7 @@ import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {DEFAULT_LOCATION_COLOR} from '../../../../core/functions/environments';
 import {BRANCH_TYPE} from '../../../branches/model/branchModel';
 import {MatOption} from '@angular/material/autocomplete';
-import {MatSelect} from '@angular/material/select';
+import {MatSelect, MatSelectChange} from '@angular/material/select';
 import {RoomService} from '../../service/room.service';
 import {BranchService} from '../../../branches/service/branch.service';
 import {EditLogoComponent} from '../../../../layouts/edit-logo/edit-logo.component';
@@ -196,6 +196,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
   }
 
+  public _setColor(event: MatSelectChange): void {
+    const value: string = event.value;
+    const branch: BRANCH_TYPE | null = this.branches.find((b: BRANCH_TYPE) => b.id === value) ?? null;
+    if (branch && branch.color) {
+      this.color.setValue(branch.color);
+    }
+  }
   /*************************************************
    *
    * Color

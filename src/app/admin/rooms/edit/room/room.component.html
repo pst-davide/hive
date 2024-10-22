@@ -44,7 +44,7 @@
               <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
                   <mat-label>Sede</mat-label>
-                  <mat-select formControlName="locationId">
+                  <mat-select formControlName="locationId" (selectionChange)="_setColor($event)">
                     @for (branch of branches; track branch.id) {
                       <mat-option [value]="branch.id">
                         {{branch.name}}

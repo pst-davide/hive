@@ -30,7 +30,7 @@
             <!-- type, title -->
             <div class="grid grid-cols-12 gap-4 mb-4">
               <div class="col-span-12 md:col-span-3">
-                <app-type-select></app-type-select>
+                <app-type-select [isRequired]="true" [isEnabled]="!isLoading$" [(doc$)]="shift$"></app-type-select>
               </div>
               <div class="col-span-12 md:col-span-9">
                 <mat-form-field appearance="outline">
@@ -40,6 +40,13 @@
                     <mat-error>Il campo <strong>titolo</strong> è obbligatorio</mat-error>
                   }
                 </mat-form-field>
+              </div>
+            </div>
+
+            <!-- rooms -->
+            <div class="grid grid-cols-1 mb-4">
+              <div class="col-span-1">
+                <app-room-chip [(doc$)]="rooms$" [isRequired]="true" [isEnabled]="!isLoading$"></app-room-chip>
               </div>
             </div>
 
@@ -86,43 +93,22 @@
               </div>
             </div>
 
-            <!-- code, color, allDay -->
+            <!-- customer, code, allDay -->
             <div class="grid grid-cols-12 gap-4 mb-4">
+              <div class="col-span-12 md:col-span-6 flex items-center">
+                <mat-form-field appearance="outline">
+                  <mat-label>Cliente</mat-label>
+                  <input matInput placeholder="Cliente" formControlName="customerId">
+                </mat-form-field>
+              </div>
               <div class="col-span-12 md:col-span-3">
                 <mat-form-field appearance="outline">
                   <mat-label>Codice</mat-label>
-                  <input matInput placeholder="Codice" formControlName="code"
+                  <input matInput placeholder="Codice" formControlName="code" readonly
                          [value]="code && code.value ? code.value.toUpperCase() : null">
-                  @if (code.hasError('required')) {
-                    <mat-error>Il campo <strong>codice</strong> è obbligatorio</mat-error>
-                  }
                 </mat-form-field>
               </div>
-              <div class="col-span-12 md:col-span-3">
-                <!-- <app-room-autocomplete></app-room-autocomplete> -->
-                <app-room-chip></app-room-chip>
-              </div>
-              <div class="col-span-12 md:col-span-3 flex items-center">
-                <mat-form-field appearance="outline">
-                  <mat-label>Colore</mat-label>
-                  <input matInput formControlName="color"/>
-                  <ngx-colors
-                    class="suffix"
-                    matSuffix
-                    ngx-colors-trigger
-                    formControlName="picker"
-                    [acceptLabel]="'Seleziona'"
-                    [cancelLabel]="'Cancella'"
-                  ></ngx-colors>
-                  @if (color.hasError('invalidColor')) {
-                    <mat-error>Seleziona un <strong>colore</strong> valido</mat-error>
-                  }
-                  @if (color.hasError('required')) {
-                    <mat-error>Il campo <strong>colore</strong> è obbligatorio</mat-error>
-                  }
-                </mat-form-field>
-              </div>
-              <div class="col-span-12 lg:col-span-2 md:col-span-3 flex items-center justify-end -mt-5">
+              <div class="col-span-12 lg:col-span-3 md:col-span-3 flex items-center justify-end -mt-5">
                 <mat-slide-toggle formControlName="allDay"
                                   (change)="_toggleAllDay($event)">
                   <span class="mx-3">Tutto il giorno</span>

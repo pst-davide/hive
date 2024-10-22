@@ -16,7 +16,7 @@ export interface BranchGroup {
   branchId: string;
   branchCode: string;
   branchName: string;
-  rooms: {id: string; code: string; name: string; color: string}[];
+  rooms: {id: string; code: string; name: string; color: string, branchName: string}[];
 }
 
 @Component({
@@ -89,7 +89,8 @@ export class RoomAutocompleteComponent implements OnInit {
           id: room.id || '',
           code: room.code || '',
           name: room.name || '',
-          color: room.VIEW_COLOR || ''
+          color: room.VIEW_COLOR || '',
+          branchName: firstRoom.VIEW_LOCATION_NAME || ''
         }))
       };
     });
