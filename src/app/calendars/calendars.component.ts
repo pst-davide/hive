@@ -1,6 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, Signal, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DatesSetArg, EventApi, EventClickArg, EventDropArg, EventInput, ViewApi } from '@fullcalendar/core';
+import {
+  Calendar,
+  CalendarOptions,
+  DatesSetArg,
+  EventApi,
+  EventClickArg,
+  EventDropArg,
+  EventInput,
+  ViewApi
+} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import momentPlugin from '@fullcalendar/moment';
@@ -13,6 +22,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CALENDAR, EMPTY_CALENDAR} from './model/calendar.model';
 import _ from 'lodash';
 import { EventComponent } from './edit/event/event.component';
+import {DateRange} from '@fullcalendar/core/internal';
 
 @Component({
   selector: 'app-calendars',
@@ -89,9 +99,9 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   // check if the day is sunday or holiday
   private getHoliday(date: Date, saturdayHoliday: boolean = true): boolean {
     const monthDay: string = (date.getMonth() + 1) + '-' + date.getDate();
-    const isEaster = moment(this.easter).isSame(moment(date));
-    const isSaturday = moment(date).isoWeekday() === 6;
-    const isSunday = moment(date).isoWeekday() === 7;
+    const isEaster: boolean = moment(this.easter).isSame(moment(date));
+    const isSaturday: boolean = moment(date).isoWeekday() === 6;
+    const isSunday: boolean = moment(date).isoWeekday() === 7;
     return this.holidays.indexOf(monthDay) > -1 || isEaster || isSunday || (isSaturday && saturdayHoliday);
   }
 
@@ -99,11 +109,11 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
   // call load calendar only if the new range is not included in the old range
   public async handleCalendarDate(info: DatesSetArg): Promise<void> {
     console.log('call Handle Calendar Date');
-    const included = moment(info.start).isBetween(moment(this.start), moment(this.end), undefined, '[]')
+    const included: boolean = moment(info.start).isBetween(moment(this.start), moment(this.end), undefined, '[]')
       && moment(info.end).isBetween(moment(this.start), moment(this.end), undefined, '[]');
     if (!included) {
       Promise.resolve().then(() => {
-        const int = setInterval(() => {
+        const int: NodeJS.Timeout = setInterval(() => {
           if (this.calendarComponent) {
             clearInterval(int);
             this.loadCalendar();
@@ -118,22 +128,22 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
     // show loader, remove old events, calc holidays and load new events
     // call on Init and date change
     // --------------------------------
-    const calendarApi = this.calendarComponent.getApi();
+    const calendarApi: Calendar = this.calendarComponent.getApi();
     calendarApi.unselect();
     calendarApi.removeAllEvents();
 
     // --------------------------------
     // date and holidays
     // --------------------------------
-    const calendarRange = calendarApi.getCurrentData().dateProfile.renderRange;
+    const calendarRange: DateRange = calendarApi.getCurrentData().dateProfile.renderRange;
     this.easter = getEaster(calendarRange.start.getFullYear());
-    const calendarStart = moment(calendarRange.start).startOf('day').toDate();
-    const calendarEnd = moment(calendarRange.end).endOf('day').subtract(1, 'days').toDate();
-    const calendarDiff = moment(calendarEnd).diff(moment(calendarStart), 'days');
+    const calendarStart: Date = moment(calendarRange.start).startOf('day').toDate();
+    const calendarEnd: Date = moment(calendarRange.end).endOf('day').subtract(1, 'days').toDate();
+    const calendarDiff: number = moment(calendarEnd).diff(moment(calendarStart), 'days');
 
     this.holidayEvents = [];
     for (let i = 0; i <= calendarDiff; i++) {
-      const day = moment(calendarStart).startOf('day').add(i, 'days').toDate();
+      const day: Date = moment(calendarStart).startOf('day').add(i, 'days').toDate();
       if (this.getHoliday(day)) {
         this.holidayEvents.push({
           start: moment(day).format('YYYY-MM-DD'),
@@ -153,12 +163,12 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
    *******************************************************************************************/
 
   private handleResize(): void {
-    let calendarApi = this.calendarComponent.getApi();
+    let calendarApi: Calendar = this.calendarComponent.getApi();
     calendarApi.render();
   }
 
   public handleWindowResize(arg: ViewApi): void {
-    let calendarApi = this.calendarComponent.getApi();
+    let calendarApi: Calendar = this.calendarComponent.getApi();
     calendarApi.render();
   }
 
@@ -278,7 +288,7 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
 
   handleEvents(events: EventApi[]) {
     // this.currentEvents.set(events);
-    this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
+    this.changeDetector.detectChanges();
   }
 
 }

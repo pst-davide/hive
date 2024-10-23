@@ -2,12 +2,15 @@ import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
 import {Shift} from './shift.entity';
 
 @Entity('events')
-export class Event {
+export class Calendar {
   @PrimaryColumn({ type: 'varchar', length: 12 })
   id!: string;
 
   @Column({type: 'varchar', length: 12, unique: true})
   code!: string;
+
+  @Column()
+  serial!: number;
 
   @Column({type: 'varchar', length: 80})
   title!: string;
@@ -21,6 +24,12 @@ export class Event {
   @ManyToOne(() => Shift, { nullable: true })
   @JoinColumn({ name: 'shiftId', referencedColumnName: 'id' })
   shift!: Shift | null;
+
+  @Column({type: 'varchar', length: 7})
+  color!: string;
+
+  @Column()
+  status!: number;
 
   @Column({ type: 'simple-array', nullable: true })
   resourceIds!: string[];

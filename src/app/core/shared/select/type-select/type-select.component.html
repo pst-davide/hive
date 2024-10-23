@@ -2,7 +2,13 @@
     <mat-label>{{label()}}</mat-label>
     <mat-select [formControl]="docCtrl" (selectionChange)="_update($event)">
       @for (doc of docs; track doc.id) {
-        <mat-option [value]="doc.id">{{doc.name}}</mat-option>
+        <mat-option [value]="doc.id">
+          <div class="flex items-center">
+            <div class="w-4 h-4 rounded-full mr-2" [style.background-color]="doc.color"></div>
+            {{doc.name}} &nbsp;
+            <span class="text-sm text-slate-400"> | {{doc.code}}</span>
+          </div>
+        </mat-option>
       }
     </mat-select>
   @if (docCtrl.hasError('required')) {

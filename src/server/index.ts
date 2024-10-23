@@ -27,6 +27,7 @@ import pushNotificationRouter from './routes/push-notification.router';
 import openAiRouter from './routes/openai.router';
 import newsletterRouter from './routes/newsletter.router';
 import shiftRouter from './routes/shift.router';
+import calendarRouter from './routes/calendar.router';
 
 /* web push */
 import pushRouter from './routes/push-notification.router';
@@ -56,6 +57,7 @@ app.use('/api', pressRouter);
 app.use('/api', newsletterRouter);
 app.use('/api', shiftRouter);
 app.use('/api', userRouter);
+app.use('/api', calendarRouter);
 
 /* ocr routes */
 app.use('/api', ocrRouter);

@@ -11,12 +11,12 @@ import {
 } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, FormBuilder} from '@angular/forms';
+import {FormGroup, ReactiveFormsModule, FormsModule, AbstractControl} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {Observable} from 'rxjs';
-import _ from 'lodash';
+import _, {padStart} from 'lodash';
 import {CALENDAR, EMPTY_CALENDAR} from 'app/calendars/model/calendar.model';
 import {RxFormBuilder, RxReactiveFormsModule} from '@rxweb/reactive-form-validators';
 import {CalendarValidator} from 'app/calendars/validators/event.validator';
@@ -32,6 +32,8 @@ import {DialogCloseButtonComponent} from '../../../layouts/dialog-close-button/d
 import {EditLogoComponent} from '../../../layouts/edit-logo/edit-logo.component';
 import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
 import {RoomChipComponent} from '../../../core/shared/chips/room-chip/room-chip.component';
+import {ShiftModel} from '../../../admin/shifts/model/shift.model';
+import {CalendarService} from '../../service/calendar.service';
 
 @Component({
   selector: 'app-event',
@@ -85,15 +87,16 @@ export class EventComponent implements OnInit {
   public rooms$: ModelSignal<string[]> = model<string[]>([]);
 
   /* shift */
-  public shift$: ModelSignal<string | null> = model<string | null>(null);
+  public shiftId$: ModelSignal<string | null> = model<string | null>(null);
+  public shift$: ModelSignal<ShiftModel | null> = model<ShiftModel | null>(null);
 
   /* duration */
   public duration: WritableSignal<number | null> = signal<number | null>(null);
   public labelDuration: string = '';
 
   constructor(public dialogRef: MatDialogRef<EventComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { event: CALENDAR }, private fb: FormBuilder,
-              private formBuilder: RxFormBuilder) {
+              @Inject(MAT_DIALOG_DATA) public data: { event: CALENDAR },
+              private formBuilder: RxFormBuilder, private crudService: CalendarService) {
     moment.locale('it');
     this._locale.set('it');
     this._adapter.setLocale(this._locale());
@@ -105,10 +108,14 @@ export class EventComponent implements OnInit {
       }
     });
 
-    this.shift$.subscribe((doc: string | null) => {
+    this.shiftId$.subscribe((doc: string | null) => {
       if (this.typeId) {
         this.typeId.setValue(doc);
       }
+    });
+
+    this.shift$.subscribe((doc: ShiftModel | null) => {
+
     });
   }
 
@@ -116,7 +123,7 @@ export class EventComponent implements OnInit {
     this._intl.changes.next();
     this.doc = this.data.event;
     this.rooms$.set(this.doc.resourceIds);
-    this.shift$.set(this.doc.shiftId);
+    this.shiftId$.set(this.doc.shiftId);
     this.createForm();
     this.formTitle = this.data.event.title ?? 'Nuovo Evento';
   }
@@ -127,7 +134,13 @@ export class EventComponent implements OnInit {
    *
    ************************************************/
 
-  private async checkOverlay(): Promise<void> {}
+  private async checkOverlay(): Promise<void> {
+    const f: Date = this.doc.start ? moment(this.doc.start).toDate() : moment().toDate();
+    const t: Date = this.doc.end ? moment(this.doc.end).toDate() : moment().toDate();
+
+    const existingEvents: CALENDAR[] = await this.crudService.getEventsInRange(f, t);
+    console.log(existingEvents);
+  }
 
   /*************************************************
    *
@@ -163,7 +176,53 @@ export class EventComponent implements OnInit {
       return;
     }
 
+    this.doc.shiftId = this.shiftId$();
+    this.doc.title = this.title.value;
+    this.doc['description'] = this.description.value ?? null;
+    this.doc.backgroundColor = this.shift$()?.color as string;
+    this.doc.status = 1;
+    this.doc.resourceIds = this.rooms$();
+    this.doc.customerId = this.customerId.value ?? null;
+    this.doc.allDay = this.allDay.value ?? false;
 
+    const day: Moment = this.date.value.startOf('day');
+
+    this.doc.date = day.toDate() ?? null;
+    if (day && this.from.value) {
+      const [hours, minutes] = this.from.value.split(':').map(Number);
+      this.doc.start = day.clone().add(hours, 'hours').add(minutes, 'minutes').toDate();
+    } else {
+      this.doc.start = moment().toDate();
+    }
+    if (day && this.to.value) {
+      const [hours, minutes] = this.to.value.split(':').map(Number);
+      this.doc.end = day.clone().add(hours, 'hours').add(minutes, 'minutes').toDate();
+    } else {
+      this.doc.end = moment().toDate();
+    }
+    this.doc.duration = moment(this.doc.end).diff(moment(this.doc.start), 'minutes');
+
+    if (!this.doc.code) {
+      const maxSerial: {maxSerial: number} = await this.crudService.getMaxSerial(this.doc.shiftId as string);
+      console.log(maxSerial)
+      this.doc.serial = maxSerial.maxSerial + 1;
+      this.doc.code = `${this.doc.shiftId}-${padStart(this.doc.serial.toString(), 4, '0')}`;
+    }
+
+    try {
+      if (!this.doc.id || this.doc.id === '') {
+        this.doc.id = this.doc.code;
+        await this.crudService.createDoc(this.doc);
+      } else {
+        await this.crudService.updateDoc(this.doc.id, this.doc);
+      }
+
+      this.dialogRef.close(this.doc);
+    } catch (error) {
+      console.error('Errore durante il salvataggio del documento:', error);
+    }
+
+    console.log(this.doc);
   }
 
   public closeDialog(): void {

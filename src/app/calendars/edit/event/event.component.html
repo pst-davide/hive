@@ -30,7 +30,7 @@
             <!-- type, title -->
             <div class="grid grid-cols-12 gap-4 mb-4">
               <div class="col-span-12 md:col-span-3">
-                <app-type-select [isRequired]="true" [isEnabled]="!isLoading$" [(doc$)]="shift$"></app-type-select>
+                <app-type-select [isRequired]="true" [isEnabled]="!isLoading$" [(doc$)]="shiftId$" [(shift$)]="shift$"></app-type-select>
               </div>
               <div class="col-span-12 md:col-span-9">
                 <mat-form-field appearance="outline">

@@ -1,13 +1,13 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {EMPTY_ROOM, ROOM_TYPE} from '../../model/room.model';
-import { FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, Validators, FormBuilder } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
+import {FormGroup, ReactiveFormsModule, FormsModule, AbstractControl, Validators, FormBuilder} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {distinctUntilChanged, Observable, Subject, takeUntil} from 'rxjs';
 import _ from 'lodash';
-import { NgxColorsModule, validColorValidator } from 'ngx-colors';
+import {NgxColorsModule, validColorValidator} from 'ngx-colors';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {DEFAULT_LOCATION_COLOR} from '../../../../core/functions/environments';
 import {BRANCH_TYPE} from '../../../branches/model/branchModel';
@@ -59,8 +59,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(public dialogRef: MatDialogRef<RoomComponent>, private crudService: RoomService,
-              @Inject(MAT_DIALOG_DATA) public data: { doc: ROOM_TYPE, branch: BRANCH_TYPE | null},
-              private fb: FormBuilder, private branchService: BranchService) {}
+              @Inject(MAT_DIALOG_DATA) public data: { doc: ROOM_TYPE, branch: BRANCH_TYPE | null },
+              private fb: FormBuilder, private branchService: BranchService) {
+  }
 
   ngOnInit(): void {
     this.doc = this.data.doc;
@@ -71,7 +72,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
     this.formTitle = this.doc.name ? `Modifica Spazio - ${this.doc.name}` : 'Nuova Spazio';
     this.createForm();
-    this.getBranches().then(() => {});
+    this.getBranches().then(() => {
+    });
   }
 
   ngOnDestroy(): void {
@@ -169,7 +171,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.doc.floor = this.floor.value ?? null;
     this.doc.branchId = this.locationId.value;
 
-     try {
+    try {
       if (!this.doc.id || this.doc.id === '') {
         this.doc.id = this.code.value.toUpperCase();
         await this.crudService.createDoc(this.doc);
@@ -203,6 +205,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.color.setValue(branch.color);
     }
   }
+
   /*************************************************
    *
    * Color

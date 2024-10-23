@@ -15,6 +15,7 @@ import {sortBy} from 'lodash';
 })
 export class TypeSelectComponent implements OnInit {
   public doc$: ModelSignal<string | null> = model<string | null>(null);
+  public shift$: ModelSignal<ShiftModel | null> = model<ShiftModel | null>(null);
   public label: InputSignal<string> = input<string>('Causale');
   public requiredError: InputSignal<string> = input<string>(`Il campo <strong>causale</strong> è obbligatorio`);
   public isRequired: InputSignal<boolean> = input<boolean>(false);
@@ -51,5 +52,7 @@ export class TypeSelectComponent implements OnInit {
 
   public _update(event: MatSelectChange): void {
     this.doc$.update(() => event.value);
+    const shift: ShiftModel | null = this.docs.find((x: ShiftModel) => x.id === event.value) ?? null;
+    this.shift$.update(() => shift);
   }
 }
