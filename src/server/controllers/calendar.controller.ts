@@ -2,6 +2,7 @@ import {DeleteResult, LessThan, MoreThan, Repository} from 'typeorm';
 import {AppDataSource} from '../database/dataSource';
 import {Request, Response} from 'express';
 import {Calendar} from '../entity/event.entity';
+import moment from 'moment';
 
 export class CalendarController {
 
@@ -35,12 +36,15 @@ export class CalendarController {
 
   static async getMaxSerialByShiftId(req: Request, res: Response): Promise<void> {
     const { shiftId } = req.params;
+    const currentYear: number = moment().year();
+
     try {
       const maxSerial = await AppDataSource
         .getRepository(Calendar)
         .createQueryBuilder('calendar')
         .select('COALESCE(MAX(calendar.serial), 0)', 'maxSerial')
         .where('calendar.shiftId = :shiftId', { shiftId })
+        .andWhere('calendar.year = :currentYear', { currentYear })
         .getRawOne();
 
       if (maxSerial && maxSerial.maxSerial !== null) {

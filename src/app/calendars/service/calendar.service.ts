@@ -50,6 +50,7 @@ export class CalendarService {
     doc.duration = duration;
     doc.status = entity.status;
     doc.serial = entity.serial;
+    doc.year = entity.year;
     doc.allDay = entity.allDay;
     doc.editable = true;
     doc.startEditable = true;
@@ -81,6 +82,7 @@ export class CalendarService {
     doc.endDate = model.end as Date ?? null;
     doc.status = model.status;
     doc.serial = model.serial ?? 0;
+    doc.year = model.year ?? 0;
     doc.allDay = model.allDay ?? false;
 
     doc = this.crud.setCrudEntity(model, doc);
@@ -91,11 +93,10 @@ export class CalendarService {
 
   public async getEventsInRange(startDate: Date, endDate: Date): Promise<CALENDAR[]> {
     const url: string = `${this.apiUrl}/range`;
-    const response: AxiosResponse<any, any> = await this.apiClient.get(url, {
-      params: {
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString()
-      },
+
+    const response: AxiosResponse<any, any> = await this.apiClient.post(url, {
+      startDate: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+      endDate: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
       headers: this.getHeaders()
     });
     return response.data.map((entity: any) => this.toModel(entity));

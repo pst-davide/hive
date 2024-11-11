@@ -12,6 +12,9 @@ export class Calendar {
   @Column()
   serial!: number;
 
+  @Column()
+  year!: number;
+
   @Column({type: 'varchar', length: 80})
   title!: string;
 

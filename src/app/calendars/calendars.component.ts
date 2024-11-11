@@ -54,7 +54,15 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
     nowIndicator: true,
     slotLabelFormat: {hour: '2-digit', minute: '2-digit'},
     headerToolbar: {
-      right: 'today,prev,next dayGridMonth,timeGridWeek,timeGridDay'
+      right: 'treeBtn today,prev,next dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    customButtons: {
+      treeBtn: {
+        text: 'Spazi',
+        click: () => {
+          this.openTree();
+        }
+      }
     },
     datesSet: (arg: DatesSetArg) => this.handleCalendarDate(arg),
     dateClick: (arg) => this.handleDateClick(arg),
@@ -276,6 +284,10 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
     this.renderEvents(events);
   }
 
+  private loadEvents(): void {
+
+  }
+
   // remove all events from calendar and add new event source
   private renderEvents(events: EventInput[]): void {
     const calendarApi = this.calendarComponent.getApi();
@@ -286,9 +298,13 @@ export class CalendarsComponent implements AfterViewInit, OnDestroy {
     this.changeDetector.detectChanges();
   }
 
-  handleEvents(events: EventApi[]) {
+  public handleEvents(events: EventApi[]): void {
     // this.currentEvents.set(events);
     this.changeDetector.detectChanges();
+  }
+
+  private openTree(): void {
+
   }
 
 }

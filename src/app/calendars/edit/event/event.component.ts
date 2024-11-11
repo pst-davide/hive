@@ -94,6 +94,9 @@ export class EventComponent implements OnInit {
   public duration: WritableSignal<number | null> = signal<number | null>(null);
   public labelDuration: string = '';
 
+  /* overlay */
+  public overlayEvents: CALENDAR[] = [];
+
   constructor(public dialogRef: MatDialogRef<EventComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { event: CALENDAR },
               private formBuilder: RxFormBuilder, private crudService: CalendarService) {
@@ -104,7 +107,8 @@ export class EventComponent implements OnInit {
     this.rooms$.subscribe((docs: string[]) => {
       if (this.resourcesCount) {
         this.resourcesCount.setValue(docs.length ?? 0);
-        this.checkOverlay().then(() => {});
+        this.checkOverlay().then(() => {
+        });
       }
     });
 
@@ -139,7 +143,8 @@ export class EventComponent implements OnInit {
     const t: Date = this.doc.end ? moment(this.doc.end).toDate() : moment().toDate();
 
     const existingEvents: CALENDAR[] = await this.crudService.getEventsInRange(f, t);
-    console.log(existingEvents);
+    this.overlayEvents = existingEvents ? existingEvents.filter((e: CALENDAR) => ((this.doc.id && e.id !== this.doc.id)
+        || !this.doc.id) && e.resourceIds.some((id: string) => this.rooms$().includes(id))) : [];
   }
 
   /*************************************************
@@ -203,10 +208,10 @@ export class EventComponent implements OnInit {
     this.doc.duration = moment(this.doc.end).diff(moment(this.doc.start), 'minutes');
 
     if (!this.doc.code) {
-      const maxSerial: {maxSerial: number} = await this.crudService.getMaxSerial(this.doc.shiftId as string);
-      console.log(maxSerial)
+      const maxSerial: { maxSerial: number } = await this.crudService.getMaxSerial(this.doc.shiftId as string);
+      this.doc.year = moment().year();
       this.doc.serial = maxSerial.maxSerial + 1;
-      this.doc.code = `${this.doc.shiftId}-${padStart(this.doc.serial.toString(), 4, '0')}`;
+      this.doc.code = `${this.doc.shiftId}${this.doc.year.toString().slice(2)}-${padStart(this.doc.serial.toString(), 4, '0')}`;
     }
 
     try {
@@ -255,6 +260,8 @@ export class EventComponent implements OnInit {
       }
 
       this.labelDuration = duration <= 60 ? 'ora' : 'ore';
+
+      this.checkOverlay().then(() => {});
     } else {
       this.duration.set(null);
       this.labelDuration = '';

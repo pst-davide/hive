@@ -1,22 +1,21 @@
-import { EventInput } from "@fullcalendar/core";
-import { DEFAULT_CALENDAR_BACKGROUND } from "app/core/functions/environments";
+import {EventInput} from '@fullcalendar/core';
+import {DEFAULT_CALENDAR_BACKGROUND} from 'app/core/functions/environments';
 import {CrudModel, EMPTY_CRUD} from '../../core/model/crud.model';
 
 export interface CalendarModel {
-    id: string | null;
-    serial: number | null;
-    code: string | null;
-    shiftId: string | null;
-    resourceIds: string[];
-    status: number;
-    duration: number;
-    customerId: string | null;
+  id: string | null;
+  serial: number | null;
+  year: number | null;
+  code: string | null;
+  shiftId: string | null;
+  resourceIds: string[];
+  status: number;
+  duration: number;
+  customerId: string | null;
   crud: CrudModel;
 }
 
-export type CALENDAR = EventInput & CalendarModel & {
-
-};
+export type CALENDAR = EventInput & CalendarModel & {};
 
 export const EMPTY_CALENDAR: CALENDAR = {
   id: '',
@@ -24,6 +23,7 @@ export const EMPTY_CALENDAR: CALENDAR = {
   title: 'Nuovo Evento',
   description: 'Descrizione evento',
   serial: null,
+  year: null,
   shiftId: null,
   resourceIds: [],
   customerId: null,
