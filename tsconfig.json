@@ -18,9 +18,20 @@
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
     "importHelpers": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
-  "include": ["src/**/*", "src/app/email-editor/*.d.ts"],
+  "include": [
+    "src/**/*",
+    "src/app/email-editor/*.d.ts",
+    "server/src/**/*.ts"
+  ],
   "exclude": ["node_modules"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
