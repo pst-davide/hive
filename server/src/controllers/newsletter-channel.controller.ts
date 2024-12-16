@@ -1,4 +1,4 @@
-import {DeleteResult, Repository, SelectQueryBuilder} from 'typeorm';
+
 import {AppDataSource} from '../database/dataSource';
 import {Request, Response} from 'express';
 import {Channel} from '../entity/newsletter-channel.entity';

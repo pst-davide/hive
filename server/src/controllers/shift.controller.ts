@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import {Shift} from '../models/shift.model';
+import {Calendar} from '../models/event.model';
 
 export class ShiftController {
 
@@ -57,6 +58,15 @@ export class ShiftController {
   static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     try {
+      const relatedEventsCount: number = await Calendar.count({
+        where: { shiftId: id },
+      });
+
+      if (relatedEventsCount > 0) {
+        res.status(400).json({ error: 'Impossibile eliminare la causale perché è usato in almeno un evento' });
+        return;
+      }
+
       const result: number = await Shift.destroy({ where: { id } });
       if (result) {
         res.status(200).json({ message: 'Documento eliminato con successo' });

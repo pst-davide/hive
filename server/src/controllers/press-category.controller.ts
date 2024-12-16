@@ -1,122 +1,123 @@
-import {AppDataSource} from '../database/dataSource';
 import {Request, Response} from 'express';
-import {DeleteResult, Repository} from 'typeorm';
-import {PressCategory} from '../entity/press-category.entity';
+import {PressCategory} from '../models/press-category.model';
+import {PressKeyword} from '../models/press-keyword.model';
+import {Sequelize} from 'sequelize';
 
 export class PressCategoryController {
-
-  static docsRepository: Repository<PressCategory> = AppDataSource.getRepository(PressCategory);
 
   static async findAll(req: Request, res: Response): Promise<void> {
     const {includeKeywords, countKeywords} = req.query;
 
-    let docs: PressCategory[] = [];
     try {
+      let docs;
+
       if (countKeywords === 'true') {
-        docs = await PressCategoryController.docsRepository
-          .createQueryBuilder('category')
-          .loadRelationCountAndMap('category.keywordsCount', 'category.keywords')
-          .getMany();
+        // Conta il numero di keywords associate a ogni categoria
+        docs = await PressCategory.findAll({
+          attributes: {
+            include: [
+              // Aggiungi il conteggio delle keywords come alias `keywordsCount`
+              [Sequelize.fn('COUNT', Sequelize.col('keywords.id')), 'keywordsCount']
+            ],
+          },
+          include: [
+            {
+              model: PressKeyword,
+              attributes: [],
+            },
+          ],
+          group: ['PressCategory.id'], // Raggruppa per categoria per contare correttamente
+        });
       } else if (includeKeywords === 'true') {
-        docs = await PressCategoryController.docsRepository.find({
-          relations: ['keywords'],
+        // Includi le relazioni con keywords
+        docs = await PressCategory.findAll({
+          include: [
+            {
+              model: PressKeyword,
+              attributes: ['id', 'name'],
+            },
+          ],
         });
       } else {
-        docs = await PressCategoryController.docsRepository.find();
+        docs = await PressCategory.findAll();
       }
 
       res.status(200).json(docs);
     } catch (error) {
-      res.status(500).json({error: 'Errore durante il recupero del documento'});
+      console.error('Errore durante il recupero dei documenti:', error);
+      res.status(500).json({error: 'Errore durante il recupero dei documenti'});
     }
   }
 
   static async findById(req: Request, res: Response): Promise<void> {
-    const id: number = parseInt(req.params['id'], 10);
-
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({error: 'ID non valido'});
-      return;
-    }
-
+    const {id} = req.params;
     try {
-      const doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({id});
+      const doc: PressCategory | null = await PressCategory.findByPk(id);
       if (doc) {
         res.status(200).json(doc);
       } else {
         res.status(404).json({error: 'Documento non trovato'});
       }
     } catch (error) {
-      res.status(500).json({error: `Errore durante la creazione del documento: ${error}`});
+      console.error('Errore durante il recupero del documento:', error);
+      res.status(500).json({error: 'Errore durante il recupero del documento'});
     }
   }
 
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const doc: PressCategory[] = PressCategoryController.docsRepository.create(req.body);
-      const savedDoc: PressCategory[] = await PressCategoryController.docsRepository.save(doc);
-      res.status(200).json(savedDoc);
+      const doc: PressCategory = await PressCategory.create(req.body);
+      res.status(201).json(doc);
     } catch (error) {
+      console.error('Errore durante la creazione del documento:', error);
       res.status(500).json({error: 'Errore durante la creazione del documento'});
     }
   }
 
   static async update(req: Request, res: Response): Promise<void> {
-  const id: number = parseInt(req.params['id'], 10);
-
-  if (isNaN(id)) {
-    res.status(400).json({ error: 'ID non valido' });
-    return;
+    const {id} = req.params;
+    try {
+      const doc: PressCategory | null = await PressCategory.findByPk(parseInt(id, 10));
+      if (doc) {
+        await doc.update(req.body);
+        res.status(200).json(doc);
+      } else {
+        res.status(404).json({error: 'Documento non trovato'});
+      }
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento del documento:', error);
+      res.status(500).json({error: 'Errore durante l\'aggiornamento del documento'});
+    }
   }
 
-  try {
-    // Trova la categoria esistente per l'ID fornito
-    let doc: PressCategory | null = await PressCategoryController.docsRepository.findOneBy({ id });
+  static async delete(req: Request, res: Response): Promise<void> {
+    const {id} = req.params;
 
-    if (!doc) {
-      res.status(404).json({ error: 'Documento non trovato' });
+    const numericId: number = parseInt(id, 10);
+    if (isNaN(numericId)) {
+      res.status(400).json({error: 'ID non valido'});
       return;
     }
 
-    // Controlla se il nuovo `name` è già in uso da un'altra categoria diversa da quella corrente
-    if (req.body.name && req.body.name !== doc.name) {
-      const existingCategory: PressCategory | null = await PressCategoryController.docsRepository.findOne({
-        where: { name: req.body.name }
+    try {
+      const relatedCount: number = await PressKeyword.count({
+        where: {categoryId: numericId},
       });
 
-      // Se esiste una categoria con lo stesso nome ma con un ID diverso, blocca l'operazione
-      if (existingCategory && existingCategory.id !== id) {
-        res.status(409).json({ error: 'Il nome della categoria è già in uso' });
+      if (relatedCount > 0) {
+        res.status(400).json({error: 'Impossibile eliminare la categoria perché è usato in almeno una parola chiave'});
         return;
       }
-    }
 
-    // Merge dei dati
-    PressCategoryController.docsRepository.merge(doc, req.body);
-
-    // Salva il documento aggiornato
-    const updatedDoc: PressCategory = await PressCategoryController.docsRepository.save(doc);
-    res.status(200).json(updatedDoc);
-
-  } catch (error) {
-    console.error('Errore durante l\'aggiornamento del documento:', error);
-    res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
-  }
-}
-
-  static async delete(req: Request, res: Response): Promise<void> {
-    const id: number = parseInt(req.params['id'], 10);
-
-    try {
-      const result: DeleteResult = await PressCategoryController.docsRepository.delete(id);
-      if (result.affected) {
+      const result: number = await PressKeyword.destroy({where: {id: numericId}});
+      if (result) {
         res.status(200).json({message: 'Documento eliminato con successo'});
       } else {
         res.status(404).json({error: 'Documento non trovato'});
       }
     } catch (error) {
+      console.error('Errore durante l\'eliminazione del documento:', error);
       res.status(500).json({error: 'Errore durante l\'eliminazione del documento'});
     }
   }
-
 }

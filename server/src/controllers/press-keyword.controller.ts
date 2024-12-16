@@ -1,109 +1,118 @@
-import {AppDataSource} from '../database/dataSource';
-import {Request, Response} from 'express';
-import {DeleteResult, Repository} from 'typeorm';
-import {PressKeyword} from '../entity/press-keyword.entity';
+import { Request, Response } from 'express';
+import { PressKeyword } from '../models/press-keyword.model';
+import { PressCategory } from '../models/press-category.model';
 
 export class PressKeywordController {
-
-  static docsRepository: Repository<PressKeyword> = AppDataSource.getRepository(PressKeyword);
-
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
-      const {categoryId} = req.query;
-      const categoryIdNumber: number = parseInt(categoryId as string, 10);
-      const whereCondition = categoryId ? {category: {id: categoryIdNumber}} : {};
+      const { categoryId } = req.query;
 
-      const keywords: PressKeyword[] = await PressKeywordController.docsRepository.find({
-          where: whereCondition,
-          relations: ['category'],
-        });
+      const whereCondition: any = categoryId
+        ? { categoryId: parseInt(categoryId as string, 10) }
+        : {};
+
+      const keywords: PressKeyword[] = await PressKeyword.findAll({
+        where: whereCondition,
+        include: [
+          {
+            model: PressCategory,
+            as: 'category',
+          },
+        ],
+      });
 
       res.status(200).json(keywords);
-    } catch (error) {
-      res.status(500).json({error: 'Errore durante il recupero delle keywords'});
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante il recupero delle keywords', details: error.message });
     }
   }
 
   static async findById(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
 
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({error: 'ID non valido'});
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'ID non valido' });
       return;
     }
 
     try {
-      const doc: PressKeyword | null = await PressKeywordController.docsRepository.findOneBy({id});
-      if (doc) {
-        res.status(200).json(doc);
+      const keyword: PressKeyword | null = await PressKeyword.findByPk(id, {
+        include: [
+          {
+            model: PressCategory,
+            as: 'category',
+          },
+        ],
+      });
+
+      if (keyword) {
+        res.status(200).json(keyword);
       } else {
-        res.status(404).json({error: 'Documento non trovato'});
+        res.status(404).json({ error: 'Keyword non trovata' });
       }
-    } catch (error) {
-      res.status(500).json({error: `Errore durante la creazione del documento: ${error}`});
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante il recupero della keyword', details: error.message });
     }
   }
 
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const doc: PressKeyword[] = PressKeywordController.docsRepository.create(req.body);
-      const savedDoc: PressKeyword[] = await PressKeywordController.docsRepository.save(doc);
-      res.status(200).json(savedDoc);
-    } catch (error) {
-      res.status(500).json({error: 'Errore durante la creazione del documento'});
+      const keyword: PressKeyword = await PressKeyword.create(req.body);
+      res.status(201).json(keyword);
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante la creazione della keyword', details: error.message });
     }
   }
 
   static async createBatch(req: Request, res: Response): Promise<void> {
     try {
-
-      const docsData = req.body.map((doc: PressKeyword) => ({
-        ...doc,
-        id: undefined,
-      }));
-
-      const docs: PressKeyword[] = PressKeywordController.docsRepository.create(docsData); // Creazione batch
-      const savedDocs: PressKeyword[] = await PressKeywordController.docsRepository.save(docs); // Salvataggio batch
-      res.status(200).json(savedDocs); // Risposta con i documenti salvati
-    } catch (error) {
-      res.status(500).json({ error: 'Errore durante la creazione dei documenti' });
+      const keywords: PressKeyword[] = await PressKeyword.bulkCreate(req.body, { validate: true });
+      res.status(201).json(keywords);
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante la creazione delle keywords in batch', details: error.message });
     }
   }
 
   static async update(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
 
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({error: 'ID non valido'});
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'ID non valido' });
       return;
     }
 
     try {
-      let doc: PressKeyword | null = await PressKeywordController.docsRepository.findOneBy({id});
-      if (doc) {
-        PressKeywordController.docsRepository.merge(doc, req.body);
-        const Doc: PressKeyword = await PressKeywordController.docsRepository.save(doc);
-        res.status(200).json(Doc);
+      const keyword: PressKeyword | null = await PressKeyword.findByPk(id);
+
+      if (keyword) {
+        await keyword.update(req.body);
+        res.status(200).json(keyword);
       } else {
-        res.status(404).json({error: 'Documento non trovato'});
+        res.status(404).json({ error: 'Keyword non trovata' });
       }
-    } catch (error) {
-      res.status(500).json({error: 'Errore durante l\'aggiornamento del documento'});
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante l\'aggiornamento della keyword', details: error.message });
     }
   }
 
   static async delete(req: Request, res: Response): Promise<void> {
-    const {id} = req.params;
+    const id: number = parseInt(req.params['id'], 10);
+
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'ID non valido' });
+      return;
+    }
+
     try {
-      const result: DeleteResult = await PressKeywordController.docsRepository.delete(id);
-      if (result.affected) {
-        res.status(200).json({message: 'Documento eliminato con successo'});
+      const rowsDeleted: number = await PressKeyword.destroy({ where: { id } });
+
+      if (rowsDeleted) {
+        res.status(200).json({ message: 'Keyword eliminata con successo' });
       } else {
-        res.status(404).json({error: 'Documento non trovato'});
+        res.status(404).json({ error: 'Keyword non trovata' });
       }
-    } catch (error) {
-      res.status(500).json({error: 'Errore durante l\'eliminazione del documento'});
+    } catch (error: any) {
+      res.status(500).json({ error: 'Errore durante l\'eliminazione della keyword', details: error.message });
     }
   }
-
 }

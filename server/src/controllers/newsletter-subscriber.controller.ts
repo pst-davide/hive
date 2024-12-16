@@ -1,12 +1,12 @@
-import {DeleteResult, Repository} from 'typeorm';
-import {AppDataSource} from '../database/dataSource';
+
+
 import {Request, Response} from 'express';
-import {Subscriber} from '../entity/newsletter-subscribe.entity';
+import {Subscriber} from '../models/subscribe.model';
+
 
 
 export class NewsletterSubscriberController {
 
-  static docsRepository: Repository<Subscriber> = AppDataSource.getRepository(Subscriber);
 
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
@@ -38,58 +38,49 @@ export class NewsletterSubscriberController {
 
   static async findById(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
-
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({error: 'ID non valido'});
-      return;
-    }
-
-    try {
-      const doc: Subscriber | null = await NewsletterSubscriberController.docsRepository.findOneBy({id});
-      if (doc) {
-        res.status(200).json(doc);
-      } else {
-        res.status(404).json({error: 'Documento non trovato'});
-      }
-    } catch (error) {
-      res.status(500).json({error: `Errore durante la creazione del documento: ${error}`});
-    }
-  }
-
-  static async create(req: Request, res: Response): Promise<void> {
-    try {
-      const doc: Subscriber[] = NewsletterSubscriberController.docsRepository.create(req.body);
-      const savedDoc: Subscriber[] = await NewsletterSubscriberController.docsRepository.save(doc);
-      res.status(200).json(savedDoc);
-    } catch (error) {
-      res.status(500).json({error: 'Errore durante la creazione del documento'});
-    }
-  }
-
-  static async update(req: Request, res: Response): Promise<void> {
-    const id: number = parseInt(req.params['id'], 10);
-
     if (isNaN(id)) {
       res.status(400).json({ error: 'ID non valido' });
       return;
     }
 
     try {
-      // Trova il documento esistente per l'ID fornito
-      let doc: Subscriber | null = await NewsletterSubscriberController.docsRepository.findOneBy({ id });
-
-      if (!doc) {
+      const doc: Subscriber | null = await Subscriber.findByPk(id);
+      if (doc) {
+        res.status(200).json(doc);
+      } else {
         res.status(404).json({ error: 'Documento non trovato' });
-        return;
       }
+    } catch (error) {
+      console.error('Errore durante il recupero del documento:', error);
+      res.status(500).json({ error: 'Errore durante il recupero del documento' });
+    }
+  }
 
-      // Merge dei dati
-      NewsletterSubscriberController.docsRepository.merge(doc, req.body);
+  static async create(req: Request, res: Response): Promise<void> {
+    try {
+      const doc: Subscriber = await Subscriber.create(req.body);
+      res.status(201).json(doc);
+    } catch (error) {
+      console.error('Errore durante la creazione del documento:', error);
+      res.status(500).json({ error: 'Errore durante la creazione del documento' });
+    }
+  }
 
-      // Salva il documento aggiornato
-      const updatedDoc: Subscriber = await NewsletterSubscriberController.docsRepository.save(doc);
-      res.status(200).json(updatedDoc);
+  static async update(req: Request, res: Response): Promise<void> {
+    const id: number = parseInt(req.params['id'], 10);
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'ID non valido' });
+      return;
+    }
 
+    try {
+      const doc: Subscriber | null  = await Subscriber.findByPk(id);
+      if (doc) {
+        await doc.update(req.body);
+        res.status(200).json(doc);
+      } else {
+        res.status(404).json({ error: 'Documento non trovato' });
+      }
     } catch (error) {
       console.error('Errore durante l\'aggiornamento del documento:', error);
       res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
@@ -98,16 +89,21 @@ export class NewsletterSubscriberController {
 
   static async delete(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'ID non valido' });
+      return;
+    }
 
     try {
-      const result: DeleteResult = await NewsletterSubscriberController.docsRepository.delete(id);
-      if (result.affected) {
-        res.status(200).json({message: 'Documento eliminato con successo'});
+      const result: number = await Subscriber.destroy({ where: { id } });
+      if (result) {
+        res.status(200).json({ message: 'Documento eliminato con successo' });
       } else {
-        res.status(404).json({error: 'Documento non trovato'});
+        res.status(404).json({ error: 'Documento non trovato' });
       }
     } catch (error) {
-      res.status(500).json({error: 'Errore durante l\'eliminazione del documento'});
+      console.error('Errore durante l\'eliminazione del documento:', error);
+      res.status(500).json({ error: 'Errore durante l\'eliminazione del documento' });
     }
   }
 
