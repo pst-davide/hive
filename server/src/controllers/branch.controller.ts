@@ -70,7 +70,6 @@ export class BranchController {
     }
   }
 
-
   static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
