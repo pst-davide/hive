@@ -1,131 +1,200 @@
-
-import {AppDataSource} from '../database/dataSource';
 import {Request, Response} from 'express';
-import {Channel} from '../entity/newsletter-channel.entity';
 import {Subscriber} from '../entity/newsletter-subscribe.entity';
+import {Channel} from '../models/channel.model';
+import {col, fn} from 'sequelize';
+import {Op} from 'sequelize';
+import {User} from '../models/user.model';
 
 
 export class NewsletterChannelController {
-
-  static docsRepository: Repository<Channel> = AppDataSource.getRepository(Channel);
 
   static async findAll(req: Request, res: Response): Promise<void> {
     const { includeUsers, countSubscribers } = req.query;
 
     try {
-      let query: SelectQueryBuilder<Channel> = NewsletterChannelController.docsRepository.createQueryBuilder('channel');
+      const queryOptions: any = {
+        attributes: ['id', 'name'],
+      };
 
-      // Se devi contare i subscribers
-      if (countSubscribers === 'true') {
-        query
-          .leftJoin(Subscriber, 'subscriber', 'subscriber.channelId = channel.id') // Join con la tabella subscribers sulla chiave esterna
-          .addSelect('COUNT(subscriber.id)', 'subscriberCount') // Seleziona il count dei subscribers
-          .groupBy('channel.id'); // Raggruppa per canale
-      }
-
-      // Se vuoi includere gli users
+      // Se includere gli utenti associati
       if (includeUsers === 'true') {
-        query.leftJoinAndSelect('channel.users', 'user'); // Join con users
+        queryOptions.include = [
+          {
+            model: User,
+            as: 'users', // Relazione users
+            attributes: ['id', 'name', 'lastname', 'email'],
+          },
+        ];
       }
 
-      const result = await query.getRawAndEntities();
-      const channels = result.entities.map((channel, index) => ({
-        ...channel,
-        subscriberCount: Number(result.raw[index].subscriberCount) || 0, // Aggiunge il conteggio dei subscribers al canale
-      }));
+      // Se contare i subscribers
+      if (countSubscribers === 'true') {
+        queryOptions.attributes.push([
+          fn('COUNT', col('subscribers.id')),
+          'subscriberCount',
+        ]);
+        queryOptions.include = queryOptions.include || [];
+        queryOptions.include.push({
+          model: Subscriber,
+          as: 'subscribers',
+          attributes: [], // Non serve estrarre i dettagli dei subscribers
+          duplicating: false,
+        });
+        queryOptions.group = ['Channel.id'];
+      }
+
+      // Esegui la query
+      const channels: Channel[] = await Channel.findAll(queryOptions);
 
       res.status(200).json(channels);
-
     } catch (error) {
-      console.error('Errore durante il recupero del documento:', error);
-      res.status(500).json({ error: 'Errore durante il recupero del documento' });
+      console.error('Errore durante il recupero dei documenti:', error);
+      res.status(500).json({ error: 'Errore durante il recupero dei documenti' });
     }
   }
 
   static async findById(req: Request, res: Response): Promise<void> {
-    const id: number = parseInt(req.params['id'], 10);
+  const id: number = parseInt(req.params['id'], 10);
 
-    if (isNaN(id)) { // Controllo se la conversione è fallita
-      res.status(400).json({error: 'ID non valido'});
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'ID non valido' });
+    return;
+  }
+
+  try {
+    const { includeUsers, countSubscribers } = req.query;
+
+    const queryOptions: any = {
+      where: { id },
+      attributes: ['id', 'name'],
+    };
+
+    // Includere utenti associati
+    if (includeUsers === 'true') {
+      queryOptions.include = [
+        {
+          model: User,
+          as: 'users',
+          attributes: ['id', 'name', 'lastname', 'email'],
+        },
+      ];
+    }
+
+    // Se bisogna contare i subscribers
+    if (countSubscribers === 'true') {
+      queryOptions.attributes.push([
+        fn('COUNT', col('subscribers.id')),
+        'subscriberCount',
+      ]);
+      queryOptions.include = queryOptions.include || [];
+      queryOptions.include.push({
+        model: Subscriber,
+        as: 'subscribers',
+        attributes: [],
+        duplicating: false,
+      });
+      queryOptions.group = ['Channel.id'];
+    }
+
+    // Esegui la query
+    const channel: Channel | null = await Channel.findOne(queryOptions);
+
+    if (!channel) {
+      res.status(404).json({ error: 'Documento non trovato' });
       return;
     }
 
-    try {
-      const doc: Channel | null = await NewsletterChannelController.docsRepository.findOneBy({id});
-      if (doc) {
-        res.status(200).json(doc);
-      } else {
-        res.status(404).json({error: 'Documento non trovato'});
-      }
-    } catch (error) {
-      res.status(500).json({error: `Errore durante la creazione del documento: ${error}`});
-    }
+    res.status(200).json(channel);
+  } catch (error) {
+    console.error('Errore durante il recupero del documento:', error);
+    res.status(500).json({ error: 'Errore durante il recupero del documento' });
   }
+}
 
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const doc: Channel[] = NewsletterChannelController.docsRepository.create(req.body);
-      const savedDoc: Channel[] = await NewsletterChannelController.docsRepository.save(doc);
-      res.status(200).json(savedDoc);
+      const {name, ...createFields} = req.body;
+
+      if (name) {
+        const existingDoc: Channel | null = await Channel.findOne({
+          where: {name},
+        });
+
+        if (existingDoc) {
+          res.status(409).json({error: 'Il campo "nome" è già utilizzato da un altro documento'});
+          return;
+        }
+      } else {
+        res.status(400).json({error: 'Il campo "nome" è obbligatorio'});
+        return;
+      }
+
+      const newDoc: Channel = await Channel.create({name, ...createFields});
+
+      res.status(201).json(newDoc);
     } catch (error) {
+      console.error('Errore durante la creazione del documento:', error);
       res.status(500).json({error: 'Errore durante la creazione del documento'});
     }
   }
 
   static async update(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
-
     if (isNaN(id)) {
-      res.status(400).json({ error: 'ID non valido' });
+      res.status(400).json({error: 'ID non valido'});
       return;
     }
 
     try {
-      // Trova il documento esistente per l'ID fornito
-      let doc: Channel | null = await NewsletterChannelController.docsRepository.findOneBy({ id });
+      const {name, ...updateFields} = req.body; // Estrai il name dal corpo della richiesta
 
+      // Trova il documento da aggiornare
+      const doc: Channel | null = await Channel.findByPk(id);
       if (!doc) {
-        res.status(404).json({ error: 'Documento non trovato' });
+        res.status(404).json({error: 'Documento non trovato'});
         return;
       }
 
-      // Controlla se il nuovo `name` è già in uso da un altro documento diversa da quella corrente
-      if (req.body.name && req.body.name !== doc.name) {
-        const existingDoc: Channel | null = await NewsletterChannelController.docsRepository.findOne({
-          where: { name: req.body.name }
+      // Controlla se il nuovo name è già utilizzato da un altro record
+      if (name) {
+        const existingDoc = await Channel.findOne({
+          where: {
+            name,
+            id: {[Op.ne]: id}, // Esclude il record corrente
+          },
         });
 
-        // Se esiste un documento con lo stesso nome ma con un ID diverso, blocca l'operazione
-        if (existingDoc && existingDoc.id !== id) {
-          res.status(409).json({ error: 'Il nome del documento è già in uso' });
+        if (existingDoc) {
+          res.status(409).json({error: 'Il campo "nome" è già utilizzato da un altro documento'});
           return;
         }
       }
 
-      // Merge dei dati
-      NewsletterChannelController.docsRepository.merge(doc, req.body);
-
-      // Salva il documento aggiornato
-      const updatedDoc: Channel = await NewsletterChannelController.docsRepository.save(doc);
-      res.status(200).json(updatedDoc);
-
+      // Aggiorna il documento
+      await doc.update({name, ...updateFields});
+      res.status(200).json(doc);
     } catch (error) {
       console.error('Errore durante l\'aggiornamento del documento:', error);
-      res.status(500).json({ error: 'Errore durante l\'aggiornamento del documento' });
+      res.status(500).json({error: 'Errore durante l\'aggiornamento del documento'});
     }
   }
 
   static async delete(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
+    if (isNaN(id)) {
+      res.status(400).json({error: 'ID non valido'});
+      return;
+    }
 
     try {
-      const result: DeleteResult = await NewsletterChannelController.docsRepository.delete(id);
-      if (result.affected) {
+      const result: number = await Channel.destroy({where: {id}});
+      if (result) {
         res.status(200).json({message: 'Documento eliminato con successo'});
       } else {
         res.status(404).json({error: 'Documento non trovato'});
       }
     } catch (error) {
+      console.error('Errore durante l\'eliminazione del documento:', error);
       res.status(500).json({error: 'Errore durante l\'eliminazione del documento'});
     }
   }

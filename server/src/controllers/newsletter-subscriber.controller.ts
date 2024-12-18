@@ -1,38 +1,37 @@
-
-
 import {Request, Response} from 'express';
 import {Subscriber} from '../models/subscribe.model';
+import {Channel} from '../models/channel.model';
 
 
 
 export class NewsletterSubscriberController {
 
-
   static async findAll(req: Request, res: Response): Promise<void> {
     try {
-      const {channelId} = req.query;
+      const { channelId } = req.query;
 
-      let docs;
+      const whereClause: any = {};
+
       if (channelId) {
         const channelIdNumber: number = parseInt(channelId as string, 10);
+
         if (isNaN(channelIdNumber)) {
-          res.status(400).json({error: 'channelId deve essere un numero valido'});
+          res.status(400).json({ error: 'channelId deve essere un numero valido' });
           return;
         }
 
-        docs = await NewsletterSubscriberController.docsRepository.find({
-          where: {channelId: channelIdNumber},
-          relations: ['channel'],
-        });
-      } else {
-        docs = await NewsletterSubscriberController.docsRepository.find({
-          relations: ['channel'],
-        });
+        whereClause.channelId = channelIdNumber;
       }
+
+      const docs: Subscriber[] = await Subscriber.findAll({
+        where: whereClause,
+        include: [{ model: Channel, as: 'channel' }],
+      });
 
       res.status(200).json(docs);
     } catch (error) {
-      res.status(500).json({error: 'Errore durante il recupero dei documenti'});
+      console.error('Errore:', error);
+      res.status(500).json({ error: 'Errore durante il recupero dei documenti' });
     }
   }
 
