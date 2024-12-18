@@ -118,8 +118,10 @@ export class PressKeywordController {
 
   static async delete(req: Request, res: Response): Promise<void> {
     const id: number = parseInt(req.params['id'], 10);
+    logger.info(`Eliminazione della keyword con ID: ${id}`);
 
     if (isNaN(id)) {
+      logger.warn(`Keyword con ID: ${id} non valido`);
       res.status(400).json({ error: 'ID non valido' });
       return;
     }
@@ -128,11 +130,14 @@ export class PressKeywordController {
       const rowsDeleted: number = await PressKeyword.destroy({ where: { id } });
 
       if (rowsDeleted) {
+        logger.info(`Keyword con ID: ${id} eliminato con successo`);
         res.status(200).json({ message: 'Keyword eliminata con successo' });
       } else {
+        logger.warn(`Keyword con ID: ${id} non trovata`);
         res.status(404).json({ error: 'Keyword non trovata' });
       }
     } catch (error: any) {
+      logger.error(`Errore durante l'eliminazione della keyword con ID: ${id}:`, { error: error.message });
       res.status(500).json({ error: 'Errore durante l\'eliminazione della keyword', details: error.message });
     }
   }

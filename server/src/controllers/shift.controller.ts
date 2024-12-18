@@ -67,6 +67,7 @@ export class ShiftController {
   static async delete(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     logger.info(`Eliminazione dello shift con ID: ${id}`);
+
     try {
       const relatedEventsCount: number = await Calendar.count({
         where: { shiftId: id },
