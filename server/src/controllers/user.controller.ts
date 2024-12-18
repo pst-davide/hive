@@ -1,7 +1,4 @@
 import {Request, Response} from 'express';
-import {DeleteResult, Repository} from 'typeorm';
-import {AppDataSource} from '../database/dataSource';
-import {User} from '../entity/user.entity'; // Assicurati di importare l'entità User
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -10,7 +7,6 @@ dotenv.config();
 export const {JWT_SECRET = ''} = process.env;
 
 export class UserController {
-  static userRepository: Repository<User> = AppDataSource.getRepository(User);
 
   // Registrazione
   static async register(req: Request, res: Response): Promise<Response> {
