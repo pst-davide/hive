@@ -41,9 +41,9 @@ export class PressService {
     model.name = entity.name;
     model.color = entity.color ?? '';
     model.crud = {
-      createAt: entity.createdAt,
+      createdAt: entity.createdAt,
       createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
+      updatedAt: entity.modifiedAt,
       modifiedBy: entity.modifiedBy,
     };
 
@@ -111,9 +111,9 @@ export class PressService {
     model.importance = entity.importance;
     model.category = entity.categoryId;
     model.crud = {
-      createAt: entity.createdAt,
+      createdAt: entity.createdAt,
       createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
+      updatedAt: entity.modifiedAt,
       modifiedBy: entity.modifiedBy,
     };
 

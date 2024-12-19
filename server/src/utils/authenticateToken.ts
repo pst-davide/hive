@@ -1,9 +1,7 @@
 import jwt, {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
-import {User} from '../entity/user.entity';
-import {AppDataSource} from '../database/dataSource';
-import {Repository} from 'typeorm';
+import {User} from '../models/user.model';
 
 dotenv.config();
 const { JWT_SECRET = '' } = process.env;
@@ -22,8 +20,7 @@ const authenticateToken = async (req: Request, res: Response, next: NextFunction
     const decoded: { id: string; email: string } = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
 
     // Trova l'utente per ID e controlla se il token coincide con quello memorizzato
-    const userRepository: Repository<User> = AppDataSource.getRepository(User);
-    const user: User | null = await userRepository.findOne({where: {id: decoded.id}});
+    const user: User | null = await User.findOne({ where: { id: decoded.id } });
 
     if (!user || user.currentToken !== token) {
       // Token non valido o già usato su un altro dispositivo

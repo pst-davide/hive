@@ -34,9 +34,9 @@ export class NewsletterService {
     model.name = entity.name;
     model.description = entity.description ?? null;
     model.crud = {
-      createAt: entity.createdAt,
+      createdAt: entity.createdAt,
       createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
+      updatedAt: entity.modifiedAt,
       modifiedBy: entity.modifiedBy,
     };
 

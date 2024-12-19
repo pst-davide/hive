@@ -26,9 +26,9 @@ export class RoomService {
   room.color = model.color ?? DEFAULT_LOCATION_COLOR;
   room.enabled = model.enabled;
   room.branchId = model.branchId ?? '';
-  room.createdAt = model.crud.createAt ?? new Date();
+  room.createdAt = model.crud.createdAt ?? new Date();
   room.createdBy = model.crud.createBy ?? null;
-  room.modifiedAt = model.crud.modifiedAt ?? new Date();
+  room.modifiedAt = model.crud.updatedAt ?? new Date();
   room.modifiedBy = model.crud.modifiedBy ?? null;
 
   return room;
@@ -47,9 +47,9 @@ export class RoomService {
     model.enabled = entity.enabled;
     model.branchId = entity.branchId;
     model.crud = {
-      createAt: entity.createdAt,
+      createdAt: entity.createdAt,
       createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
+      updatedAt: entity.modifiedAt,
       modifiedBy: entity.modifiedBy,
     };
 

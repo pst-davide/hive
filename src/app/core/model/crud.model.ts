@@ -1,13 +1,13 @@
 export interface CrudModel {
-  createAt: Date | null;
+  createdAt: Date | null;
   createBy: string | null;
-  modifiedAt: Date | null;
+  updatedAt: Date | null;
   modifiedBy: string | null;
 }
 
 export const EMPTY_CRUD: CrudModel = {
-  createAt: null,
+  createdAt: null,
   createBy: null,
-  modifiedAt: null,
+  updatedAt: null,
   modifiedBy: null
 };

@@ -57,9 +57,9 @@ export class CalendarService {
     doc.durationEditable = true;
 
     doc.crud = {
-      createAt: entity.createdAt,
+      createdAt: entity.createdAt,
       createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
+      updatedAt: entity.modifiedAt,
       modifiedBy: entity.modifiedBy,
     };
 
