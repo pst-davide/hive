@@ -3,8 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {CrudService} from '../../core/services/crud.service';
 import axios, {AxiosResponse} from 'axios';
 import {firstValueFrom} from 'rxjs';
-import {User} from '../../../server/entity/user.entity';
-import {USER_TYPE, UserModel} from '../model/user.model';
+import {User, USER_TYPE, UserModel} from '../model/user.model';
 import moment from 'moment';
 
 @Injectable({
@@ -17,23 +16,24 @@ export class UserService {
   }
 
   private toEntity(model: USER_TYPE): User {
-    const formattedDate: string | null = model.birthDate ? moment(model.birthDate).format('YYYY-MM-DD') : null;
 
-    let doc: User = new User();
-    doc.id = model.id ?? '';
-    doc.email = model.email ?? '';
-    doc.name = model.name ?? '';
-    doc.lastname = model.lastname ?? '';
-    doc.password = model.password ?? '';
-    doc.role = model.role;
-    doc.enabled = model.enabled ?? false;
-    doc.cf = model.cf ?? '';
-    doc.phone = model.phone ?? null;
-    doc.birthDate = formattedDate;
-    doc.birthCity = model.birthCity ?? '';
-    doc.birthProvince = model.birthProvince ?? '';
-    doc.currentToken = model.currentToken ?? null;
-    doc.refreshToken = model.refreshToken ?? null;
+    let doc: User = {
+      id: model.id ?? '',
+      email: model.email ?? '',
+      name: model.name ?? '',
+      lastname: model.lastname ?? '',
+      password: model.password ?? '',
+      role: model.role,
+      enabled: model.enabled ?? false,
+      cf: model.cf ?? '',
+      phone: model.phone ?? null,
+      birthDate: model.birthDate,
+      birthCity: model.birthCity ?? '',
+      birthProvince: model.birthProvince ?? '',
+      currentToken: model.currentToken ?? null,
+      refreshToken: model.refreshToken ?? null,
+    };
+
     doc = this.crud.setCrudEntity(model, doc);
 
     return doc;
@@ -58,10 +58,10 @@ export class UserService {
     model.birthProvince = entity.birthProvince ?? null;
 
     model.crud = {
-      createAt: entity.createdAt,
-      createBy: entity.createdBy,
-      modifiedAt: entity.modifiedAt,
-      modifiedBy: entity.modifiedBy,
+      createdAt: entity.createdAt ?? null,
+      createBy: entity.createBy ?? null,
+      updatedAt: entity.updatedAt ?? null,
+      modifiedBy: entity.modifiedBy ?? null,
     };
 
     return model;

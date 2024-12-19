@@ -4,7 +4,6 @@ import authenticateToken from '../utils/authenticateToken';
 
 const userRouter: Router = express.Router();
 
-userRouter.post('/users/register', UserController.register);
 userRouter.post('/users/login', UserController.login);
 userRouter.post('/users/refresh', UserController.refresh);
 userRouter.post('/users/logout', authenticateToken, UserController.logout);

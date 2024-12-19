@@ -54,3 +54,25 @@ export const USER_ROLES: LabelModel[] = [
   {id: USER_ROLES_ENUM.Dirigente, value: 'Dirigente'},
   {id: USER_ROLES_ENUM.Utente, value: 'Utente'},
 ];
+
+
+export interface User {
+  id: string | null;
+  name: string | null;
+  lastname: string | null;
+  email: string | null;
+  password: string | null;
+  role: number;
+  phone: string | null;
+  refreshToken: string | null;
+  currentToken: string | null;
+  birthDate: Date | null;
+  birthCity: string | null;
+  birthProvince: string | null;
+  cf: string | null;
+  enabled: boolean;
+  createBy?: string | null;
+  modifiedBy?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
