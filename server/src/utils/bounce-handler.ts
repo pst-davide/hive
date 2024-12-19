@@ -2,7 +2,7 @@ import Imap from 'node-imap';
 import {inspect} from 'util';
 import nodemailer from 'nodemailer';
 
-const imapConfig = {
+const imapConfig: any = {
   user: 'bounce@pasubiotecnologia.it',
   password: 'Nb:7#78t=5W:',
   host: 'zimbra.altovicentino.net',
